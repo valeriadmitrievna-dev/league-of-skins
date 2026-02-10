@@ -2,6 +2,7 @@ import type { ODataRequest, ODataResponse } from "@/shared/types";
 import type { ChampionDto, ChromaDto, RootState, SkinlineDto } from "@/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { SkinsRequest } from './types';
+import { LANGUAGES } from '@/shared/constants/languages';
 
 export const dataApi = createApi({
   reducerPath: "dataApi",
@@ -9,7 +10,8 @@ export const dataApi = createApi({
     baseUrl: "http://localhost:5000/api",
     prepareHeaders(headers, { getState }) {
       headers.set("Content-Type", "application/json");
-      headers.set("App-Language", (getState() as RootState).app.language);
+      const shortLanguage = (getState() as RootState).app.language as keyof typeof LANGUAGES;
+      headers.set("App-Language", LANGUAGES[shortLanguage]);
 
       return headers;
     },

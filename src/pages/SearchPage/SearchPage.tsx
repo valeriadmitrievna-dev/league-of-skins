@@ -5,8 +5,10 @@ import { SearchFilters } from "@/widgets/SearchFilters";
 import { useGetSkinsQuery } from "@/api";
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/components/ui/input-group";
 import { SearchIcon, XIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const SearchPage: FC = () => {
+  const { t } = useTranslation();
   const { data } = useGetSkinsQuery({});
 
   useEffect(() => {
@@ -21,14 +23,13 @@ const SearchPage: FC = () => {
         <SearchFilters />
       </div>
       <div className={s.searchPageSearch}>
-        {/* <Search /> */}
         <InputGroup>
-          <InputGroupInput placeholder="Search..." />
+          <InputGroupInput placeholder={t("shared.search")} />
           <InputGroupAddon>
             <SearchIcon />
           </InputGroupAddon>
           <InputGroupAddon align="inline-end">
-            <InputGroupButton size="icon-xs">
+            <InputGroupButton className="cursor-pointer" size="icon-xs">
               <XIcon />
             </InputGroupButton>
           </InputGroupAddon>
