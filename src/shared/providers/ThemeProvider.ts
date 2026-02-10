@@ -1,7 +1,7 @@
 import { useEffect, type FC, type PropsWithChildren } from "react";
 import type { Theme } from "../types";
 import { useDispatch, useSelector } from "react-redux";
-import { setTheme, type RootState } from "@/store";
+import { setTheme, appThemeSelector } from "@/store";
 
 interface ThemeProviderProps extends PropsWithChildren {
   defaultTheme?: Theme;
@@ -9,10 +9,12 @@ interface ThemeProviderProps extends PropsWithChildren {
 
 const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
   const dispatch = useDispatch();
-  const theme = useSelector((state: RootState) => state.app.theme);
+  const theme = useSelector(appThemeSelector);
 
-  const changeTheme = (theme: Theme) => {
-    dispatch(setTheme(theme));
+  const changeTheme = (newTheme: Theme) => {
+    if (theme !== newTheme) {
+      dispatch(setTheme(newTheme));
+    }
   };
 
   useEffect(() => {
