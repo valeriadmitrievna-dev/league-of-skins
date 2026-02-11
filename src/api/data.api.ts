@@ -1,20 +1,13 @@
-import type { ODataRequest, ODataResponse } from "@/shared/types";
-import type { ChampionDto, ChromaDto, RootState, SkinlineDto, SkinDto } from "@/store";
+import type { ODataRequest, ODataResponse, WithLanguage } from "@/shared/types";
+import type { ChampionDto, ChromaDto, SkinlineDto, SkinDto } from "@/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { SkinsRequest } from './types';
-import { LANGUAGES } from '@/shared/constants/languages';
+import type { SkinsRequest } from "./types";
+import { LANGUAGES } from "@/shared/constants/languages";
 
 export const dataApi = createApi({
   reducerPath: "dataApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api",
-    prepareHeaders(headers, { getState }) {
-      headers.set("Content-Type", "application/json");
-      const shortLanguage = (getState() as RootState).app.language as keyof typeof LANGUAGES;
-      headers.set("App-Language", LANGUAGES[shortLanguage]);
-
-      return headers;
-    },
   }),
   endpoints: (build) => ({
     // shared
@@ -27,28 +20,42 @@ export const dataApi = createApi({
     getRarities: build.query<string[], void>({
       query: () => "/shared/rarities",
     }),
-    getChromas: build.query<ODataResponse<ChromaDto>, ODataRequest | void>({
-      query: () => "/shared/chromas",
+    getChromas: build.query<ODataResponse<ChromaDto>, WithLanguage<ODataRequest | void>>({
+      query: ({ lang }) => ({
+        url: "/shared/chromas",
+        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES] },
+      }),
     }),
 
     // skinlines
-    getSkinlines: build.query<ODataResponse<SkinlineDto[]>, ODataRequest | void>({
-      query: () => "/skinlines",
+    getSkinlines: build.query<ODataResponse<SkinlineDto[]>, WithLanguage<ODataRequest | void>>({
+      query: ({ lang }) => ({
+        url: "/skinlines",
+        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES] },
+      }),
     }),
 
     // champions
-    getChampions: build.query<ODataResponse<ChampionDto[]>, ODataRequest | void>({
-      query: () => "/champions",
+    getChampions: build.query<ODataResponse<ChampionDto[]>, WithLanguage<ODataRequest | void>>({
+      query: ({ lang, ...params }) => ({
+        url: "/champions",
+        params: params ?? {},
+        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES] },
+      }),
     }),
-    getChampionById: build.query<ChampionDto, string>({
-      query: (championId) => "/champions/" + championId,
+    getChampionById: build.query<ChampionDto, WithLanguage<{ id: string }>>({
+      query: ({ lang, id }) => ({
+        url: "/champions/" + id,
+        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES] },
+      }),
     }),
 
     // skins
-    getSkins: build.query<ODataResponse<SkinDto[]>, SkinsRequest>({
-      query: (params) => ({
+    getSkins: build.query<ODataResponse<SkinDto[]>, WithLanguage<SkinsRequest>>({
+      query: ({ lang, ...params }) => ({
         url: "/skins",
-        params: { ...params, colors: params.colors?.join(',') },
+        params: params ? { ...params, colors: params.colors?.join(",") } : {},
+        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES] },
       }),
     }),
   }),

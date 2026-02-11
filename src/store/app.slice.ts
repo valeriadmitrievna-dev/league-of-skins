@@ -18,7 +18,7 @@ export const appSlice = createSlice({
   reducers: {
     setLanguage: (state, { payload }: PayloadAction<string>) => {
       state.language = payload;
-      localStorage.setItem("language", payload);
+      localStorage.setItem("language", payload);     
     },
     setTheme: (state, { payload }: PayloadAction<Theme>) => {
       state.theme = payload;

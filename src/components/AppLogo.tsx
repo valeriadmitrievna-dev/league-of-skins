@@ -7,7 +7,7 @@ const AppLogo: FC = () => {
       <CatIcon size={44} />
       <div className='flex flex-col gap-1'>
         <span className='text-xl font-bold leading-none'>League of Skins</span>
-        <span className='text-[8px] leading-none uppercase'>League of Legends Skins Wishlists</span>
+        <span className='text-[10px] leading-none uppercase'>League of Legends Skins Wishlists</span>
       </div>
     </div>
   );

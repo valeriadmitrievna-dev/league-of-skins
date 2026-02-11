@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import { useEffect, type FC } from "react";
 import { Button } from "@/components/ui/button";
 import { GlobeIcon } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +18,10 @@ const LanguageSwitcher: FC = () => {
     });
   };
 
+  useEffect(() => {
+    document.documentElement.setAttribute('lang', language);
+  }, [language]);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -34,10 +38,10 @@ const LanguageSwitcher: FC = () => {
           value={language}
           onValueChange={changeLanguageHandler}
         >
-          <ToggleGroupItem className="cursor-pointer w-full flex-col items-start" value="ru" aria-label="Russian">
+          <ToggleGroupItem className="cursor-pointer w-full flex-col items-start hover:text-foreground" value="ru" aria-label="Russian">
             Russian
           </ToggleGroupItem>
-          <ToggleGroupItem className="cursor-pointer w-full flex-col items-start" value="en" aria-label="English">
+          <ToggleGroupItem className="cursor-pointer w-full flex-col items-start hover:text-foreground" value="en" aria-label="English">
             English
           </ToggleGroupItem>
         </ToggleGroup>

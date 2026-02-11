@@ -4,13 +4,15 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { dataApi } from "@/api";
 
 import appReducer from "./app.slice";
+import filtersReducer from "./filters.slice";
 
 export const store = configureStore({
-	reducer: {
-		app: appReducer,
-		[dataApi.reducerPath]: dataApi.reducer,
-	},
-	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(dataApi.middleware),
+  reducer: {
+    app: appReducer,
+    filters: filtersReducer,
+    [dataApi.reducerPath]: dataApi.reducer,
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(dataApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
