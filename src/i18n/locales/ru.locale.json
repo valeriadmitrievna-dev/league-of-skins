@@ -4,6 +4,17 @@
     "wishlists": "Вишлисты"
   },
   "shared": {
-    "search": "Поиск"
+    "search": "Поиск",
+    "back": "Назад"
+  },
+  "rarity": {
+    "kNoRarity": "Архивный",
+    "kEpic": "Эпический",
+    "kMythic": "Мифический",
+    "kLegendary": "Легендарный",
+    "kTranscendent": "Божественный",
+    "kRare": "Редкий",
+    "kUltimate": "Абсолютный",
+    "kExalted": "Возвышенный"
   }
 }

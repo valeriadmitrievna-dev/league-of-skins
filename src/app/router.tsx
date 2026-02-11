@@ -1,13 +1,21 @@
 import { createBrowserRouter } from "react-router";
 import { LayoutPage } from "@/pages/LayoutPage";
-import { SearchPage } from "@/pages/SearchPage";
+import { SearchPage, SearchPageResults, SearchPageSkin } from "@/pages/SearchPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <LayoutPage />,
     children: [
-      { index: true, element: <SearchPage /> },
+      {
+        path: "",
+        element: <SearchPage />,
+        children: [
+          { index: true, element: <SearchPageResults /> },
+          { path: ':championId', element: <SearchPageSkin /> },
+        ],
+      },
+      { path: '/wishlists', element: <>wishlists</> },
       { path: "*", element: "test" },
     ],
   },

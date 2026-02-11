@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Outlet } from "react-router";
-import AppHeader from '@/widgets/AppHeader/AppHeader';
+import AppHeader from '@/widgets/AppHeader';
 
 const LayoutPage: FC = () => {
   return (

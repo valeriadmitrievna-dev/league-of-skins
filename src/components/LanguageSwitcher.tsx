@@ -1,10 +1,10 @@
 import { type FC } from "react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { GlobeIcon } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { appLanguageSelector, setLanguage } from "@/store";
 
 const LanguageSwitcher: FC = () => {

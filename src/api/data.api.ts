@@ -1,5 +1,5 @@
 import type { ODataRequest, ODataResponse } from "@/shared/types";
-import type { ChampionDto, ChromaDto, RootState, SkinlineDto } from "@/store";
+import type { ChampionDto, ChromaDto, RootState, SkinlineDto, SkinDto } from "@/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { SkinsRequest } from './types';
 import { LANGUAGES } from '@/shared/constants/languages';
@@ -37,7 +37,7 @@ export const dataApi = createApi({
     }),
 
     // champions
-    getChampions: build.query<ODataResponse<ODataResponse<ChampionDto[]>>, ODataRequest | void>({
+    getChampions: build.query<ODataResponse<ChampionDto[]>, ODataRequest | void>({
       query: () => "/champions",
     }),
     getChampionById: build.query<ChampionDto, string>({
@@ -45,7 +45,7 @@ export const dataApi = createApi({
     }),
 
     // skins
-    getSkins: build.query<ODataResponse<ODataResponse<ChampionDto[]>>, SkinsRequest>({
+    getSkins: build.query<ODataResponse<SkinDto[]>, SkinsRequest>({
       query: (params) => ({
         url: "/skins",
         params: { ...params, colors: params.colors?.join(',') },

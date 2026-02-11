@@ -4,6 +4,17 @@
     "wishlists": "Wishlists"
   },
   "shared": {
-    "search": "Search"
+    "search": "Search",
+    "back": "Back"
+  },
+  "rarity": {
+    "kNoRarity": "No rarity",
+    "kEpic": "Epic",
+    "kMythic": "Mythic",
+    "kLegendary": "Legendary",
+    "kTranscendent": "Transcendent",
+    "kRare": "Rare",
+    "kUltimate": "Ultimate",
+    "kExalted": "Exalted"
   }
 }
