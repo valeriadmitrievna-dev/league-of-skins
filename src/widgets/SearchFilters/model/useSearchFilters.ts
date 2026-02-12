@@ -1,13 +1,16 @@
-import { useGetChampionsQuery, useGetRaritiesQuery, useGetSkinlinesQuery } from "@/api";
+import { useGetChampionsQuery, useGetChromasQuery, useGetRaritiesQuery, useGetSkinlinesQuery } from "@/api";
 import { checkSearch } from '@/shared/utils/checkSearch';
+import { getColorsString } from '@/shared/utils/getColorsString';
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import {
   filtersChampionIdSelector,
+  filtersChromaSelector,
   filtersRaritySelector,
   filtersSelector,
   filtersSkinlineIdSelector,
   resetFilters,
   setFilterChampionId,
+  setFilterChroma,
   setFilterRarity,
   setFilterSkinlineId,
 } from "@/store";
@@ -23,16 +26,20 @@ const useSearchFilters = () => {
   const championId = useSelector(filtersChampionIdSelector);
   const skinlineId = useSelector(filtersSkinlineIdSelector);
   const rarity = useSelector(filtersRaritySelector);
+  const chroma = useSelector(filtersChromaSelector);
 
   const [championSearch, setChampionSearch] = useState("");
   const [skinlineSearch, setSkinlineSearch] = useState("");
+  const [chromaSearch, setChromaSearch] = useState("");
 
   const { data } = useGetRaritiesQuery();
   const { data: championsData, isLoading: isChampionsLoading } = useGetChampionsQuery({ lang: i18n.language });
-  const { data: skinlinesData, isLoading: isSkinlinesLoading, } = useGetSkinlinesQuery({ lang: i18n.language });
+  const { data: skinlinesData, isLoading: isSkinlinesLoading } = useGetSkinlinesQuery({ lang: i18n.language });
+  const { data: chromasData, isLoading: isChromasLoading } = useGetChromasQuery({ lang: i18n.language });
 
   const { data: champions } = getODataWithDefault(championsData);
   const { data: skinlines } = getODataWithDefault(skinlinesData);
+  const { data: chromas } = getODataWithDefault(chromasData);
 
   const resetFiltersHandler = () => {
     dispatch(resetFilters());
@@ -44,6 +51,10 @@ const useSearchFilters = () => {
 
   const searchSkinlineHandler = (value: string) => {
     setSkinlineSearch(value);
+  };
+
+  const searchChromaHandler = (value: string) => {
+    setChromaSearch(value);
   };
 
   const changeChampionIdHandler = (value: string) => {
@@ -61,23 +72,44 @@ const useSearchFilters = () => {
     else dispatch(setFilterRarity(undefined));
   };
 
+  const changeChromaHandler = (value: string) => {
+    if (value) {
+      const chroma = chromas.find(chroma => getColorsString(chroma.colors) === value);
+      dispatch(setFilterChroma(chroma))
+    }
+    else dispatch(setFilterChroma(undefined));
+  };
+
   return {
     rarities: data ?? [],
     champions: champions.filter(champion => checkSearch(champion.name, championSearch)),
     skinlines: skinlines.filter(skinline => checkSearch(skinline.name, skinlineSearch)),
+    chromas: chromas.filter(chroma => checkSearch(chroma.name, chromaSearch)),
+
     isChampionsLoading,
     isSkinlinesLoading,
+    isChromasLoading,
+
     isFilters,
+
     championId,
     skinlineId,
     rarity,
+    chroma,
+
     championSearch,
     skinlineSearch,
+    chromaSearch,
+
     searchChampionHandler,
     searchSkinlineHandler,
+    searchChromaHandler,
+
     changeChampionIdHandler,
     changeSkinlineIdHandler,
     changeRarityHandler,
+    changeChromaHandler,
+
     resetFiltersHandler,
   };
 };

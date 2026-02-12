@@ -2,6 +2,7 @@ import { useGetSkinsQuery } from "@/api";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import {
   filtersChampionIdSelector,
+  filtersChromaSelector,
   filtersRaritySelector,
   filtersSearchSelector,
   filtersSkinlineIdSelector,
@@ -23,6 +24,7 @@ const useSearchPage = () => {
   const championId = useSelector(filtersChampionIdSelector);
   const skinlineId = useSelector(filtersSkinlineIdSelector);
   const rarity = useSelector(filtersRaritySelector);
+  const chroma = useSelector(filtersChromaSelector);
 
   useDebounce(
     () => {
@@ -32,7 +34,14 @@ const useSearchPage = () => {
     [searchInput],
   );
 
-  const { data: skinsData, isLoading } = useGetSkinsQuery({ lang: i18n.language, championId, skinlineId, search, rarity });
+  const { data: skinsData, isLoading } = useGetSkinsQuery({
+    lang: i18n.language,
+    championId,
+    skinlineId,
+    search,
+    rarity,
+    colors: chroma?.colors,
+  });
   const { data: skins, count } = getODataWithDefault(skinsData);
 
   const searchHandler = (value: string) => {

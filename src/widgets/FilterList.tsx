@@ -83,40 +83,6 @@ const FilterList: FC<FilterListProps> = ({ items, value, onChange, isLoading }) 
       </ScrollArea>
     </div>
   );
-
-  // return (
-  //   <div className="w-full bg-neutral-100 dark:bg-neutral-800 px-2 py-2 rounded-md border border-foreground/10">
-  //     <ScrollArea className={`max-h-62 overflow-auto ${!isLoading && "pe-2"} scrollbar`}>
-  //       <ToggleGroup
-  //         type="single"
-  //         orientation="vertical"
-  //         spacing={1}
-  //         className="flex-col items-start w-full"
-  //         value={value}
-  //         onValueChange={onChange}
-  //       >
-  //         {isLoading && <Skeleton count={4} className="bg-neutral-300 dark:bg-neutral-700" />}
-  //         {!isLoading &&
-  //           items.map((item) => (
-  //             <ToggleGroupItem
-  //               key={item.value}
-  //               className="
-  //                 cursor-pointer w-full flex justify-start
-  //                 transition-colors hover:text-foreground
-  //                 hover:bg-neutral-300/50 data-state-on:bg-neutral-300
-  //                 dark:hover:bg-neutral-700/50 dark:data-state-on:bg-neutral-700
-  //                 whitespace-normal text-left py-1 h-fit min-h-8
-  //               "
-  //               value={item.value}
-  //               aria-label={item.label}
-  //             >
-  //               {item.label}
-  //             </ToggleGroupItem>
-  //           ))}
-  //       </ToggleGroup>
-  //     </ScrollArea>
-  //   </div>
-  // );
 };
 
 export default FilterList;

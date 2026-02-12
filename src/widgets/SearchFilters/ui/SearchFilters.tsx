@@ -7,6 +7,7 @@ import { useSearchFilters } from "../model";
 import { useTranslation } from "react-i18next";
 import FilterList from "@/widgets/FilterList";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { getColorsString } from "@/shared/utils/getColorsString";
 
 const SearchFilters: FC = () => {
   const { t } = useTranslation();
@@ -15,19 +16,25 @@ const SearchFilters: FC = () => {
     rarities,
     champions,
     skinlines,
+    chromas,
     isChampionsLoading,
     isSkinlinesLoading,
+    isChromasLoading,
     isFilters,
     championId,
     skinlineId,
     rarity,
+    chroma,
     championSearch,
     skinlineSearch,
+    chromaSearch,
     searchChampionHandler,
     searchSkinlineHandler,
+    searchChromaHandler,
     changeChampionIdHandler,
     changeSkinlineIdHandler,
     changeRarityHandler,
+    changeChromaHandler,
     resetFiltersHandler,
   } = useSearchFilters();
 
@@ -44,7 +51,7 @@ const SearchFilters: FC = () => {
           </Button>
         )}
       </div>
-      <Accordion type="multiple" defaultValue={["champion", "rarity", "skinline"]}>
+      <Accordion type="multiple" defaultValue={["chroma", "champion", "rarity", "skinline"]}>
         <AccordionItem value="champion">
           <AccordionTrigger className="py-2 cursor-pointer">
             <div className="flex items-center gap-x-2">
@@ -106,6 +113,26 @@ const SearchFilters: FC = () => {
               value={skinlineId ?? ""}
               onChange={changeSkinlineIdHandler}
               isLoading={isSkinlinesLoading}
+            />
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="chroma">
+          <AccordionTrigger className="py-2 cursor-pointer">
+            <div className="flex items-center gap-x-2">
+              <span>Chroma</span>
+              {chroma && <span className="flex size-2 rounded-full bg-blue-500" />}
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="flex flex-col gap-y-2">
+            <Search size="sm" value={chromaSearch} onSearch={searchChromaHandler} className="plane-input" />
+            <FilterList
+              items={chromas.map((chroma) => ({
+                value: getColorsString(chroma.colors)!,
+                label: chroma.isUnique ? chroma.name : `${chroma.name} (${chroma.skinName})`,
+              }))}
+              value={chroma ? getColorsString(chroma.colors)! : ""}
+              onChange={changeChromaHandler}
+              isLoading={isChromasLoading}
             />
           </AccordionContent>
         </AccordionItem>

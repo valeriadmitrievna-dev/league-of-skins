@@ -3,6 +3,7 @@ import type { ChampionDto, ChromaDto, SkinlineDto, SkinDto } from "@/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { SkinsRequest } from "./types";
 import { LANGUAGES } from "@/shared/constants/languages";
+import { getColorsString } from '@/shared/utils/getColorsString';
 
 export const dataApi = createApi({
   reducerPath: "dataApi",
@@ -20,7 +21,7 @@ export const dataApi = createApi({
     getRarities: build.query<string[], void>({
       query: () => "/shared/rarities",
     }),
-    getChromas: build.query<ODataResponse<ChromaDto>, WithLanguage<ODataRequest | void>>({
+    getChromas: build.query<ODataResponse<ChromaDto[]>, WithLanguage<ODataRequest | void>>({
       query: ({ lang }) => ({
         url: "/shared/chromas",
         headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES] },
@@ -55,7 +56,7 @@ export const dataApi = createApi({
     getSkins: build.query<ODataResponse<SkinDto[]>, WithLanguage<SkinsRequest>>({
       query: ({ lang, ...params }) => ({
         url: "/skins",
-        params: params ? { ...params, colors: params.colors?.join(",") } : {},
+        params: params ? { ...params, colors: getColorsString(params.colors) } : {},
         headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES] },
       }),
     }),
