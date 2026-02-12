@@ -56,7 +56,7 @@ const SearchFilters: FC = () => {
           </Button>
         )}
       </div>
-      <Accordion type="multiple" defaultValue={["chroma", "champion", "rarity", "skinline"]}>
+      <Accordion type="multiple" defaultValue={[]}>
         <FilterItem value="champion" title="Champion" hasValue={!!championId} onClear={clearChampionIdHandler}>
           <Search size="sm" value={championSearch} onSearch={searchChampionHandler} className="plane-input" />
           <FilterList
