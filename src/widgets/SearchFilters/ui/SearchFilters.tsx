@@ -6,8 +6,9 @@ import { type FC } from "react";
 import { useSearchFilters } from "../model";
 import { useTranslation } from "react-i18next";
 import FilterList from "@/widgets/FilterList";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Accordion } from "@/components/ui/accordion";
 import { getColorsString } from "@/shared/utils/getColorsString";
+import FilterItem from "@/widgets/FilterItem";
 
 const SearchFilters: FC = () => {
   const { t } = useTranslation();
@@ -52,79 +53,48 @@ const SearchFilters: FC = () => {
         )}
       </div>
       <Accordion type="multiple" defaultValue={["chroma", "champion", "rarity", "skinline"]}>
-        <AccordionItem value="champion">
-          <AccordionTrigger className="py-2 cursor-pointer">
-            <div className="flex items-center gap-x-2">
-              <span>Champion</span>
-              {championId && <span className="flex size-2 rounded-full bg-blue-500" />}
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-y-2">
-            <Search size="sm" value={championSearch} onSearch={searchChampionHandler} className="plane-input" />
-            <FilterList
-              items={champions.map((champion) => ({ value: champion.id, label: champion.name }))}
-              value={championId ?? ""}
-              onChange={changeChampionIdHandler}
-              isLoading={isChampionsLoading}
-            />
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="rarity">
-          <AccordionTrigger className="py-2 cursor-pointer">
-            <div className="flex items-center gap-x-2">
-              <span>Rarity</span>
-              {rarity && <span className="flex size-2 rounded-full bg-blue-500" />}
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-y-2">
-            <ToggleGroup
-              type="single"
-              size="sm"
-              variant="outline"
-              spacing={1}
-              className="items-start w-full flex-wrap"
-              value={rarity ?? ""}
-              onValueChange={changeRarityHandler}
-            >
-              {rarities.map((rarity) => (
-                <ToggleGroupItem
-                  key={rarity}
-                  value={rarity}
-                  aria-label="Toggle top"
-                  className="cursor-pointer w-fit h-8 items-center justify-start"
-                >
-                  {t(`rarity.${rarity}`)}
-                </ToggleGroupItem>
-              ))}
-            </ToggleGroup>
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="skinline">
-          <AccordionTrigger className="py-2 cursor-pointer">
-            <div className="flex items-center gap-x-2">
-              <span>Skinline</span>
-              {skinlineId && <span className="flex size-2 rounded-full bg-blue-500" />}
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-y-2">
-            <Search size="sm" value={skinlineSearch} onSearch={searchSkinlineHandler} className="plane-input" />
-            <FilterList
-              items={skinlines.map((skinline) => ({ value: skinline.id.toString(), label: skinline.name }))}
-              value={skinlineId ?? ""}
-              onChange={changeSkinlineIdHandler}
-              isLoading={isSkinlinesLoading}
-            />
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="chroma">
-          <AccordionTrigger className="py-2 cursor-pointer">
-            <div className="flex items-center gap-x-2">
-              <span>Chroma</span>
-              {chroma && <span className="flex size-2 rounded-full bg-blue-500" />}
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-y-2">
-            <Search size="sm" value={chromaSearch} onSearch={searchChromaHandler} className="plane-input" />
+        <FilterItem value="champion" title="Champion" hasValue={!!championId}>
+          <Search size="sm" value={championSearch} onSearch={searchChampionHandler} className="plane-input" />
+          <FilterList
+            items={champions.map((champion) => ({ value: champion.id, label: champion.name }))}
+            value={championId ?? ""}
+            onChange={changeChampionIdHandler}
+            isLoading={isChampionsLoading}
+          />
+        </FilterItem>
+        <FilterItem value="rarity" title="Rarity" hasValue={!!rarity}>
+          <ToggleGroup
+            type="single"
+            size="sm"
+            variant="outline"
+            spacing={1}
+            className="items-start w-full flex-wrap"
+            value={rarity ?? ""}
+            onValueChange={changeRarityHandler}
+          >
+            {rarities.map((rarity) => (
+              <ToggleGroupItem
+                key={rarity}
+                value={rarity}
+                aria-label="Toggle top"
+                className="cursor-pointer w-fit h-8 items-center justify-start"
+              >
+                {t(`rarity.${rarity}`)}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+        </FilterItem>
+        <FilterItem value="skinline" title="Skinline" hasValue={!!skinlineId}>
+          <Search size="sm" value={skinlineSearch} onSearch={searchSkinlineHandler} className="plane-input" />
+          <FilterList
+            items={skinlines.map((skinline) => ({ value: skinline.id.toString(), label: skinline.name }))}
+            value={skinlineId ?? ""}
+            onChange={changeSkinlineIdHandler}
+            isLoading={isSkinlinesLoading}
+          />
+        </FilterItem>
+        <FilterItem value="chroma" title="Chroma" hasValue={!!chroma}>
+          <Search size="sm" value={chromaSearch} onSearch={searchChromaHandler} className="plane-input" />
             <FilterList
               items={chromas.map((chroma) => ({
                 value: getColorsString(chroma.colors)!,
@@ -134,8 +104,7 @@ const SearchFilters: FC = () => {
               onChange={changeChromaHandler}
               isLoading={isChromasLoading}
             />
-          </AccordionContent>
-        </AccordionItem>
+        </FilterItem>
       </Accordion>
     </div>
   );
