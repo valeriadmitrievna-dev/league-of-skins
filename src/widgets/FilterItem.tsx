@@ -1,5 +1,6 @@
-import { AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import type { FC, PropsWithChildren } from "react";
+import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import type { FC, MouseEventHandler, PropsWithChildren } from "react";
 
 interface FilterItemProps extends PropsWithChildren {
   title: string;
@@ -8,18 +9,30 @@ interface FilterItemProps extends PropsWithChildren {
   onClear?: () => void;
 }
 
-const FilterItem: FC<FilterItemProps> = ({ title, value, hasValue, children }) => {
+const FilterItem: FC<FilterItemProps> = ({ title, value, hasValue, onClear, children }) => {
+  const clearHandler: MouseEventHandler = (event) => {
+    event.stopPropagation();
+    onClear?.();
+  };
+
   return (
     <AccordionItem value={value}>
-      <AccordionTrigger className="py-2 cursor-pointer">
-        <div className="flex items-center gap-x-2">
-          <span>{title}</span>
+      <AccordionTrigger className="py-2 cursor-pointer group hover:no-underline">
+        <div className="flex items-center gap-x-2 w-full">
+          <span className="group-hover:underline">{title}</span>
           {hasValue && <span className="flex size-2 rounded-full bg-blue-500" />}
+          {onClear && hasValue === true && (
+            <Button
+              size="xs"
+              onClick={clearHandler}
+              className="ml-auto py-1 h-4 rounded-sm opacity-0 group-hover:opacity-100 cursor-pointer"
+            >
+              Clear
+            </Button>
+          )}
         </div>
       </AccordionTrigger>
-      <AccordionContent className="flex flex-col gap-y-2">
-        {children}
-      </AccordionContent>
+      <AccordionContent className="flex flex-col gap-y-2">{children}</AccordionContent>
     </AccordionItem>
   );
 };

@@ -62,14 +62,26 @@ const useSearchFilters = () => {
     else dispatch(setFilterChampionId(undefined));
   };
 
+  const clearChampionIdHandler = () => {
+    dispatch(setFilterChampionId(undefined));
+  };
+
   const changeSkinlineIdHandler = (value: string) => {
     if (value) dispatch(setFilterSkinlineId(value));
     else dispatch(setFilterSkinlineId(undefined));
   };
 
+  const clearSkinlineIdHandler = () => {
+    dispatch(setFilterSkinlineId(undefined));
+  };
+
   const changeRarityHandler = (value: string) => {
     if (value) dispatch(setFilterRarity(value));
     else dispatch(setFilterRarity(undefined));
+  };
+
+  const clearRarityHandler = () => {
+    dispatch(setFilterRarity(undefined));
   };
 
   const changeChromaHandler = (value: string) => {
@@ -78,6 +90,10 @@ const useSearchFilters = () => {
       dispatch(setFilterChroma(chroma))
     }
     else dispatch(setFilterChroma(undefined));
+  };
+
+  const clearChromaHandler = () => {
+    dispatch(setFilterChroma(undefined));
   };
 
   return {
@@ -109,6 +125,11 @@ const useSearchFilters = () => {
     changeSkinlineIdHandler,
     changeRarityHandler,
     changeChromaHandler,
+
+    clearChampionIdHandler,
+    clearSkinlineIdHandler,
+    clearRarityHandler,
+    clearChromaHandler,
 
     resetFiltersHandler,
   };

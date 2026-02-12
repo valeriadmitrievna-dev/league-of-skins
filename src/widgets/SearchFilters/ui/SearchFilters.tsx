@@ -36,6 +36,10 @@ const SearchFilters: FC = () => {
     changeSkinlineIdHandler,
     changeRarityHandler,
     changeChromaHandler,
+    clearChampionIdHandler,
+    clearSkinlineIdHandler,
+    clearRarityHandler,
+    clearChromaHandler,
     resetFiltersHandler,
   } = useSearchFilters();
 
@@ -53,7 +57,7 @@ const SearchFilters: FC = () => {
         )}
       </div>
       <Accordion type="multiple" defaultValue={["chroma", "champion", "rarity", "skinline"]}>
-        <FilterItem value="champion" title="Champion" hasValue={!!championId}>
+        <FilterItem value="champion" title="Champion" hasValue={!!championId} onClear={clearChampionIdHandler}>
           <Search size="sm" value={championSearch} onSearch={searchChampionHandler} className="plane-input" />
           <FilterList
             items={champions.map((champion) => ({ value: champion.id, label: champion.name }))}
@@ -62,7 +66,7 @@ const SearchFilters: FC = () => {
             isLoading={isChampionsLoading}
           />
         </FilterItem>
-        <FilterItem value="rarity" title="Rarity" hasValue={!!rarity}>
+        <FilterItem value="rarity" title="Rarity" hasValue={!!rarity} onClear={clearRarityHandler}>
           <ToggleGroup
             type="single"
             size="sm"
@@ -84,7 +88,7 @@ const SearchFilters: FC = () => {
             ))}
           </ToggleGroup>
         </FilterItem>
-        <FilterItem value="skinline" title="Skinline" hasValue={!!skinlineId}>
+        <FilterItem value="skinline" title="Skinline" hasValue={!!skinlineId} onClear={clearSkinlineIdHandler}>
           <Search size="sm" value={skinlineSearch} onSearch={searchSkinlineHandler} className="plane-input" />
           <FilterList
             items={skinlines.map((skinline) => ({ value: skinline.id.toString(), label: skinline.name }))}
@@ -93,7 +97,7 @@ const SearchFilters: FC = () => {
             isLoading={isSkinlinesLoading}
           />
         </FilterItem>
-        <FilterItem value="chroma" title="Chroma" hasValue={!!chroma}>
+        <FilterItem value="chroma" title="Chroma" hasValue={!!chroma} onClear={clearChromaHandler}>
           <Search size="sm" value={chromaSearch} onSearch={searchChromaHandler} className="plane-input" />
             <FilterList
               items={chromas.map((chroma) => ({
