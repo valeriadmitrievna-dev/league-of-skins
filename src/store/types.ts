@@ -24,22 +24,34 @@ export interface ChampionDto {
 
 export interface SkinDto {
   id: number;
-  name: string;
-  contentId: string;
+  description: string;
   championId: string;
   championName: string;
-  chromaPath: string | null;
-  rarity: string;
-  skinlines: SkinlineDto[];
+  contentId: string;
+  name: string;
   image: {
-    full: string;
-    loading: string;
+    full: string | null;
+    loading: string | null;
   };
+  video?: {
+    centered: string | null;
+    uncentered: string | null;
+    card: string | null;
+  };
+  rarity: string;
+  isLegacy: boolean;
+  chromaPath: string | null;
+  skinlines: SkinlineDto[];
   chromas: {
     id: number;
     name: string;
     path: string;
     contentId: string;
     colors: string[];
+  }[];
+  features?: {
+    description: string;
+    iconPath: string;
+    videoPath: string;
   }[];
 }

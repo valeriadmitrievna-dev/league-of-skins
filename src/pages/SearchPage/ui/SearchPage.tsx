@@ -5,7 +5,7 @@ import { SearchFilters } from '@/widgets/SearchFilters';
 
 const SearchPage: FC = () => {
   return (
-    <div className="grid grid-cols-[320px_1fr] gap-5 p-5 m-auto xl:max-w-360 2xl:max-w-400">
+    <div className="w-full grid grid-cols-[320px_1fr] gap-5 p-5 mx-auto xl:max-w-360 2xl:max-w-400">
       <SearchFilters />
       <Outlet />
     </div>

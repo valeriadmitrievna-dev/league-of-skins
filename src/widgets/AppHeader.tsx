@@ -10,7 +10,7 @@ const AppHeader: FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex items-center justify-between px-5 m-auto xl:max-w-360 2xl:max-w-400 h-15">
+    <div className="flex items-center justify-between px-5 py-3 mx-auto w-full xl:max-w-360 2xl:max-w-400">
       <NavLink to="/">
         <AppLogo />
       </NavLink>

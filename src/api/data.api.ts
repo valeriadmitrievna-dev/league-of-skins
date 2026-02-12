@@ -28,9 +28,10 @@ export const dataApi = createApi({
     }),
 
     // skinlines
-    getSkinlines: build.query<ODataResponse<SkinlineDto[]>, WithLanguage<ODataRequest | void>>({
-      query: ({ lang }) => ({
+    getSkinlines: build.query<ODataResponse<SkinlineDto[]>, WithLanguage<ODataRequest>>({
+      query: ({ lang, ...params }) => ({
         url: "/skinlines",
+        params,
         headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES] },
       }),
     }),

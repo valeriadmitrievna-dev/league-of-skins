@@ -1,58 +1,115 @@
 import Search from "@/components/Search";
 import { Button } from "@/components/ui/button";
-import { Field, FieldLabel } from "@/components/ui/field";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { FunnelIcon } from "lucide-react";
 import { type FC } from "react";
 import { useSearchFilters } from "../model";
-import Skeleton from '@/components/Skeleton';
+import { useTranslation } from "react-i18next";
+import FilterList from "@/widgets/FilterList";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const SearchFilters: FC = () => {
-  const { champions, isChampionsLoading, championId, championSearch, changeChampionIdHandler, searchChampionHandler } =
-    useSearchFilters();
+  const { t } = useTranslation();
+
+  const {
+    rarities,
+    champions,
+    skinlines,
+    isChampionsLoading,
+    isSkinlinesLoading,
+    isFilters,
+    championId,
+    skinlineId,
+    rarity,
+    championSearch,
+    skinlineSearch,
+    searchChampionHandler,
+    searchSkinlineHandler,
+    changeChampionIdHandler,
+    changeSkinlineIdHandler,
+    changeRarityHandler,
+    resetFiltersHandler,
+  } = useSearchFilters();
 
   return (
-    <div className="border border-foreground/15 shadow-xs py-2 px-3 pb-4 rounded-md h-fit">
-      <div className="flex justify-between items-center">
+    <div className="border border-foreground/15 shadow-xs py-3 px-3 rounded-md h-fit flex flex-col gap-y-3">
+      <div className="flex justify-between items-center bg-neutral-100 dark:bg-neutral-800 px-3 py-2 rounded-md border border-foreground/10">
         <p className="flex items-center gap-2">
           <FunnelIcon size={20} />
           <span className="font-medium text-lg">Filters</span>
         </p>
-        <Button className="cursor-pointer" size="xs" variant="destructive">
-          Reset filters
-        </Button>
+        {isFilters && (
+          <Button className="cursor-pointer" size="xs" onClick={resetFiltersHandler}>
+            Reset filters
+          </Button>
+        )}
       </div>
-      <Separator className="my-2 mb-4" />
-      <div className="flex flex-col gap-5">
-        <Field className="w-full gap-y-2">
-          <FieldLabel>Champion</FieldLabel>
-          <Search size="sm" value={championSearch} onSearch={searchChampionHandler} />
-          <ScrollArea className={`max-h-62 overflow-auto ${!isChampionsLoading && 'pe-2'}`}>
+      <Accordion type="multiple" defaultValue={["champion", "rarity", "skinline"]}>
+        <AccordionItem value="champion">
+          <AccordionTrigger className="py-2 cursor-pointer">
+            <div className="flex items-center gap-x-2">
+              <span>Champion</span>
+              {championId && <span className="flex size-2 rounded-full bg-blue-500" />}
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="flex flex-col gap-y-2">
+            <Search size="sm" value={championSearch} onSearch={searchChampionHandler} className="plane-input" />
+            <FilterList
+              items={champions.map((champion) => ({ value: champion.id, label: champion.name }))}
+              value={championId ?? ""}
+              onChange={changeChampionIdHandler}
+              isLoading={isChampionsLoading}
+            />
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="rarity">
+          <AccordionTrigger className="py-2 cursor-pointer">
+            <div className="flex items-center gap-x-2">
+              <span>Rarity</span>
+              {rarity && <span className="flex size-2 rounded-full bg-blue-500" />}
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="flex flex-col gap-y-2">
             <ToggleGroup
               type="single"
-              orientation="vertical"
+              size="sm"
+              variant="outline"
               spacing={1}
-              className="flex-col items-start w-full"
-              value={championId}
-              onValueChange={changeChampionIdHandler}
+              className="items-start w-full flex-wrap"
+              value={rarity ?? ""}
+              onValueChange={changeRarityHandler}
             >
-              {isChampionsLoading && <Skeleton count={4} />}
-              {!isChampionsLoading && champions.map((champion) => (
+              {rarities.map((rarity) => (
                 <ToggleGroupItem
-                  key={champion.id}
-                  className="cursor-pointer w-full h-8 flex-col items-start hover:text-foreground"
-                  value={champion.id}
-                  aria-label={champion.name}
+                  key={rarity}
+                  value={rarity}
+                  aria-label="Toggle top"
+                  className="cursor-pointer w-fit h-8 items-center justify-start"
                 >
-                  {champion.name}
+                  {t(`rarity.${rarity}`)}
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
-          </ScrollArea>
-        </Field>
-      </div>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="skinline">
+          <AccordionTrigger className="py-2 cursor-pointer">
+            <div className="flex items-center gap-x-2">
+              <span>Skinline</span>
+              {skinlineId && <span className="flex size-2 rounded-full bg-blue-500" />}
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="flex flex-col gap-y-2">
+            <Search size="sm" value={skinlineSearch} onSearch={searchSkinlineHandler} className="plane-input" />
+            <FilterList
+              items={skinlines.map((skinline) => ({ value: skinline.id.toString(), label: skinline.name }))}
+              value={skinlineId ?? ""}
+              onChange={changeSkinlineIdHandler}
+              isLoading={isSkinlinesLoading}
+            />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </div>
   );
 };

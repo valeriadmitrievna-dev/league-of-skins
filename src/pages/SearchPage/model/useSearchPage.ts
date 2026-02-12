@@ -1,39 +1,54 @@
 import { useGetSkinsQuery } from "@/api";
-import { filtersChampionIdSelector, filtersSearchSelector, setSearch } from "@/store";
-import { useMemo, useState } from "react";
+import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
+import {
+  filtersChampionIdSelector,
+  filtersRaritySelector,
+  filtersSearchSelector,
+  filtersSkinlineIdSelector,
+  resetFilters,
+  setFilterSearch,
+} from "@/store";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { useDebounce } from 'react-use';
+import { useDebounce } from "react-use";
 
 const useSearchPage = () => {
   const dispatch = useDispatch();
   const { i18n } = useTranslation();
 
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState("");
 
   const search = useSelector(filtersSearchSelector);
   const championId = useSelector(filtersChampionIdSelector);
+  const skinlineId = useSelector(filtersSkinlineIdSelector);
+  const rarity = useSelector(filtersRaritySelector);
 
-  useDebounce(() => {
-    dispatch(setSearch(searchInput));
-  }, 300, [searchInput]);
+  useDebounce(
+    () => {
+      dispatch(setFilterSearch(searchInput));
+    },
+    300,
+    [searchInput],
+  );
 
-  const { data } = useGetSkinsQuery({ lang: i18n.language, championId, search });
+  const { data: skinsData, isLoading } = useGetSkinsQuery({ lang: i18n.language, championId, skinlineId, search, rarity });
+  const { data: skins, count } = getODataWithDefault(skinsData);
 
   const searchHandler = (value: string) => {
-    setSearchInput(value)
+    setSearchInput(value);
   };
 
   const clearSearchHandler = () => {
-    dispatch(setSearch(""));
+    dispatch(setFilterSearch(""));
   };
 
-  const { data: skins, count } = useMemo(() => {
-    if (data) return { data: data.data, count: data.count };
-    else return { data: [], count: 0 };
-  }, [data]);
+  const fullResetHandler = () => {
+    dispatch(resetFilters());
+    dispatch(setFilterSearch(""));
+  };
 
-  return { skins: skins.slice(0, 20), count, searchInput, searchHandler, clearSearchHandler };
+  return { skins: skins.slice(0, 20), count, isLoading, searchInput, searchHandler, clearSearchHandler, fullResetHandler };
 };
 
 export default useSearchPage;

@@ -12,7 +12,7 @@ interface SearchProps extends Omit<ComponentProps<"input">, "size"> {
   onClear?: () => void;
 }
 
-const Search: FC<SearchProps> = ({ size, onSearch, onClear, ...inputProps }) => {
+const Search: FC<SearchProps> = ({ size, onSearch, onClear, className, ...inputProps }) => {
   const { t } = useTranslation();
 
   const getGroupClassName = (size?: SearchSize) => {
@@ -30,7 +30,7 @@ const Search: FC<SearchProps> = ({ size, onSearch, onClear, ...inputProps }) => 
   };
 
   return (
-    <InputGroup className={cn(getGroupClassName(size), 'border-foreground/15')}>
+    <InputGroup className={cn(getGroupClassName(size), 'border-foreground/15', className)}>
       <InputGroupInput placeholder={t("shared.search")} {...inputProps} onChange={changeHandler} />
       <InputGroupAddon>
         <SearchIcon />

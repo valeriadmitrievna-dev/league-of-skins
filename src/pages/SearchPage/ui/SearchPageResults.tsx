@@ -1,46 +1,42 @@
 import { type FC } from "react";
 
-import { useTranslation } from "react-i18next";
 import { useSearchPage } from "../model";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { NavLink } from "react-router";
 import Search from "@/components/Search";
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
+import { Button } from "@/components/ui/button";
+import SkinCard from "@/widgets/SkinCard";
+import Skeleton from '@/components/Skeleton';
 
 const SearchPageResults: FC = () => {
-  const { t } = useTranslation();
-  const { skins, searchInput, searchHandler, clearSearchHandler } = useSearchPage();
+  const { skins, count, isLoading, searchInput, searchHandler, clearSearchHandler, fullResetHandler } = useSearchPage();
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 h-full w-full">
       <Search size="lg" value={searchInput} onSearch={searchHandler} onClear={clearSearchHandler} />
-      <div className="grid grid-cols-3 gap-3 lg:grid-cols-4 2xl:grid-cols-5">
-        {skins.map((skin) => (
-          <NavLink key={skin.contentId} to={`/${skin.id}`}>
-            <Card className="relative mx-auto w-full p-0 overflow-hidden gap-y-4">
-              <img src={skin.image.loading ?? ""} alt={skin.name} className="relative aspect-11/20 w-full object-cover" />
-              <Badge variant="secondary" className="absolute top-2 end-2">
-                {t(`rarity.${skin.rarity}`)}
-              </Badge>
-              <CardContent
-                className="
-                absolute size-full p-4
-                bg-linear-to-t from-neutral-950 to-transparent
-                flex items-end
-                opacity-0 hover:opacity-100 transition-opacity
-              "
-              >
-                <span className="text-neutral-50">{skin.name}</span>
-              </CardContent>
-              {/* <CardHeader className="px-4">
-                <CardTitle>{skin.name}</CardTitle>
-              </CardHeader> */}
-              {/* <CardFooter className="px-4 mt-auto">
-                <Button className="w-full cursor-pointer">Add to wishlist</Button>
-              </CardFooter> */}
-            </Card>
-          </NavLink>
-        ))}
+
+      <div className={count ? "grid grid-cols-3 gap-3 xl:grid-cols-4 2xl:grid-cols-5" : "h-full"}>
+        {isLoading && <Skeleton count={10} asChild className='h-auto aspect-11/20' />}
+        {!count && !isLoading && (
+          <Empty className="w-full h-full max-h-120">
+            <EmptyHeader>
+              <EmptyTitle>No Skins Found</EmptyTitle>
+              <EmptyDescription>Your search did not match any skins. Please clear filters to try again.</EmptyDescription>
+            </EmptyHeader>
+            <EmptyContent className="justify-center">
+              <Button className="cursor-pointer" onClick={fullResetHandler}>
+                Reset filters
+              </Button>
+            </EmptyContent>
+          </Empty>
+        )}
+        {!!count &&
+          !isLoading &&
+          skins.map((skin) => (
+            <NavLink key={skin.contentId} to={`/${skin.id}`}>
+              <SkinCard data={skin} />
+            </NavLink>
+          ))}
       </div>
     </div>
   );

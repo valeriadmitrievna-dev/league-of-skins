@@ -4,7 +4,7 @@ import AppHeader from '@/widgets/AppHeader';
 
 const LayoutPage: FC = () => {
   return (
-    <div>
+    <div className="max-h-screen flex flex-col no-scrollbar">
       <AppHeader />
       <Outlet />
     </div>

@@ -4,6 +4,7 @@ import type { ComponentProps, FC } from "react";
 interface SkeletonProps extends ComponentProps<"div"> {
   rounded?: boolean;
   count?: number;
+  asChild?: boolean;
 }
 
 const SkeletonItem: FC<SkeletonProps> = ({ rounded, className, ...props }) => {
@@ -17,8 +18,8 @@ const SkeletonItem: FC<SkeletonProps> = ({ rounded, className, ...props }) => {
   );
 };
 
-const Skeleton: FC<SkeletonProps> = ({ count = 1, ...props }) => {
-  if (count > 1) {
+const Skeleton: FC<SkeletonProps> = ({ count = 1, asChild, ...props }) => {
+  if (count > 1 && !asChild) {
     return (
       <div className="flex flex-col gap-2 w-full">
         {Array.from({ length: count }, () => (
@@ -28,7 +29,7 @@ const Skeleton: FC<SkeletonProps> = ({ count = 1, ...props }) => {
     );
   }
 
-  return <SkeletonItem {...props} />;
+  return Array.from({ length: count }, () => <SkeletonItem {...props} />);
 };
 
 export default Skeleton;

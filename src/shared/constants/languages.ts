@@ -19,4 +19,4 @@ export const LANGUAGES = {
   tr: "tr_TR",
   vi: "vi_VN",
   zh: "zh_CN",
-};
+} as const;

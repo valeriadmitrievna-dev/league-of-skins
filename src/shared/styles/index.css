@@ -136,3 +136,37 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    --scrollbar-size: 10px;
+    width: var(--scrollbar-size);
+    height: var(--scrollbar-size);
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    border: 1px solid;
+    background-color: oklch(from var(--color-foreground) l c h / calc(alpha - 0.95));
+    border-color: oklch(from var(--color-foreground) l c h / calc(alpha - 0.9));
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background-color: oklch(from var(--color-foreground) l c h / calc(alpha - 0.7));
+    border-radius: 100vh;
+    border: 2px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: oklch(from var(--color-foreground) l c h / calc(alpha - 0.6));
+  }
+
+  .plane-input:has(*:is([data-slot=input-group-control]:focus-visible)) {
+    box-shadow: none
+  }
+}
+
+@custom-variant data-state-on (&[data-state="on"]);
+@custom-variant data-state-off (&[data-state="off"]);
