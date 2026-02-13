@@ -6,6 +6,7 @@ import type { SkinDto } from "@/store";
 import { HeartPlusIcon } from "lucide-react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
+import AddToWishlist from "./AddToWishlist";
 
 interface SkinCardProps {
   data: SkinDto;
@@ -42,13 +43,18 @@ const SkinCard: FC<SkinCardProps> = ({ data }) => {
           opacity-0 hover:opacity-100 transition-opacity
         "
       >
-        <Button
-          variant="outline"
-          size="icon-lg"
-          className="bg-transparent text-neutral-50 light:hover:text-neutral-900"
-        >
-          <HeartPlusIcon className="size-5" />
-        </Button>
+        <AddToWishlist
+          trigger={({ onOpen }) => (
+            <Button
+              variant="outline"
+              size="icon-lg"
+              onClick={onOpen}
+              className="bg-transparent text-neutral-50 light:hover:text-neutral-900"
+            >
+              <HeartPlusIcon className="size-5" />
+            </Button>
+          )}
+        />
       </CardContent>
     </Card>
   );

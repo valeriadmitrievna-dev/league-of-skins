@@ -4,14 +4,21 @@ import { Separator } from "@/components/ui/separator";
 // import { Spinner } from '@/components/ui/spinner';
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { PlusIcon } from "lucide-react";
-import { useState, type FC, type ReactNode } from "react";
+import { useState, type FC, type MouseEvent, type ReactNode } from "react";
 
 interface AddToWishlistProps {
-  trigger: (options: { openState: boolean; onOpen: () => void }) => ReactNode;
+  trigger: (options: { openState: boolean; onOpen: (event: MouseEvent<HTMLElement>) => void }) => ReactNode;
 }
 
 const AddToWishlist: FC<AddToWishlistProps> = ({ trigger }) => {
   const [open, setOpen] = useState(false);
+
+  const openHandler = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    event.preventDefault();
+    console.log('[DEV]', 'hello&');
+    setOpen(true);
+  }
 
   const addToExistingWishlist = async () => {
     setOpen(false);
@@ -23,7 +30,7 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger }) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>{trigger({ openState: open, onOpen: () => console.log("[DEV]", "haha") })}</DialogTrigger>
+      <DialogTrigger>{trigger({ openState: open, onOpen: openHandler })}</DialogTrigger>
       <DialogContent showCloseButton={false}>
         <div className="flex flex-col gap-y-2">
           <span className="text-foreground/50 px-2.5">Wishlists</span>
