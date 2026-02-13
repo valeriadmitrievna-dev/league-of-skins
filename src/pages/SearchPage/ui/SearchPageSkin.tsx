@@ -62,7 +62,7 @@ const SearchPageSkin: FC = () => {
             <p className="">{skin.description}</p>
           </div>
 
-          {skin.chromas?.length && (
+          {!!skin.chromas?.length && (
             <div className="pt-6 flex flex-col gap-y-2">
               <p className="text-xl font-semibold">Chromas</p>
               <div className="grid gap-x-2 gap-y-4 grid-cols-[repeat(auto-fit,minmax(250px,1fr))] bg-muted py-2 px-4 rounded-md">
