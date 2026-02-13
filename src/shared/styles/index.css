@@ -2,6 +2,10 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -51,6 +55,10 @@
 * {
   box-sizing: border-box;
   outline: none;
+}
+
+button {
+  cursor: pointer;
 }
 
 @theme inline {
@@ -163,8 +171,8 @@
     background-color: oklch(from var(--color-foreground) l c h / calc(alpha - 0.6));
   }
 
-  .plane-input:has(*:is([data-slot=input-group-control]:focus-visible)) {
-    box-shadow: none
+  .plane-input:has(*:is([data-slot="input-group-control"]:focus-visible)) {
+    box-shadow: none;
   }
 }
 

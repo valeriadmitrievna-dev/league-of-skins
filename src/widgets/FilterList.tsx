@@ -50,7 +50,7 @@ const FilterList: FC<FilterListProps> = ({ items, value, onChange, isLoading }) 
             <div ref={registerChild} style={style}>
               <ToggleGroupItem
                 className="
-                  cursor-pointer w-full flex justify-start
+                  w-full flex justify-start
                   transition-colors hover:text-foreground
                   hover:bg-neutral-300/50 data-state-on:bg-neutral-300
                   dark:hover:bg-neutral-700/50 dark:data-state-on:bg-neutral-700

@@ -45,7 +45,7 @@ const SkinCard: FC<SkinCardProps> = ({ data }) => {
         <Button
           variant="outline"
           size="icon-lg"
-          className="cursor-pointer bg-transparent text-neutral-50 light:hover:text-neutral-900"
+          className="bg-transparent text-neutral-50 light:hover:text-neutral-900"
         >
           <HeartPlusIcon className="size-5" />
         </Button>

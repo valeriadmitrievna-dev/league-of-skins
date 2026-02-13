@@ -25,7 +25,7 @@ const LanguageSwitcher: FC = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="cursor-pointer" variant="outline" size="icon">
+        <Button variant="outline" size="icon">
           <GlobeIcon />
         </Button>
       </DropdownMenuTrigger>
@@ -38,10 +38,10 @@ const LanguageSwitcher: FC = () => {
           value={language}
           onValueChange={changeLanguageHandler}
         >
-          <ToggleGroupItem className="cursor-pointer w-full flex-col items-start hover:text-foreground" value="ru" aria-label="Russian">
+          <ToggleGroupItem className="w-full flex-col items-start hover:text-foreground" value="ru" aria-label="Russian">
             Russian
           </ToggleGroupItem>
-          <ToggleGroupItem className="cursor-pointer w-full flex-col items-start hover:text-foreground" value="en" aria-label="English">
+          <ToggleGroupItem className="w-full flex-col items-start hover:text-foreground" value="en" aria-label="English">
             English
           </ToggleGroupItem>
         </ToggleGroup>

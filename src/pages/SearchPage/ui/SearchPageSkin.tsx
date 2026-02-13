@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 import Video from "@/components/Video";
 import { getChromaColorName } from "@/shared/utils/getChromaColorName";
+import AddToWishlist from "@/widgets/AddToWishlist";
 import { ChevronLeftIcon, FrownIcon, HeartPlusIcon } from "lucide-react";
 import { type FC } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,7 +24,7 @@ const SearchPageSkin: FC = () => {
 
   return (
     <div className="flex flex-col gap-y-4">
-      <Button className="cursor-pointer w-fit" variant="outline" size="sm" onClick={goBackHandler}>
+      <Button className="w-fit" variant="outline" size="sm" onClick={goBackHandler}>
         <ChevronLeftIcon />
         {t("shared.back")}
       </Button>
@@ -53,11 +54,14 @@ const SearchPageSkin: FC = () => {
           </div>
 
           <div className="pt-4 flex flex-col gap-y-2 max-w-[60%]">
-            {skin.skinlines.map((skinline) => (
-              <Badge key={skinline.id} variant="outline">
-                {skinline.name}
-              </Badge>
-            ))}
+            <div className="flex items-center gap-2">
+              {skin.rarity !== "kNoRarity" && <Badge variant="secondary">{t(`rarity.${skin.rarity}`)}</Badge>}
+              {skin.skinlines.map((skinline) => (
+                <Badge key={skinline.id} variant="secondary">
+                  {skinline.name}
+                </Badge>
+              ))}
+            </div>
             <p className="text-2xl font-bold">{skin.name}</p>
             <p className="">{skin.description}</p>
           </div>
@@ -65,21 +69,26 @@ const SearchPageSkin: FC = () => {
           {!!skin.chromas?.length && (
             <div className="pt-6 flex flex-col gap-y-2">
               <p className="text-xl font-semibold">Chromas</p>
-              <div className="grid gap-x-2 gap-y-4 grid-cols-[repeat(auto-fit,minmax(250px,1fr))] bg-muted py-2 px-4 rounded-md">
+              <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(220px,1fr))] bg-muted p-4 rounded-md">
                 {skin.chromas.map((chroma) => (
                   <div key={chroma.contentId} className="flex flex-col items-center relative group">
                     <Image src={chroma.path} className="transition-opacity group-hover:opacity-50" />
                     <Badge className="absolute bottom-4">{getChromaColorName(chroma.name, i18n.language)}</Badge>
-                    <Button
-                      className="
-                        absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
-                        opacity-0 group-hover:opacity-100 cursor-pointer
-                        size-16
-                      "
-                      size="icon-lg"
-                    >
-                      <HeartPlusIcon className='size-6!' />
-                    </Button>
+                    <AddToWishlist
+                      trigger={({ onOpen }) => (
+                        <Button
+                          className="
+                            absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+                            opacity-0 group-hover:opacity-100
+                            size-16
+                          "
+                          size="icon-lg"
+                          onClick={onOpen}
+                        >
+                          <HeartPlusIcon className="size-6!" />
+                        </Button>
+                      )}
+                    />
                   </div>
                 ))}
               </div>

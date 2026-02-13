@@ -13,7 +13,7 @@ const ThemeSwitcher: FC = () => {
   };
 
   return (
-    <Button className="cursor-pointer" variant="outline" size="icon" onClick={toggleThemeHandler}>
+    <Button variant="outline" size="icon" onClick={toggleThemeHandler}>
       {theme === "dark" && <SunIcon />}
       {theme === "light" && <MoonIcon />}
     </Button>

@@ -55,7 +55,7 @@ const SearchFilters: FC = () => {
           <span className="font-medium text-lg">Filters</span>
         </p>
         {isFilters && (
-          <Button className="cursor-pointer" size="xs" onClick={resetFiltersHandler}>
+          <Button size="xs" onClick={resetFiltersHandler}>
             Reset filters
           </Button>
         )}
@@ -63,7 +63,7 @@ const SearchFilters: FC = () => {
       <Accordion type="multiple" defaultValue={["rarity"]}>
         <Label htmlFor="legacy" className="border-b h-9 flex items-center justify-between cursor-pointer">
           Show legacy
-          <Switch id="legacy" className="cursor-pointer" checked={isLegacyEnabled} onCheckedChange={toggleLegacyHandler}/>
+          <Switch id="legacy" checked={isLegacyEnabled} onCheckedChange={toggleLegacyHandler}/>
         </Label>
         <FilterItem value="champion" title="Champion" hasValue={!!championId} onClear={clearChampionIdHandler}>
           <Search size="sm" value={championSearch} onSearch={searchChampionHandler} className="plane-input" />
@@ -89,7 +89,7 @@ const SearchFilters: FC = () => {
                 key={rarity}
                 value={rarity}
                 aria-label="Toggle top"
-                className="cursor-pointer w-fit h-8 items-center justify-start"
+                className="w-fit h-8 items-center justify-start"
               >
                 {t(`rarity.${rarity}`)}
               </ToggleGroupItem>

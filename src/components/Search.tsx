@@ -37,7 +37,7 @@ const Search: FC<SearchProps> = ({ size, onSearch, onClear, className, ...inputP
       </InputGroupAddon>
       {inputProps.value && (
         <InputGroupAddon align="inline-end">
-          <InputGroupButton className="cursor-pointer" size="icon-xs" onClick={clearHandler}>
+          <InputGroupButton size="icon-xs" onClick={clearHandler}>
             <XIcon />
           </InputGroupButton>
         </InputGroupAddon>

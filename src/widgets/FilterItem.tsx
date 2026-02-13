@@ -18,7 +18,7 @@ const FilterItem: FC<FilterItemProps> = ({ title, value, hasValue, onClear, chil
 
   return (
     <AccordionItem value={value} {...accordionItemProps}>
-      <AccordionTrigger className="py-2 cursor-pointer group hover:no-underline">
+      <AccordionTrigger className="py-2 group hover:no-underline">
         <div className="flex items-center gap-x-2 w-full">
           <span className="group-hover:underline">{title}</span>
           {hasValue && <span className="flex size-2 rounded-full bg-blue-500" />}
@@ -26,7 +26,7 @@ const FilterItem: FC<FilterItemProps> = ({ title, value, hasValue, onClear, chil
             <Button
               size="xs"
               onClick={clearHandler}
-              className="ml-auto py-1 h-4 rounded-sm opacity-0 group-hover:opacity-100 cursor-pointer"
+              className="ml-auto py-1 h-4 rounded-sm opacity-0 group-hover:opacity-100"
             >
               Clear
             </Button>
