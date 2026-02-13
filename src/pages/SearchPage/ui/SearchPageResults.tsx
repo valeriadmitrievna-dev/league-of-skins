@@ -45,6 +45,8 @@ const SearchPageResults: FC = () => {
     rowVirtualizer.measure();
   }, [cardHeight]);
 
+  // TODO: add empty
+
   return (
     <div ref={parentRef} className="flex flex-col gap-3 h-full w-full">
       <Search size="lg" value={searchInput} onSearch={searchHandler} onClear={clearSearchHandler} />
@@ -73,7 +75,7 @@ const SearchPageResults: FC = () => {
               if (!skin) return null;
 
               return (
-                <NavLink key={skin.contentId} to={`/${skin.id}`}>
+                <NavLink key={skin.contentId} to={`/${skin.contentId}`}>
                   <SkinCard data={skin} />
                 </NavLink>
               );

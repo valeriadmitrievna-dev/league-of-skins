@@ -8,10 +8,12 @@ export interface FiltersState {
   skinlineId?: string;
   rarity?: string;
   chroma?: ChromaDto;
+  isLegacyEnabled: boolean;
 }
 
 const initialState: FiltersState = {
   search: "",
+  isLegacyEnabled: true,
 };
 
 export const filtersSlice = createSlice({
@@ -23,6 +25,7 @@ export const filtersSlice = createSlice({
       state.skinlineId = undefined;
       state.rarity = undefined;
       state.chroma = undefined;
+      state.isLegacyEnabled = true;
     },
     setFilterSearch: (state, { payload }: PayloadAction<string>) => {
       state.search = payload;
@@ -39,10 +42,20 @@ export const filtersSlice = createSlice({
     setFilterChroma: (state, { payload }: PayloadAction<ChromaDto | undefined>) => {
       state.chroma = payload;
     },
+    setFilterLegacy: (state, { payload }: PayloadAction<boolean>) => {
+      state.isLegacyEnabled = payload;
+    },
   },
 });
 
-export const { resetFilters, setFilterSearch, setFilterChampionId, setFilterSkinlineId, setFilterRarity, setFilterChroma } =
-  filtersSlice.actions;
+export const {
+  resetFilters,
+  setFilterSearch,
+  setFilterChampionId,
+  setFilterSkinlineId,
+  setFilterRarity,
+  setFilterChroma,
+  setFilterLegacy,
+} = filtersSlice.actions;
 
 export default filtersSlice.reducer;

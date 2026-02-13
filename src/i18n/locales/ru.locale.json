@@ -8,7 +8,7 @@
     "back": "Назад"
   },
   "rarity": {
-    "kNoRarity": "Архивный",
+    "kNoRarity": "Без редкости",
     "kEpic": "Эпический",
     "kMythic": "Мифический",
     "kLegendary": "Легендарный",

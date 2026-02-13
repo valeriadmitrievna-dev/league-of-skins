@@ -12,7 +12,7 @@ export const router = createBrowserRouter([
         element: <SearchPage />,
         children: [
           { index: true, element: <SearchPageResults /> },
-          { path: ':championId', element: <SearchPageSkin /> },
+          { path: ':skinContentId', element: <SearchPageSkin /> },
         ],
       },
       { path: '/wishlists', element: <>wishlists</> },

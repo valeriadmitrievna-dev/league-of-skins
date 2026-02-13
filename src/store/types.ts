@@ -30,7 +30,8 @@ export interface SkinDto {
   contentId: string;
   name: string;
   image: {
-    full: string | null;
+    centered: string | null;
+    uncentered: string | null;
     loading: string | null;
   };
   video?: {

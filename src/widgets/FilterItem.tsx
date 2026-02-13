@@ -1,22 +1,23 @@
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import type { FC, MouseEventHandler, PropsWithChildren } from "react";
+import type { ComponentProps, FC, MouseEventHandler, PropsWithChildren } from "react";
+import { Accordion as AccordionPrimitive } from "radix-ui";
 
-interface FilterItemProps extends PropsWithChildren {
+interface FilterItemProps extends PropsWithChildren, ComponentProps<typeof AccordionPrimitive.Item> {
   title: string;
   value: string;
   hasValue?: boolean;
   onClear?: () => void;
 }
 
-const FilterItem: FC<FilterItemProps> = ({ title, value, hasValue, onClear, children }) => {
+const FilterItem: FC<FilterItemProps> = ({ title, value, hasValue, onClear, children, ...accordionItemProps }) => {
   const clearHandler: MouseEventHandler = (event) => {
     event.stopPropagation();
     onClear?.();
   };
 
   return (
-    <AccordionItem value={value}>
+    <AccordionItem value={value} {...accordionItemProps}>
       <AccordionTrigger className="py-2 cursor-pointer group hover:no-underline">
         <div className="flex items-center gap-x-2 w-full">
           <span className="group-hover:underline">{title}</span>

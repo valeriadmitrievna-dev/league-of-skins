@@ -5,4 +5,5 @@ export interface SkinsRequest extends ODataRequest {
   skinlineId?: string;
   colors?: string[];
   rarity?: string;
+  isLegacy: boolean;
 }

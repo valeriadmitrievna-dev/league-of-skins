@@ -5,12 +5,14 @@ import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import {
   filtersChampionIdSelector,
   filtersChromaSelector,
+  filtersLegacySelector,
   filtersRaritySelector,
   filtersSelector,
   filtersSkinlineIdSelector,
   resetFilters,
   setFilterChampionId,
   setFilterChroma,
+  setFilterLegacy,
   setFilterRarity,
   setFilterSkinlineId,
 } from "@/store";
@@ -27,12 +29,13 @@ const useSearchFilters = () => {
   const skinlineId = useSelector(filtersSkinlineIdSelector);
   const rarity = useSelector(filtersRaritySelector);
   const chroma = useSelector(filtersChromaSelector);
+  const isLegacyEnabled = useSelector(filtersLegacySelector);
 
   const [championSearch, setChampionSearch] = useState("");
   const [skinlineSearch, setSkinlineSearch] = useState("");
   const [chromaSearch, setChromaSearch] = useState("");
 
-  const { data } = useGetRaritiesQuery();
+  const { data: raritiesData } = useGetRaritiesQuery();
   const { data: championsData, isLoading: isChampionsLoading } = useGetChampionsQuery({ lang: i18n.language });
   const { data: skinlinesData, isLoading: isSkinlinesLoading } = useGetSkinlinesQuery({ lang: i18n.language });
   const { data: chromasData, isLoading: isChromasLoading } = useGetChromasQuery({ lang: i18n.language });
@@ -40,6 +43,7 @@ const useSearchFilters = () => {
   const { data: champions } = getODataWithDefault(championsData);
   const { data: skinlines } = getODataWithDefault(skinlinesData);
   const { data: chromas } = getODataWithDefault(chromasData);
+  const rarities = raritiesData ?? [];
 
   const resetFiltersHandler = () => {
     dispatch(resetFilters());
@@ -96,11 +100,16 @@ const useSearchFilters = () => {
     dispatch(setFilterChroma(undefined));
   };
 
+  const toggleLegacyHandler = (value: boolean) => {
+    dispatch(setFilterLegacy(value));
+  }
+
   return {
-    rarities: data ?? [],
+    rarities,
     champions: champions.filter(champion => checkSearch(champion.name, championSearch)),
     skinlines: skinlines.filter(skinline => checkSearch(skinline.name, skinlineSearch)),
     chromas: chromas.filter(chroma => checkSearch(chroma.name, chromaSearch)),
+    isLegacyEnabled,
 
     isChampionsLoading,
     isSkinlinesLoading,
@@ -125,6 +134,7 @@ const useSearchFilters = () => {
     changeSkinlineIdHandler,
     changeRarityHandler,
     changeChromaHandler,
+    toggleLegacyHandler,
 
     clearChampionIdHandler,
     clearSkinlineIdHandler,

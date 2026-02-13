@@ -5,12 +5,14 @@ export const filtersRaritySelector = (state: RootState) => state.filters.rarity;
 export const filtersChampionIdSelector = (state: RootState) => state.filters.championId;
 export const filtersSkinlineIdSelector = (state: RootState) => state.filters.skinlineId;
 export const filtersChromaSelector = (state: RootState) => state.filters.chroma;
+export const filtersLegacySelector = (state: RootState) => state.filters.isLegacyEnabled;
 
 export const filtersSelector = (state: RootState) => {
   const championId = state.filters.championId;
   const skinlineId = state.filters.skinlineId;
   const rarity = state.filters.rarity;
   const chroma = state.filters.chroma;
+  const isLegacyEnabled = state.filters.isLegacyEnabled;
 
-  return !!championId || !!rarity || !!skinlineId || !!chroma;
+  return !!championId || !!rarity || !!skinlineId || !!chroma || !isLegacyEnabled;
 };

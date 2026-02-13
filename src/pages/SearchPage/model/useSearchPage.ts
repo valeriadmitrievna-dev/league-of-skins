@@ -3,6 +3,7 @@ import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import {
   filtersChampionIdSelector,
   filtersChromaSelector,
+  filtersLegacySelector,
   filtersRaritySelector,
   filtersSearchSelector,
   filtersSkinlineIdSelector,
@@ -25,6 +26,7 @@ const useSearchPage = () => {
   const skinlineId = useSelector(filtersSkinlineIdSelector);
   const rarity = useSelector(filtersRaritySelector);
   const chroma = useSelector(filtersChromaSelector);
+  const isLegacyEnabled = useSelector(filtersLegacySelector);
 
   useDebounce(
     () => {
@@ -41,6 +43,7 @@ const useSearchPage = () => {
     search,
     rarity,
     colors: chroma?.colors,
+    isLegacy: isLegacyEnabled,
   });
   const { data: skins, count } = getODataWithDefault(skinsData);
 
@@ -57,7 +60,7 @@ const useSearchPage = () => {
     dispatch(setFilterSearch(""));
   };
 
-  return { skins: skins.slice(0, 20), count, isLoading, searchInput, searchHandler, clearSearchHandler, fullResetHandler };
+  return { skins, count, isLoading, searchInput, searchHandler, clearSearchHandler, fullResetHandler };
 };
 
 export default useSearchPage;

@@ -3,7 +3,7 @@ import type { ChampionDto, ChromaDto, SkinlineDto, SkinDto } from "@/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { SkinsRequest } from "./types";
 import { LANGUAGES } from "@/shared/constants/languages";
-import { getColorsString } from '@/shared/utils/getColorsString';
+import { getColorsString } from "@/shared/utils/getColorsString";
 
 export const dataApi = createApi({
   reducerPath: "dataApi",
@@ -54,9 +54,15 @@ export const dataApi = createApi({
 
     // skins
     getSkins: build.query<ODataResponse<SkinDto[]>, WithLanguage<SkinsRequest>>({
-      query: ({ lang, ...params }) => ({
+      query: ({ lang, colors, isLegacy, ...params }) => ({
         url: "/skins",
-        params: params ? { ...params, colors: getColorsString(params.colors) } : {},
+        params: params ? { ...params, colors: getColorsString(colors), isLegacy: String(isLegacy) } : {},
+        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES] },
+      }),
+    }),
+    getSkin: build.query<SkinDto, WithLanguage<{ contentId: string }>>({
+      query: ({ lang, contentId }) => ({
+        url: "/skins/" + contentId,
         headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES] },
       }),
     }),
@@ -80,4 +86,6 @@ export const {
 
   useGetSkinsQuery,
   useLazyGetSkinsQuery,
+  useGetSkinQuery,
+  useLazyGetSkinQuery,
 } = dataApi;

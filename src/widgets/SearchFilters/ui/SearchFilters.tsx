@@ -9,6 +9,8 @@ import FilterList from "@/widgets/FilterList";
 import { Accordion } from "@/components/ui/accordion";
 import { getColorsString } from "@/shared/utils/getColorsString";
 import FilterItem from "@/widgets/FilterItem";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 
 const SearchFilters: FC = () => {
   const { t } = useTranslation();
@@ -26,6 +28,7 @@ const SearchFilters: FC = () => {
     skinlineId,
     rarity,
     chroma,
+    isLegacyEnabled,
     championSearch,
     skinlineSearch,
     chromaSearch,
@@ -36,6 +39,7 @@ const SearchFilters: FC = () => {
     changeSkinlineIdHandler,
     changeRarityHandler,
     changeChromaHandler,
+    toggleLegacyHandler,
     clearChampionIdHandler,
     clearSkinlineIdHandler,
     clearRarityHandler,
@@ -44,7 +48,7 @@ const SearchFilters: FC = () => {
   } = useSearchFilters();
 
   return (
-    <div className="border border-foreground/15 shadow-xs py-3 px-3 rounded-md h-fit flex flex-col gap-y-3">
+    <div className="border border-foreground/15 shadow-xs py-3 px-3 pb-0 rounded-md h-fit flex flex-col gap-y-3">
       <div className="flex justify-between items-center bg-neutral-100 dark:bg-neutral-800 px-3 py-2 rounded-md border border-foreground/10">
         <p className="flex items-center gap-2">
           <FunnelIcon size={20} />
@@ -56,7 +60,11 @@ const SearchFilters: FC = () => {
           </Button>
         )}
       </div>
-      <Accordion type="multiple" defaultValue={[]}>
+      <Accordion type="multiple" defaultValue={["rarity"]}>
+        <Label htmlFor="legacy" className="border-b h-9 flex items-center justify-between cursor-pointer">
+          Show legacy
+          <Switch id="legacy" className="cursor-pointer" checked={isLegacyEnabled} onCheckedChange={toggleLegacyHandler}/>
+        </Label>
         <FilterItem value="champion" title="Champion" hasValue={!!championId} onClear={clearChampionIdHandler}>
           <Search size="sm" value={championSearch} onSearch={searchChampionHandler} className="plane-input" />
           <FilterList
@@ -99,15 +107,15 @@ const SearchFilters: FC = () => {
         </FilterItem>
         <FilterItem value="chroma" title="Chroma" hasValue={!!chroma} onClear={clearChromaHandler}>
           <Search size="sm" value={chromaSearch} onSearch={searchChromaHandler} className="plane-input" />
-            <FilterList
-              items={chromas.map((chroma) => ({
-                value: getColorsString(chroma.colors)!,
-                label: chroma.isUnique ? chroma.name : `${chroma.name} (${chroma.skinName})`,
-              }))}
-              value={chroma ? getColorsString(chroma.colors)! : ""}
-              onChange={changeChromaHandler}
-              isLoading={isChromasLoading}
-            />
+          <FilterList
+            items={chromas.map((chroma) => ({
+              value: getColorsString(chroma.colors)!,
+              label: chroma.isUnique ? chroma.name : `${chroma.name} (${chroma.skinName})`,
+            }))}
+            value={chroma ? getColorsString(chroma.colors)! : ""}
+            onChange={changeChromaHandler}
+            isLoading={isChromasLoading}
+          />
         </FilterItem>
       </Accordion>
     </div>

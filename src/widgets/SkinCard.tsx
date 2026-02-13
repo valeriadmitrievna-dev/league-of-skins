@@ -1,3 +1,4 @@
+import Image from "@/components/Image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -24,14 +25,15 @@ const SkinCard: FC<SkinCardProps> = ({ data }) => {
           className="absolute z-1 aspect-11/20 object-cover transition-opacity opacity-0 group-hover:opacity-100"
         />
       )}
-      <img
+      <Image
         src={data.image.loading ?? ""}
         alt={data.name}
         className="relative aspect-11/20 w-full object-cover origin-center scale-107"
       />
-      <Badge variant="secondary" className="absolute top-2 end-2 z-3">
-        {t(`rarity.${data.rarity}`)}
-      </Badge>
+      <div className="absolute top-2 end-2 z-3 flex gap-1">
+        {data.isLegacy && <Badge variant="secondary">Legacy</Badge>}
+        {data.rarity !== "kNoRarity" && <Badge variant="secondary">{t(`rarity.${data.rarity}`)}</Badge>}
+      </div>
       <CardContent
         className="
           absolute size-full p-4 z-2
