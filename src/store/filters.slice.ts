@@ -20,6 +20,12 @@ export const filtersSlice = createSlice({
   name: "filters",
   initialState,
   reducers: {
+    setFilters: (state, { payload }: PayloadAction<Omit<FiltersState, 'search' | 'isLegacyEnabled'>>) => {
+      state.championId = payload.championId;
+      state.skinlineId = payload.skinlineId;
+      state.rarity = payload.rarity;
+      state.chroma = payload.chroma;
+    },
     resetFilters: (state) => {
       state.championId = undefined;
       state.skinlineId = undefined;
@@ -49,6 +55,7 @@ export const filtersSlice = createSlice({
 });
 
 export const {
+  setFilters,
   resetFilters,
   setFilterSearch,
   setFilterChampionId,
