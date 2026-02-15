@@ -24,7 +24,7 @@ export const dataApi = createApi({
     getChromas: build.query<ODataResponse<ChromaDto[]>, WithLanguage<ODataRequest | void>>({
       query: ({ lang }) => ({
         url: "/shared/chromas",
-        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES] },
+        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES]?.code },
       }),
     }),
 
@@ -33,7 +33,7 @@ export const dataApi = createApi({
       query: ({ lang, ...params }) => ({
         url: "/skinlines",
         params,
-        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES] },
+        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES]?.code },
       }),
     }),
 
@@ -42,13 +42,13 @@ export const dataApi = createApi({
       query: ({ lang, ...params }) => ({
         url: "/champions",
         params: params ?? {},
-        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES] },
+        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES]?.code },
       }),
     }),
     getChampionById: build.query<ChampionDto, WithLanguage<{ id: string }>>({
       query: ({ lang, id }) => ({
         url: "/champions/" + id,
-        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES] },
+        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES]?.code },
       }),
     }),
 
@@ -57,13 +57,13 @@ export const dataApi = createApi({
       query: ({ lang, colors, isLegacy, ...params }) => ({
         url: "/skins",
         params: params ? { ...params, colors: getColorsString(colors), isLegacy: String(isLegacy) } : {},
-        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES] },
+        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES]?.code },
       }),
     }),
     getSkin: build.query<SkinDto, WithLanguage<{ contentId: string }>>({
       query: ({ lang, contentId }) => ({
         url: "/skins/" + contentId,
-        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES] },
+        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES]?.code },
       }),
     }),
   }),

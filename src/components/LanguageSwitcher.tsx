@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { appLanguageSelector, setLanguage } from "@/store";
+import { LANGUAGES } from "@/shared/constants/languages";
 
 const LanguageSwitcher: FC = () => {
   const { i18n } = useTranslation();
@@ -19,7 +20,7 @@ const LanguageSwitcher: FC = () => {
   };
 
   useEffect(() => {
-    document.documentElement.setAttribute('lang', language);
+    document.documentElement.setAttribute("lang", language);
   }, [language]);
 
   return (
@@ -29,22 +30,31 @@ const LanguageSwitcher: FC = () => {
           <GlobeIcon />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <ToggleGroup
-          type="single"
-          orientation="vertical"
-          spacing={1}
-          className="flex-col items-start w-full"
-          value={language}
-          onValueChange={changeLanguageHandler}
-        >
-          <ToggleGroupItem className="w-full flex-col items-start hover:text-foreground" value="ru" aria-label="Russian">
-            Russian
-          </ToggleGroupItem>
-          <ToggleGroupItem className="w-full flex-col items-start hover:text-foreground" value="en" aria-label="English">
-            English
-          </ToggleGroupItem>
-        </ToggleGroup>
+      <DropdownMenuContent align="end" className="overflow-hidden">
+        <div className="max-h-48 overflow-auto scrollbar pr-1">
+          <ToggleGroup
+            type="single"
+            orientation="vertical"
+            spacing={1}
+            className="flex-col items-start w-full"
+            value={language}
+            onValueChange={changeLanguageHandler}
+          >
+            {Object.entries(LANGUAGES).map(([locale, { name }]) => {
+              const formattedName = name[0].toUpperCase() + name.slice(1);
+              return (
+                <ToggleGroupItem
+                  key={locale}
+                  className="w-full flex-col items-start hover:text-foreground"
+                  value={locale}
+                  aria-label={formattedName}
+                >
+                  {formattedName}
+                </ToggleGroupItem>
+              );
+            })}
+          </ToggleGroup>
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );
