@@ -119,7 +119,13 @@ const SearchPageSkin: FC = () => {
               <p className="text-2xl font-bold">{skin.name}</p>
               <p className="">{skin.description}</p>
               <div className="mt-2 flex items-center gap-x-2">
-                <Button className="w-fit">Add to wishlist</Button>
+                <AddToWishlist
+                  trigger={({ onOpen }) => (
+                    <Button className="w-fit" onClick={onOpen}>
+                      Add to wishlist
+                    </Button>
+                  )}
+                />
                 <Button variant="outline" asChild>
                   <NavLink
                     to={`https://www.youtube.com/results?search_query=${skin.name.toLowerCase().split(" ").join("+")}+spotlight`}
