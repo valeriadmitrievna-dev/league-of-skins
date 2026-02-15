@@ -2,6 +2,7 @@ import { useGetSkinQuery } from "@/api";
 import Image from "@/components/Image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 import Video from "@/components/Video";
 import { getChromaColorName } from "@/shared/utils/getChromaColorName";
@@ -12,7 +13,7 @@ import { useEffect, type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { NavLink, useNavigate, useParams } from "react-router";
-import { GetListByKeyword, YouTubeAPIError } from "youtube-search-api";
+import { GetListByKeyword } from "youtube-search-api";
 
 const SearchPageSkin: FC = () => {
   const navigate = useNavigate();
@@ -45,16 +46,16 @@ const SearchPageSkin: FC = () => {
     try {
       const res = await GetListByKeyword(`${skin!.name.toLowerCase().split(" ").join("+")}+spotlight`);
       console.log("[DEV]", res);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      const err = error as YouTubeAPIError;
+      // const err = error as YouTubeAPIError;
       console.log("[DEV]", "error getting spotlight video");
-      console.log("[DEV]", err.code);
-      console.log("[DEV]", err.message);
     }
   };
 
   useEffect(() => {
     if (skin) getSpotlightVideo();
+    console.log("[DEV]", skin?.features);
   }, [skin]);
 
   return (
@@ -92,7 +93,7 @@ const SearchPageSkin: FC = () => {
             {skin.chromaPath && (
               <div className="w-64 bg-muted p-4 rounded-md flex items-center justify-center relative">
                 <Image src={skin.chromaPath} className="w-full object-cover" />
-                <Badge className="absolute bottom-4">{t('skin.baseChroma')}</Badge>
+                <Badge className="absolute bottom-4">{t("skin.baseChroma")}</Badge>
               </div>
             )}
             <div className="flex flex-col gap-y-2 max-w-164">
@@ -122,7 +123,7 @@ const SearchPageSkin: FC = () => {
                 <AddToWishlist
                   trigger={({ onOpen }) => (
                     <Button className="w-fit" onClick={onOpen}>
-                      {t('skin.add')}
+                      {t("skin.add")}
                     </Button>
                   )}
                 />
@@ -132,7 +133,7 @@ const SearchPageSkin: FC = () => {
                     target="_blank"
                   >
                     <PlayIcon />
-                    {t('skin.spotlight')}
+                    {t("skin.spotlight")}
                   </NavLink>
                 </Button>
               </div>
@@ -141,7 +142,7 @@ const SearchPageSkin: FC = () => {
 
           {!!skin.chromas?.length && (
             <div className="pt-6 flex flex-col gap-y-2">
-              <p className="text-xl font-semibold">{t('skin.chromas')}</p>
+              <p className="text-xl font-semibold">{t("skin.chromas")}</p>
               <div className="grid gap-4 grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 bg-muted p-4 rounded-md">
                 {skin.chromas.map((chroma) => (
                   <div key={chroma.contentId} className="flex flex-col items-center relative group">
@@ -166,6 +167,23 @@ const SearchPageSkin: FC = () => {
                       )}
                     />
                   </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {!!skin.features?.length && (
+            <div className="pt-6 flex flex-col gap-y-2">
+              <p className="text-xl font-semibold">{t("skin.features")}</p>
+              <div className="grid grid-cols-2 gap-3">
+                {skin.features.map((feature) => (
+                  <Card className="relative rounded-md w-full py-0 overflow-hidden">
+                    <div className='absolute top-2 left-2 z-5 flex gap-x-2 pointer-events-none'>
+                      <Image src={feature.iconPath} className='rounded-md' />
+                      <span className='bg-muted/50 h-fit rounded-sm px-2 py-1 font-medium'>{feature.description}</span>
+                    </div>
+                    <Video src={feature.videoPath} className="aspect-22/15" controls />
+                  </Card>
                 ))}
               </div>
             </div>

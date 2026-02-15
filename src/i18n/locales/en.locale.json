@@ -38,7 +38,8 @@
     "add": "Add to wishlist",
     "spotlight": "Search spotlight",
     "chromas": "Chromas",
-    "baseChroma": "In game"
+    "baseChroma": "In game",
+    "features": "Features"
   },
   "wishlist": {
     "create": "Create wishlist",
