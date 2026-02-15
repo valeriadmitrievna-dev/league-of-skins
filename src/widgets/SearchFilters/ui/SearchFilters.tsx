@@ -52,20 +52,20 @@ const SearchFilters: FC = () => {
       <div className="flex justify-between items-center bg-neutral-100 dark:bg-neutral-800 px-3 py-2 rounded-md border border-foreground/10">
         <p className="flex items-center gap-2">
           <FunnelIcon size={20} />
-          <span className="font-medium text-lg">Filters</span>
+          <span className="font-medium text-lg">{t("filters.title")}</span>
         </p>
         {isFilters && (
-          <Button size="xs" onClick={resetFiltersHandler}>
-            Reset filters
+          <Button size="xs" onClick={resetFiltersHandler} className='rounded-sm'>
+            {t("filters.reset")}
           </Button>
         )}
       </div>
       <Accordion type="multiple" defaultValue={["rarity"]}>
         <Label htmlFor="legacy" className="border-b h-9 flex items-center justify-between cursor-pointer">
-          Show legacy
+          {t("filters.legacy")}
           <Switch id="legacy" checked={isLegacyEnabled} onCheckedChange={toggleLegacyHandler}/>
         </Label>
-        <FilterItem value="champion" title="Champion" hasValue={!!championId} onClear={clearChampionIdHandler}>
+        <FilterItem value="champion" title={t("filters.champion")} hasValue={!!championId} onClear={clearChampionIdHandler}>
           <Search size="sm" value={championSearch} onSearch={searchChampionHandler} className="plane-input" />
           <FilterList
             items={champions.map((champion) => ({ value: champion.id, label: champion.name }))}
@@ -74,7 +74,7 @@ const SearchFilters: FC = () => {
             isLoading={isChampionsLoading}
           />
         </FilterItem>
-        <FilterItem value="rarity" title="Rarity" hasValue={!!rarity} onClear={clearRarityHandler}>
+        <FilterItem value="rarity" title={t("filters.rarity")} hasValue={!!rarity} onClear={clearRarityHandler}>
           <ToggleGroup
             type="single"
             size="sm"
@@ -88,7 +88,7 @@ const SearchFilters: FC = () => {
               <ToggleGroupItem
                 key={rarity}
                 value={rarity}
-                aria-label="Toggle top"
+                aria-label={t(`rarity.${rarity}`)}
                 className="w-fit h-8 items-center justify-start"
               >
                 {t(`rarity.${rarity}`)}
@@ -96,7 +96,7 @@ const SearchFilters: FC = () => {
             ))}
           </ToggleGroup>
         </FilterItem>
-        <FilterItem value="skinline" title="Skinline" hasValue={!!skinlineId} onClear={clearSkinlineIdHandler}>
+        <FilterItem value="skinline" title={t("filters.skinline")} hasValue={!!skinlineId} onClear={clearSkinlineIdHandler}>
           <Search size="sm" value={skinlineSearch} onSearch={searchSkinlineHandler} className="plane-input" />
           <FilterList
             items={skinlines.map((skinline) => ({ value: skinline.id.toString(), label: skinline.name }))}
@@ -105,7 +105,7 @@ const SearchFilters: FC = () => {
             isLoading={isSkinlinesLoading}
           />
         </FilterItem>
-        <FilterItem value="chroma" title="Chroma" hasValue={!!chroma} onClear={clearChromaHandler}>
+        <FilterItem value="chroma" title={t("filters.chroma")} hasValue={!!chroma} onClear={clearChromaHandler}>
           <Search size="sm" value={chromaSearch} onSearch={searchChromaHandler} className="plane-input" />
           <FilterList
             items={chromas.map((chroma) => ({

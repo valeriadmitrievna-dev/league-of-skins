@@ -3,6 +3,12 @@
     "title": "League of Legends Skins Wishlists",
     "wishlists": "Wishlists"
   },
+  "header": {
+    "wishlists": "Wishlists",
+    "about": "About project",
+    "signin": "Sign In",
+    "signup": "Sign Up"
+  },
   "shared": {
     "search": "Search",
     "back": "Back"
@@ -15,6 +21,27 @@
     "kTranscendent": "Transcendent",
     "kRare": "Rare",
     "kUltimate": "Ultimate",
-    "kExalted": "Exalted"
+    "kExalted": "Exalted",
+    "legacy": "Legacy"
+  },
+  "filters": {
+    "title": "Filters",
+    "reset": "Reset",
+    "clear": "Clear",
+    "legacy": "Show legacy",
+    "champion": "Champion",
+    "rarity": "Rarity",
+    "skinline": "Skinline",
+    "chroma": "Chroma"
+  },
+  "skin": {
+    "add": "Add to wishlist",
+    "spotlight": "Search spotlight",
+    "chromas": "Chromas",
+    "baseChroma": "In game"
+  },
+  "wishlist": {
+    "create": "Create wishlist",
+    "createAndAdd": "Create wishlist and add"
   }
 }

@@ -3,6 +3,12 @@
     "title": "League of Legends Вишлисты скинов",
     "wishlists": "Вишлисты"
   },
+  "header": {
+    "wishlists": "Вишлисты",
+    "about": "О проекте",
+    "signin": "Вход",
+    "signup": "Регистрация"
+  },
   "shared": {
     "search": "Поиск",
     "back": "Назад"
@@ -15,6 +21,27 @@
     "kTranscendent": "Божественный",
     "kRare": "Редкий",
     "kUltimate": "Абсолютный",
-    "kExalted": "Возвышенный"
+    "kExalted": "Возвышенный",
+    "legacy": "Архивный"
+  },
+  "filters": {
+    "title": "Фильтры",
+    "reset": "Сбросить",
+    "clear": "Очистить",
+    "legacy": "Показывать архивные",
+    "champion": "Чемпион",
+    "rarity": "Редкость",
+    "skinline": "Линейка образов",
+    "chroma": "Цветовая схема"
+  },
+  "skin": {
+    "add": "Добавить в вишлист",
+    "spotlight": "Найти спотлайт",
+    "chromas": "Цветовые схемы",
+    "baseChroma": "В игре"
+  },
+  "wishlist": {
+    "create": "Создать вишлист",
+    "createAndAdd": "Создать вишлист и добавить в него"
   }
 }

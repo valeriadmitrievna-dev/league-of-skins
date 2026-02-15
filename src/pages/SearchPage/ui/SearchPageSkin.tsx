@@ -92,7 +92,7 @@ const SearchPageSkin: FC = () => {
             {skin.chromaPath && (
               <div className="w-64 bg-muted p-4 rounded-md flex items-center justify-center relative">
                 <Image src={skin.chromaPath} className="w-full object-cover" />
-                <Badge className="absolute bottom-4">In game</Badge>
+                <Badge className="absolute bottom-4">{t('skin.baseChroma')}</Badge>
               </div>
             )}
             <div className="flex flex-col gap-y-2 max-w-164">
@@ -122,7 +122,7 @@ const SearchPageSkin: FC = () => {
                 <AddToWishlist
                   trigger={({ onOpen }) => (
                     <Button className="w-fit" onClick={onOpen}>
-                      Add to wishlist
+                      {t('skin.add')}
                     </Button>
                   )}
                 />
@@ -132,7 +132,7 @@ const SearchPageSkin: FC = () => {
                     target="_blank"
                   >
                     <PlayIcon />
-                    Search spotlight
+                    {t('skin.spotlight')}
                   </NavLink>
                 </Button>
               </div>
@@ -141,7 +141,7 @@ const SearchPageSkin: FC = () => {
 
           {!!skin.chromas?.length && (
             <div className="pt-6 flex flex-col gap-y-2">
-              <p className="text-xl font-semibold">Chromas</p>
+              <p className="text-xl font-semibold">{t('skin.chromas')}</p>
               <div className="grid gap-4 grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 bg-muted p-4 rounded-md">
                 {skin.chromas.map((chroma) => (
                   <div key={chroma.contentId} className="flex flex-col items-center relative group">

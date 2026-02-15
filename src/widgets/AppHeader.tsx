@@ -20,11 +20,11 @@ const AppHeader: FC = () => {
       </NavLink>
       <nav className="flex items-center gap-3">
         <Button className="text-base" variant="ghost" asChild>
-          <NavLink to="/support">Support project</NavLink>
+          <NavLink to="/about">{t("header.about")}</NavLink>
         </Button>
         {isAuth && (
           <Button className="text-base" variant="ghost" asChild>
-            <NavLink to="/wishlists">{t("app.wishlists")}</NavLink>
+            <NavLink to="/wishlists">{t("header.wishlists")}</NavLink>
           </Button>
         )}
         <LanguageSwitcher />
@@ -33,11 +33,11 @@ const AppHeader: FC = () => {
         {!isAuth && (
           <div className="flex items-center gap-x-2 ml-2">
             <Button className="text-base" variant="secondary" asChild>
-              <NavLink to="/signup">Sign Up</NavLink>
+              <NavLink to="/signup">{t("header.signup")}</NavLink>
             </Button>
             <Separator orientation="vertical" className='h-4!' />
             <Button className="text-base" variant="secondary" asChild>
-              <NavLink to="/signin">Sign In</NavLink>
+              <NavLink to="/signin">{t("header.signin")}</NavLink>
             </Button>
           </div>
         )}

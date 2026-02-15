@@ -32,7 +32,7 @@ const SkinCard: FC<SkinCardProps> = ({ data }) => {
         className="relative aspect-11/20 w-full object-cover origin-center scale-107"
       />
       <div className="absolute top-2 end-2 z-3 flex gap-1">
-        {data.isLegacy && <Badge variant="secondary">Legacy</Badge>}
+        {data.isLegacy && <Badge variant="secondary">{t('rarity.legacy')}</Badge>}
         {data.rarity !== "kNoRarity" && <Badge variant="secondary">{t(`rarity.${data.rarity}`)}</Badge>}
       </div>
       <CardContent
