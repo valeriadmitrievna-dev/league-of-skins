@@ -5,9 +5,13 @@ import AppLogo from "@/components/AppLogo";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Button } from "@/components/ui/button";
+import { useSelector } from "react-redux";
+import { appAuthSelector } from "@/store";
+import { Separator } from "@/components/ui/separator";
 
 const AppHeader: FC = () => {
   const { t } = useTranslation();
+  const isAuth = useSelector(appAuthSelector);
 
   return (
     <div className="flex items-center justify-between px-5 py-3 mx-auto w-full xl:max-w-360 2xl:max-w-400">
@@ -18,11 +22,25 @@ const AppHeader: FC = () => {
         <Button className="text-base" variant="ghost" asChild>
           <NavLink to="/support">Support project</NavLink>
         </Button>
-        <Button className="text-base" variant="ghost" asChild>
-          <NavLink to="/wishlists">{t("app.wishlists")}</NavLink>
-        </Button>
+        {isAuth && (
+          <Button className="text-base" variant="ghost" asChild>
+            <NavLink to="/wishlists">{t("app.wishlists")}</NavLink>
+          </Button>
+        )}
         <LanguageSwitcher />
         <ThemeSwitcher />
+
+        {!isAuth && (
+          <div className="flex items-center gap-x-2 ml-2">
+            <Button className="text-base" variant="secondary" asChild>
+              <NavLink to="/signup">Sign Up</NavLink>
+            </Button>
+            <Separator orientation="vertical" className='h-4!' />
+            <Button className="text-base" variant="secondary" asChild>
+              <NavLink to="/signin">Sign In</NavLink>
+            </Button>
+          </div>
+        )}
       </nav>
     </div>
   );

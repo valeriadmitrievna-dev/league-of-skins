@@ -5,11 +5,13 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 export interface AppState {
   language: string;
   theme: Theme;
+  isAuth: boolean;
 }
 
 const initialState: AppState = {
   language: localStorage.getItem("language") || navigator.language.replace("-", "_") || "en",
   theme: (localStorage.getItem("theme") as Theme) || "system",
+  isAuth: false,
 };
 
 export const appSlice = createSlice({
