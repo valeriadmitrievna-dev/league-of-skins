@@ -2,8 +2,8 @@ import type { ODataRequest, ODataResponse, WithLanguage } from "@/shared/types";
 import type { ChampionDto, ChromaDto, SkinlineDto, SkinDto } from "@/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { SkinsRequest } from "./types";
-import { LANGUAGES } from "@/shared/constants/languages";
 import { getColorsString } from "@/shared/utils/getColorsString";
+import { getLanguageCode } from "@/shared/utils/getLanguageCode";
 
 export const dataApi = createApi({
   reducerPath: "dataApi",
@@ -24,7 +24,7 @@ export const dataApi = createApi({
     getChromas: build.query<ODataResponse<ChromaDto[]>, WithLanguage<ODataRequest | void>>({
       query: ({ lang }) => ({
         url: "/shared/chromas",
-        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES]?.code },
+        headers: { "App-Language": getLanguageCode(lang) },
       }),
     }),
 
@@ -33,7 +33,7 @@ export const dataApi = createApi({
       query: ({ lang, ...params }) => ({
         url: "/skinlines",
         params,
-        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES]?.code },
+        headers: { "App-Language": getLanguageCode(lang) },
       }),
     }),
 
@@ -42,13 +42,13 @@ export const dataApi = createApi({
       query: ({ lang, ...params }) => ({
         url: "/champions",
         params: params ?? {},
-        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES]?.code },
+        headers: { "App-Language": getLanguageCode(lang) },
       }),
     }),
     getChampionById: build.query<ChampionDto, WithLanguage<{ id: string }>>({
       query: ({ lang, id }) => ({
         url: "/champions/" + id,
-        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES]?.code },
+        headers: { "App-Language": getLanguageCode(lang) },
       }),
     }),
 
@@ -57,13 +57,13 @@ export const dataApi = createApi({
       query: ({ lang, colors, isLegacy, ...params }) => ({
         url: "/skins",
         params: params ? { ...params, colors: getColorsString(colors), isLegacy: String(isLegacy) } : {},
-        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES]?.code },
+        headers: { "App-Language": getLanguageCode(lang) },
       }),
     }),
     getSkin: build.query<SkinDto, WithLanguage<{ contentId: string }>>({
       query: ({ lang, contentId }) => ({
         url: "/skins/" + contentId,
-        headers: { "App-Language": LANGUAGES[lang as keyof typeof LANGUAGES]?.code },
+        headers: { "App-Language": getLanguageCode(lang) },
       }),
     }),
   }),
