@@ -2,8 +2,6 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@tailwind base;
-@tailwind components;
 @tailwind utilities;
 
 @custom-variant dark (&:is(.dark *));
@@ -179,6 +177,7 @@ button {
 @custom-variant data-state-on (&[data-state="on"]);
 @custom-variant data-state-off (&[data-state="off"]);
 
+/* opera video utils */
 #detach-button-host {
   display: none !important;
 }
