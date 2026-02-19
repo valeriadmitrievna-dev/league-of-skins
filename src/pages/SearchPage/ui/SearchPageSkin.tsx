@@ -148,7 +148,7 @@ const SearchPageSkin: FC = () => {
                   <div key={chroma.contentId} className="flex flex-col items-center relative group">
                     <Image
                       src={chroma.path}
-                      className="w-full transition-opacity group-hover:opacity-50 inset-shadow-neutral-100 inset-shadow-[0_0_8px_8px]"
+                      className="w-full transition-opacity group-hover:opacity-50"
                     />
                     <Badge className="absolute bottom-4">{getChromaColorName(chroma.name, i18n.language)}</Badge>
                     <AddToWishlist

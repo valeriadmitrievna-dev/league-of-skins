@@ -8,7 +8,7 @@ import { getLanguageCode } from "@/shared/utils/getLanguageCode";
 export const dataApi = createApi({
   reducerPath: "dataApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api",
+    baseUrl: "https://league-of-skins-api.onrender.com/api",
   }),
   endpoints: (build) => ({
     // shared

@@ -11,7 +11,7 @@ export interface AppState {
 const initialState: AppState = {
   language: localStorage.getItem("language") || navigator.language.replace("-", "_") || "en",
   theme: (localStorage.getItem("theme") as Theme) || "system",
-  isAuth: false,
+  isAuth: true,
 };
 
 export const appSlice = createSlice({
