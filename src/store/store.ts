@@ -12,7 +12,10 @@ export const store = configureStore({
     filters: filtersReducer,
     [dataApi.reducerPath]: dataApi.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(dataApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    immutableCheck: false,
+    serializableCheck: false,
+  }).concat(dataApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

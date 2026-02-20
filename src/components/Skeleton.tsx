@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { ComponentProps, FC } from "react";
+import { uniqueId } from 'lodash';
 
 interface SkeletonProps extends ComponentProps<"div"> {
   rounded?: boolean;
@@ -23,13 +24,13 @@ const Skeleton: FC<SkeletonProps> = ({ count = 1, asChild, ...props }) => {
     return (
       <div className="flex flex-col gap-2 w-full">
         {Array.from({ length: count }, () => (
-          <SkeletonItem {...props} />
+          <SkeletonItem key={uniqueId()} {...props} />
         ))}
       </div>
     );
   }
 
-  return Array.from({ length: count }, () => <SkeletonItem {...props} />);
+  return Array.from({ length: count }, () => <SkeletonItem key={uniqueId()} {...props} />);
 };
 
 export default Skeleton;

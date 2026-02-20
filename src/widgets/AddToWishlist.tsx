@@ -41,7 +41,7 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger }) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>{trigger({ openState: open, onOpen: openHandler })}</DialogTrigger>
+      <DialogTrigger asChild>{trigger({ openState: open, onOpen: openHandler })}</DialogTrigger>
       <DialogContent showCloseButton={false}>
         <div className="flex flex-col gap-y-2">
           <span className="text-foreground/50 px-2.5">{t('app.wishlists')}</span>
