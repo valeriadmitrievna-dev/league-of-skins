@@ -1,11 +1,11 @@
 import Skeleton from "@/components/Skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useCallback, useEffect, useRef, useState, type FC } from "react";
+import { useCallback, useEffect, useRef, useState, type FC, type ReactNode } from "react";
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List, type ListRowRenderer } from "react-virtualized";
 
 interface FilterListProps {
-  items: { value: string; label: string }[];
+  items: { value: string; label: string, prefix?: ReactNode; suffix?: ReactNode }[];
   value: string;
   onChange: (value: string) => void;
   isLoading?: boolean;
@@ -50,7 +50,7 @@ const FilterList: FC<FilterListProps> = ({ items, value, onChange, isLoading }) 
             <div ref={registerChild} style={style}>
               <ToggleGroupItem
                 className="
-                  w-full flex justify-start
+                  w-full flex justify-start gap-2
                   transition-colors hover:text-foreground
                   hover:bg-neutral-300/50 data-state-on:bg-neutral-300
                   dark:hover:bg-neutral-700/50 dark:data-state-on:bg-neutral-700
@@ -59,7 +59,9 @@ const FilterList: FC<FilterListProps> = ({ items, value, onChange, isLoading }) 
                 value={item.value}
                 aria-label={item.label}
               >
-                {item.label}
+                {!!item.prefix && <div className='shrink-0'>{item.prefix}</div>}
+                <span>{item.label}</span>
+                {!!item.suffix && <div className='shrink-0 ml-auto'>{item.suffix}</div>}
               </ToggleGroupItem>
             </div>
           )}

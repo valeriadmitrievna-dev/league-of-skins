@@ -11,6 +11,7 @@ import { getColorsString } from "@/shared/utils/getColorsString";
 import FilterItem from "@/widgets/FilterItem";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import ChromaColor from '@/components/ChromaColor';
 
 const SearchFilters: FC = () => {
   const { t } = useTranslation();
@@ -60,7 +61,7 @@ const SearchFilters: FC = () => {
           </Button>
         )}
       </div>
-      <Accordion type="multiple" defaultValue={["rarity"]}>
+      <Accordion type="multiple" defaultValue={["chroma"]}>
         <Label htmlFor="legacy" className="border-b h-9 flex items-center justify-between cursor-pointer">
           {t("filters.legacy")}
           <Switch id="legacy" checked={isLegacyEnabled} onCheckedChange={toggleLegacyHandler}/>
@@ -110,7 +111,8 @@ const SearchFilters: FC = () => {
           <FilterList
             items={chromas.map((chroma) => ({
               value: getColorsString(chroma.colors)!,
-              label: chroma.isUnique ? chroma.name : `${chroma.name} (${chroma.skinName})`,
+              label: chroma.name,
+              prefix: <ChromaColor colors={chroma.colors} />
             }))}
             value={chroma ? getColorsString(chroma.colors)! : ""}
             onChange={changeChromaHandler}

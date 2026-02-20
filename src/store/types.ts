@@ -1,8 +1,6 @@
 export interface ChromaDto {
   name: string;
-  skinName: string;
   colors: string[];
-  isUnique: boolean;
 }
 
 export interface SkinlineDto {
