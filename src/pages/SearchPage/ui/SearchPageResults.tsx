@@ -7,9 +7,11 @@ import SkinCard from "@/widgets/SkinCard";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { useWindowSize } from "react-use";
 import Skeleton from '@/components/Skeleton';
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from '@/components/ui/empty';
+import { Button } from '@/components/ui/button';
 
 const SearchPageResults: FC = () => {
-  const { skins, searchInput, searchHandler, clearSearchHandler, isLoading } = useSearchPage();
+  const { skins, searchInput, searchHandler, clearSearchHandler, fullResetHandler, isLoading, count } = useSearchPage();
 
   const parentRef = useRef<HTMLDivElement | null>(null);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -52,13 +54,27 @@ const SearchPageResults: FC = () => {
     <div ref={parentRef} className="flex flex-col gap-3 h-full w-full">
       <Search size="lg" value={searchInput} onSearch={searchHandler} onClear={clearSearchHandler} />
 
-      {isLoading && !skins.length && (
+      {isLoading && !count && (
         <div className='grid grid-cols-3 gap-3 xl:grid-cols-4 2xl:grid-cols-5'>
           <Skeleton count={10} asChild className='h-auto aspect-11/20' />
         </div>
       )}
 
-      {!!skins.length && (
+      {!isLoading && !count && (
+        <Empty className="w-full h-full max-h-120">
+          <EmptyHeader>
+            <EmptyTitle>No Skins Found</EmptyTitle>
+            <EmptyDescription>Your search did not match any skins. Please clear filters to try again.</EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent className="justify-center">
+            <Button className="cursor-pointer" onClick={fullResetHandler}>
+              Reset filters
+            </Button>
+          </EmptyContent>
+        </Empty>
+      )}
+
+      {!!count && (
         <div
           style={{
             position: "relative",

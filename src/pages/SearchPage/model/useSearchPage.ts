@@ -57,7 +57,7 @@ const useSearchPage = () => {
 
   const fullResetHandler = () => {
     dispatch(resetFilters());
-    dispatch(setFilterSearch(""));
+    setSearchInput("");
   };
 
   return { skins, count, isLoading, searchInput, searchHandler, clearSearchHandler, fullResetHandler };
