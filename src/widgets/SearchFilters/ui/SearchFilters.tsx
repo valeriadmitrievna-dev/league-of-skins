@@ -61,7 +61,7 @@ const SearchFilters: FC = () => {
           </Button>
         )}
       </div>
-      <Accordion type="multiple" defaultValue={["chroma"]}>
+      <Accordion type="multiple" defaultValue={["rarity"]}>
         <Label htmlFor="legacy" className="border-b h-9 flex items-center justify-between cursor-pointer">
           {t("filters.legacy")}
           <Switch id="legacy" checked={isLegacyEnabled} onCheckedChange={toggleLegacyHandler}/>

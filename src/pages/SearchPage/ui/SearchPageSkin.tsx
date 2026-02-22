@@ -91,7 +91,7 @@ const SearchPageSkin: FC = () => {
 
           <div className="pt-4 flex gap-x-4">
             {skin.chromaPath && (
-              <div className="w-64 bg-muted p-4 rounded-md flex items-center justify-center relative">
+              <div className="w-64 bg-muted p-4 rounded-md flex items-center justify-center relative aspect-90/101">
                 <Image src={skin.chromaPath} className="w-full object-cover" />
                 <Badge className="absolute bottom-4">{t("skin.baseChroma")}</Badge>
               </div>
@@ -118,7 +118,7 @@ const SearchPageSkin: FC = () => {
                 ))}
               </div>
               <p className="text-2xl font-bold">{skin.name}</p>
-              <p className="">{skin.description}</p>
+              <p dangerouslySetInnerHTML={{ __html: skin.description }} />
               <div className="mt-2 flex items-center gap-x-2">
                 <AddToWishlist
                   trigger={({ onOpen }) => (
@@ -145,7 +145,7 @@ const SearchPageSkin: FC = () => {
               <p className="text-xl font-semibold">{t("skin.chromas")}</p>
               <div className="grid gap-4 grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 bg-muted p-4 rounded-md">
                 {skin.chromas.map((chroma) => (
-                  <div key={chroma.contentId} className="flex flex-col items-center relative group">
+                  <div key={chroma.contentId} className="flex flex-col items-center relative group aspect-90/101">
                     <Image
                       src={chroma.path}
                       className="w-full transition-opacity group-hover:opacity-50"
@@ -179,7 +179,7 @@ const SearchPageSkin: FC = () => {
                 {skin.features.map((feature) => (
                   <Card className="relative rounded-md w-full py-0 overflow-hidden">
                     <div className='absolute top-2 left-2 z-5 flex gap-x-2 pointer-events-none'>
-                      <Image src={feature.iconPath} className='rounded-md' />
+                      <Image src={feature.iconPath} className='rounded-md aspect-square' />
                       <span className='bg-muted/50 h-fit rounded-sm px-2 py-1 font-medium'>{feature.description}</span>
                     </div>
                     <Video src={feature.videoPath} className="aspect-22/15" controls />

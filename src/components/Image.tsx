@@ -28,6 +28,8 @@ const Image: FC<ImageProps> = ({ src, className, ...props }) => {
     loadImage();
   }, [src]);
 
+  console.log('[DEV]', state);
+
   if (state === "loading") {
     return <Skeleton className={cn("h-auto", className)} />;
   }
