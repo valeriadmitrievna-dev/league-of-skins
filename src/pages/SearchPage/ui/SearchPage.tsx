@@ -6,7 +6,7 @@ import { SearchFilters } from "@/widgets/SearchFilters";
 
 const SearchPage: FC = () => {
   return (
-    <div className="w-full grid grid-cols-[320px_1fr] gap-5 p-5 mx-auto xl:max-w-360 2xl:max-w-400">
+    <div className="w-full grid grid-cols-[320px_1fr] gap-5">
       <div className="flex flex-col gap-y-4">
         {/* <div className="border border-dashed rounded-md border-foreground/25 text-neutral-300 dark:text-neutral-600 h-36 flex flex-col items-center justify-center gap-y-2">
           <MegaphoneIcon />

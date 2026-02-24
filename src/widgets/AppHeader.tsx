@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import { appAuthSelector } from "@/store";
 import { Separator } from "@/components/ui/separator";
+import { UserRoundIcon } from "lucide-react";
 
 const AppHeader: FC = () => {
   const { t } = useTranslation();
@@ -35,11 +36,19 @@ const AppHeader: FC = () => {
             <Button className="text-base" variant="secondary" asChild>
               <NavLink to="/auth/signup">{t("header.signup")}</NavLink>
             </Button>
-            <Separator orientation="vertical" className='h-4!' />
+            <Separator orientation="vertical" className="h-4!" />
             <Button className="text-base" variant="secondary" asChild>
               <NavLink to="/auth/signin">{t("header.signin")}</NavLink>
             </Button>
           </div>
+        )}
+
+        {isAuth && (
+          <Button asChild variant="outline" size="icon">
+            <NavLink to="/user">
+              <UserRoundIcon />
+            </NavLink>
+          </Button>
         )}
       </nav>
     </div>

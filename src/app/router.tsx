@@ -1,9 +1,10 @@
 import { createBrowserRouter } from "react-router";
 import { LayoutPage } from "@/pages/LayoutPage";
 import { SearchPage, SearchPageResults, SearchPageSkin } from "@/pages/SearchPage";
+import { AuthProvider } from "@/shared/providers";
 import SignUpPage from "@/pages/SignUpPage";
 import SignInPage from "@/pages/SignInPage";
-import { AuthProvider } from '@/shared/providers';
+import UserPage from "@/pages/UserPage";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
         ],
       },
       { path: "/wishlists", element: <>wishlists</> },
+      {
+        path: "/user",
+        element: <UserPage />,
+      },
       { path: "*", element: "404" },
     ],
   },
