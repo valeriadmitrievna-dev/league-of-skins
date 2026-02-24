@@ -14,3 +14,11 @@ export interface ODataRequest {
   page?: number;
   size?: number;
 }
+
+export interface ApiErrorPayload {
+  data: ApiErrorResponse;
+}
+
+export interface ApiErrorResponse {
+  message: string;
+}

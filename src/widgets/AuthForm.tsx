@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Field, FieldContent, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { Spinner } from '@/components/ui/spinner';
 import { cn } from "@/lib/utils";
 import type { ComponentProps, FC, PropsWithChildren, ReactNode } from "react";
-import RiotIcon from '@/shared/assets/riot-games-color.svg?react';
 
 interface AuthFormTitleProps {
   children: string;
@@ -17,6 +17,7 @@ interface AuthFormContainerProps extends PropsWithChildren {
   title?: string;
   onSubmit?: () => void;
   extra?: ReactNode;
+  loading?: boolean;
 }
 
 interface AuthFormTextInputProps extends Omit<ComponentProps<"input">, "className"> {
@@ -24,6 +25,7 @@ interface AuthFormTextInputProps extends Omit<ComponentProps<"input">, "classNam
   label?: string;
   icon?: ReactNode;
   description?: string;
+  onValueChange?: (value: string) => void;
 }
 
 const AuthFormWrapper: FC<PropsWithChildren> = ({ children }) => {
@@ -34,7 +36,7 @@ const AuthFormTitle: FC<AuthFormTitleProps> = ({ children, className }) => {
   return <h1 className={cn("text-2xl font-semibold", className)}>{children}</h1>;
 };
 
-const AuthFormContainer: FC<AuthFormContainerProps> = ({ title, children, onSubmit, extra }) => {
+const AuthFormContainer: FC<AuthFormContainerProps> = ({ title, children, onSubmit, loading, extra }) => {
   // -- replace card mb
   return (
     <Card className="px-5 py-6 max-w-full w-100 relative">
@@ -44,12 +46,9 @@ const AuthFormContainer: FC<AuthFormContainerProps> = ({ title, children, onSubm
       </div>
       <div className="flex flex-col gap-y-4">{children}</div>
       <div className="p-0 flex items-center gap-3">
-        <Button size="lg" onClick={onSubmit}>
+        <Button size="lg" onClick={onSubmit} disabled={loading}>
+          {loading && <Spinner data-icon="inline-start" />}
           Submit
-        </Button>
-        <Button variant="ghost" size="lg">
-          <RiotIcon className="size-6!" />
-          Riot account
         </Button>
       </div>
       {!!extra && <p className="text-muted-foreground">{extra}</p>}
@@ -57,7 +56,20 @@ const AuthFormContainer: FC<AuthFormContainerProps> = ({ title, children, onSubm
   );
 };
 
-const AuthFormTextInput: FC<AuthFormTextInputProps> = ({ id, label, icon, description, ...props }) => {
+const AuthFormTextInput: FC<AuthFormTextInputProps> = ({
+  id,
+  label,
+  icon,
+  description,
+  onChange,
+  onValueChange,
+  ...props
+}) => {
+  const changeHandler: AuthFormTextInputProps["onChange"] = (event) => {
+    onChange?.(event);
+    onValueChange?.(event.target.value ?? "");
+  };
+
   return (
     <Field className="gap-y-2">
       {!!label && <FieldLabel htmlFor={id}>{label}</FieldLabel>}
@@ -67,6 +79,7 @@ const AuthFormTextInput: FC<AuthFormTextInputProps> = ({ id, label, icon, descri
           <InputGroupInput
             id={id}
             className="transition-none autofill:shadow-[inset_0_0_0px_1000px_var(--muted)] autofill:text-foreground!"
+            onChange={changeHandler}
             {...props}
           />
         </InputGroup>

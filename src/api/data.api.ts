@@ -1,4 +1,4 @@
-import type { ODataRequest, ODataResponse, WithLanguage } from "@/shared/types";
+import type { ODataRequest, ODataResponse, WithLanguage } from "@/types/shared";
 import type { ChampionDto, ChromaDto, SkinlineDto, SkinDto } from "@/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { SkinsRequest } from "./types";

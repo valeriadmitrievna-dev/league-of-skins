@@ -1,26 +1,25 @@
-import { useRegistrationMutation } from "@/api";
+import { useLoginMutation } from "@/api";
 import { Button } from "@/components/ui/button";
-import { setAppAuth } from "@/store";
+import { setAppAuth } from '@/store';
 import { AuthForm } from "@/widgets/AuthForm";
-import { LockIcon, MailIcon, UserIcon } from "lucide-react";
+import { LockIcon, MailIcon } from "lucide-react";
 import { useState, type FC } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 import { NavLink } from "react-router";
 
-const SignUpPage: FC = () => {
+const SignInPage: FC = () => {
   const dispatch = useDispatch();
 
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [registrationMutation, { isLoading }] = useRegistrationMutation();
+  const [loginMutation, { isLoading }] = useLoginMutation();
 
   const submitHandler = async () => {
-    const { data, error } = await registrationMutation({ name, email, password });
+    const { data, error } = await loginMutation({ email, password });
 
     if (data && !error) {
-      localStorage.setItem("access-token", data.access);
+      localStorage.setItem('access-token', data.access);
       dispatch(setAppAuth(true));
     }
   };
@@ -28,26 +27,18 @@ const SignUpPage: FC = () => {
   return (
     <AuthForm.Wrapper>
       <AuthForm.Form
-        title="Sign Up"
-        loading={isLoading}
+        title="Sign In"
         onSubmit={submitHandler}
+        loading={isLoading}
         extra={
           <p>
-            Already have an account?{" "}
+            Don't have an account?{" "}
             <Button variant="link" className="p-0 px-1" asChild>
-              <NavLink to="/auth/signin">Sign in</NavLink>
+              <NavLink to="/auth/signup">Sign up</NavLink>
             </Button>
           </p>
         }
       >
-        <AuthForm.TextInput
-          id="name"
-          icon={<UserIcon />}
-          placeholder="Enter your name"
-          value={name}
-          onValueChange={setName}
-          disabled={isLoading}
-        />
         <AuthForm.TextInput
           id="email"
           icon={<MailIcon />}
@@ -71,4 +62,4 @@ const SignUpPage: FC = () => {
   );
 };
 
-export default SignUpPage;
+export default SignInPage;

@@ -33,11 +33,11 @@ const AppHeader: FC = () => {
         {!isAuth && (
           <div className="flex items-center gap-x-2 ml-2">
             <Button className="text-base" variant="secondary" asChild>
-              <NavLink to="/signup">{t("header.signup")}</NavLink>
+              <NavLink to="/auth/signup">{t("header.signup")}</NavLink>
             </Button>
             <Separator orientation="vertical" className='h-4!' />
             <Button className="text-base" variant="secondary" asChild>
-              <NavLink to="/signin">{t("header.signin")}</NavLink>
+              <NavLink to="/auth/signin">{t("header.signin")}</NavLink>
             </Button>
           </div>
         )}

@@ -3,12 +3,13 @@ import { RouterProvider } from "react-router";
 import { router } from "./router";
 import { Provider } from "react-redux";
 import { store } from "@/store";
-import { ThemeProvider } from "@/shared/providers";
+import { ThemeProvider, ToastsProvider } from "@/shared/providers";
 
 const App: FC = () => {
   return (
     <Provider store={store}>
       <ThemeProvider>
+        <ToastsProvider />
         <RouterProvider router={router} />
       </ThemeProvider>
     </Provider>

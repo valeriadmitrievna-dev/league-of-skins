@@ -1,7 +1,9 @@
 import { createBrowserRouter } from "react-router";
 import { LayoutPage } from "@/pages/LayoutPage";
 import { SearchPage, SearchPageResults, SearchPageSkin } from "@/pages/SearchPage";
-import SignUpPage from '@/pages/SignUpPage';
+import SignUpPage from "@/pages/SignUpPage";
+import SignInPage from "@/pages/SignInPage";
+import { AuthProvider } from '@/shared/providers';
 
 export const router = createBrowserRouter([
   {
@@ -13,19 +15,25 @@ export const router = createBrowserRouter([
         element: <SearchPage />,
         children: [
           { index: true, element: <SearchPageResults /> },
-          { path: ':skinContentId', element: <SearchPageSkin /> },
+          { path: ":skinContentId", element: <SearchPageSkin /> },
         ],
       },
-      { path: '/wishlists', element: <>wishlists</> },
+      { path: "/wishlists", element: <>wishlists</> },
       { path: "*", element: "404" },
     ],
   },
   {
-    path: "/signup",
-    element: <SignUpPage />,
-  },
-  {
-    path: "/signin",
-    element: <div className='px-5 py-3 mx-auto w-full xl:max-w-360 2xl:max-w-400'>Sign In</div>,
+    path: "/auth",
+    element: <AuthProvider />,
+    children: [
+      {
+        path: "signup",
+        element: <SignUpPage />,
+      },
+      {
+        path: "signin",
+        element: <SignInPage />,
+      },
+    ],
   },
 ]);

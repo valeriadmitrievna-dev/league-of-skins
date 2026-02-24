@@ -1,4 +1,4 @@
-import type { Theme } from "@/shared/types";
+import type { Theme } from "@/types/shared";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -11,7 +11,7 @@ export interface AppState {
 const initialState: AppState = {
   language: localStorage.getItem("language") || navigator.language.replace("-", "_") || "en",
   theme: (localStorage.getItem("theme") as Theme) || "system",
-  isAuth: true,
+  isAuth: !!localStorage.getItem("access-token"),
 };
 
 export const appSlice = createSlice({
@@ -20,7 +20,7 @@ export const appSlice = createSlice({
   reducers: {
     setLanguage: (state, { payload }: PayloadAction<string>) => {
       state.language = payload;
-      localStorage.setItem("language", payload);     
+      localStorage.setItem("language", payload);
     },
     setTheme: (state, { payload }: PayloadAction<Theme>) => {
       state.theme = payload;
@@ -35,9 +35,12 @@ export const appSlice = createSlice({
         localStorage.setItem("theme", "dark");
       }
     },
+    setAppAuth: (state, { payload }: PayloadAction<boolean>) => {
+      state.isAuth = payload;
+    },
   },
 });
 
-export const { setLanguage, setTheme, toggleTheme } = appSlice.actions;
+export const { setLanguage, setTheme, toggleTheme, setAppAuth } = appSlice.actions;
 
 export default appSlice.reducer;

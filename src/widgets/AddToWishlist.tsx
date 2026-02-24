@@ -22,7 +22,7 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger }) => {
     event.preventDefault();
 
     if (isAuth) setOpen(true);
-    else navigate("/signin");
+    else navigate("/auth/signin");
   };
 
   const addToExistingWishlist = async (event: MouseEvent<HTMLButtonElement>) => {
