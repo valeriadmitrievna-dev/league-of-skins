@@ -1,6 +1,5 @@
 import { useGetChampionsQuery, useGetChromasQuery, useGetRaritiesQuery, useGetSkinlinesQuery } from "@/api";
 import { checkSearch } from '@/shared/utils/checkSearch';
-import { getColorsString } from '@/shared/utils/getColorsString';
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import {
   filtersChampionIdSelector,
@@ -90,7 +89,7 @@ const useSearchFilters = () => {
 
   const changeChromaHandler = (value: string) => {
     if (value) {
-      const chroma = chromas.find(chroma => getColorsString(chroma.colors) === value);
+      const chroma = chromas.find(chroma => chroma.id === value);
       dispatch(setFilterChroma(chroma))
     }
     else dispatch(setFilterChroma(undefined));

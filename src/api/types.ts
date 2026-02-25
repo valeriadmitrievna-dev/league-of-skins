@@ -3,7 +3,8 @@ import type { ODataRequest } from '@/types/shared';
 export interface SkinsRequest extends ODataRequest {
   championId?: string;
   skinlineId?: string;
-  colors?: string[];
+  chromaName?: string;
+  chromaColors?: string;
   rarity?: string;
   isLegacy: boolean;
 }

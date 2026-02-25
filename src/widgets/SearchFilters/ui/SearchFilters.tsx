@@ -7,7 +7,6 @@ import { useSearchFilters } from "../model";
 import { useTranslation } from "react-i18next";
 import FilterList from "@/widgets/FilterList";
 import { Accordion } from "@/components/ui/accordion";
-import { getColorsString } from "@/shared/utils/getColorsString";
 import FilterItem from "@/widgets/FilterItem";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -61,7 +60,7 @@ const SearchFilters: FC = () => {
           </Button>
         )}
       </div>
-      <Accordion type="multiple" defaultValue={["rarity"]}>
+      <Accordion type="multiple" defaultValue={["chroma"]}>
         <Label htmlFor="legacy" className="border-b h-9 flex items-center justify-between cursor-pointer">
           {t("filters.legacy")}
           <Switch id="legacy" checked={isLegacyEnabled} onCheckedChange={toggleLegacyHandler}/>
@@ -110,11 +109,11 @@ const SearchFilters: FC = () => {
           <Search size="sm" value={chromaSearch} onSearch={searchChromaHandler} className="plane-input" />
           <FilterList
             items={chromas.map((chroma) => ({
-              value: getColorsString(chroma.colors)!,
+              value: chroma.id,
               label: chroma.name,
               prefix: <ChromaColor colors={chroma.colors} />
             }))}
-            value={chroma ? getColorsString(chroma.colors)! : ""}
+            value={chroma ? chroma.id : ""}
             onChange={changeChromaHandler}
             isLoading={isChromasLoading}
           />
