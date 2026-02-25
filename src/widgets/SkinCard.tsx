@@ -44,6 +44,7 @@ const SkinCard: FC<SkinCardProps> = ({ data }) => {
         "
       >
         <AddToWishlist
+          skinContentId={data.contentId}
           trigger={({ onOpen }) => (
             <Button
               variant="outline"

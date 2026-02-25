@@ -121,6 +121,7 @@ const SearchPageSkin: FC = () => {
               <p dangerouslySetInnerHTML={{ __html: skin.description }} />
               <div className="mt-2 flex items-center gap-x-2">
                 <AddToWishlist
+                  skinContentId={skin.contentId}
                   trigger={({ onOpen }) => (
                     <Button className="w-fit" onClick={onOpen}>
                       {t("skin.add")}
@@ -152,6 +153,7 @@ const SearchPageSkin: FC = () => {
                     />
                     <Badge className="absolute bottom-4">{getChromaColorName(chroma.name, i18n.language)}</Badge>
                     <AddToWishlist
+                      chromaId={chroma.id}
                       trigger={({ onOpen }) => (
                         <Button
                           className="

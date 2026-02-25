@@ -1,4 +1,5 @@
 export interface ChromaDto {
+  id: string;
   name: string;
   colors: string[];
 }
@@ -21,7 +22,7 @@ export interface ChampionDto {
 }
 
 export interface SkinDto {
-  id: number;
+  id: string;
   description: string;
   championId: string;
   championName: string;
@@ -42,7 +43,7 @@ export interface SkinDto {
   chromaPath: string | null;
   skinlines: SkinlineDto[];
   chromas: {
-    id: number;
+    id: string;
     name: string;
     path: string;
     contentId: string;

@@ -1,28 +1,56 @@
+import { useGetSkinQuery } from "@/api";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { appAuthSelector } from "@/store";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  // appAddChromaWaitingSelector,
+  appAddSkinWaitingSelector,
+  appAuthSelector,
+  setAddChromaWaiting,
+  setAddSkinWaiting,
+  type ChromaDto,
+  type SkinDto,
+} from "@/store";
 import { CirclePlusIcon, PlusIcon } from "lucide-react";
-import { useState, type FC, type MouseEvent, type ReactNode } from "react";
+import { useEffect, useState, type FC, type MouseEvent, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 interface AddToWishlistProps {
   trigger: (options: { openState: boolean; onOpen: (event: MouseEvent<HTMLElement>) => void }) => ReactNode;
+  skinContentId?: SkinDto["id"];
+  chromaId?: ChromaDto["id"];
 }
 
-const AddToWishlist: FC<AddToWishlistProps> = ({ trigger }) => {
-  const { t } = useTranslation();
+const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinContentId, chromaId }) => {
+  const { t, i18n } = useTranslation();
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const isAuth = useSelector(appAuthSelector);
+  const addSkinWaiting = useSelector(appAddSkinWaitingSelector);
+  // const addChromaWaiting = useSelector(appAddChromaWaitingSelector);
+
   const [open, setOpen] = useState(false);
+
+  const { data: skinData } = useGetSkinQuery(
+    { contentId: skinContentId!, lang: i18n.language },
+    { skip: !skinContentId || !open },
+  );
 
   const openHandler = (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     event.preventDefault();
 
+    if (!skinContentId && !chromaId) return;
+
     if (isAuth) setOpen(true);
-    else navigate("/auth/signin");
+    else {
+      if (skinContentId) dispatch(setAddSkinWaiting(skinContentId));
+      if (chromaId) dispatch(setAddChromaWaiting(chromaId));
+      navigate("/auth/signin");
+    }
   };
 
   const addToExistingWishlist = async (event: MouseEvent<HTMLButtonElement>) => {
@@ -39,12 +67,23 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger }) => {
     setOpen(false);
   };
 
+  useEffect(() => {
+    if (addSkinWaiting && !open && addSkinWaiting === skinContentId && isAuth) {
+      dispatch(setAddSkinWaiting(null));
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setOpen(true);
+    }
+  }, [isAuth, addSkinWaiting]);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger({ openState: open, onOpen: openHandler })}</DialogTrigger>
-      <DialogContent showCloseButton={false}>
+      <DialogContent showCloseButton={true}>
+        <DialogHeader className="px-2.5 pt-2">
+          <DialogTitle>Add to wishlist</DialogTitle>
+          <DialogDescription>Choose wishlist(-s) for {skinData?.name}</DialogDescription>
+        </DialogHeader>
         <div className="flex flex-col gap-y-2">
-          <span className="text-foreground/50 px-2.5">{t('app.wishlists')}</span>
           <div role="list">
             <div role="list-item" className="min-h-8  rounded-md flex items-center justify-between px-2.5 py-1 border-b">
               <span className="text-sm font-medium">Shared</span>
