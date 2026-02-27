@@ -54,7 +54,7 @@ const SkinsPage: FC = () => {
     <div ref={parentRef}>
       {isLoading && !count && (
         <div className="grid grid-cols-4 gap-3 xl:grid-cols-6 2xl:grid-cols-7">
-          <Skeleton count={10} asChild className="h-auto aspect-11/20" />
+          <Skeleton count={20} asChild className="h-auto aspect-11/20" />
         </div>
       )}
 
