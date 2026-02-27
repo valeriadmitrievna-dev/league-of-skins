@@ -9,11 +9,13 @@ export interface FiltersState {
   rarity?: string;
   chroma?: ChromaDto;
   isLegacyEnabled: boolean;
+  isShowOwnedEnabled: boolean;
 }
 
 const initialState: FiltersState = {
   search: "",
   isLegacyEnabled: true,
+  isShowOwnedEnabled: true,
 };
 
 export const filtersSlice = createSlice({
@@ -32,6 +34,7 @@ export const filtersSlice = createSlice({
       state.rarity = undefined;
       state.chroma = undefined;
       state.isLegacyEnabled = true;
+      state.isShowOwnedEnabled = true;
     },
     setFilterSearch: (state, { payload }: PayloadAction<string>) => {
       state.search = payload;
@@ -51,6 +54,9 @@ export const filtersSlice = createSlice({
     setFilterLegacy: (state, { payload }: PayloadAction<boolean>) => {
       state.isLegacyEnabled = payload;
     },
+    setFilterShowOwned: (state, { payload }: PayloadAction<boolean>) => {
+      state.isShowOwnedEnabled = payload;
+    },
   },
 });
 
@@ -63,6 +69,7 @@ export const {
   setFilterRarity,
   setFilterChroma,
   setFilterLegacy,
+  setFilterShowOwned,
 } = filtersSlice.actions;
 
 export default filtersSlice.reducer;

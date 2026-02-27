@@ -1,17 +1,19 @@
-import { useLayoutEffect, useMemo, useRef, useState, type FC } from "react";
-
-import { useSearchPage } from "../model";
-import { NavLink } from "react-router";
-import Search from "@/components/Search";
-import SkinCard from "@/widgets/SkinCard";
+import { useGetOwnedSkinsQuery } from "@/api";
+import Skeleton from "@/components/Skeleton";
+import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
+import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
+import type { SkinDto } from '@/store';
+import SkinCard from '@/widgets/SkinCard';
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
+import { useLayoutEffect, useMemo, useRef, useState, type FC } from "react";
+import { useTranslation } from "react-i18next";
+import { NavLink } from 'react-router';
 import { useWindowSize } from "react-use";
-import Skeleton from '@/components/Skeleton';
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from '@/components/ui/empty';
-import { Button } from '@/components/ui/button';
 
-const SearchPageResults: FC = () => {
-  const { skins, searchInput, searchHandler, clearSearchHandler, fullResetHandler, isLoading, count } = useSearchPage();
+const SkinsPage: FC = () => {
+  const { i18n } = useTranslation();
+  const { data, isLoading } = useGetOwnedSkinsQuery({ lang: i18n.language });
+  const { data: ownedSkins, count } = getODataWithDefault(data);
 
   const parentRef = useRef<HTMLDivElement | null>(null);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -30,13 +32,13 @@ const SearchPageResults: FC = () => {
   }, [isLoading]);
 
   const columns = useMemo(() => {
-    if (windowWidth >= 1536) return 5;
-    if (windowWidth >= 1280) return 4;
-    return 3;
+    if (windowWidth >= 1536) return 6;
+    if (windowWidth >= 1280) return 5;
+    return 4;
   }, [windowWidth]);
 
   const cardHeight = containerWidth > 0 ? (containerWidth / columns) * (20 / 11) : 460;
-  const rowCount = Math.ceil(skins.length / columns);
+  const rowCount = Math.ceil(ownedSkins.length / columns);
 
   const rowVirtualizer = useWindowVirtualizer({
     count: rowCount,
@@ -48,29 +50,20 @@ const SearchPageResults: FC = () => {
     rowVirtualizer.measure();
   }, [cardHeight]);
 
-  // TODO: add empty
-
   return (
-    <div ref={parentRef} className="flex flex-col gap-3 h-full w-full">
-      <Search size="lg" value={searchInput} onSearch={searchHandler} onClear={clearSearchHandler} />
-
+    <>
       {isLoading && !count && (
-        <div className='grid grid-cols-3 gap-3 xl:grid-cols-4 2xl:grid-cols-5'>
-          <Skeleton count={10} asChild className='h-auto aspect-11/20' />
+        <div className="grid grid-cols-3 gap-3 xl:grid-cols-6 2xl:grid-cols-7">
+          <Skeleton count={10} asChild className="h-auto aspect-11/20" />
         </div>
       )}
 
       {!isLoading && !count && (
         <Empty className="w-full h-full max-h-120">
           <EmptyHeader>
-            <EmptyTitle>No Skins Found</EmptyTitle>
-            <EmptyDescription>Your search did not match any skins. Please clear filters to try again.</EmptyDescription>
+            <EmptyTitle>No Owned Skins</EmptyTitle>
+            <EmptyDescription>You haven't mark any skin as owned.</EmptyDescription>
           </EmptyHeader>
-          <EmptyContent className="justify-center">
-            <Button className="cursor-pointer" onClick={fullResetHandler}>
-              Reset filters
-            </Button>
-          </EmptyContent>
         </Empty>
       )}
 
@@ -95,12 +88,12 @@ const SearchPageResults: FC = () => {
             >
               {Array.from({ length: columns }).map((_, colIndex) => {
                 const skinIndex = virtualRow.index * columns + colIndex;
-                const skin = skins[skinIndex];
+                const skin = ownedSkins[skinIndex];
                 if (!skin) return null;
 
                 return (
                   <NavLink key={skin.contentId} to={`/${skin.contentId}`}>
-                    <SkinCard data={skin} addToWishlistButton toggleOwnedButton />
+                    <SkinCard data={skin as SkinDto} />
                   </NavLink>
                 );
               })}
@@ -108,8 +101,8 @@ const SearchPageResults: FC = () => {
           ))}
         </div>
       )}
-    </div>
+    </>
   );
 };
 
-export default SearchPageResults;
+export default SkinsPage;

@@ -10,12 +10,13 @@ import { Accordion } from "@/components/ui/accordion";
 import FilterItem from "@/widgets/FilterItem";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import ChromaColor from '@/components/ChromaColor';
+import ChromaColor from "@/components/ChromaColor";
 
 const SearchFilters: FC = () => {
   const { t } = useTranslation();
 
   const {
+    isAuth,
     rarities,
     champions,
     skinlines,
@@ -29,6 +30,7 @@ const SearchFilters: FC = () => {
     rarity,
     chroma,
     isLegacyEnabled,
+    isShowOwnedEnabled,
     championSearch,
     skinlineSearch,
     chromaSearch,
@@ -40,6 +42,7 @@ const SearchFilters: FC = () => {
     changeRarityHandler,
     changeChromaHandler,
     toggleLegacyHandler,
+    toggleShowOwnedHandler,
     clearChampionIdHandler,
     clearSkinlineIdHandler,
     clearRarityHandler,
@@ -55,15 +58,21 @@ const SearchFilters: FC = () => {
           <span className="font-medium text-lg">{t("filters.title")}</span>
         </p>
         {isFilters && (
-          <Button size="xs" onClick={resetFiltersHandler} className='rounded-sm'>
+          <Button size="xs" onClick={resetFiltersHandler} className="rounded-sm">
             {t("filters.reset")}
           </Button>
         )}
       </div>
-      <Accordion type="multiple" defaultValue={["chroma"]}>
+      <Accordion type="multiple" defaultValue={["rarity"]}>
+        {isAuth && (
+          <Label htmlFor="owned" className="border-b h-9 flex items-center justify-between cursor-pointer">
+            {t("filters.owned")}
+            <Switch id="owned" checked={isShowOwnedEnabled} onCheckedChange={toggleShowOwnedHandler} />
+          </Label>
+        )}
         <Label htmlFor="legacy" className="border-b h-9 flex items-center justify-between cursor-pointer">
           {t("filters.legacy")}
-          <Switch id="legacy" checked={isLegacyEnabled} onCheckedChange={toggleLegacyHandler}/>
+          <Switch id="legacy" checked={isLegacyEnabled} onCheckedChange={toggleLegacyHandler} />
         </Label>
         <FilterItem value="champion" title={t("filters.champion")} hasValue={!!championId} onClear={clearChampionIdHandler}>
           <Search size="sm" value={championSearch} onSearch={searchChampionHandler} className="plane-input" />
@@ -111,7 +120,7 @@ const SearchFilters: FC = () => {
             items={chromas.map((chroma) => ({
               value: chroma.id,
               label: chroma.name,
-              prefix: <ChromaColor colors={chroma.colors} />
+              prefix: <ChromaColor colors={chroma.colors} />,
             }))}
             value={chroma ? chroma.id : ""}
             onChange={changeChromaHandler}

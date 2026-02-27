@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import { appAuthSelector } from "@/store";
 import { Separator } from "@/components/ui/separator";
-import { UserRoundIcon } from "lucide-react";
+import UserSettings from "./UserSettings";
 
 const AppHeader: FC = () => {
   const { t } = useTranslation();
@@ -24,9 +24,14 @@ const AppHeader: FC = () => {
           <NavLink to="/about">{t("header.about")}</NavLink>
         </Button>
         {isAuth && (
-          <Button className="text-base" variant="ghost" asChild>
-            <NavLink to="/wishlists">{t("header.wishlists")}</NavLink>
-          </Button>
+          <>
+            <Button className="text-base" variant="ghost" asChild>
+              <NavLink to="/wishlists">{t("header.wishlists")}</NavLink>
+            </Button>
+            <Button className="text-base" variant="ghost" asChild>
+              <NavLink to="/skins">{t("header.skins")}</NavLink>
+            </Button>
+          </>
         )}
         <LanguageSwitcher />
         <ThemeSwitcher />
@@ -43,13 +48,7 @@ const AppHeader: FC = () => {
           </div>
         )}
 
-        {isAuth && (
-          <Button asChild variant="outline" size="icon">
-            <NavLink to="/user">
-              <UserRoundIcon />
-            </NavLink>
-          </Button>
-        )}
+        {isAuth && <UserSettings />}
       </nav>
     </div>
   );

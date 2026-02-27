@@ -4,6 +4,7 @@
     "wishlists": "Wishlists"
   },
   "header": {
+    "skins": "Skins",
     "wishlists": "Wishlists",
     "about": "About project",
     "signin": "Sign In",
@@ -29,6 +30,7 @@
     "reset": "Reset",
     "clear": "Clear",
     "legacy": "Show legacy",
+    "owned": "Show owned",
     "champion": "Champion",
     "rarity": "Rarity",
     "skinline": "Skinline",
@@ -39,7 +41,11 @@
     "spotlight": "Search spotlight",
     "chromas": "Chromas",
     "baseChroma": "In game",
-    "features": "Features"
+    "features": "Features",
+    "owned": "Owned",
+    "markOwnedTooltip": "Mark as owned skins",
+    "unmarkOwnedTooltip": "Remove owned skin mark",
+    "addHelper": "Choose wishlist(-s) for"
   },
   "wishlist": {
     "create": "Create wishlist",

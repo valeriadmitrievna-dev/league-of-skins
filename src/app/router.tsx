@@ -4,7 +4,8 @@ import { SearchPage, SearchPageResults, SearchPageSkin } from "@/pages/SearchPag
 import { AuthProvider } from "@/shared/providers";
 import SignUpPage from "@/pages/SignUpPage";
 import SignInPage from "@/pages/SignInPage";
-import UserPage from "@/pages/UserPage";
+import ProtectProvider from "@/shared/providers/ProtectProvider";
+import SkinsPage from '@/pages/SkinsPage';
 
 export const router = createBrowserRouter([
   {
@@ -19,10 +20,16 @@ export const router = createBrowserRouter([
           { path: ":skinContentId", element: <SearchPageSkin /> },
         ],
       },
-      { path: "/wishlists", element: <>wishlists</> },
       {
-        path: "/user",
-        element: <UserPage />,
+        path: "",
+        element: <ProtectProvider />,
+        children: [
+          { path: "/wishlists", element: <>wishlists</> },
+          {
+            path: "/skins",
+            element: <SkinsPage />,
+          },
+        ],
       },
       { path: "*", element: "404" },
     ],

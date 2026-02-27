@@ -1,6 +1,6 @@
 export type Theme = "dark" | "light" | "system";
 
-export type WithLanguage<T> = T & {
+export type WithLanguage<T = Record<string, string>> = T & {
   lang: string;
 };
 
@@ -17,6 +17,7 @@ export interface ODataRequest {
 
 export interface ApiErrorPayload {
   data: ApiErrorResponse;
+  status?: number;
 }
 
 export interface ApiErrorResponse {

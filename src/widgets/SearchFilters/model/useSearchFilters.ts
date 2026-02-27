@@ -1,18 +1,21 @@
 import { useGetChampionsQuery, useGetChromasQuery, useGetRaritiesQuery, useGetSkinlinesQuery } from "@/api";
-import { checkSearch } from '@/shared/utils/checkSearch';
+import { checkSearch } from "@/shared/utils/checkSearch";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import {
+  appAuthSelector,
   filtersChampionIdSelector,
   filtersChromaSelector,
   filtersLegacySelector,
   filtersRaritySelector,
   filtersSelector,
+  filtersShowOwnedSelector,
   filtersSkinlineIdSelector,
   resetFilters,
   setFilterChampionId,
   setFilterChroma,
   setFilterLegacy,
   setFilterRarity,
+  setFilterShowOwned,
   setFilterSkinlineId,
 } from "@/store";
 import { useState } from "react";
@@ -23,12 +26,15 @@ const useSearchFilters = () => {
   const dispatch = useDispatch();
   const { i18n } = useTranslation();
 
+  const isAuth = useSelector(appAuthSelector);
+
   const isFilters = useSelector(filtersSelector);
   const championId = useSelector(filtersChampionIdSelector);
   const skinlineId = useSelector(filtersSkinlineIdSelector);
   const rarity = useSelector(filtersRaritySelector);
   const chroma = useSelector(filtersChromaSelector);
   const isLegacyEnabled = useSelector(filtersLegacySelector);
+  const isShowOwnedEnabled = useSelector(filtersShowOwnedSelector);
 
   const [championSearch, setChampionSearch] = useState("");
   const [skinlineSearch, setSkinlineSearch] = useState("");
@@ -89,10 +95,9 @@ const useSearchFilters = () => {
 
   const changeChromaHandler = (value: string) => {
     if (value) {
-      const chroma = chromas.find(chroma => chroma.id === value);
-      dispatch(setFilterChroma(chroma))
-    }
-    else dispatch(setFilterChroma(undefined));
+      const chroma = chromas.find((chroma) => chroma.id === value);
+      dispatch(setFilterChroma(chroma));
+    } else dispatch(setFilterChroma(undefined));
   };
 
   const clearChromaHandler = () => {
@@ -101,14 +106,21 @@ const useSearchFilters = () => {
 
   const toggleLegacyHandler = (value: boolean) => {
     dispatch(setFilterLegacy(value));
-  }
+  };
+
+  const toggleShowOwnedHandler = (value: boolean) => {
+    dispatch(setFilterShowOwned(value));
+  };
 
   return {
+    isAuth,
+
     rarities,
-    champions: champions.filter(champion => checkSearch(champion.name, championSearch)),
-    skinlines: skinlines.filter(skinline => checkSearch(skinline.name, skinlineSearch)),
-    chromas: chromas.filter(chroma => checkSearch(chroma.name, chromaSearch)),
+    champions: champions.filter((champion) => checkSearch(champion.name, championSearch)),
+    skinlines: skinlines.filter((skinline) => checkSearch(skinline.name, skinlineSearch)),
+    chromas: chromas.filter((chroma) => checkSearch(chroma.name, chromaSearch)),
     isLegacyEnabled,
+    isShowOwnedEnabled,
 
     isChampionsLoading,
     isSkinlinesLoading,
@@ -134,6 +146,7 @@ const useSearchFilters = () => {
     changeRarityHandler,
     changeChromaHandler,
     toggleLegacyHandler,
+    toggleShowOwnedHandler,
 
     clearChampionIdHandler,
     clearSkinlineIdHandler,

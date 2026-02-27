@@ -80,8 +80,8 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinContentId, chromaI
       <DialogTrigger asChild>{trigger({ openState: open, onOpen: openHandler })}</DialogTrigger>
       <DialogContent showCloseButton={true}>
         <DialogHeader className="px-2.5 pt-2">
-          <DialogTitle>Add to wishlist</DialogTitle>
-          <DialogDescription>Choose wishlist(-s) for {skinData?.name}</DialogDescription>
+          <DialogTitle>{t('skin.add')}</DialogTitle>
+          <DialogDescription>{t('skin.addHelper')} {skinData?.name}</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-y-2">
           <div role="list">

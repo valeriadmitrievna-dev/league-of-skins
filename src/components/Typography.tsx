@@ -1,0 +1,78 @@
+/* eslint-disable react-refresh/only-export-components */
+import { cn } from "@/lib/utils";
+import type { ComponentProps, FC } from "react";
+
+const TypographyH1: FC<ComponentProps<"h1">> = ({ children, className, ...props }) => {
+  return (
+    <h1 {...props} className={cn("scroll-m-20 text-4xl font-extrabold tracking-tight text-balance", className)}>
+      {children}
+    </h1>
+  );
+};
+
+const TypographyH2: FC<ComponentProps<"h2">> = ({ children, className, ...props }) => {
+  return (
+    <h2 {...props} className={cn("scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0", className)}>
+      {children}
+    </h2>
+  );
+};
+
+const TypographyH3: FC<ComponentProps<"h3">> = ({ children, className, ...props }) => {
+  return (
+    <h3 {...props} className={cn("scroll-m-20 text-2xl font-semibold tracking-tight", className)}>
+      {children}
+    </h3>
+  );
+};
+
+const TypographyH4: FC<ComponentProps<"h4">> = ({ children, className, ...props }) => {
+  return (
+    <h4 {...props} className={cn("scroll-m-20 text-2xl font-semibold tracking-tight", className)}>
+      {children}
+    </h4>
+  );
+};
+
+const TypographyP: FC<ComponentProps<"p">> = ({ children, className, ...props }) => {
+  return (
+    <p {...props} className={cn("leading-5 not-first:mt-6", className)}>
+      {children}
+    </p>
+  );
+};
+
+const TypographyLarge: FC<ComponentProps<"div">> = ({ children, className, ...props }) => {
+  return (
+    <div {...props} className={cn("text-lg font-semibold", className)}>
+      {children}
+    </div>
+  );
+};
+
+const TypographySmall: FC<ComponentProps<"span">> = ({ children, className, ...props }) => {
+  return (
+    <span {...props} className={cn("text-sm leading-none font-medium", className)}>
+      {children}
+    </span>
+  );
+};
+
+const TypographyMuted: FC<ComponentProps<"p">> = ({ children, className, ...props }) => {
+  return (
+    <p {...props} className={cn("text-muted-foreground text-sm", className)}>
+      {children}
+    </p>
+  );
+};
+
+export const Typography = {
+  H1: TypographyH1,
+  H2: TypographyH2,
+  H3: TypographyH3,
+  H4: TypographyH4,
+  P: TypographyP,
+  Large: TypographyLarge,
+  Small: TypographySmall,
+  Muted: TypographyMuted,
+};
