@@ -1,9 +1,9 @@
 import { getLanguageCode } from "@/shared/utils/getLanguageCode";
-import type { SkinDto } from "@/store";
 import type { ODataResponse, WithLanguage } from "@/types/shared";
 import type { IUser } from "@/types/user";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { UpdateOwnedSkinsRequest } from './types';
+import type { SkinDto } from '@/types/skin';
 
 export const userApi = createApi({
   reducerPath: "userApi",

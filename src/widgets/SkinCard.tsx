@@ -2,7 +2,6 @@ import Image from "@/components/Image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { SkinDto } from "@/store";
 import { BadgeCheckIcon, HeartPlusIcon, SaveIcon, SaveOffIcon } from "lucide-react";
 import type { FC, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
@@ -12,6 +11,7 @@ import { Typography } from "@/components/Typography";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import ChromaColor from "@/components/ChromaColor";
 import { Spinner } from '@/components/ui/spinner';
+import type { SkinDto } from '@/types/skin';
 
 interface SkinCardProps {
   data: SkinDto;

@@ -7,9 +7,9 @@ import {
   appAuthSelector,
   setAddChromaWaiting,
   setAddSkinWaiting,
-  type ChromaDto,
-  type SkinDto,
 } from "@/store";
+import type { ChromaDto } from '@/types/chroma';
+import type { SkinDto } from '@/types/skin';
 import { CirclePlusIcon, PlusIcon } from "lucide-react";
 import { useEffect, useState, type FC, type MouseEvent, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
