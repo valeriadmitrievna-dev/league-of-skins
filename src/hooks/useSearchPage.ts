@@ -1,10 +1,11 @@
 import { useGetSkinsQuery } from "@/api";
-import { getColorsString } from '@/shared/utils/getColorsString';
+import { getColorsString } from "@/shared/utils/getColorsString";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import {
   filtersChampionIdSelector,
   filtersChromaSelector,
   filtersLegacySelector,
+  filtersOwnedSelector,
   filtersRaritySelector,
   filtersSearchSelector,
   filtersSkinlineIdSelector,
@@ -27,19 +28,21 @@ const useSearchPage = () => {
   const skinlineId = useSelector(filtersSkinlineIdSelector);
   const rarity = useSelector(filtersRaritySelector);
   const chroma = useSelector(filtersChromaSelector);
-  const isLegacyEnabled = useSelector(filtersLegacySelector);
+  const legacy = useSelector(filtersLegacySelector);
+  const owned = useSelector(filtersOwnedSelector);
 
   useDebounce(() => dispatch(setFilterSearch(searchInput)), 300, [searchInput]);
 
   const { data: skinsData, isLoading } = useGetSkinsQuery({
     lang: i18n.language,
+    ...(search ? { search } : {}),
     championId,
     skinlineId,
-    search,
     rarity,
     chromaName: chroma?.name,
     chromaColors: getColorsString(chroma?.colors),
-    isLegacy: isLegacyEnabled,
+    legacy,
+    owned,
   });
   const { data: skins, count } = getODataWithDefault(skinsData);
 

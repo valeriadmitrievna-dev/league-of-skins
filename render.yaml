@@ -1,6 +1,0 @@
-services:
-  - type: web
-    name: league-of-skins
-    env: static
-    staticPublishPath: dist
-    buildCommand: npm run build

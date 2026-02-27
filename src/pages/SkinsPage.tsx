@@ -2,7 +2,7 @@ import { useGetOwnedSkinsQuery } from "@/api";
 import Skeleton from "@/components/Skeleton";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
-import type { SkinDto } from '@/store';
+import type { SkinDto } from '@/types/skin';
 import SkinCard from '@/widgets/SkinCard';
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { useLayoutEffect, useMemo, useRef, useState, type FC } from "react";
@@ -32,12 +32,12 @@ const SkinsPage: FC = () => {
   }, [isLoading]);
 
   const columns = useMemo(() => {
-    if (windowWidth >= 1536) return 6;
-    if (windowWidth >= 1280) return 5;
+    if (windowWidth >= 1536) return 7;
+    if (windowWidth >= 1280) return 6;
     return 4;
   }, [windowWidth]);
 
-  const cardHeight = containerWidth > 0 ? (containerWidth / columns) * (20 / 11) : 460;
+  const cardHeight = containerWidth > 0 ? (containerWidth / columns) * (20 / 11) : 396;
   const rowCount = Math.ceil(ownedSkins.length / columns);
 
   const rowVirtualizer = useWindowVirtualizer({
@@ -51,9 +51,9 @@ const SkinsPage: FC = () => {
   }, [cardHeight]);
 
   return (
-    <>
+    <div ref={parentRef}>
       {isLoading && !count && (
-        <div className="grid grid-cols-3 gap-3 xl:grid-cols-6 2xl:grid-cols-7">
+        <div className="grid grid-cols-4 gap-3 xl:grid-cols-6 2xl:grid-cols-7">
           <Skeleton count={10} asChild className="h-auto aspect-11/20" />
         </div>
       )}
@@ -101,7 +101,7 @@ const SkinsPage: FC = () => {
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

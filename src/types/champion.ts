@@ -1,0 +1,10 @@
+export interface ChampionDto {
+  id: string;
+  key: string;
+  name: string;
+  image: {
+    full: string | null;
+    loading: string | null;
+    icon: string | null;
+  };
+}

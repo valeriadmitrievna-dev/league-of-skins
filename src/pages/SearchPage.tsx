@@ -1,7 +1,7 @@
+import SearchFilters from '@/widgets/SearchFilters';
 import { type FC } from "react";
 
 import { Outlet } from "react-router";
-import { SearchFilters } from "@/widgets/SearchFilters";
 // import { MegaphoneIcon } from "lucide-react";
 
 const SearchPage: FC = () => {

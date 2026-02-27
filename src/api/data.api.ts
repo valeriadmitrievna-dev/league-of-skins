@@ -1,8 +1,11 @@
 import type { ODataRequest, ODataResponse, WithLanguage } from "@/types/shared";
-import type { ChampionDto, ChromaDto, SkinlineDto, SkinDto } from "@/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { SkinsRequest } from "./types";
 import { getLanguageCode } from "@/shared/utils/getLanguageCode";
+import type { ChromaDto } from '@/types/chroma';
+import type { SkinlineDto } from '@/types/skinline';
+import type { ChampionDto } from '@/types/champion';
+import type { SkinDto } from '@/types/skin';
 
 export const dataApi = createApi({
   reducerPath: "dataApi",
@@ -53,10 +56,10 @@ export const dataApi = createApi({
 
     // skins
     getSkins: build.query<ODataResponse<SkinDto[]>, WithLanguage<SkinsRequest>>({
-      query: ({ lang, isLegacy, ...params }) => ({
+      query: ({ lang, ...params }) => ({
         url: "/skins",
-        params: params ? { ...params, isLegacy: String(isLegacy) } : {},
         headers: { "App-Language": getLanguageCode(lang) },
+        params,
       }),
     }),
     getSkin: build.query<SkinDto, WithLanguage<{ contentId: string }>>({

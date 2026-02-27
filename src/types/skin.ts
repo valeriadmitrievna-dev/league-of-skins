@@ -1,25 +1,4 @@
-export interface ChromaDto {
-  id: string;
-  name: string;
-  colors: string[];
-}
-
-export interface SkinlineDto {
-  id: number;
-  name: string;
-  description: string;
-}
-
-export interface ChampionDto {
-  id: string;
-  key: string;
-  name: string;
-  image: {
-    full: string | null;
-    loading: string | null;
-    icon: string | null;
-  };
-}
+import type { SkinlineDto } from './skinline';
 
 export interface SkinDto {
   id: string;

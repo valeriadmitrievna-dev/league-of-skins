@@ -29,12 +29,15 @@
     "title": "Filters",
     "reset": "Reset",
     "clear": "Clear",
-    "legacy": "Show legacy",
-    "owned": "Show owned",
     "champion": "Champion",
     "rarity": "Rarity",
     "skinline": "Skinline",
-    "chroma": "Chroma"
+    "chroma": "Chroma",
+    "all": "All",
+    "owned-on": "Owned",
+    "owned-off": "Not Owned",
+    "legacy-on": "Legacy",
+    "legacy-off": "Not legacy"
   },
   "skin": {
     "add": "Add to wishlist",

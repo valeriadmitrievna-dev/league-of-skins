@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import type { ComponentProps, FC } from "react";
 import { uniqueId } from 'lodash';
 

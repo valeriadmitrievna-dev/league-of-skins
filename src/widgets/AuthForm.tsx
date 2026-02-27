@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Field, FieldContent, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Spinner } from '@/components/ui/spinner';
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import type { ComponentProps, FC, PropsWithChildren, ReactNode } from "react";
 
 interface AuthFormTitleProps {

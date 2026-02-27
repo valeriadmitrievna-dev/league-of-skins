@@ -3,14 +3,12 @@ import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { FunnelIcon } from "lucide-react";
 import { type FC } from "react";
-import { useSearchFilters } from "../model";
 import { useTranslation } from "react-i18next";
 import FilterList from "@/widgets/FilterList";
 import { Accordion } from "@/components/ui/accordion";
 import FilterItem from "@/widgets/FilterItem";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import ChromaColor from "@/components/ChromaColor";
+import useSearchFilters from '@/hooks/useSearchFilters';
 
 const SearchFilters: FC = () => {
   const { t } = useTranslation();
@@ -25,12 +23,12 @@ const SearchFilters: FC = () => {
     isSkinlinesLoading,
     isChromasLoading,
     isFilters,
+    owned,
+    legacy,
     championId,
     skinlineId,
     rarity,
     chroma,
-    isLegacyEnabled,
-    isShowOwnedEnabled,
     championSearch,
     skinlineSearch,
     chromaSearch,
@@ -41,12 +39,12 @@ const SearchFilters: FC = () => {
     changeSkinlineIdHandler,
     changeRarityHandler,
     changeChromaHandler,
-    toggleLegacyHandler,
-    toggleShowOwnedHandler,
     clearChampionIdHandler,
     clearSkinlineIdHandler,
     clearRarityHandler,
     clearChromaHandler,
+    toggleLegacyHandler,
+    toggleOwnedHandler,
     resetFiltersHandler,
   } = useSearchFilters();
 
@@ -65,15 +63,17 @@ const SearchFilters: FC = () => {
       </div>
       <Accordion type="multiple" defaultValue={["rarity"]}>
         {isAuth && (
-          <Label htmlFor="owned" className="border-b h-9 flex items-center justify-between cursor-pointer">
-            {t("filters.owned")}
-            <Switch id="owned" checked={isShowOwnedEnabled} onCheckedChange={toggleShowOwnedHandler} />
-          </Label>
+          <ToggleGroup variant="outline" type="single" value={owned} onValueChange={toggleOwnedHandler} className='w-full mb-3'>
+            <ToggleGroupItem className='grow max-w-15' value="all">{t('filters.all')}</ToggleGroupItem>
+            <ToggleGroupItem className='grow' value="on">{t('filters.owned-on')}</ToggleGroupItem>
+            <ToggleGroupItem className='grow' value="off">{t('filters.owned-off')}</ToggleGroupItem>
+          </ToggleGroup>
         )}
-        <Label htmlFor="legacy" className="border-b h-9 flex items-center justify-between cursor-pointer">
-          {t("filters.legacy")}
-          <Switch id="legacy" checked={isLegacyEnabled} onCheckedChange={toggleLegacyHandler} />
-        </Label>
+        <ToggleGroup variant="outline" type="single" value={legacy} onValueChange={toggleLegacyHandler} className='w-full pb-3 border-b rounded-none'>
+          <ToggleGroupItem className='grow max-w-15' value="all">{t('filters.all')}</ToggleGroupItem>
+          <ToggleGroupItem className='grow' value="on">{t('filters.legacy-on')}</ToggleGroupItem>
+          <ToggleGroupItem className='grow' value="off">{t('filters.legacy-off')}</ToggleGroupItem>
+        </ToggleGroup>
         <FilterItem value="champion" title={t("filters.champion")} hasValue={!!championId} onClear={clearChampionIdHandler}>
           <Search size="sm" value={championSearch} onSearch={searchChampionHandler} className="plane-input" />
           <FilterList

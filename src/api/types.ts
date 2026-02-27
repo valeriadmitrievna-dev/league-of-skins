@@ -6,7 +6,8 @@ export interface SkinsRequest extends ODataRequest {
   chromaName?: string;
   chromaColors?: string;
   rarity?: string;
-  isLegacy: boolean;
+  legacy: string;
+  owned: string
 }
 
 export interface RegistrationRequest {

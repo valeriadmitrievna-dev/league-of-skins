@@ -1,6 +1,5 @@
 import { useLayoutEffect, useMemo, useRef, useState, type FC } from "react";
 
-import { useSearchPage } from "../model";
 import { NavLink } from "react-router";
 import Search from "@/components/Search";
 import SkinCard from "@/widgets/SkinCard";
@@ -9,6 +8,7 @@ import { useWindowSize } from "react-use";
 import Skeleton from '@/components/Skeleton';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from '@/components/ui/empty';
 import { Button } from '@/components/ui/button';
+import useSearchPage from '@/hooks/useSearchPage';
 
 const SearchPageResults: FC = () => {
   const { skins, searchInput, searchHandler, clearSearchHandler, fullResetHandler, isLoading, count } = useSearchPage();

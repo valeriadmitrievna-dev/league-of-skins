@@ -1,6 +1,6 @@
+import type { ChromaDto } from '@/types/chroma';
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { ChromaDto } from "./types";
 
 export interface FiltersState {
   search: string;
@@ -8,14 +8,14 @@ export interface FiltersState {
   skinlineId?: string;
   rarity?: string;
   chroma?: ChromaDto;
-  isLegacyEnabled: boolean;
-  isShowOwnedEnabled: boolean;
+  legacy: 'all' | 'on' | 'off';
+  owned: 'all' | 'on' | 'off';
 }
 
 const initialState: FiltersState = {
   search: "",
-  isLegacyEnabled: true,
-  isShowOwnedEnabled: true,
+  legacy: 'all',
+  owned: 'all',
 };
 
 export const filtersSlice = createSlice({
@@ -24,7 +24,7 @@ export const filtersSlice = createSlice({
   reducers: {
     setFilters: (
       state,
-      { payload }: PayloadAction<Omit<FiltersState, "search" | "isLegacyEnabled" | "isShowOwnedEnabled">>,
+      { payload }: PayloadAction<Omit<FiltersState, "search" | "legacy" | "owned">>,
     ) => {
       state.championId = payload.championId;
       state.skinlineId = payload.skinlineId;
@@ -36,8 +36,8 @@ export const filtersSlice = createSlice({
       state.skinlineId = undefined;
       state.rarity = undefined;
       state.chroma = undefined;
-      state.isLegacyEnabled = true;
-      state.isShowOwnedEnabled = true;
+      state.legacy = 'all';
+      state.owned = 'all';
     },
     setFilterSearch: (state, { payload }: PayloadAction<string>) => {
       state.search = payload;
@@ -54,11 +54,11 @@ export const filtersSlice = createSlice({
     setFilterChroma: (state, { payload }: PayloadAction<ChromaDto | undefined>) => {
       state.chroma = payload;
     },
-    setFilterLegacy: (state, { payload }: PayloadAction<boolean>) => {
-      state.isLegacyEnabled = payload;
+    setFilterLegacy: (state, { payload }: PayloadAction<string>) => {
+      state.legacy = payload as FiltersState['legacy'];
     },
-    setFilterShowOwned: (state, { payload }: PayloadAction<boolean>) => {
-      state.isShowOwnedEnabled = payload;
+    setFilterOwned: (state, { payload }: PayloadAction<string>) => {
+      state.owned = payload as FiltersState['owned'];
     },
   },
 });
@@ -72,7 +72,7 @@ export const {
   setFilterRarity,
   setFilterChroma,
   setFilterLegacy,
-  setFilterShowOwned,
+  setFilterOwned,
 } = filtersSlice.actions;
 
 export default filtersSlice.reducer;

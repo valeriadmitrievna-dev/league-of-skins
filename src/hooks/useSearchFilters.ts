@@ -6,16 +6,16 @@ import {
   filtersChampionIdSelector,
   filtersChromaSelector,
   filtersLegacySelector,
+  filtersOwnedSelector,
   filtersRaritySelector,
   filtersSelector,
-  filtersShowOwnedSelector,
   filtersSkinlineIdSelector,
   resetFilters,
   setFilterChampionId,
   setFilterChroma,
   setFilterLegacy,
+  setFilterOwned,
   setFilterRarity,
-  setFilterShowOwned,
   setFilterSkinlineId,
 } from "@/store";
 import { useState } from "react";
@@ -33,8 +33,8 @@ const useSearchFilters = () => {
   const skinlineId = useSelector(filtersSkinlineIdSelector);
   const rarity = useSelector(filtersRaritySelector);
   const chroma = useSelector(filtersChromaSelector);
-  const isLegacyEnabled = useSelector(filtersLegacySelector);
-  const isShowOwnedEnabled = useSelector(filtersShowOwnedSelector);
+  const legacy = useSelector(filtersLegacySelector);
+  const owned = useSelector(filtersOwnedSelector);
 
   const [championSearch, setChampionSearch] = useState("");
   const [skinlineSearch, setSkinlineSearch] = useState("");
@@ -104,12 +104,12 @@ const useSearchFilters = () => {
     dispatch(setFilterChroma(undefined));
   };
 
-  const toggleLegacyHandler = (value: boolean) => {
-    dispatch(setFilterLegacy(value));
+  const toggleLegacyHandler = (value: string) => {
+    if (value) dispatch(setFilterLegacy(value));
   };
 
-  const toggleShowOwnedHandler = (value: boolean) => {
-    dispatch(setFilterShowOwned(value));
+  const toggleOwnedHandler = (value: string) => {
+    if (value) dispatch(setFilterOwned(value));
   };
 
   return {
@@ -119,8 +119,8 @@ const useSearchFilters = () => {
     champions: champions.filter((champion) => checkSearch(champion.name, championSearch)),
     skinlines: skinlines.filter((skinline) => checkSearch(skinline.name, skinlineSearch)),
     chromas: chromas.filter((chroma) => checkSearch(chroma.name, chromaSearch)),
-    isLegacyEnabled,
-    isShowOwnedEnabled,
+    legacy,
+    owned,
 
     isChampionsLoading,
     isSkinlinesLoading,
@@ -146,7 +146,7 @@ const useSearchFilters = () => {
     changeRarityHandler,
     changeChromaHandler,
     toggleLegacyHandler,
-    toggleShowOwnedHandler,
+    toggleOwnedHandler,
 
     clearChampionIdHandler,
     clearSkinlineIdHandler,

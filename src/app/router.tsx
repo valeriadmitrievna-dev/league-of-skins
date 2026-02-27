@@ -1,11 +1,13 @@
 import { createBrowserRouter } from "react-router";
-import { LayoutPage } from "@/pages/LayoutPage";
-import { SearchPage, SearchPageResults, SearchPageSkin } from "@/pages/SearchPage";
 import { AuthProvider } from "@/shared/providers";
 import SignUpPage from "@/pages/SignUpPage";
 import SignInPage from "@/pages/SignInPage";
 import ProtectProvider from "@/shared/providers/ProtectProvider";
 import SkinsPage from '@/pages/SkinsPage';
+import SearchPage from '@/pages/SearchPage';
+import SearchPageResults from '@/pages/SearchPageResults';
+import SearchPageSkin from '@/pages/SearchPageSkin';
+import LayoutPage from '@/pages/LayoutPage';
 
 export const router = createBrowserRouter([
   {

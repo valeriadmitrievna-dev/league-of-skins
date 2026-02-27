@@ -1,5 +1,5 @@
 import { useEffect, useState, type ComponentProps, type FC } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils/cn";
 import Skeleton from "./Skeleton";
 import { VideoOffIcon } from "lucide-react";
 
