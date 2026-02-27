@@ -93,7 +93,7 @@ const SkinsPage: FC = () => {
 
                 return (
                   <NavLink key={skin.contentId} to={`/${skin.contentId}`}>
-                    <SkinCard data={skin as SkinDto} />
+                    <SkinCard data={skin as SkinDto} toggleOwnedButton />
                   </NavLink>
                 );
               })}

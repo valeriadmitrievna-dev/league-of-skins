@@ -1,4 +1,4 @@
-import type { ODataRequest } from '@/types/shared';
+import type { ODataRequest } from "@/types/shared";
 
 export interface SkinsRequest extends ODataRequest {
   championId?: string;
@@ -23,4 +23,9 @@ export interface LoginRequest {
 export interface AuthResponse {
   access: string;
   refresh: string;
+}
+
+export interface UpdateOwnedSkinsRequest {
+  addIds?: string[];
+  removeIds?: string[];
 }

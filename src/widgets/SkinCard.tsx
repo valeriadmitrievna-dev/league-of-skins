@@ -7,10 +7,11 @@ import { BadgeCheckIcon, HeartPlusIcon, SaveIcon, SaveOffIcon } from "lucide-rea
 import type { FC, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import AddToWishlist from "./AddToWishlist";
-import { useGetUserQuery } from "@/api";
+import { useGetUserQuery, useUpdateOwnedSkinsMutation } from "@/api";
 import { Typography } from "@/components/Typography";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import ChromaColor from "@/components/ChromaColor";
+import { Spinner } from '@/components/ui/spinner';
 
 interface SkinCardProps {
   data: SkinDto;
@@ -20,12 +21,18 @@ interface SkinCardProps {
 
 const SkinCard: FC<SkinCardProps> = ({ data, addToWishlistButton, toggleOwnedButton }) => {
   const { t } = useTranslation();
+
   const { data: user } = useGetUserQuery();
+  const [updateOwnedSkins, { isLoading: isOwningUpdating }] = useUpdateOwnedSkinsMutation();
+
   const isOwned = user?.ownedSkins.includes(data.contentId);
 
   const toggleOwnedHandler = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
+
+    if (isOwned) updateOwnedSkins({ removeIds: [data.contentId] });
+    else updateOwnedSkins({ addIds: [data.contentId] });
   };
 
   return (
@@ -88,11 +95,12 @@ const SkinCard: FC<SkinCardProps> = ({ data, addToWishlistButton, toggleOwnedBut
                     size="icon-lg"
                     onClick={toggleOwnedHandler}
                     className="bg-transparent text-neutral-50 light:hover:text-neutral-900 dark:hover:bg-neutral-50 dark:hover:text-neutral-950"
+                    disabled={isOwningUpdating}
                   >
-                    {isOwned ? <SaveOffIcon className="size-5" /> : <SaveIcon className="size-5" />}
+                    {isOwningUpdating ? <Spinner className='size-5' /> : isOwned ? <SaveOffIcon className="size-5" /> : <SaveIcon className="size-5" />}
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>{isOwned ? t("skin.unmarkOwnedTooltip") : t("skin.markOwnedTooltip")}</TooltipContent>
+                <TooltipContent className="pointer-events-none">{isOwned ? t("skin.unmarkOwnedTooltip") : t("skin.markOwnedTooltip")}</TooltipContent>
               </Tooltip>
             )}
             {addToWishlistButton && (
