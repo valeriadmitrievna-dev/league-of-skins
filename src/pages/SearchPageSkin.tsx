@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 import Video from "@/components/Video";
-import { getChromaColorName } from "@/shared/utils/getChromaColorName";
 import { setFilters } from "@/store";
 import AddToWishlist from "@/widgets/AddToWishlist";
 import { ChevronLeftIcon, FrownIcon, HeartPlusIcon, PlayIcon } from "lucide-react";
@@ -151,7 +150,7 @@ const SearchPageSkin: FC = () => {
                       src={chroma.path}
                       className="w-full transition-opacity group-hover:opacity-50"
                     />
-                    <Badge className="absolute bottom-4">{getChromaColorName(chroma.name, i18n.language)}</Badge>
+                    <Badge className="absolute bottom-4">{chroma.name}</Badge>
                     <AddToWishlist
                       chromaId={chroma.id}
                       trigger={({ onOpen }) => (
