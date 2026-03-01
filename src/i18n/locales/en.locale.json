@@ -57,6 +57,7 @@
   },
   "wishlist": {
     "create": "Create wishlist",
-    "createAndAdd": "Create wishlist and add"
+    "createAndAdd": "Create wishlist and add",
+    "__MAIN__": "Main"
   }
 }

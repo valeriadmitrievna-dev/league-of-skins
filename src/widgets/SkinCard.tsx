@@ -128,6 +128,7 @@ const SkinCard: FC<SkinCardProps> = ({ data, navigatable, addToWishlistButton, t
             )}
             {addToWishlistButton && (
               <AddToWishlist
+                skinName={data.name}
                 skinContentId={data.contentId}
                 trigger={({ onOpen }) => (
                   <Tooltip>

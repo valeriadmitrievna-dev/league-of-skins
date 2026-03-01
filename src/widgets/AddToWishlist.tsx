@@ -1,4 +1,3 @@
-import { useGetSkinQuery } from "@/api";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import {
@@ -18,12 +17,14 @@ import { useNavigate } from "react-router";
 
 interface AddToWishlistProps {
   trigger: (options: { openState: boolean; onOpen: (event: MouseEvent<HTMLElement>) => void }) => ReactNode;
+  skinName: string;
   skinContentId?: SkinDto["id"];
+  chromaName?: string;
   chromaId?: ChromaDto["id"];
 }
 
-const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinContentId, chromaId }) => {
-  const { t, i18n } = useTranslation();
+const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentId, chromaId }) => {
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,11 +34,6 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinContentId, chromaI
   // const addChromaWaiting = useSelector(appAddChromaWaitingSelector);
 
   const [open, setOpen] = useState(false);
-
-  const { data: skinData } = useGetSkinQuery(
-    { contentId: skinContentId!, lang: i18n.language },
-    { skip: !skinContentId || !open },
-  );
 
   const openHandler = (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -78,27 +74,27 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinContentId, chromaI
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger({ openState: open, onOpen: openHandler })}</DialogTrigger>
-      <DialogContent showCloseButton={true}>
+      <DialogContent showCloseButton={true} className='gap-y-2'>
         <DialogHeader className="px-2.5 pt-2">
           <DialogTitle>{t('skin.add')}</DialogTitle>
-          <DialogDescription>{t('skin.addHelper')} {skinData?.name}</DialogDescription>
+          <DialogDescription>{t('skin.addHelper')} {skinName}</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-y-2">
           <div role="list">
             <div role="list-item" className="min-h-8  rounded-md flex items-center justify-between px-2.5 py-1 border-b">
-              <span className="text-sm font-medium">Shared</span>
-              <Button size="icon-sm" variant="ghost" onClick={addToExistingWishlist}>
+              <span className="text-sm font-medium">{t('wishlist.__MAIN__')}</span>
+              <Button size="icon-sm" variant="ghost" onClick={addToExistingWishlist} disabled>
                 <CirclePlusIcon />
               </Button>
             </div>
-            <div role="list-item" className="min-h-8  rounded-md flex items-center justify-between px-2.5 py-1 border-b">
+            {/* <div role="list-item" className="min-h-8  rounded-md flex items-center justify-between px-2.5 py-1 border-b">
               <span className="text-sm font-medium">Pink</span>
               <Button size="icon-sm" variant="ghost" onClick={addToExistingWishlist}>
                 <CirclePlusIcon />
               </Button>
-            </div>
+            </div> */}
           </div>
-          <Button variant="ghost" size="sm" className="justify-start" onClick={createNewWishlist}>
+          <Button variant="ghost" size="sm" className="justify-start" onClick={createNewWishlist} disabled>
             <PlusIcon />
             {t("wishlist.createAndAdd")}
           </Button>

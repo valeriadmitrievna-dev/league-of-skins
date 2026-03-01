@@ -16,6 +16,7 @@ import { NavLink, useNavigate, useParams } from "react-router";
 import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
 import MEIcon from "@/shared/assets/mythic-essence-icon.svg?react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import AddToWishlist from "@/widgets/AddToWishlist";
 
 const SkinDetailsPage: FC = () => {
   const navigate = useNavigate();
@@ -76,7 +77,7 @@ const SkinDetailsPage: FC = () => {
           {!!helpText && (
             <Tooltip>
               <TooltipTrigger asChild>
-                <CircleQuestionMarkIcon className='size-3.25 text-foreground/60 cursor-help transform translate-y-0.5' />
+                <CircleQuestionMarkIcon className="size-3.25 text-foreground/60 cursor-help transform translate-y-0.5" />
               </TooltipTrigger>
               <TooltipContent>{helpText}</TooltipContent>
             </Tooltip>
@@ -149,7 +150,11 @@ const SkinDetailsPage: FC = () => {
               <Image src={skin.chromaPath} className="max-w-[85%] h-fit" />
             </div>
           )}
-          <Button>{t("skin.add")}</Button>
+          <AddToWishlist
+            skinName={skin.name}
+            skinContentId={skin.contentId}
+            trigger={({ onOpen }) => <Button onClick={onOpen}>{t("skin.add")}</Button>}
+          />
           {isAuth && (
             <Button variant="secondary" onClick={toggleOwnedHandler} disabled={isOwningUpdating}>
               {isOwningUpdating && <Spinner />}
