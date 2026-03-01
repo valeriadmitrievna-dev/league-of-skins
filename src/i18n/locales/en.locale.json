@@ -12,7 +12,9 @@
   },
   "shared": {
     "search": "Search",
-    "back": "Back"
+    "back": "Back",
+    "yes": "Yes",
+    "no": "No"
   },
   "rarity": {
     "kNoRarity": "No rarity",
@@ -32,6 +34,7 @@
     "champion": "Champion",
     "rarity": "Rarity",
     "skinline": "Skinline",
+    "skinlines": "Skinlines",
     "chroma": "Chroma",
     "all": "All",
     "owned-on": "Owned",
@@ -48,7 +51,9 @@
     "owned": "Owned",
     "markOwnedTooltip": "Mark as owned skins",
     "unmarkOwnedTooltip": "Remove owned skin mark",
-    "addHelper": "Choose wishlist(-s) for"
+    "addHelper": "Choose wishlist(-s) for",
+    "price": "Price",
+    "priceHelper": "Approximate price without discounts"
   },
   "wishlist": {
     "create": "Create wishlist",

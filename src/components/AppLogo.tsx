@@ -8,7 +8,7 @@ const AppLogo: FC = () => {
       <Image src={logo} className='size-12' />
       <div className='flex flex-col gap-1'>
         <span className='text-2xl font-bold leading-none'>League of Skins</span>
-        <span className='text-[10px] leading-none uppercase'>League of Legends Skins Wishlists</span>
+        <span className='text-[10px] leading-none uppercase opacity-75'>League of Legends Skins Wishlists</span>
       </div>
     </div>
   );

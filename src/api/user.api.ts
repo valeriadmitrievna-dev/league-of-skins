@@ -17,7 +17,7 @@ export const userApi = createApi({
   }),
   tagTypes: ["User", "OwnedSkins"],
   endpoints: (build) => ({
-    getUser: build.query<IUser, void>({
+    getUser: build.query<IUser, string | void>({
       query: () => "/",
       providesTags: ["User"],
     }),

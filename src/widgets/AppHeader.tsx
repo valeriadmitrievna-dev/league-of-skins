@@ -15,7 +15,7 @@ const AppHeader: FC = () => {
   const isAuth = useSelector(appAuthSelector);
 
   return (
-    <div className="flex items-center justify-between px-5 py-1.5 mx-auto w-full xl:max-w-360 2xl:max-w-400">
+    <div className="flex items-center justify-between px-5 py-1.5 pt-3 mx-auto w-full xl:max-w-360 2xl:max-w-380">
       <NavLink to="/">
         <AppLogo />
       </NavLink>

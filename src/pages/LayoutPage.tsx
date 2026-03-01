@@ -6,7 +6,7 @@ const LayoutPage: FC = () => {
   return (
     <div className="max-h-screen flex flex-col no-scrollbar">
       <AppHeader />
-      <div className="w-full p-5 mx-auto xl:max-w-360 2xl:max-w-400">
+      <div className="w-full p-5 mx-auto xl:max-w-360 2xl:max-w-380">
         <Outlet />
       </div>
     </div>

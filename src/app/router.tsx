@@ -3,11 +3,11 @@ import { AuthProvider } from "@/shared/providers";
 import SignUpPage from "@/pages/SignUpPage";
 import SignInPage from "@/pages/SignInPage";
 import ProtectProvider from "@/shared/providers/ProtectProvider";
-import SkinsPage from '@/pages/SkinsPage';
-import SearchPage from '@/pages/SearchPage';
-import SearchPageResults from '@/pages/SearchPageResults';
-import SearchPageSkin from '@/pages/SearchPageSkin';
-import LayoutPage from '@/pages/LayoutPage';
+import SkinsPage from "@/pages/SkinsPage";
+import SearchPage from "@/pages/SearchPage";
+import SearchPageResults from "@/pages/SearchPageResults";
+import LayoutPage from "@/pages/LayoutPage";
+import SkinDetailsPage from "@/pages/SkinDetailsPage";
 
 export const router = createBrowserRouter([
   {
@@ -19,7 +19,7 @@ export const router = createBrowserRouter([
         element: <SearchPage />,
         children: [
           { index: true, element: <SearchPageResults /> },
-          { path: ":skinContentId", element: <SearchPageSkin /> },
+          // { path: ":skinContentId", element: <SearchPageSkin /> },
         ],
       },
       {
@@ -32,6 +32,10 @@ export const router = createBrowserRouter([
             element: <SkinsPage />,
           },
         ],
+      },
+      {
+        path: "/skins/:skinContentId",
+        element: <SkinDetailsPage />,
       },
       { path: "*", element: "404" },
     ],

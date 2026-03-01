@@ -2,12 +2,11 @@ import { useGetOwnedSkinsQuery } from "@/api";
 import Skeleton from "@/components/Skeleton";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
-import type { SkinDto } from '@/types/skin';
-import SkinCard from '@/widgets/SkinCard';
+import type { SkinDto } from "@/types/skin";
+import SkinCard from "@/widgets/SkinCard";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { useLayoutEffect, useMemo, useRef, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink } from 'react-router';
 import { useWindowSize } from "react-use";
 
 const SkinsPage: FC = () => {
@@ -91,11 +90,7 @@ const SkinsPage: FC = () => {
                 const skin = ownedSkins[skinIndex];
                 if (!skin) return null;
 
-                return (
-                  <NavLink key={skin.contentId} to={`/${skin.contentId}`}>
-                    <SkinCard data={skin as SkinDto} toggleOwnedButton />
-                  </NavLink>
-                );
+                return <SkinCard key={skin.contentId} data={skin as SkinDto} navigatable toggleOwnedButton />;
               })}
             </div>
           ))}

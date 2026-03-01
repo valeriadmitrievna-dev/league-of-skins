@@ -1,14 +1,13 @@
 import { useLayoutEffect, useMemo, useRef, useState, type FC } from "react";
 
-import { NavLink } from "react-router";
 import Search from "@/components/Search";
 import SkinCard from "@/widgets/SkinCard";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { useWindowSize } from "react-use";
-import Skeleton from '@/components/Skeleton';
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from '@/components/ui/empty';
-import { Button } from '@/components/ui/button';
-import useSearchPage from '@/hooks/useSearchPage';
+import Skeleton from "@/components/Skeleton";
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
+import { Button } from "@/components/ui/button";
+import useSearchPage from "@/hooks/useSearchPage";
 
 const SearchPageResults: FC = () => {
   const { skins, searchInput, searchHandler, clearSearchHandler, fullResetHandler, isLoading, count } = useSearchPage();
@@ -55,8 +54,8 @@ const SearchPageResults: FC = () => {
       <Search size="lg" value={searchInput} onSearch={searchHandler} onClear={clearSearchHandler} />
 
       {isLoading && !count && (
-        <div className='grid grid-cols-3 gap-3 xl:grid-cols-4 2xl:grid-cols-5'>
-          <Skeleton count={10} asChild className='h-auto aspect-11/20' />
+        <div className="grid grid-cols-3 gap-3 xl:grid-cols-4 2xl:grid-cols-5">
+          <Skeleton count={10} asChild className="h-auto aspect-11/20" />
         </div>
       )}
 
@@ -98,11 +97,7 @@ const SearchPageResults: FC = () => {
                 const skin = skins[skinIndex];
                 if (!skin) return null;
 
-                return (
-                  <NavLink key={skin.contentId} to={`/${skin.contentId}`}>
-                    <SkinCard data={skin} addToWishlistButton toggleOwnedButton />
-                  </NavLink>
-                );
+                return <SkinCard key={skin.contentId} data={skin} navigatable addToWishlistButton toggleOwnedButton />;
               })}
             </div>
           ))}

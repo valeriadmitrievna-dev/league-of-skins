@@ -10,22 +10,34 @@ import { useGetUserQuery, useUpdateOwnedSkinsMutation } from "@/api";
 import { Typography } from "@/components/Typography";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import ChromaColor from "@/components/ChromaColor";
-import { Spinner } from '@/components/ui/spinner';
-import type { SkinDto } from '@/types/skin';
+import { Spinner } from "@/components/ui/spinner";
+import type { SkinDto } from "@/types/skin";
+import { useNavigate } from "react-router";
+import { cn } from "@/shared/utils/cn";
 
 interface SkinCardProps {
   data: SkinDto;
+  navigatable?: boolean;
   addToWishlistButton?: boolean;
   toggleOwnedButton?: boolean;
 }
 
-const SkinCard: FC<SkinCardProps> = ({ data, addToWishlistButton, toggleOwnedButton }) => {
+const SkinCard: FC<SkinCardProps> = ({ data, navigatable, addToWishlistButton, toggleOwnedButton }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const { data: user } = useGetUserQuery();
   const [updateOwnedSkins, { isLoading: isOwningUpdating }] = useUpdateOwnedSkinsMutation();
 
   const isOwned = user?.ownedSkins.includes(data.contentId);
+  const actionButtonCN =
+    "bg-transparent text-neutral-50 light:hover:text-neutral-900 dark:hover:bg-neutral-50 dark:hover:text-neutral-950";
+
+  const navigateHandler = () => {
+    if (navigatable) {
+      navigate("/skins/" + data.contentId);
+    }
+  };
 
   const toggleOwnedHandler = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -36,20 +48,23 @@ const SkinCard: FC<SkinCardProps> = ({ data, addToWishlistButton, toggleOwnedBut
   };
 
   return (
-    <Card className="relative mx-auto w-full p-0 overflow-hidden gap-y-4 group">
+    <Card className="relative mx-auto w-full p-0 overflow-hidden gap-y-4 group select-none">
       {data.video && (data.video.card || data.video.centered) && (
         <video
           src={data.video.card || data.video.centered!}
           autoPlay
           muted
           loop
-          className="absolute z-1 aspect-11/20 object-cover transition-opacity opacity-0 group-hover:opacity-100"
+          className="absolute z-1 aspect-11/20 object-cover transition-opacity opacity-0 group-hover:opacity-100 pointer-events-none"
         />
       )}
       <Image
         src={data.image.loading ?? ""}
         alt={data.name}
-        className="relative aspect-11/20 w-full object-cover origin-center scale-107"
+        className={cn("relative aspect-11/20 w-full object-cover origin-center scale-107", {
+          "cursor-pointer": navigatable,
+        })}
+        onClick={navigateHandler}
       />
       <div className="absolute top-0 start-0 end-0 p-2 z-3 flex gap-1 justify-end flex-wrap">
         {data.isLegacy && <Badge variant="secondary">{t("rarity.legacy")}</Badge>}
@@ -64,10 +79,10 @@ const SkinCard: FC<SkinCardProps> = ({ data, addToWishlistButton, toggleOwnedBut
       {/* bg-linear-to-t from-neutral-950 to-transparent */}
       <CardContent
         className="
-          absolute size-full p-4 z-2
+          absolute size-full p-4 z-2 pointer-events-none
           bg-neutral-950/75
           flex flex-col gap-3 items-end justify-end text-right text-neutral-50
-          opacity-0 hover:opacity-100 transition-opacity
+          opacity-0 group-hover:opacity-100 transition-opacity
         "
       >
         <div className="flex flex-col gap-1 w-full">
@@ -94,13 +109,21 @@ const SkinCard: FC<SkinCardProps> = ({ data, addToWishlistButton, toggleOwnedBut
                     variant="outline"
                     size="icon-lg"
                     onClick={toggleOwnedHandler}
-                    className="bg-transparent text-neutral-50 light:hover:text-neutral-900 dark:hover:bg-neutral-50 dark:hover:text-neutral-950"
+                    className={cn(actionButtonCN, "pointer-events-auto")}
                     disabled={isOwningUpdating}
                   >
-                    {isOwningUpdating ? <Spinner className='size-5' /> : isOwned ? <SaveOffIcon className="size-5" /> : <SaveIcon className="size-5" />}
+                    {isOwningUpdating ? (
+                      <Spinner className="size-5" />
+                    ) : isOwned ? (
+                      <SaveOffIcon className="size-5" />
+                    ) : (
+                      <SaveIcon className="size-5" />
+                    )}
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent className="pointer-events-none">{isOwned ? t("skin.unmarkOwnedTooltip") : t("skin.markOwnedTooltip")}</TooltipContent>
+                <TooltipContent className="pointer-events-none">
+                  {isOwned ? t("skin.unmarkOwnedTooltip") : t("skin.markOwnedTooltip")}
+                </TooltipContent>
               </Tooltip>
             )}
             {addToWishlistButton && (
@@ -113,7 +136,7 @@ const SkinCard: FC<SkinCardProps> = ({ data, addToWishlistButton, toggleOwnedBut
                         variant="outline"
                         size="icon-lg"
                         onClick={onOpen}
-                        className="bg-transparent text-neutral-50 light:hover:text-neutral-900 dark:hover:bg-neutral-50 dark:hover:text-neutral-950"
+                        className={cn(actionButtonCN, "pointer-events-auto")}
                       >
                         <HeartPlusIcon className="size-5" />
                       </Button>
