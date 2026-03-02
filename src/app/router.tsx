@@ -8,6 +8,7 @@ import SearchPage from "@/pages/SearchPage";
 import SearchPageResults from "@/pages/SearchPageResults";
 import LayoutPage from "@/pages/LayoutPage";
 import SkinDetailsPage from "@/pages/SkinDetailsPage";
+import AboutPage from "@/pages/AboutPage";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
             element: <SkinsPage />,
           },
         ],
+      },
+      {
+        path: "/about",
+        element: <AboutPage />,
       },
       {
         path: "/skins/:skinContentId",

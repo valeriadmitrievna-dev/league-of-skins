@@ -21,7 +21,7 @@ const AppHeader: FC = () => {
   }
 
   return (
-    <div className="flex items-center justify-between px-5 py-1.5 pt-3 mx-auto w-full xl:max-w-360 2xl:max-w-380">
+    <div className="flex items-center justify-between py-1.5 pt-3 my-container">
       <NavLink to="/">
         <AppLogo />
       </NavLink>
