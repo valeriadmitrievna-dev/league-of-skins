@@ -59,5 +59,24 @@
     "create": "Создать вишлист",
     "createAndAdd": "Создать вишлист и добавить в него",
     "__MAIN__": "Основной"
+  },
+  "auth": {
+    "signin_title": "Вход",
+    "signin_link": "Войти",
+    "signin_extra": "Нет аккаунта?",
+    "signup_title": "Регистрация",
+    "signup_link": "Создать новый",
+    "signup_extra": "Уже есть аккаунт?",
+    "name": "Имя",
+    "name_placeholder": "Введите имя",
+    "field_required": "Поле обязательно",
+    "field_minlength": "Минимальное количество символов — {{length}}",
+    "email": "Почта",
+    "email_placeholder": "Введите почту",
+    "email_invalid": "Введите корректную почту",
+    "password": "Пароль",
+    "password_placeholder": "Введите пароль",
+    "submit_signin": "Войти",
+    "submit_signup": "Создать аккаунт"
   }
 }

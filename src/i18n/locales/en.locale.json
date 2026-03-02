@@ -59,5 +59,24 @@
     "create": "Create wishlist",
     "createAndAdd": "Create wishlist and add",
     "__MAIN__": "Main"
+  },
+  "auth": {
+    "signin_title": "Sign In",
+    "signin_link": "Sign In",
+    "signin_extra": "Don't have an account?",
+    "signup_title": "Sign Up",
+    "signup_link": "Sign Up",
+    "signup_extra": "Already have an account?",
+    "name": "Name",
+    "name_placeholder": "Enter name",
+    "field_required": "Field is required",
+    "field_minlength": "Min length is {{length}} symbols",
+    "email": "Email",
+    "email_placeholder": "Enter email",
+    "email_invalid": "Enter valid email",
+    "password": "Password",
+    "password_placeholder": "Enter password",
+    "submit_signin": "Submit",
+    "submit_signup": "Submit"
   }
 }
