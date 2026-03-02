@@ -78,5 +78,10 @@
     "password_placeholder": "Enter password",
     "submit_signin": "Submit",
     "submit_signup": "Submit"
+  },
+  "empty": {
+    "skinpage_title": "Skin data not found",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, soluta?",
+    "goto_search": "Search skins"
   }
 }

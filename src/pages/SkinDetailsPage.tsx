@@ -8,7 +8,7 @@ import { Spinner } from "@/components/ui/spinner";
 import Video from "@/components/Video";
 import { RARITIES } from "@/shared/constants/rarities";
 import { appAuthSelector, setFilters } from "@/store";
-import { BadgeCheckIcon, CircleQuestionMarkIcon, PlayIcon } from "lucide-react";
+import { BadgeCheckIcon, CircleQuestionMarkIcon, FrownIcon, PlayIcon } from "lucide-react";
 import type { FC, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +17,8 @@ import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
 import MEIcon from "@/shared/assets/mythic-essence-icon.svg?react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import AddToWishlist from "@/widgets/AddToWishlist";
+import Skeleton from "@/components/Skeleton";
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 
 const SkinDetailsPage: FC = () => {
   const navigate = useNavigate();
@@ -66,9 +68,6 @@ const SkinDetailsPage: FC = () => {
     else updateOwnedSkins({ addIds: [skin.contentId] });
   };
 
-  if (isLoading && !skin) return "Loading";
-  if (!isLoading && !skin) return "Empty";
-
   const infoLine = (title: string, info: ReactNode, helpText?: string) => {
     return (
       <div className="flex gap-x-2 justify-between not-last:mb-3 min-h-5">
@@ -88,6 +87,44 @@ const SkinDetailsPage: FC = () => {
       </div>
     );
   };
+
+  if (isLoading && !skin)
+    return (
+      <div className="grid grid-cols-[320px_1fr] gap-x-4">
+        <div className="flex flex-col gap-y-3">
+          <Skeleton className="h-40" />
+          <Skeleton className="h-20" />
+          <Skeleton className="h-auto aspect-square" />
+          <Skeleton className="h-10" />
+          {isAuth && <Skeleton className="h-10" />}
+          <Skeleton className="h-10" />
+        </div>
+        <div>
+          <Skeleton className="h-auto aspect-video" />
+          <Skeleton className="mt-3 h-5 w-40" />
+          <Skeleton className="mt-1 h-9 w-120" />
+          <Skeleton className="mt-2 h-30" />
+        </div>
+      </div>
+    );
+
+  if (!isLoading && !skin)
+    return (
+      <Empty>
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <FrownIcon />
+          </EmptyMedia>
+          <EmptyTitle>{t('empty.skinpage_title')}</EmptyTitle>
+          <EmptyDescription>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, soluta?</EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent>
+          <Button size="sm" asChild>
+            <NavLink to="/">{t('empty.goto_search')}</NavLink>
+          </Button>
+        </EmptyContent>
+      </Empty>
+    );
 
   if (skin) {
     return (

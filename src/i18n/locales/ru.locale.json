@@ -78,5 +78,10 @@
     "password_placeholder": "Введите пароль",
     "submit_signin": "Войти",
     "submit_signup": "Создать аккаунт"
+  },
+  "empty": {
+    "skinpage_title": "Данные о скине не найдены",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, soluta?",
+    "goto_search": "Перейти к поиску скинов"
   }
 }
