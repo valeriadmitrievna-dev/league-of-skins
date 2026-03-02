@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 import AppLogo from "@/components/AppLogo";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
@@ -12,7 +12,13 @@ import UserSettings from "./UserSettings";
 
 const AppHeader: FC = () => {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
+
   const isAuth = useSelector(appAuthSelector);
+
+  const authLink = (type: 'signin' | 'signup') => {
+    return `/auth/${type}${pathname === '/' ? '' : '?redirect=' + pathname}`;
+  }
 
   return (
     <div className="flex items-center justify-between px-5 py-1.5 pt-3 mx-auto w-full xl:max-w-360 2xl:max-w-380">
@@ -39,11 +45,11 @@ const AppHeader: FC = () => {
         {!isAuth && (
           <div className="flex items-center gap-x-2 ml-2">
             <Button className="text-base" variant="secondary" asChild>
-              <NavLink to="/auth/signup">{t("header.signup")}</NavLink>
+              <NavLink to={authLink('signup')}>{t("header.signup")}</NavLink>
             </Button>
             <Separator orientation="vertical" className="h-4!" />
             <Button className="text-base" variant="secondary" asChild>
-              <NavLink to="/auth/signin">{t("header.signin")}</NavLink>
+              <NavLink to={authLink('signin')}>{t("header.signin")}</NavLink>
             </Button>
           </div>
         )}
