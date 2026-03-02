@@ -8,8 +8,10 @@ import Skeleton from "@/components/Skeleton";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { Button } from "@/components/ui/button";
 import useSearchPage from "@/hooks/useSearchPage";
+import { useTranslation } from 'react-i18next';
 
 const SearchPageResults: FC = () => {
+  const { t } = useTranslation();
   const { skins, searchInput, searchHandler, clearSearchHandler, fullResetHandler, isLoading, count } = useSearchPage();
 
   const parentRef = useRef<HTMLDivElement | null>(null);
@@ -62,12 +64,12 @@ const SearchPageResults: FC = () => {
       {!isLoading && !count && (
         <Empty className="w-full h-full max-h-120">
           <EmptyHeader>
-            <EmptyTitle>No Skins Found</EmptyTitle>
-            <EmptyDescription>Your search did not match any skins. Please clear filters to try again.</EmptyDescription>
+            <EmptyTitle>{t('empty.search_title')}</EmptyTitle>
+            <EmptyDescription>{t('empty.search_desc')}</EmptyDescription>
           </EmptyHeader>
           <EmptyContent className="justify-center">
             <Button className="cursor-pointer" onClick={fullResetHandler}>
-              Reset filters
+              {t('empty.goto_reset_filters')}
             </Button>
           </EmptyContent>
         </Empty>

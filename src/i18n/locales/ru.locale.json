@@ -81,7 +81,10 @@
   },
   "empty": {
     "skinpage_title": "Данные о скине не найдены",
+    "search_title": "Скины не найдены",
     "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, soluta?",
-    "goto_search": "Перейти к поиску скинов"
+    "search_desc": "Поиск не дал результатов. Очистите фильтры и попробуйте снова.",
+    "goto_search": "Перейти к поиску скинов",
+    "goto_reset_filters": "Очистить фильтры"
   }
 }

@@ -81,7 +81,10 @@
   },
   "empty": {
     "skinpage_title": "Skin data not found",
+    "search_title": "No Skins Found",
     "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, soluta?",
-    "goto_search": "Search skins"
+    "search_desc": "Your search did not match any skins. Please clear filters to try again.",
+    "goto_search": "Search skins",
+    "goto_reset_filters": "Reset filters"
   }
 }
