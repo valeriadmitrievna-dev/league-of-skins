@@ -1,6 +1,6 @@
-import type { ChromaDto } from '@/types/chroma';
+import type { ChromaDto } from "@/types/chroma";
 import type { Theme } from "@/types/shared";
-import type { SkinDto } from '@/types/skin';
+import type { SkinDto } from "@/types/skin";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -10,6 +10,7 @@ export interface AppState {
   isAuth: boolean;
   addSkinWaiting: SkinDto["id"] | null;
   addChromaWaiting: ChromaDto["id"] | null;
+  addWaitingFrom: string | null;
 }
 
 const initialState: AppState = {
@@ -18,6 +19,7 @@ const initialState: AppState = {
   isAuth: !!localStorage.getItem("access-token"),
   addSkinWaiting: null,
   addChromaWaiting: null,
+  addWaitingFrom: null,
 };
 
 export const appSlice = createSlice({

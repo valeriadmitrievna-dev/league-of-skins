@@ -7,13 +7,13 @@ import {
   setAddChromaWaiting,
   setAddSkinWaiting,
 } from "@/store";
-import type { ChromaDto } from '@/types/chroma';
-import type { SkinDto } from '@/types/skin';
+import type { ChromaDto } from "@/types/chroma";
+import type { SkinDto } from "@/types/skin";
 import { CirclePlusIcon, PlusIcon } from "lucide-react";
 import { useEffect, useState, type FC, type MouseEvent, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 interface AddToWishlistProps {
   trigger: (options: { openState: boolean; onOpen: (event: MouseEvent<HTMLElement>) => void }) => ReactNode;
@@ -28,6 +28,7 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const isAuth = useSelector(appAuthSelector);
   const addSkinWaiting = useSelector(appAddSkinWaitingSelector);
@@ -45,7 +46,8 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
     else {
       if (skinContentId) dispatch(setAddSkinWaiting(skinContentId));
       if (chromaId) dispatch(setAddChromaWaiting(chromaId));
-      navigate("/auth/signin");
+
+      navigate("/auth/signin?redirect=" + pathname);
     }
   };
 
@@ -74,15 +76,17 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger({ openState: open, onOpen: openHandler })}</DialogTrigger>
-      <DialogContent showCloseButton={true} className='gap-y-2'>
+      <DialogContent showCloseButton={true} className="gap-y-2">
         <DialogHeader className="px-2.5 pt-2">
-          <DialogTitle>{t('skin.add')}</DialogTitle>
-          <DialogDescription>{t('skin.addHelper')} {skinName}</DialogDescription>
+          <DialogTitle>{t("skin.add")}</DialogTitle>
+          <DialogDescription>
+            {t("skin.addHelper")} {skinName}
+          </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-y-2">
           <div role="list">
             <div role="list-item" className="min-h-8  rounded-md flex items-center justify-between px-2.5 py-1 border-b">
-              <span className="text-sm font-medium">{t('wishlist.__MAIN__')}</span>
+              <span className="text-sm font-medium">{t("wishlist.__MAIN__")}</span>
               <Button size="icon-sm" variant="ghost" onClick={addToExistingWishlist} disabled>
                 <CirclePlusIcon />
               </Button>

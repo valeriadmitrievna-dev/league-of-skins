@@ -27,7 +27,7 @@ export const RARITIES = {
     icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/rarity-gem-icons/ultimate.png",
     price: {
       type: 'RP',
-      value: '2775-3250'
+      value: '3250'
     },
   },
   kExalted: {

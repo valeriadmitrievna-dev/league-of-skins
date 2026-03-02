@@ -7,7 +7,7 @@ import { type FC } from "react";
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { NavLink } from "react-router";
+import { NavLink, useLocation } from "react-router";
 
 interface SignInFormInput {
   email: string;
@@ -17,6 +17,7 @@ interface SignInFormInput {
 const SignInPage: FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const { register, handleSubmit, formState: { errors } } = useForm<SignInFormInput>();
 
@@ -42,7 +43,7 @@ const SignInPage: FC = () => {
           <p>
             {t('auth.signin_extra')}{" "}
             <Button variant="link" className="p-0 px-1 h-fit text-base" asChild>
-              <NavLink to="/auth/signup">{t('auth.signup_link')}</NavLink>
+              <NavLink to={`/auth/signup${location.search}`}>{t('auth.signup_link')}</NavLink>
             </Button>
           </p>
         }

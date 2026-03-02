@@ -5,7 +5,7 @@ import { AuthForm } from "@/widgets/AuthForm";
 import { LockIcon, MailIcon, UserIcon } from "lucide-react";
 import { type FC } from "react";
 import { useDispatch } from "react-redux";
-import { NavLink } from "react-router";
+import { NavLink, useLocation } from "react-router";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useTranslation } from 'react-i18next';
 
@@ -18,6 +18,7 @@ interface SignUpFormInput {
 const SignUpPage: FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const { register, handleSubmit, formState: { errors } } = useForm<SignUpFormInput>();
 
@@ -43,7 +44,7 @@ const SignUpPage: FC = () => {
           <p>
             {t('auth.signup_extra')}{" "}
             <Button variant="link" className="p-0 px-1 h-fit text-base" asChild>
-              <NavLink to="/auth/signin">{t('auth.signin_link')}</NavLink>
+              <NavLink to={`/auth/signin${location.search}`}>{t('auth.signin_link')}</NavLink>
             </Button>
           </p>
         }
