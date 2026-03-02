@@ -33,7 +33,7 @@ const useSearchPage = () => {
 
   useDebounce(() => dispatch(setFilterSearch(searchInput)), 300, [searchInput]);
 
-  const { data: skinsData, isLoading } = useGetSkinsQuery({
+  const { data: skinsData, isFetching } = useGetSkinsQuery({
     lang: i18n.language,
     ...(search ? { search } : {}),
     championId,
@@ -59,7 +59,7 @@ const useSearchPage = () => {
     setSearchInput("");
   };
 
-  return { skins, count, isLoading, searchInput, searchHandler, clearSearchHandler, fullResetHandler };
+  return { skins, count, isLoading: isFetching, searchInput, searchHandler, clearSearchHandler, fullResetHandler };
 };
 
 export default useSearchPage;

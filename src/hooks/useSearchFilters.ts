@@ -18,7 +18,7 @@ import {
   setFilterRarity,
   setFilterSkinlineId,
 } from "@/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -111,6 +111,12 @@ const useSearchFilters = () => {
   const toggleOwnedHandler = (value: string) => {
     if (value) dispatch(setFilterOwned(value));
   };
+
+  useEffect(() => {
+    if (!isAuth && owned !== "all") {
+      dispatch(setFilterOwned("all"));
+    }
+  }, [isAuth]);
 
   return {
     isAuth,

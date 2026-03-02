@@ -2,15 +2,20 @@ import type { ODataRequest, ODataResponse, WithLanguage } from "@/types/shared";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { SkinsRequest } from "./types";
 import { getLanguageCode } from "@/shared/utils/getLanguageCode";
-import type { ChromaDto } from '@/types/chroma';
-import type { SkinlineDto } from '@/types/skinline';
-import type { ChampionDto } from '@/types/champion';
-import type { SkinDto } from '@/types/skin';
+import type { ChromaDto } from "@/types/chroma";
+import type { SkinlineDto } from "@/types/skinline";
+import type { ChampionDto } from "@/types/champion";
+import type { SkinDto } from "@/types/skin";
 
 export const dataApi = createApi({
   reducerPath: "dataApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_API_URL}/api`,
+    prepareHeaders(headers) {
+      const token = localStorage.getItem("access-token");
+      if (token) headers.set("authorization", `Bearer ${token}`);
+      return headers;
+    },
   }),
   endpoints: (build) => ({
     // shared
