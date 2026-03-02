@@ -1,17 +1,70 @@
+import { Typography } from "@/components/Typography";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { FC } from "react";
 
 const AboutPage: FC = () => {
   return (
-    <Tabs defaultValue="main" className="gap-6 h-full" orientation='vertical'>
-      <TabsList className='w-80 p-3 gap-y-1 h-full! justify-start'>
-        <TabsTrigger className='py-2 px-4 h-fit! flex-none!' value="main">Описание проекта</TabsTrigger>
-        <TabsTrigger className='py-2 px-4 h-fit! flex-none!' value="faq">FAQ</TabsTrigger>
-        <TabsTrigger className='py-2 px-4 h-fit! flex-none!' value="contacts">Контакты</TabsTrigger>
-        <TabsTrigger className='py-2 px-4 h-fit! flex-none!' value="support">Поддержать проект</TabsTrigger>
+    <Tabs defaultValue="main" className="gap-6 h-full" orientation="vertical">
+      <TabsList className="w-80 p-3 gap-y-1 h-full! justify-start">
+        <TabsTrigger className="py-2 px-4 h-fit! flex-none!" value="main">
+          Описание проекта
+        </TabsTrigger>
+        <TabsTrigger className="py-2 px-4 h-fit! flex-none!" value="faq">
+          FAQ
+        </TabsTrigger>
+        <TabsTrigger className="py-2 px-4 h-fit! flex-none!" value="contacts">
+          Контакты
+        </TabsTrigger>
+        <TabsTrigger className="py-2 px-4 h-fit! flex-none!" value="support">
+          Поддержать проект
+        </TabsTrigger>
       </TabsList>
-      <TabsContent value="account">Make changes to your account here.</TabsContent>
-      <TabsContent value="password">Change your password here.</TabsContent>
+      <TabsContent value="main">
+        <Typography.P>
+          Этот проект — инструмент для игроков League of Legends, которым не хватает простой и удобной возможности собирать
+          вишлисты скинов и делиться ими с друзьями. Несмотря на огромное количество контента в игре, официального способа
+          создать собственный список желаемых образов до сих пор нет, и многие делают это вручную: в блокнотах, заметках,
+          таблицах или просто «в голове». Такой подход неудобен, особенно если вы хотите получить скин в подарок или просто
+          не потерять из виду понравившийся образ.
+        </Typography.P>
+        <br />
+        <Typography.P>
+          Я сама сталкивалась с этой проблемой: делала Google-таблицу, помечала цветами нужные скины, хромы, купленное и
+          желаемое — и регулярно путалась. Именно так и родилась идея создать сервис, который возьмёт на себя всю скучную
+          организационную часть, оставив игроку только удовольствие от выбора.
+        </Typography.P>
+        <br />
+        <Typography.P>
+          Проект позволяет искать скины по множеству критериев, просматривать подробную информацию о каждом из них, сохранять
+          вишлисты и отмечать уже купленное. Он стремится быть тем инструментом, который мог бы существовать в самой игре, но
+          по какой-то причине не существует. При этом он уважает ограничения API Riot Games и аккуратно обходит отсутствующие
+          данные, предоставляя максимально удобный пользовательский опыт там, где это возможно.
+        </Typography.P>
+        <br />
+        <Typography.P>
+          Этот сервис создаётся как хобби-проект одного разработчика — живой, растущий, иногда спотыкающийся, но всегда
+          движущийся вперёд. Здесь появляются новые фичи, улучшается интерфейс, переписываются куски кода, фиксится то, что
+          нужно фиксить, и добавляется то, что вдохновляет. Это не коммерческий продукт, а любовь к игре и желание сделать
+          сообществу что-то полезное.
+        </Typography.P>
+        <br />
+        <Typography.P className="mb-2">В конечном итоге цель проекта — дать игрокам простой способ:</Typography.P>
+        <ul className="list-disc list-inside">
+          <li>сохранить понравившиеся скины и хромы;</li>
+          <li>поделиться своим вишлистом одной ссылкой;</li>
+          <li>следить за прогрессом собранных коллекций;</li>
+          <li>получить удобный инструмент, которого так давно не хватало.</li>
+        </ul>
+
+        <br />
+        <Typography.P className='mb-2'>
+          Если вы пользуетесь сервисом, делитесь обратной связью или просто интересуетесь развитием — спасибо! Это очень
+          помогает двигаться дальше и делает проект живым.
+        </Typography.P>
+        <Typography.P>
+          А если вы тут впервые — добро пожаловать. Надеюсь, инструмент окажется полезным именно вам ✨
+        </Typography.P>
+      </TabsContent>
     </Tabs>
   );
 };
