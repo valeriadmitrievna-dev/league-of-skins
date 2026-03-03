@@ -113,7 +113,7 @@ const SearchFilters: FC = () => {
             className="w-full mb-3"
           >
             {ownedOptions.map((option) => (
-              <ToggleGroupItem className={cn("grow", option.className)} value={option.value}>
+              <ToggleGroupItem key={option.value} className={cn("grow", option.className)} value={option.value}>
                 {option.label}
               </ToggleGroupItem>
             ))}
@@ -127,7 +127,7 @@ const SearchFilters: FC = () => {
           className="w-full pb-3 border-b rounded-none"
         >
           {legacyOptions.map((option) => (
-            <ToggleGroupItem className={cn("grow", option.className)} value={option.value}>
+            <ToggleGroupItem key={option.value} className={cn("grow", option.className)} value={option.value}>
               {option.label}
             </ToggleGroupItem>
           ))}

@@ -7,11 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import Video from "@/components/Video";
 import { RARITIES } from "@/shared/constants/rarities";
-import { appAuthSelector, setFilters } from "@/store";
+import { appAuthSelector } from "@/store";
 import { BadgeCheckIcon, CircleQuestionMarkIcon, FrownIcon, PlayIcon } from "lucide-react";
 import type { FC, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { NavLink, useNavigate, useParams } from "react-router";
 import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
 import MEIcon from "@/shared/assets/mythic-essence-icon.svg?react";
@@ -22,7 +22,6 @@ import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTi
 
 const SkinDetailsPage: FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const { skinContentId } = useParams();
   const { t, i18n } = useTranslation();
@@ -47,18 +46,15 @@ const SkinDetailsPage: FC = () => {
   };
 
   const championBadgeHandler = () => {
-    dispatch(setFilters({ championId: skin!.championId }));
-    navigate("/");
+    navigate("/search/skins?championId=" + skin!.championId);
   };
 
   const rarityBadgeHandler = () => {
-    dispatch(setFilters({ rarity: skin!.rarity }));
-    navigate("/");
+    navigate("/search/skins?rarity=" + skin!.rarity);
   };
 
   const skinlineBadgeHandler = (skinlineId: string) => {
-    dispatch(setFilters({ skinlineId }));
-    navigate("/");
+    navigate("/search/skins?skinlineId=" + skinlineId);
   };
 
   const toggleOwnedHandler = () => {

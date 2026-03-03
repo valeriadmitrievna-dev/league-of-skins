@@ -35,7 +35,7 @@ const AppHeader: FC = () => {
               <NavLink to="/wishlists">{t("header.wishlists")}</NavLink>
             </Button>
             <Button className="text-base" variant="ghost" asChild>
-              <NavLink to="/skins">{t("header.skins")}</NavLink>
+              <NavLink to="/collection/skins">{t("header.collection")}</NavLink>
             </Button>
           </>
         )}

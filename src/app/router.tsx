@@ -7,33 +7,27 @@ import SkinsPage from "@/pages/SkinsPage";
 import LayoutPage from "@/pages/LayoutPage";
 import SkinDetailsPage from "@/pages/SkinDetailsPage";
 import AboutPage from "@/pages/AboutPage";
-import SearchSkinsPage from '@/pages/SearchSkinsPage';
+import SearchSkinsPage from "@/pages/SearchSkinsPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <LayoutPage />,
     children: [
-      {
-        path: "",
-        element: <Navigate to="/search/skins" />,
-      },
+      { path: "", element: <Navigate to="/search/skins" /> },
 
       // search
       {
         path: "/search",
         children: [
           { index: true, element: <Navigate to="/search/skins" /> },
-          { path: 'skins', element: <SearchSkinsPage /> },
-          { path: 'companions', element: "Search tft companions (Coming somewhen)" },
-        ]
+          { path: "skins", element: <SearchSkinsPage /> },
+          { path: "companions", element: "Search tft companions (Coming somewhen)" },
+        ],
       },
-      
+
       // details
-      {
-        path: "/skins/:skinContentId",
-        element: <SkinDetailsPage />,
-      },
+      { path: "/skins/:skinContentId", element: <SkinDetailsPage /> },
 
       // user pages
       {
@@ -42,17 +36,16 @@ export const router = createBrowserRouter([
         children: [
           { path: "/wishlists", element: <>wishlists</> },
           {
-            path: "/skins",
-            element: <SkinsPage />,
-          },
+            path: '/collection',
+            children: [
+              { path: "skins", element: <SkinsPage /> },
+            ]
+          }
         ],
       },
 
       // about
-      {
-        path: "/about",
-        element: <AboutPage />,
-      },
+      { path: "/about", element: <AboutPage /> },
 
       // 404
       { path: "*", element: "404" },
