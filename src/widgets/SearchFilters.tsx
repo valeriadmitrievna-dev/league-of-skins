@@ -14,6 +14,7 @@ import { appAuthSelector } from "@/store";
 import { useGetChampionsQuery, useGetChromasQuery, useGetRaritiesQuery, useGetSkinlinesQuery } from "@/api";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import { cn } from "@/shared/utils/cn";
+import Skeleton from '@/components/Skeleton';
 
 const SearchFilters: FC = () => {
   const { t, i18n } = useTranslation();
@@ -29,7 +30,7 @@ const SearchFilters: FC = () => {
   const chromaId = searchParams.get("chromaId");
   const rarity = searchParams.get("rarity");
 
-  const { data: rarities = [] } = useGetRaritiesQuery();
+  const { data: rarities = [], isLoading: isRaritiesLoading } = useGetRaritiesQuery();
   const { data: championsData, isLoading: isChampionsLoading } = useGetChampionsQuery({ lang: i18n.language });
   const { data: skinlinesData, isLoading: isSkinlinesLoading } = useGetSkinlinesQuery({ lang: i18n.language });
   const { data: chromasData, isLoading: isChromasLoading } = useGetChromasQuery({ lang: i18n.language });
@@ -161,7 +162,8 @@ const SearchFilters: FC = () => {
             value={rarity ?? ""}
             onValueChange={(value) => updateQueryHandler("rarity", value, true)}
           >
-            {rarities.map((rarity) => (
+            {isRaritiesLoading && <Skeleton count={8} asChild className='w-[30%] h-8' />}
+            {!isRaritiesLoading && rarities.map((rarity) => (
               <ToggleGroupItem
                 key={rarity}
                 value={rarity}
