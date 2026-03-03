@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import type { ComponentProps, FC, MouseEventHandler, PropsWithChildren } from "react";
 import { Accordion as AccordionPrimitive } from "radix-ui";
 import { XIcon } from 'lucide-react';
+import { cn } from '@/shared/utils/cn';
 
 interface FilterItemProps extends PropsWithChildren, ComponentProps<typeof AccordionPrimitive.Item> {
   title: string;
@@ -11,14 +12,14 @@ interface FilterItemProps extends PropsWithChildren, ComponentProps<typeof Accor
   onClear?: () => void;
 }
 
-const FilterItem: FC<FilterItemProps> = ({ title, value, hasValue, onClear, children, ...accordionItemProps }) => {
+const FilterItem: FC<FilterItemProps> = ({ title, value, hasValue, onClear, children, className, ...accordionItemProps }) => {
   const clearHandler: MouseEventHandler = (event) => {
     event.stopPropagation();
     onClear?.();
   };
 
   return (
-    <AccordionItem value={value} {...accordionItemProps}>
+    <AccordionItem value={value} className={cn('group', className)} {...accordionItemProps}>
       <AccordionTrigger className="relative py-2 group hover:no-underline">
         <div className="flex items-center gap-x-2 w-full">
           <span className="group-hover:underline">{title}</span>
@@ -35,7 +36,7 @@ const FilterItem: FC<FilterItemProps> = ({ title, value, hasValue, onClear, chil
           )}
         </div>
       </AccordionTrigger>
-      <AccordionContent className="flex flex-col gap-y-2">{children}</AccordionContent>
+      <AccordionContent className="flex flex-col gap-y-2 group-last:pb-0">{children}</AccordionContent>
     </AccordionItem>
   );
 };

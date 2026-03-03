@@ -7,7 +7,7 @@ import { AutoSizer, CellMeasurer, CellMeasurerCache, List, type ListRowRenderer 
 interface FilterListProps {
   items: { value: string; label: string, prefix?: ReactNode; suffix?: ReactNode }[];
   value: string;
-  onChange: (value: string) => void;
+  onChange: (value?: string) => void;
   isLoading?: boolean;
 }
 
@@ -84,7 +84,9 @@ const FilterList: FC<FilterListProps> = ({ items, value, onChange, isLoading }) 
         >
           {isLoading && <Skeleton count={4} className="bg-neutral-300 dark:bg-neutral-700" />}
 
-          {!isLoading && listHeight > 0 && (
+          {!isLoading && !items.length && <><br /></>}
+
+          {!isLoading && !!items.length && listHeight > 0 && (
             <AutoSizer disableHeight>
               {({ width }) => (
                 <List

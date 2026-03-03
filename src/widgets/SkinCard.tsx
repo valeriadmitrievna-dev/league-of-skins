@@ -86,7 +86,7 @@ const SkinCard: FC<SkinCardProps> = ({ data, navigatable, addToWishlistButton, t
         "
       >
         <div className="flex flex-col gap-1 w-full">
-          <Typography.P className="font-medium">{data.name}</Typography.P>
+          <Typography.P className="font-medium text-sm">{data.name}</Typography.P>
           {!!data.chromas?.length && (
             <div className="flex items-center justify-end">
               {data.chromas.slice(0, 3).map((chroma) => (
