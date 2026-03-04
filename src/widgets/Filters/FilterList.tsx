@@ -1,18 +1,25 @@
+import Search from "@/components/Search";
 import Skeleton from "@/components/Skeleton";
+import { Typography } from "@/components/Typography";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useCallback, useEffect, useRef, useState, type FC, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type FC, type ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List, type ListRowRenderer } from "react-virtualized";
 
 interface FilterListProps {
-  items: { value: string; label: string, prefix?: ReactNode; suffix?: ReactNode }[];
+  items: { value: string; label: string; prefix?: ReactNode; suffix?: ReactNode }[];
   value: string;
   onChange: (value?: string) => void;
   isLoading?: boolean;
+  withSearch?: boolean;
 }
 
-const FilterList: FC<FilterListProps> = ({ items, value, onChange, isLoading }) => {
+const FilterList: FC<FilterListProps> = ({ items: options, value, onChange, isLoading, withSearch }) => {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const [search, setSearch] = useState("");
   const [listHeight, setListHeight] = useState(248);
 
   const cacheRef = useRef(
@@ -23,8 +30,12 @@ const FilterList: FC<FilterListProps> = ({ items, value, onChange, isLoading }) 
     }),
   );
 
+  const items = useMemo(() => {
+    return options.filter(option => option.label.toLowerCase().includes(search.trim().toLowerCase()))
+  }, [options, search]);
+
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || !items.length) return;
 
     const observer = new ResizeObserver(() => {
       const container = containerRef.current!.querySelector('[role="row"]');
@@ -59,9 +70,9 @@ const FilterList: FC<FilterListProps> = ({ items, value, onChange, isLoading }) 
                 value={item.value}
                 aria-label={item.label}
               >
-                {!!item.prefix && <div className='shrink-0'>{item.prefix}</div>}
+                {!!item.prefix && <div className="shrink-0">{item.prefix}</div>}
                 <span>{item.label}</span>
-                {!!item.suffix && <div className='shrink-0 ml-auto'>{item.suffix}</div>}
+                {!!item.suffix && <div className="shrink-0 ml-auto">{item.suffix}</div>}
               </ToggleGroupItem>
             </div>
           )}
@@ -71,39 +82,44 @@ const FilterList: FC<FilterListProps> = ({ items, value, onChange, isLoading }) 
     [items],
   );
 
+  if (!isLoading && !items.length) {
+    return <Typography.Small className="text-muted-foreground">{t("filters.empty-options")}</Typography.Small>;
+  }
+
   return (
-    <div className="bg-neutral-100 dark:bg-neutral-800 px-2 py-2 rounded-md border border-foreground/10">
-      <ScrollArea className="max-h-62 overflow-auto scrollbar" ref={containerRef}>
-        <ToggleGroup
-          type="single"
-          orientation="vertical"
-          spacing={1}
-          className="flex-col items-start w-full"
-          value={value}
-          onValueChange={onChange}
-        >
-          {isLoading && <Skeleton count={4} className="bg-neutral-300 dark:bg-neutral-700" />}
+    <div>
+      {withSearch && <Search size="sm" value={search} onSearch={setSearch} className="plane-input mb-2" />}
+      <div className="bg-neutral-100 dark:bg-neutral-800 px-2 py-2 rounded-md border border-foreground/10">
+        <ScrollArea className="max-h-62 overflow-auto scrollbar" ref={containerRef}>
+          <ToggleGroup
+            type="single"
+            orientation="vertical"
+            spacing={1}
+            className="flex-col items-start w-full"
+            value={value}
+            onValueChange={onChange}
+          >
+            {isLoading && <Skeleton count={4} className="bg-neutral-300 dark:bg-neutral-700" />}
 
-          {!isLoading && !items.length && <><br /></>}
-
-          {!isLoading && !!items.length && listHeight > 0 && (
-            <AutoSizer disableHeight>
-              {({ width }) => (
-                <List
-                  width={width}
-                  height={listHeight}
-                  deferredMeasurementCache={cacheRef.current}
-                  rowHeight={cacheRef.current.rowHeight}
-                  rowRenderer={rowRenderer}
-                  rowCount={items.length}
-                  overscanRowCount={5}
-                  className="pe-2 scrollbar"
-                />
-              )}
-            </AutoSizer>
-          )}
-        </ToggleGroup>
-      </ScrollArea>
+            {!isLoading && !!items.length && listHeight > 0 && (
+              <AutoSizer disableHeight>
+                {({ width }) => (
+                  <List
+                    width={width}
+                    height={listHeight}
+                    deferredMeasurementCache={cacheRef.current}
+                    rowHeight={cacheRef.current.rowHeight}
+                    rowRenderer={rowRenderer}
+                    rowCount={items.length}
+                    overscanRowCount={5}
+                    className="pe-2 scrollbar"
+                  />
+                )}
+              </AutoSizer>
+            )}
+          </ToggleGroup>
+        </ScrollArea>
+      </div>
     </div>
   );
 };

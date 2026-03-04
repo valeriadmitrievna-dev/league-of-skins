@@ -1,8 +1,10 @@
 import Skeleton from "@/components/Skeleton";
+import { Typography } from "@/components/Typography";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/shared/utils/cn";
 import type { OptionItem } from "@/types/shared";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 interface FilterToggleTagsProps {
   value: string;
@@ -13,6 +15,8 @@ interface FilterToggleTagsProps {
 }
 
 const FilterToggleTags: FC<FilterToggleTagsProps> = ({ value, onChange, options, loading, className }) => {
+  const { t } = useTranslation();
+
   return (
     <ToggleGroup
       type="single"
@@ -24,7 +28,11 @@ const FilterToggleTags: FC<FilterToggleTagsProps> = ({ value, onChange, options,
       onValueChange={onChange}
     >
       {loading && <Skeleton count={8} asChild className="w-[30%] h-8" />}
+      {!loading && !options.length && (
+        <Typography.Small className="text-muted-foreground">{t("filters.empty-options")}</Typography.Small>
+      )}
       {!loading &&
+        !!options.length &&
         options.map((option) => (
           <ToggleGroupItem
             key={option.value}

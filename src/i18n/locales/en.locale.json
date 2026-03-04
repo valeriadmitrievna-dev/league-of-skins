@@ -41,7 +41,8 @@
     "owned-on": "Owned",
     "owned-off": "Not Owned",
     "legacy-on": "Legacy",
-    "legacy-off": "Not legacy"
+    "legacy-off": "Not legacy",
+    "empty-options": "Options not found"
   },
   "skin": {
     "add": "Add to wishlist",

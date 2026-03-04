@@ -1,5 +1,4 @@
-import Search from "@/components/Search";
-import { useState, type FC } from "react";
+import { type FC } from "react";
 import { useTranslation } from "react-i18next";
 import FilterList from "@/widgets/Filters/FilterList";
 import FilterItem from "@/widgets/Filters/FilterItem";
@@ -36,10 +35,6 @@ const SearchFilters: FC = () => {
   const { data: skinlines } = getODataWithDefault(skinlinesData);
   const { data: chromas } = getODataWithDefault(chromasData);
 
-  const [championSearch, setChampionSearch] = useState("");
-  const [skinlineSearch, setSkinlineSearch] = useState("");
-  const [chromaSearch, setChromaSearch] = useState("");
-
   const legacyOptions = [
     { value: "all", label: t("filters.all"), className: "max-w-15" },
     { value: "on", label: t("filters.legacy-on") },
@@ -71,15 +66,15 @@ const SearchFilters: FC = () => {
           className="pb-3 border-b"
         />
         <FilterItem value={get("championId") ?? ""} title={t("filters.champion")} onClear={() => update("championId")}>
-          <Search size="sm" value={championSearch} onSearch={setChampionSearch} className="plane-input mb-2" />
           <FilterList
             items={champions.map((champion) => ({ value: champion.id, label: champion.name }))}
             value={get("championId") ?? ""}
             onChange={(value) => update("championId", value)}
             isLoading={isChampionsLoading}
+            withSearch
           />
         </FilterItem>
-        <FilterItem value={get("rarity") ?? ""} title={t("filters.rarity")} onClear={() => update("rarity")}>
+        <FilterItem defaultOpen value={get("rarity") ?? ""} title={t("filters.rarity")} onClear={() => update("rarity")}>
           <FilterToggleTags
             value={get("rarity") ?? ""}
             onChange={(value) => update("rarity", value)}
@@ -88,16 +83,15 @@ const SearchFilters: FC = () => {
           />
         </FilterItem>
         <FilterItem value={get("skinlineId") ?? ""} title={t("filters.skinline")} onClear={() => update("skinlineId")}>
-          <Search size="sm" value={skinlineSearch} onSearch={setSkinlineSearch} className="plane-input mb-2" />
           <FilterList
             items={skinlines.map((skinline) => ({ value: skinline.id.toString(), label: skinline.name }))}
             value={get("skinlineId") ?? ""}
             onChange={(value) => update("skinlineId", value)}
             isLoading={isSkinlinesLoading}
+            withSearch
           />
         </FilterItem>
         <FilterItem value={get("chromaId") ?? ""} title={t("filters.chroma")} onClear={() => update("chromaId")}>
-          <Search size="sm" value={chromaSearch} onSearch={setChromaSearch} className="plane-input mb-2" />
           <FilterList
             items={chromas.map((chroma) => ({
               value: chroma.id,
@@ -107,6 +101,7 @@ const SearchFilters: FC = () => {
             value={get("chromaId") ?? ""}
             onChange={(value) => update("chromaId", value)}
             isLoading={isChromasLoading}
+            withSearch
           />
         </FilterItem>
       </div>
