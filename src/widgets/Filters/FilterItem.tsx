@@ -1,43 +1,45 @@
-import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import type { FC, MouseEventHandler, PropsWithChildren } from "react";
+import { ChevronDownIcon, XIcon } from "lucide-react";
+import { cn } from "@/shared/utils/cn";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
-import type { ComponentProps, FC, MouseEventHandler, PropsWithChildren } from "react";
-import { Accordion as AccordionPrimitive } from "radix-ui";
-import { XIcon } from 'lucide-react';
-import { cn } from '@/shared/utils/cn';
 
-interface FilterItemProps extends PropsWithChildren, ComponentProps<typeof AccordionPrimitive.Item> {
+interface FilterItemProps extends PropsWithChildren {
   title: string;
   value: string;
-  hasValue?: boolean;
   onClear?: () => void;
+  defaultOpen?: boolean;
 }
 
-const FilterItem: FC<FilterItemProps> = ({ title, value, hasValue, onClear, children, className, ...accordionItemProps }) => {
+const FilterItem: FC<FilterItemProps> = ({ title, value, onClear, children, defaultOpen }) => {
   const clearHandler: MouseEventHandler = (event) => {
     event.stopPropagation();
     onClear?.();
   };
 
   return (
-    <AccordionItem value={value} className={cn('group', className)} {...accordionItemProps}>
-      <AccordionTrigger className="relative py-2 group hover:no-underline">
-        <div className="flex items-center gap-x-2 w-full">
-          <span className="group-hover:underline">{title}</span>
-          {hasValue && <span className="flex size-2 rounded-full bg-blue-500" />}
-          {onClear && hasValue === true && (
-            <Button
-              size="icon-xs"
-              onClick={clearHandler}
-              className="absolute bg-background! z-5 -right-1 opacity-0 group-hover:opacity-100 hover:bg-muted!"
-              variant="ghost"
-            >
-              <XIcon className='size-4!' />
-            </Button>
-          )}
-        </div>
-      </AccordionTrigger>
-      <AccordionContent className="flex flex-col gap-y-2 group-last:pb-0">{children}</AccordionContent>
-    </AccordionItem>
+    <Collapsible defaultOpen={defaultOpen} className="not-last:border-b">
+      <CollapsibleTrigger className="group h-9 w-full flex items-center justify-between gap-x-2 relative">
+        <span className="text-sm font-medium group-hover:underline">{title}</span>
+        {!!value && <span className="flex size-2 rounded-full bg-blue-500 mr-auto" />}
+        <ChevronDownIcon
+          className={cn("size-4 text-muted-foreground group-data-[state=open]:rotate-180 absolute right-1", {
+            "group-hover:hidden": !!value && !!onClear,
+          })}
+        />
+        <Button
+          size="icon-xs"
+          onClick={clearHandler}
+          className={cn("transition-none absolute right-0 opacity-0 group-hover:opacity-100", {
+            "hidden!": !value || !onClear,
+          })}
+          variant="secondary"
+        >
+          <XIcon className="size-4!" />
+        </Button>
+      </CollapsibleTrigger>
+      <CollapsibleContent className="pb-3">{children}</CollapsibleContent>
+    </Collapsible>
   );
 };
 

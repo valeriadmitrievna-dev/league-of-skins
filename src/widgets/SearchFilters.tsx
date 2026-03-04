@@ -2,7 +2,6 @@ import Search from "@/components/Search";
 import { useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
 import FilterList from "@/widgets/Filters/FilterList";
-import { Accordion } from "@/components/ui/accordion";
 import FilterItem from "@/widgets/Filters/FilterItem";
 import ChromaColor from "@/components/ChromaColor";
 import { useSelector } from "react-redux";
@@ -56,7 +55,7 @@ const SearchFilters: FC = () => {
   return (
     <div className="my-card flex flex-col gap-y-3">
       <FilterPanelTitle onReset={hasActive && reset} />
-      <Accordion type="multiple" defaultValue={["rarity"]}>
+      <div>
         {isAuth && (
           <FilterToggleGroup
             value={get("owned") ?? "all"}
@@ -71,13 +70,8 @@ const SearchFilters: FC = () => {
           options={legacyOptions}
           className="pb-3 border-b"
         />
-        <FilterItem
-          value="champion"
-          title={t("filters.champion")}
-          hasValue={!!get("championId")}
-          onClear={() => update("championId")}
-        >
-          <Search size="sm" value={championSearch} onSearch={setChampionSearch} className="plane-input" />
+        <FilterItem value={get("championId") ?? ""} title={t("filters.champion")} onClear={() => update("championId")}>
+          <Search size="sm" value={championSearch} onSearch={setChampionSearch} className="plane-input mb-2" />
           <FilterList
             items={champions.map((champion) => ({ value: champion.id, label: champion.name }))}
             value={get("championId") ?? ""}
@@ -85,7 +79,7 @@ const SearchFilters: FC = () => {
             isLoading={isChampionsLoading}
           />
         </FilterItem>
-        <FilterItem value="rarity" title={t("filters.rarity")} hasValue={!!get("rarity")} onClear={() => update("rarity")}>
+        <FilterItem value={get("rarity") ?? ""} title={t("filters.rarity")} onClear={() => update("rarity")}>
           <FilterToggleTags
             value={get("rarity") ?? ""}
             onChange={(value) => update("rarity", value)}
@@ -93,13 +87,8 @@ const SearchFilters: FC = () => {
             loading={isRaritiesLoading}
           />
         </FilterItem>
-        <FilterItem
-          value="skinline"
-          title={t("filters.skinline")}
-          hasValue={!!get("skinlineId")}
-          onClear={() => update("skinlineId")}
-        >
-          <Search size="sm" value={skinlineSearch} onSearch={setSkinlineSearch} className="plane-input" />
+        <FilterItem value={get("skinlineId") ?? ""} title={t("filters.skinline")} onClear={() => update("skinlineId")}>
+          <Search size="sm" value={skinlineSearch} onSearch={setSkinlineSearch} className="plane-input mb-2" />
           <FilterList
             items={skinlines.map((skinline) => ({ value: skinline.id.toString(), label: skinline.name }))}
             value={get("skinlineId") ?? ""}
@@ -107,13 +96,8 @@ const SearchFilters: FC = () => {
             isLoading={isSkinlinesLoading}
           />
         </FilterItem>
-        <FilterItem
-          value="chroma"
-          title={t("filters.chroma")}
-          hasValue={!!get("chromaId")}
-          onClear={() => update("chromaId")}
-        >
-          <Search size="sm" value={chromaSearch} onSearch={setChromaSearch} className="plane-input" />
+        <FilterItem value={get("chromaId") ?? ""} title={t("filters.chroma")} onClear={() => update("chromaId")}>
+          <Search size="sm" value={chromaSearch} onSearch={setChromaSearch} className="plane-input mb-2" />
           <FilterList
             items={chromas.map((chroma) => ({
               value: chroma.id,
@@ -125,7 +109,7 @@ const SearchFilters: FC = () => {
             isLoading={isChromasLoading}
           />
         </FilterItem>
-      </Accordion>
+      </div>
     </div>
   );
 };
