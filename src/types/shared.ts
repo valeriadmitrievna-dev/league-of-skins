@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export type Theme = "dark" | "light" | "system";
 
 export type WithLanguage<T = Record<string, string>> = T & {
@@ -22,4 +24,13 @@ export interface ApiErrorPayload {
 
 export interface ApiErrorResponse {
   message: string;
+}
+
+export interface OptionItem {
+  value: string;
+  label: string;
+
+  className?: string;
+  prefix?: ReactNode;
+  suffix?: ReactNode;
 }

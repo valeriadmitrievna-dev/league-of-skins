@@ -1,34 +1,32 @@
 import Search from "@/components/Search";
-import { Button } from "@/components/ui/button";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { FunnelIcon } from "lucide-react";
 import { useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
-import FilterList from "@/widgets/FilterList";
+import FilterList from "@/widgets/Filters/FilterList";
 import { Accordion } from "@/components/ui/accordion";
-import FilterItem from "@/widgets/FilterItem";
+import FilterItem from "@/widgets/Filters/FilterItem";
 import ChromaColor from "@/components/ChromaColor";
-import { useSearchParams } from "react-router";
 import { useSelector } from "react-redux";
 import { appAuthSelector } from "@/store";
 import { useGetChampionsQuery, useGetChromasQuery, useGetRaritiesQuery, useGetSkinlinesQuery } from "@/api";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
-import { cn } from "@/shared/utils/cn";
-import Skeleton from '@/components/Skeleton';
+import { useQueryParams } from "@/hooks/useQueryParams";
+import FilterToggleGroup from "./Filters/FilterToggleGroup";
+import FilterPanelTitle from "./Filters/FilterPanelTitle";
+import FilterToggleTags from "./Filters/FilterToggleTags";
 
 const SearchFilters: FC = () => {
   const { t, i18n } = useTranslation();
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { get, update, reset, hasActive } = useQueryParams([
+    "owned",
+    "legacy",
+    "championId",
+    "rarity",
+    "skinlineId",
+    "chromaId",
+  ]);
 
   const isAuth = useSelector(appAuthSelector);
-
-  const legacy = searchParams.get("legacy") ?? "all";
-  const owned = searchParams.get("owned") ?? "all";
-  const championId = searchParams.get("championId");
-  const skinlineId = searchParams.get("skinlineId");
-  const chromaId = searchParams.get("chromaId");
-  const rarity = searchParams.get("rarity");
 
   const { data: rarities = [], isLoading: isRaritiesLoading } = useGetRaritiesQuery();
   const { data: championsData, isLoading: isChampionsLoading } = useGetChampionsQuery({ lang: i18n.language });
@@ -55,145 +53,65 @@ const SearchFilters: FC = () => {
     { value: "off", label: t("filters.owned-off") },
   ];
 
-  const getAppliedFiltersPresence = () => {
-    const legacyFilter = legacy && legacy !== "all";
-    const ownedFilter = owned && owned !== "all";
-
-    return !!legacyFilter || !!ownedFilter || !!championId || !!skinlineId || rarity || chromaId;
-  };
-
-  const updateQueryHandler = (param: string, value?: string, removable?: boolean) => {
-    if (value === "all") {
-      value = undefined;
-      removable = true;
-    }
-
-    if (value) {
-      setSearchParams((prevSearchParams) => {
-        prevSearchParams.set(param, value);
-        return prevSearchParams;
-      });
-    }
-
-    if (!value && removable) {
-      removeQueryHandler(param);
-    }
-  };
-
-  const removeQueryHandler = (param: string) => {
-    setSearchParams((prevSearchParams) => {
-      prevSearchParams.delete(param);
-      return prevSearchParams;
-    });
-  };
-
-  const resetFiltersHandler = () => {
-    setSearchParams({});
-  };
-
   return (
     <div className="my-card flex flex-col gap-y-3">
-      <div className="flex justify-between items-center bg-neutral-100 dark:bg-neutral-800 px-3 py-2 rounded-md border border-foreground/10">
-        <p className="flex items-center gap-2">
-          <FunnelIcon size={16} />
-          <span className="font-medium text-base">{t("filters.title")}</span>
-        </p>
-        {!!getAppliedFiltersPresence() && (
-          <Button size="xs" onClick={resetFiltersHandler} className="rounded-sm">
-            {t("filters.reset")}
-          </Button>
-        )}
-      </div>
+      <FilterPanelTitle onReset={hasActive && reset} />
       <Accordion type="multiple" defaultValue={["rarity"]}>
         {isAuth && (
-          <ToggleGroup
-            variant="outline"
-            type="single"
-            value={owned}
-            onValueChange={(value) => updateQueryHandler("owned", value)}
-            className="w-full mb-3"
-          >
-            {ownedOptions.map((option) => (
-              <ToggleGroupItem key={option.value} className={cn("grow", option.className)} value={option.value}>
-                {option.label}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
+          <FilterToggleGroup
+            value={get("owned") ?? "all"}
+            onChange={(value) => update("owned", value)}
+            options={ownedOptions}
+            className="mb-3"
+          />
         )}
-        <ToggleGroup
-          variant="outline"
-          type="single"
-          value={legacy}
-          onValueChange={(value) => updateQueryHandler("legacy", value)}
-          className="w-full pb-3 border-b rounded-none"
-        >
-          {legacyOptions.map((option) => (
-            <ToggleGroupItem key={option.value} className={cn("grow", option.className)} value={option.value}>
-              {option.label}
-            </ToggleGroupItem>
-          ))}
-        </ToggleGroup>
+        <FilterToggleGroup
+          value={get("legacy") ?? "all"}
+          onChange={(value) => update("legacy", value)}
+          options={legacyOptions}
+          className="pb-3 border-b"
+        />
         <FilterItem
           value="champion"
           title={t("filters.champion")}
-          hasValue={!!championId}
-          onClear={() => removeQueryHandler("championId")}
+          hasValue={!!get("championId")}
+          onClear={() => update("championId")}
         >
           <Search size="sm" value={championSearch} onSearch={setChampionSearch} className="plane-input" />
           <FilterList
             items={champions.map((champion) => ({ value: champion.id, label: champion.name }))}
-            value={championId ?? ""}
-            onChange={(value) => updateQueryHandler("championId", value, true)}
+            value={get("championId") ?? ""}
+            onChange={(value) => update("championId", value)}
             isLoading={isChampionsLoading}
           />
         </FilterItem>
-        <FilterItem
-          value="rarity"
-          title={t("filters.rarity")}
-          hasValue={!!rarity}
-          onClear={() => removeQueryHandler("rarity")}
-        >
-          <ToggleGroup
-            type="single"
-            size="sm"
-            variant="outline"
-            spacing={1}
-            className="items-start w-full flex-wrap"
-            value={rarity ?? ""}
-            onValueChange={(value) => updateQueryHandler("rarity", value, true)}
-          >
-            {isRaritiesLoading && <Skeleton count={8} asChild className='w-[30%] h-8' />}
-            {!isRaritiesLoading && rarities.map((rarity) => (
-              <ToggleGroupItem
-                key={rarity}
-                value={rarity}
-                aria-label={t(`rarity.${rarity}`)}
-                className="w-fit h-8 items-center justify-start"
-              >
-                {t(`rarity.${rarity}`)}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
+        <FilterItem value="rarity" title={t("filters.rarity")} hasValue={!!get("rarity")} onClear={() => update("rarity")}>
+          <FilterToggleTags
+            value={get("rarity") ?? ""}
+            onChange={(value) => update("rarity", value)}
+            options={rarities.map((r) => ({ value: r, label: t(`rarity.${r}`) }))}
+            loading={isRaritiesLoading}
+          />
         </FilterItem>
         <FilterItem
           value="skinline"
           title={t("filters.skinline")}
-          hasValue={!!skinlineId}
-          onClear={() => removeQueryHandler("skinlineId")}
+          hasValue={!!get("skinlineId")}
+          onClear={() => update("skinlineId")}
         >
           <Search size="sm" value={skinlineSearch} onSearch={setSkinlineSearch} className="plane-input" />
           <FilterList
             items={skinlines.map((skinline) => ({ value: skinline.id.toString(), label: skinline.name }))}
-            value={skinlineId ?? ""}
-            onChange={(value) => updateQueryHandler("skinlineId", value, true)}
+            value={get("skinlineId") ?? ""}
+            onChange={(value) => update("skinlineId", value)}
             isLoading={isSkinlinesLoading}
           />
         </FilterItem>
         <FilterItem
           value="chroma"
           title={t("filters.chroma")}
-          hasValue={!!chromaId}
-          onClear={() => removeQueryHandler("chromaId")}
+          hasValue={!!get("chromaId")}
+          onClear={() => update("chromaId")}
         >
           <Search size="sm" value={chromaSearch} onSearch={setChromaSearch} className="plane-input" />
           <FilterList
@@ -202,8 +120,8 @@ const SearchFilters: FC = () => {
               label: chroma.name,
               prefix: <ChromaColor colors={chroma.colors} />,
             }))}
-            value={chromaId ?? ""}
-            onChange={(value) => updateQueryHandler("chromaId", value, true)}
+            value={get("chromaId") ?? ""}
+            onChange={(value) => update("chromaId", value)}
             isLoading={isChromasLoading}
           />
         </FilterItem>
