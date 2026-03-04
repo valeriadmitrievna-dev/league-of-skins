@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import LanguageSwitcher from '@/components/LanguageSwitcher';
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -79,13 +79,13 @@ const AuthFormTextInput: FC<AuthFormTextInputProps> = ({
       <FieldContent>
         <InputGroup
           className={cn("rounded-sm h-10 bg-muted!", {
-            "bg-red-100/75! dark:bg-red-950/50!": props["aria-invalid"] === "true",
+            "bg-destructive/10!": props["aria-invalid"] === "true",
           })}
         >
           {!!icon && (
             <InputGroupAddon
               className={cn({
-                "text-red-700 dark:text-red-300!": props["aria-invalid"] === "true",
+                "text-destructive": props["aria-invalid"] === "true",
               })}
             >
               {icon}
@@ -93,7 +93,7 @@ const AuthFormTextInput: FC<AuthFormTextInputProps> = ({
           )}
           <InputGroupInput
             id={id}
-            className="transition-none aria-invalid:text-red-700 aria-invalid:placeholder-red-700/50! dark:aria-invalid:text-red-400 dark:aria-invalid:placeholder-red-400/50!"
+            className="transition-none aria-invalid:text-destructive aria-invalid:placeholder-destructive/50!"
             onChange={changeHandler}
             {...props}
           />
@@ -101,7 +101,7 @@ const AuthFormTextInput: FC<AuthFormTextInputProps> = ({
         {!!description && (
           <FieldDescription
             className={cn({
-              "text-red-700 dark:text-red-400!": props["aria-invalid"] === "true",
+              "text-destructive": props["aria-invalid"] === "true",
             })}
           >
             {description}
