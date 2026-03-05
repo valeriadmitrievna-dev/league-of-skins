@@ -129,5 +129,8 @@
     "help_link_form": "via <0>the feedback form</0>",
     "help_link_direct": "or send <0>a direct message</0>",
     "help_extra": "This will help me assist you and fix possible bugs."
+  },
+  "temp": {
+    "wait_file": "Please wait a moment, the file is being prepared for download. This may take some time..."
   }
 }
