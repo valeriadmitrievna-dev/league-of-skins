@@ -3,8 +3,9 @@ import Skeleton from "@/components/Skeleton";
 import { Typography } from "@/components/Typography";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import type { OptionItem } from '@/types/shared';
-import { useCallback, useEffect, useMemo, useRef, useState, type FC } from "react";
+import { cn } from "@/shared/utils/cn";
+import type { OptionItem } from "@/types/shared";
+import { useCallback, useEffect, useMemo, useRef, useState, type FC, type KeyboardEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List, type ListRowRenderer } from "react-virtualized";
 
@@ -21,6 +22,7 @@ const FilterList: FC<FilterListProps> = ({ items: options, value, onChange, isLo
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const [search, setSearch] = useState("");
+  const [focus, setFocus] = useState(false);
   const [listHeight, setListHeight] = useState(248);
 
   const cacheRef = useRef(
@@ -32,8 +34,17 @@ const FilterList: FC<FilterListProps> = ({ items: options, value, onChange, isLo
   );
 
   const items = useMemo(() => {
-    return options.filter(option => option.label.toLowerCase().includes(search.trim().toLowerCase()))
+    return options.filter((option) => option.label.toLowerCase().includes(search.trim().toLowerCase()));
   }, [options, search]);
+
+  const keyDownHandler = useCallback(
+    (event: KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === "Enter") {
+        onChange(items[0].value);
+      }
+    },
+    [items, onChange],
+  );
 
   useEffect(() => {
     if (!containerRef.current || !items.length) return;
@@ -61,35 +72,50 @@ const FilterList: FC<FilterListProps> = ({ items: options, value, onChange, isLo
           {({ registerChild }) => (
             <div ref={registerChild} style={style}>
               <ToggleGroupItem
-                className="
-                  w-full flex justify-start gap-2
-                  transition-colors hover:text-foreground
-                  hover:bg-neutral-300/50 data-state-on:bg-neutral-300
-                  dark:hover:bg-neutral-700/50 dark:data-state-on:bg-neutral-700
-                  whitespace-normal text-left py-1 h-fit min-h-8
-                "
+                className={cn(
+                  "w-full flex justify-start gap-2 transition-colors hover:text-foreground hover:bg-muted-foreground/10 data-state-on:bg-muted-foreground/30 whitespace-normal text-left py-1 h-fit min-h-8",
+                  { "bg-muted-foreground/10": focus && !index },
+                )}
                 value={item.value}
                 aria-label={item.label}
               >
                 {!!item.prefix && <div className="shrink-0">{item.prefix}</div>}
                 <span className={item.className}>{item.label}</span>
-                {!!item.suffix && <div className="shrink-0 ml-auto">{item.suffix}</div>}
+                {!!item.suffix && !focus && <div className="shrink-0 ml-auto">{item.suffix}</div>}
+                {/* {focus && !index && <div className='shrink-0 ml-auto'>focus</div>} */}
               </ToggleGroupItem>
             </div>
           )}
         </CellMeasurer>
       );
     },
-    [items],
+    [items, focus],
+  );
+
+  const searchComponent = (
+    <Search
+      size="sm"
+      value={search}
+      onSearch={setSearch}
+      onKeyDown={keyDownHandler}
+      onFocus={() => setFocus(true)}
+      onBlur={() => setFocus(false)}
+      className="plane-input mb-2"
+    />
   );
 
   if (!isLoading && !items.length) {
-    return <Typography.Small className="text-muted-foreground">{t("filters.empty-options")}</Typography.Small>;
+    return (
+      <div>
+        {withSearch && searchComponent}
+        <Typography.Small className="text-muted-foreground">{t("filters.empty-options")}</Typography.Small>
+      </div>
+    );
   }
 
   return (
     <div>
-      {withSearch && <Search size="sm" value={search} onSearch={setSearch} className="plane-input mb-2" />}
+      {withSearch && searchComponent}
       <div className="bg-neutral-100 dark:bg-neutral-800 px-2 py-2 rounded-md border border-foreground/10">
         <ScrollArea className="max-h-62 overflow-auto scrollbar" ref={containerRef}>
           <ToggleGroup
