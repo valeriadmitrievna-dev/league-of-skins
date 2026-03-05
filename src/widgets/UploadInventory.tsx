@@ -46,14 +46,16 @@ const UploadInventory: FC = () => {
   }, [data, isLoading, isError]);
 
   return (
-    <Dialog>
+    <Dialog {...(isLoading ? { open: true } : {})}>
       <DialogTrigger asChild>
         <Button size="sm">
           <CloudUploadIcon />
           {t("uploadInventory.title")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-full max-w-xl!">
+      <DialogContent className={cn("w-full max-w-xl!", {
+        "animate-pulse! pointer-events-none!": isLoading,
+      })}>
         <DialogHeader>
           <Typography.H3>{t("uploadInventory.title")}</Typography.H3>
         </DialogHeader>
