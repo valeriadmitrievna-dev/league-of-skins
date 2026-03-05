@@ -44,7 +44,26 @@ export const userApi = createApi({
       }),
       providesTags: ["Stats"],
     }),
+    uploadInventory: build.mutation<boolean, File>({
+      query: (file) => {
+        const formData = new FormData();
+        formData.append("file", file, file.name);
+
+        return {
+          url: "/inventory",
+          method: "post",
+          body: formData,
+        };
+      },
+      invalidatesTags: ['User', 'OwnedSkins', 'Stats'],
+    }),
   }),
 });
 
-export const { useGetUserQuery, useGetOwnedSkinsQuery, useUpdateOwnedSkinsMutation, useGetOwnedSkinsStatsQuery } = userApi;
+export const {
+  useGetUserQuery,
+  useGetOwnedSkinsQuery,
+  useUpdateOwnedSkinsMutation,
+  useGetOwnedSkinsStatsQuery,
+  useUploadInventoryMutation,
+} = userApi;

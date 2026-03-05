@@ -14,7 +14,9 @@ import { useCallback, useEffect, useMemo, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
 import { useDebounce } from "react-use";
-import { getColorsString } from '@/shared/utils/getColorsString';
+import { getColorsString } from "@/shared/utils/getColorsString";
+import UploadInventory from '@/widgets/UploadInventory';
+import { Typography } from '@/components/Typography';
 
 const CollectionSkinsPage: FC = () => {
   const { t, i18n } = useTranslation();
@@ -70,10 +72,12 @@ const CollectionSkinsPage: FC = () => {
           <EmptyTitle>{t("empty.collection-skins__title")}</EmptyTitle>
           <EmptyDescription>{t("empty.collection-skins__desc")}</EmptyDescription>
         </EmptyHeader>
-        <EmptyContent>
+        <EmptyContent className='gap-y-1'>
           <Button size="sm" asChild>
             <NavLink to="/search/skins">{t("empty.goto__search-skins")}</NavLink>
           </Button>
+          <Typography.Muted>{t('shared.or')}</Typography.Muted>
+          <UploadInventory />
         </EmptyContent>
       </Empty>
     );
@@ -83,13 +87,17 @@ const CollectionSkinsPage: FC = () => {
     <div className="w-full grid grid-cols-[320px_1fr] gap-5">
       <CollectionSkinsStatistics />
       <div>
-        <Breadcrumb className="mb-3">
-          <BreadcrumbList>
-            <BreadcrumbItem>{t("header.collection")}</BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbPage>{t("header.skins")}</BreadcrumbPage>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <div className="mb-1 flex items-center justify-between">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>{t("header.collection")}</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbPage>{t("header.skins")}</BreadcrumbPage>
+            </BreadcrumbList>
+          </Breadcrumb>
+
+          <UploadInventory />
+        </div>
         <Search className="mb-4" value={searchInput} onSearch={setSearchInput} />
 
         <VirtualizedGrid

@@ -17,6 +17,7 @@
     "back": "Back",
     "yes": "Yes",
     "no": "No",
+    "or": "or",
 
     "skin": "{{count}} skin",
     "skin_plural": "{{count}} skins"
@@ -101,5 +102,32 @@
   "stats": {
     "total_champions": "Champions with skins",
     "total_legacy": "Legacy skins"
+  },
+  "uploadInventory": {
+    "title": "Upload inventory",
+    "description": "If you don't want to manually mark every skin as owned, there is an alternative solution — a small script that automatically collects data about your collection from the League of Legends client.",
+    "howItWorks_title": "How it works",
+    "howItWorks_text": "The script connects to the game client via the League Client Update (LCU) API and retrieves the list of all owned skins and chromas. After running, it creates a file with your collection that can be uploaded to the application.",
+    "steps_title": "Instructions",
+    "steps_download": "1. Download the script",
+    "steps_download_note": "The file is in <code>.exe</code> format. Simply save it to your computer.",
+    "steps_run": "2. Run the script",
+    "steps_run_note": "League of Legends must be running while the script is executing.",
+    "steps_file": "3. Get the collection file",
+    "steps_file_note": "After the script finishes, a file named <code>inventory.json</code> will appear in the same folder — this is your collection.",
+    "steps_upload": "4. Upload the file to the application",
+    "steps_upload_note": "Select <code>inventory.json</code> in the field below and wait for the upload to complete.",
+    "button_upload_file": "Upload file",
+    "button_upload": "Upload inventory",
+    "button_success": "Inventory uploaded successfully",
+    "error_upload": "Inventory upload failed. Please try again or contact me using one of the links below.",
+    "notes_title": "Important notes",
+    "notes_manual": "If for some reason you prefer not to use the script, you can continue marking skins manually.",
+    "notes_safety": "The script does not modify game files and does not interact with your Riot account — it only reads local client data.",
+    "help_title": "What to do if something went wrong",
+    "help_description": "If the script didn't work or you encountered unexpected issues, you can report it:",
+    "help_link_form": "via <0>the feedback form</0>",
+    "help_link_direct": "or send <0>a direct message</0>",
+    "help_extra": "This will help me assist you and fix possible bugs."
   }
 }

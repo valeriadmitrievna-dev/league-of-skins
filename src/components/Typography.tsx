@@ -28,7 +28,7 @@ const TypographyH3: FC<ComponentProps<"h3">> = ({ children, className, ...props 
 
 const TypographyH4: FC<ComponentProps<"h4">> = ({ children, className, ...props }) => {
   return (
-    <h4 {...props} className={cn("scroll-m-20 text-2xl font-semibold tracking-tight", className)}>
+    <h4 {...props} className={cn("scroll-m-20 text-xl font-semibold tracking-tight", className)}>
       {children}
     </h4>
   );
@@ -66,6 +66,17 @@ const TypographyMuted: FC<ComponentProps<"p">> = ({ children, className, ...prop
   );
 };
 
+const TypographyCode: FC<ComponentProps<"code">> = ({ children, className, ...props }) => {
+  return (
+    <code
+      {...props}
+      className={cn("relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold", className)}
+    >
+      {children}
+    </code>
+  );
+};
+
 export const Typography = {
   H1: TypographyH1,
   H2: TypographyH2,
@@ -75,4 +86,5 @@ export const Typography = {
   Large: TypographyLarge,
   Small: TypographySmall,
   Muted: TypographyMuted,
+  Code: TypographyCode,
 };
