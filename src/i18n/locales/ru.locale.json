@@ -21,7 +21,9 @@
 
     "skin": "{{count}} образ",
     "skin_few": "{{count}} образа",
-    "skin_plural": "{{count}} образов"
+    "skin_plural": "{{count}} образов",
+
+    "scroll_to_top": "Наверх"
   },
   "rarity": {
     "kNoRarity": "Без редкости",

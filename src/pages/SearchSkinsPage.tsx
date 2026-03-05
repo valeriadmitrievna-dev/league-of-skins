@@ -1,4 +1,5 @@
 import { useGetChromasQuery, useGetSkinsQuery } from "@/api";
+import ScrollTop from '@/components/ScrollTop';
 import Search from "@/components/Search";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { useQueryParams } from "@/hooks/useQueryParams";
@@ -70,7 +71,7 @@ const SearchSkinsPage: FC = () => {
   return (
     <div className="w-full grid grid-cols-[320px_1fr] gap-5">
       <SearchFilters />
-      <div>
+      <div className='pb-14'>
         <Breadcrumb className="mb-3">
           <BreadcrumbList>
             <BreadcrumbItem>{t("shared.search")}</BreadcrumbItem>
@@ -94,6 +95,8 @@ const SearchSkinsPage: FC = () => {
           ]}
           render={renderSkin}
         />
+
+        <ScrollTop />
       </div>
     </div>
   );

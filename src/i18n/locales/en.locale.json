@@ -20,7 +20,9 @@
     "or": "or",
 
     "skin": "{{count}} skin",
-    "skin_plural": "{{count}} skins"
+    "skin_plural": "{{count}} skins",
+
+    "scroll_to_top": "Scroll to top"
   },
   "rarity": {
     "kNoRarity": "No rarity",

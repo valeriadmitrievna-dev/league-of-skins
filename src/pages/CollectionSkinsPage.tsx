@@ -17,6 +17,7 @@ import { useDebounce } from "react-use";
 import { getColorsString } from "@/shared/utils/getColorsString";
 import UploadInventory from '@/widgets/UploadInventory';
 import { Typography } from '@/components/Typography';
+import ScrollTop from '@/components/ScrollTop';
 
 const CollectionSkinsPage: FC = () => {
   const { t, i18n } = useTranslation();
@@ -114,6 +115,8 @@ const CollectionSkinsPage: FC = () => {
           ]}
           render={renderSkin}
         />
+
+        <ScrollTop />
       </div>
     </div>
   );
