@@ -1,9 +1,9 @@
 import { getLanguageCode } from "@/shared/utils/getLanguageCode";
 import type { ODataResponse, WithLanguage } from "@/types/shared";
-import type { IUser } from "@/types/user";
+import type { IUser, IUserSkinsStatistic } from "@/types/user";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { UpdateOwnedSkinsRequest } from './types';
-import type { SkinDto } from '@/types/skin';
+import type { SkinsRequest, UpdateOwnedSkinsRequest } from "./types";
+import type { SkinDto } from "@/types/skin";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -15,28 +15,36 @@ export const userApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["User", "OwnedSkins"],
+  tagTypes: ["User", "OwnedSkins", "Stats"],
   endpoints: (build) => ({
     getUser: build.query<IUser, string | void>({
       query: () => "/",
       providesTags: ["User"],
     }),
-    getOwnedSkins: build.query<ODataResponse<Omit<SkinDto, "skinlines">[]>, WithLanguage>({
-      query: ({ lang }) => ({
+    getOwnedSkins: build.query<ODataResponse<Omit<SkinDto, "skinlines">[]>, WithLanguage<Omit<SkinsRequest, "owned">>>({
+      query: ({ lang, ...params }) => ({
         url: "/owned/skins",
         headers: { "App-Language": getLanguageCode(lang) },
+        params,
       }),
       providesTags: ["OwnedSkins"],
     }),
     updateOwnedSkins: build.mutation<IUser, UpdateOwnedSkinsRequest>({
       query: (body) => ({
         url: "/owned/skins",
-        method: 'put',
+        method: "put",
         body,
       }),
-      invalidatesTags: ["User", "OwnedSkins"],
+      invalidatesTags: ["User", "OwnedSkins", "Stats"],
+    }),
+    getOwnedSkinsStats: build.query<IUserSkinsStatistic, WithLanguage>({
+      query: ({ lang }) => ({
+        url: "/owned/skins/stats",
+        headers: { "App-Language": getLanguageCode(lang) },
+      }),
+      providesTags: ["Stats"],
     }),
   }),
 });
 
-export const { useGetUserQuery, useGetOwnedSkinsQuery, useUpdateOwnedSkinsMutation } = userApi;
+export const { useGetUserQuery, useGetOwnedSkinsQuery, useUpdateOwnedSkinsMutation, useGetOwnedSkinsStatsQuery } = userApi;

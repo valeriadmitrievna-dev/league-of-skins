@@ -52,7 +52,7 @@ const TypographyLarge: FC<ComponentProps<"div">> = ({ children, className, ...pr
 
 const TypographySmall: FC<ComponentProps<"span">> = ({ children, className, ...props }) => {
   return (
-    <span {...props} className={cn("text-sm leading-none font-medium", className)}>
+    <span {...props} className={cn("inline-block text-sm leading-none font-medium", className)}>
       {children}
     </span>
   );

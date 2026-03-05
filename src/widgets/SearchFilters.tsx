@@ -11,6 +11,7 @@ import { useQueryParams } from "@/hooks/useQueryParams";
 import FilterToggleGroup from "./Filters/FilterToggleGroup";
 import FilterPanelTitle from "./Filters/FilterPanelTitle";
 import FilterToggleTags from "./Filters/FilterToggleTags";
+import { orderBy } from 'lodash';
 
 const SearchFilters: FC = () => {
   const { t, i18n } = useTranslation();
@@ -67,7 +68,7 @@ const SearchFilters: FC = () => {
         />
         <FilterItem value={get("championId") ?? ""} title={t("filters.champion")} onClear={() => update("championId")}>
           <FilterList
-            items={champions.map((champion) => ({ value: champion.id, label: champion.name }))}
+            items={orderBy(champions, 'name').map((champion) => ({ value: champion.id, label: champion.name }))}
             value={get("championId") ?? ""}
             onChange={(value) => update("championId", value)}
             isLoading={isChampionsLoading}
@@ -84,7 +85,7 @@ const SearchFilters: FC = () => {
         </FilterItem>
         <FilterItem value={get("skinlineId") ?? ""} title={t("filters.skinline")} onClear={() => update("skinlineId")}>
           <FilterList
-            items={skinlines.map((skinline) => ({ value: skinline.id.toString(), label: skinline.name }))}
+            items={orderBy(skinlines, 'name').map((skinline) => ({ value: skinline.id.toString(), label: skinline.name }))}
             value={get("skinlineId") ?? ""}
             onChange={(value) => update("skinlineId", value)}
             isLoading={isSkinlinesLoading}
@@ -93,7 +94,7 @@ const SearchFilters: FC = () => {
         </FilterItem>
         <FilterItem value={get("chromaId") ?? ""} title={t("filters.chroma")} onClear={() => update("chromaId")}>
           <FilterList
-            items={chromas.map((chroma) => ({
+            items={orderBy(chromas, 'name').map((chroma) => ({
               value: chroma.id,
               label: chroma.name,
               prefix: <ChromaColor colors={chroma.colors} />,

@@ -1,24 +1,24 @@
-import { useGetChromasQuery, useGetSkinsQuery } from "@/api";
+import { useGetChromasQuery, useGetOwnedSkinsQuery } from "@/api";
 import Search from "@/components/Search";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { Button } from "@/components/ui/button";
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { BREAKPOINTS } from "@/shared/constants/styles";
-import { getColorsString } from "@/shared/utils/getColorsString";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
-import { appAuthSelector } from "@/store";
 import type { SkinDto } from "@/types/skin";
-import SearchFilters from "@/widgets/SearchFilters";
 import SkinCard from "@/widgets/SkinCard";
+import CollectionSkinsStatistics from "@/widgets/CollectionSkinsStatistics";
 import VirtualizedGrid from "@/widgets/VirtualizedGrid";
 import { useCallback, useEffect, useMemo, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { NavLink } from "react-router";
 import { useDebounce } from "react-use";
+import { getColorsString } from '@/shared/utils/getColorsString';
 
-const SearchSkinsPage: FC = () => {
+const CollectionSkinsPage: FC = () => {
   const { t, i18n } = useTranslation();
 
-  const isAuth = useSelector(appAuthSelector);
   const [searchInput, setSearchInput] = useState("");
 
   const { get, update } = useQueryParams();
@@ -44,21 +44,17 @@ const SearchSkinsPage: FC = () => {
       chromaName: chroma?.name,
       chromaColors: getColorsString(chroma?.colors),
       legacy: get("legacy") || "all",
-      owned: get("owned") || "all",
     }),
     [i18n.language, search, chroma, get],
   );
 
-  const { data: skinsData, isLoading, isFetching } = useGetSkinsQuery(skinsQueryParams);
-  const { data: skins } = getODataWithDefault(skinsData);
+  const { data, isLoading, isFetching } = useGetOwnedSkinsQuery(skinsQueryParams);
+  const { data: ownedSkins } = getODataWithDefault(data);
 
-  const renderSkin = useCallback(
-    (item: unknown) => {
-      const skin = item as SkinDto;
-      return <SkinCard key={skin.id} data={skin} navigatable addToWishlistButton toggleOwnedButton={isAuth} />;
-    },
-    [isAuth],
-  );
+  const renderSkin = useCallback((item: unknown) => {
+    const skin = item as SkinDto;
+    return <SkinCard key={skin.id} data={skin} navigatable addToWishlistButton toggleOwnedButton />;
+  }, []);
 
   useEffect(() => {
     if (search !== searchInput) {
@@ -67,13 +63,29 @@ const SearchSkinsPage: FC = () => {
     }
   }, [search]);
 
+  if (!isLoading && !ownedSkins.length) {
+    return (
+      <Empty className="w-full h-full max-h-120">
+        <EmptyHeader>
+          <EmptyTitle>{t("empty.collection-skins__title")}</EmptyTitle>
+          <EmptyDescription>{t("empty.collection-skins__desc")}</EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent>
+          <Button size="sm" asChild>
+            <NavLink to="/search/skins">{t("empty.goto__search-skins")}</NavLink>
+          </Button>
+        </EmptyContent>
+      </Empty>
+    );
+  }
+
   return (
     <div className="w-full grid grid-cols-[320px_1fr] gap-5">
-      <SearchFilters />
+      <CollectionSkinsStatistics />
       <div>
         <Breadcrumb className="mb-3">
           <BreadcrumbList>
-            <BreadcrumbItem>{t("shared.search")}</BreadcrumbItem>
+            <BreadcrumbItem>{t("header.collection")}</BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbPage>{t("header.skins")}</BreadcrumbPage>
           </BreadcrumbList>
@@ -81,7 +93,7 @@ const SearchSkinsPage: FC = () => {
         <Search className="mb-4" value={searchInput} onSearch={setSearchInput} />
 
         <VirtualizedGrid
-          items={skins}
+          items={ownedSkins}
           loading={isLoading}
           fetching={isFetching}
           gridClassName="grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
@@ -99,4 +111,4 @@ const SearchSkinsPage: FC = () => {
   );
 };
 
-export default SearchSkinsPage;
+export default CollectionSkinsPage;

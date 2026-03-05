@@ -4,18 +4,22 @@
     "wishlists": "Wishlists"
   },
   "header": {
-    "skins": "Skins",
     "wishlists": "Wishlists",
     "about": "About project",
     "signin": "Sign In",
     "signup": "Sign Up",
-    "collection": "Collection"
+    "collection": "Collection",
+    "skins": "Skins"
   },
   "shared": {
+    "skins": "Skins",
     "search": "Search",
     "back": "Back",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+
+    "skin": "{{count}} skin",
+    "skin_plural": "{{count}} skins"
   },
   "rarity": {
     "kNoRarity": "No rarity",
@@ -42,7 +46,10 @@
     "owned-off": "Not Owned",
     "legacy-on": "Legacy",
     "legacy-off": "Not legacy",
-    "empty-options": "Options not found"
+    "empty-options": "Options not found",
+    "searchBy_champion": "Search by champion",
+    "searchBy_skinline": "Search by skinline",
+    "searchBy_chroma": "Search by chroma"
   },
   "skin": {
     "add": "Add to wishlist",
@@ -54,8 +61,8 @@
     "markOwnedTooltip": "Mark as owned skins",
     "unmarkOwnedTooltip": "Remove owned skin mark",
     "addHelper": "Choose wishlist(-s) for",
-    "price": "Price",
-    "priceHelper": "Approximate price without discounts"
+    "price": "RP Spent",
+    "priceHelper": "Approximate price excluding discounts. Gifted skins are considered purchased, and Exalted skins are considered acquired within the maximum number of attempts (80). Mythic skins and skins with special prices (e.g., Transcendent skins) are not included in the price."
   },
   "wishlist": {
     "create": "Create wishlist",
@@ -82,11 +89,17 @@
     "submit_signup": "Submit"
   },
   "empty": {
-    "skinpage_title": "Skin data not found",
-    "search_title": "No Skins Found",
+    "details-skin__title": "Skin data not found",
+    "search-skins__title": "No Skins Found",
     "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, soluta?",
     "search_desc": "Your search did not match any skins. Please clear filters to try again.",
-    "goto_search": "Search skins",
-    "goto_reset_filters": "Reset filters"
+    "goto__search-skins": "Search skins",
+    "goto__reset-filters": "Reset filters",
+    "collection-skins__title": "No Owned Skins",
+    "collection-skins__desc": "You haven't mark any skin as owned."
+  },
+  "stats": {
+    "total_champions": "Champions with skins",
+    "total_legacy": "Legacy skins"
   }
 }

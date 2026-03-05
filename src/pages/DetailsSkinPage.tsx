@@ -20,7 +20,7 @@ import AddToWishlist from "@/widgets/AddToWishlist";
 import Skeleton from "@/components/Skeleton";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 
-const SkinDetailsPage: FC = () => {
+const DetailsSkinPage: FC = () => {
   const navigate = useNavigate();
 
   const { skinContentId } = useParams();
@@ -111,12 +111,12 @@ const SkinDetailsPage: FC = () => {
           <EmptyMedia variant="icon">
             <FrownIcon />
           </EmptyMedia>
-          <EmptyTitle>{t('empty.skinpage_title')}</EmptyTitle>
+          <EmptyTitle>{t('empty.details-skin__title')}</EmptyTitle>
           <EmptyDescription>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, soluta?</EmptyDescription>
         </EmptyHeader>
         <EmptyContent>
           <Button size="sm" asChild>
-            <NavLink to="/">{t('empty.goto_search')}</NavLink>
+            <NavLink to="/search/skins">{t('empty.goto__search-skins')}</NavLink>
           </Button>
         </EmptyContent>
       </Empty>
@@ -267,4 +267,4 @@ const SkinDetailsPage: FC = () => {
   }
 };
 
-export default SkinDetailsPage;
+export default DetailsSkinPage;

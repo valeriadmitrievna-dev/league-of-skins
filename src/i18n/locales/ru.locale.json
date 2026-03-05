@@ -4,18 +4,23 @@
     "wishlists": "Вишлисты"
   },
   "header": {
-    "skins": "Образы",
     "wishlists": "Вишлисты",
     "about": "О проекте",
     "signin": "Вход",
     "signup": "Регистрация",
-    "collection": "Коллекция"
+    "collection": "Коллекция",
+    "skins": "Образы"
   },
   "shared": {
+    "skins": "Образы",
     "search": "Поиск",
     "back": "Назад",
     "yes": "Да",
-    "no": "Нет"
+    "no": "Нет",
+
+    "skin": "{{count}} образ",
+    "skin_few": "{{count}} образа",
+    "skin_plural": "{{count}} образов"
   },
   "rarity": {
     "kNoRarity": "Без редкости",
@@ -42,7 +47,10 @@
     "owned-off": "Не куплены",
     "legacy-on": "Архивные",
     "legacy-off": "Не архивные",
-    "empty-options": "Опции не найдены"
+    "empty-options": "Опции не найдены",
+    "searchBy_champion": "Поиск по чемпиону",
+    "searchBy_skinline": "Поиск по линейке образов",
+    "searchBy_chroma": "Поиск по цветовой схеме"
   },
   "skin": {
     "add": "Добавить в вишлист",
@@ -51,11 +59,11 @@
     "baseChroma": "В игре",
     "features": "Особенности",
     "owned": "Куплен",
-    "markOwnedTooltip": "Отметить как купленый",
-    "unmarkOwnedTooltip": "Убрать из купленых",
+    "markOwnedTooltip": "Отметить как купленный",
+    "unmarkOwnedTooltip": "Убрать из купленных",
     "addHelper": "Выберите вишлист(-ы) для образа",
-    "price": "Стоимость",
-    "priceHelper": "Примерная цена без учета скидок"
+    "price": "RP Потрачено",
+    "priceHelper": "Примерная цена без учёта скидок. Подаренные скины считаются купленными, а Возвышенные скины — приобретёнными за максимальное количество попыток (80). В стоимость не включены Мифические скины и скины по специальной стоимости (например, Божественные скины)."
   },
   "wishlist": {
     "create": "Создать вишлист",
@@ -82,11 +90,17 @@
     "submit_signup": "Создать аккаунт"
   },
   "empty": {
-    "skinpage_title": "Данные о скине не найдены",
-    "search_title": "Скины не найдены",
+    "details-skin__title": "Данные о скине не найдены",
+    "search-skins__title": "Скины не найдены",
     "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, soluta?",
     "search_desc": "Поиск не дал результатов. Очистите фильтры и попробуйте снова.",
-    "goto_search": "Перейти к поиску скинов",
-    "goto_reset_filters": "Очистить фильтры"
+    "goto__search-skins": "Перейти к поиску скинов",
+    "goto__reset-filters": "Очистить фильтры",
+    "collection-skins__title": "Нет купленных",
+    "collection-skins__desc": "Ни один скин не отмечен как купленный."
+  },
+  "stats": {
+    "total_champions": "Чемпионы с образами",
+    "total_legacy": "Архивные образы"
   }
 }

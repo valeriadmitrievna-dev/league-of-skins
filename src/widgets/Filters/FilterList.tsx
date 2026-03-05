@@ -3,12 +3,13 @@ import Skeleton from "@/components/Skeleton";
 import { Typography } from "@/components/Typography";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useCallback, useEffect, useMemo, useRef, useState, type FC, type ReactNode } from "react";
+import type { OptionItem } from '@/types/shared';
+import { useCallback, useEffect, useMemo, useRef, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List, type ListRowRenderer } from "react-virtualized";
 
 interface FilterListProps {
-  items: { value: string; label: string; prefix?: ReactNode; suffix?: ReactNode }[];
+  items: OptionItem[];
   value: string;
   onChange: (value?: string) => void;
   isLoading?: boolean;
@@ -71,7 +72,7 @@ const FilterList: FC<FilterListProps> = ({ items: options, value, onChange, isLo
                 aria-label={item.label}
               >
                 {!!item.prefix && <div className="shrink-0">{item.prefix}</div>}
-                <span>{item.label}</span>
+                <span className={item.className}>{item.label}</span>
                 {!!item.suffix && <div className="shrink-0 ml-auto">{item.suffix}</div>}
               </ToggleGroupItem>
             </div>

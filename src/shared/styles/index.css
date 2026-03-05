@@ -178,11 +178,15 @@ button {
   }
 
   .my-container {
-    @apply px-5 mx-auto w-full xl:max-w-360 2xl:max-w-380;
+    @apply px-5 mx-auto w-full xl:max-w-360 2xl:max-w-400;
   }
 
   .my-card {
     @apply border border-foreground/15 shadow-xs py-3 px-3 rounded-md h-fit;
+  }
+
+  .my-tag {
+    @apply bg-muted rounded-lg font-medium px-3 py-1 flex items-center gap-x-1;
   }
 
   input:-webkit-autofill,

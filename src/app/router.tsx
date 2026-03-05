@@ -3,9 +3,9 @@ import { AuthProvider } from "@/shared/providers";
 import SignUpPage from "@/pages/SignUpPage";
 import SignInPage from "@/pages/SignInPage";
 import ProtectProvider from "@/shared/providers/ProtectProvider";
-import SkinsPage from "@/pages/SkinsPage";
+import CollectionSkinsPage from "@/pages/CollectionSkinsPage";
 import LayoutPage from "@/pages/LayoutPage";
-import SkinDetailsPage from "@/pages/SkinDetailsPage";
+import DetailsSkinPage from "@/pages/DetailsSkinPage";
 import AboutPage from "@/pages/AboutPage";
 import SearchSkinsPage from "@/pages/SearchSkinsPage";
 
@@ -27,7 +27,7 @@ export const router = createBrowserRouter([
       },
 
       // details
-      { path: "/skins/:skinContentId", element: <SkinDetailsPage /> },
+      { path: "/skins/:skinContentId", element: <DetailsSkinPage /> },
 
       // user pages
       {
@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
           {
             path: '/collection',
             children: [
-              { path: "skins", element: <SkinsPage /> },
+              { path: "skins", element: <CollectionSkinsPage /> },
             ]
           }
         ],
