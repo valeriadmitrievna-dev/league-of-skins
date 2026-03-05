@@ -4,11 +4,11 @@ import { useTranslation } from "react-i18next";
 import AppLogo from "@/components/AppLogo";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import { appAuthSelector } from "@/store";
 import { Separator } from "@/components/ui/separator";
 import UserSettings from "./UserSettings";
+import AppHeaderLink from "@/components/AppHeaderLink";
 
 const AppHeader: FC = () => {
   const { t } = useTranslation();
@@ -16,9 +16,9 @@ const AppHeader: FC = () => {
 
   const isAuth = useSelector(appAuthSelector);
 
-  const authLink = (type: 'signin' | 'signup') => {
-    return `/auth/${type}${pathname === '/' ? '' : '?redirect=' + pathname}`;
-  }
+  const authLink = (type: "signin" | "signup") => {
+    return `/auth/${type}${pathname === "/" ? "" : "?redirect=" + pathname}`;
+  };
 
   return (
     <div className="flex items-center justify-between py-1.5 pt-3 my-container">
@@ -26,17 +26,11 @@ const AppHeader: FC = () => {
         <AppLogo />
       </NavLink>
       <nav className="flex items-center gap-3">
-        <Button className="text-base" variant="ghost" asChild>
-          <NavLink to="/about">{t("header.about")}</NavLink>
-        </Button>
+        <AppHeaderLink to="/about" text={t("header.about")} />
         {isAuth && (
           <>
-            <Button className="text-base" variant="ghost" asChild>
-              <NavLink to="/wishlists">{t("header.wishlists")}</NavLink>
-            </Button>
-            <Button className="text-base" variant="ghost" asChild>
-              <NavLink to="/collection/skins">{t("header.collection")}</NavLink>
-            </Button>
+            <AppHeaderLink to="/wishlists" text={t("header.wishlists")} disabled />
+            <AppHeaderLink to="/collection/skins" text={t("header.collection")} />
           </>
         )}
         <LanguageSwitcher />
@@ -44,13 +38,9 @@ const AppHeader: FC = () => {
 
         {!isAuth && (
           <div className="flex items-center gap-x-2 ml-2">
-            <Button className="text-base" variant="secondary" asChild>
-              <NavLink to={authLink('signup')}>{t("header.signup")}</NavLink>
-            </Button>
+            <AppHeaderLink to={authLink("signup")} text={t("header.signup")} variant="secondary" />
             <Separator orientation="vertical" className="h-4!" />
-            <Button className="text-base" variant="secondary" asChild>
-              <NavLink to={authLink('signin')}>{t("header.signin")}</NavLink>
-            </Button>
+            <AppHeaderLink to={authLink("signin")} text={t("header.signin")} variant="secondary" />
           </div>
         )}
 

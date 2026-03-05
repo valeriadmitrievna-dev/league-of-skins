@@ -37,6 +37,7 @@ export const router = createBrowserRouter([
           { path: "/wishlists", element: <>wishlists</> },
           {
             path: '/collection',
+            // element: <Navigate to="/collection/skins" />,
             children: [
               { path: "skins", element: <CollectionSkinsPage /> },
             ]
