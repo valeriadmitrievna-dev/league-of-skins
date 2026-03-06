@@ -7,9 +7,12 @@ import type { LocaleTypes } from "./types";
 import en from "./locales/en.locale.json";
 import ru from "./locales/ru.locale.json";
 
+import enErrors from './locales/en.errors.locale.json';
+import ruErrors from './locales/ru.errors.locale.json';
+
 const resources: Record<string, { translation: LocaleTypes }> = {
-  en: { translation: en },
-  ru: { translation: ru },
+  en: { translation: { ...en, ...enErrors} },
+  ru: { translation: { ...ru, ...ruErrors} },
 };
 
 i18n

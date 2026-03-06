@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react';
+import type { ApiErrorCode } from '@/shared/constants/error';
+import type { ReactNode } from "react";
 
 export type Theme = "dark" | "light" | "system";
 
@@ -18,12 +19,18 @@ export interface ODataRequest {
 }
 
 export interface ApiErrorPayload {
-  data: ApiErrorResponse;
+  data: ApiError;
   status?: number;
 }
 
-export interface ApiErrorResponse {
-  message: string;
+export interface ApiError {
+  code: (typeof ApiErrorCode)[keyof typeof ApiErrorCode];
+  status?: number;
+  message?: string;
+  params?: string[];
+  entity?: string;
+
+  //   type: ApiErrorType;
 }
 
 export interface OptionItem {

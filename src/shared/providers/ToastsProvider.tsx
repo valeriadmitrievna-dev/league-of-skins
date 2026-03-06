@@ -31,7 +31,8 @@ const ToastsProvider = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast: "cn-toast px-4! py-2!",
-          icon: 'mt-[2px] mr-0!'
+          icon: 'mt-[2px] mr-0! self-start!',
+          description: 'text-[12px]/[14px]! mt-1! pb-1',
         },
       }}
       position='top-center'
