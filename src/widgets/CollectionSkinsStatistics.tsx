@@ -32,7 +32,7 @@ const CollectionSkinsStatistics: FC = () => {
         </div>
         <div className="my-card flex flex-col gap-y-2">
           <Skeleton className="h-7" />
-          <Typography.Muted>{t("skin.priceHelper")}</Typography.Muted>
+          <Typography.Muted>{t("skin.priceHelperFull")}</Typography.Muted>
         </div>
         <div className="my-card flex flex-col gap-y-2">
           <Skeleton asChild count={8} className="h-6" />
@@ -112,7 +112,7 @@ const CollectionSkinsStatistics: FC = () => {
           }
           className="bg-transparent!"
         />
-        <Typography.Muted>{t("skin.priceHelper")}</Typography.Muted>
+        <Typography.Muted>{t("skin.priceHelperFull")}</Typography.Muted>
       </div>
 
       {/* Rarities */}

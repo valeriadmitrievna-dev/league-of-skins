@@ -63,7 +63,8 @@
     "unmarkOwnedTooltip": "Remove owned skin mark",
     "addHelper": "Choose wishlist(-s) for",
     "price": "RP Spent",
-    "priceHelper": "Approximate price excluding discounts. Gifted skins are considered purchased, and Exalted skins are considered acquired within the maximum number of attempts (80). Mythic skins and skins with special prices (e.g., Transcendent skins) are not included in the price."
+    "priceHelper": "Approximate price excluding discounts",
+    "priceHelperFull": "Approximate price excluding discounts. Gifted skins are considered purchased, and Exalted skins are considered acquired within the maximum number of attempts (80). Mythic skins and skins with special prices (e.g., Transcendent skins) are not included in the price."
   },
   "wishlist": {
     "create": "Create wishlist",
