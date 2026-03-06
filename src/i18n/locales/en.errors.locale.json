@@ -1,17 +1,21 @@
 {
-  "INTERNAL_ERROR": "Internal error",
-  "UNAUTHORIZED": "Unauthorized",
-  "JWT_ERROR": "Access token invalid",
-  "NOT_FOUND": "Not found",
-  "APP_DATA": "Invalid App Data",
-  "NOT_UNIQUE": "Uniqueness error",
-  "FIELD_INVALID_EMPTY": "Required field is empty",
-  "WRONG_PASSWORD": "Wrong password",
+  "code": {
+    "INTERNAL_ERROR": "Internal error",
+    "UNAUTHORIZED": "Unauthorized",
+    "JWT_ERROR": "Access token invalid",
+    "NOT_FOUND": "Not found",
+    "APP_DATA": "Invalid App Data",
+    "NOT_UNIQUE": "Uniqueness error",
+    "FIELD_INVALID_EMPTY": "Required field is empty",
+    "WRONG_PASSWORD": "Wrong password"
+  },
   "entities": {
     "user": "User",
     "skin": "Skin",
     "chroma": "Chroma"
   },
-  "params": "Parameters: ",
-  "entity": "Entity: "
+  "titles": {
+    "params": "Parameters: ",
+    "entity": "Entity: "
+  }
 }

@@ -1,5 +1,5 @@
 export interface LocaleTypes {
-  [componentName: string]: string | {
+  [componentName: string]: {
     [field: string]: string;
   };
 }

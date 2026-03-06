@@ -28,14 +28,14 @@ export const errorMiddleware: Middleware =
         const error = payload.data;
 
         const entity = i18n.t(`entities.${error.entity}`);
-        toast.error(<Trans i18nKey={error.code} tOptions={{ entity }} components={{ code: <Typography.Code /> }} />, {
+        toast.error(<Trans i18nKey={`code.${error.code}`} tOptions={{ entity }} components={{ code: <Typography.Code /> }} />, {
           ...(error.params?.length || error.entity
             ? {
                 description: (
                   <div className="flex flex-col gap-y-3 mt-1">
                     {error.params?.length && (
                       <p>
-                        {i18n.t("params") as string}
+                        {i18n.t("titles.params") as string}
                         {error.params.map((param) => (
                           <Typography.Code className="text-[12px]/[12px]">{param}</Typography.Code>
                         ))}
@@ -43,7 +43,7 @@ export const errorMiddleware: Middleware =
                     )}
                     {error.entity && (
                       <p>
-                        {i18n.t("entity") as string}
+                        {i18n.t("titles.entity") as string}
                         <Typography.Code className="text-[12px]/[12px]">{entity as string}</Typography.Code>
                       </p>
                     )}
