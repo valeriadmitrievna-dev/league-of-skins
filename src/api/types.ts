@@ -7,7 +7,7 @@ export interface SkinsRequest extends ODataRequest {
   chromaColors?: string;
   rarity?: string;
   legacy: string;
-  owned: string
+  owned: string;
 }
 
 export interface RegistrationRequest {
@@ -29,4 +29,9 @@ export interface AuthResponse {
 export interface UpdateOwnedSkinsRequest {
   addIds?: string[];
   removeIds?: string[];
+}
+
+export interface UpdateUserPasswordRequest {
+  oldPassword: string;
+  newPassword: string;
 }

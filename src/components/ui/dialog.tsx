@@ -29,7 +29,7 @@ function DialogOverlay({ className, ...props }: React.ComponentProps<typeof Dial
       data-slot="dialog-overlay"
       className={cn(
         "data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs fixed inset-0 isolate z-50",
-        "overflow-y-auto max-h-screen grid place-items-center py-10",
+        "overflow-y-auto max-h-screen grid place-items-center py-10 px-4",
         className,
       )}
       {...props}

@@ -18,10 +18,8 @@
     "yes": "Yes",
     "no": "No",
     "or": "or",
-
     "skin": "{{count}} skin",
     "skin_plural": "{{count}} skins",
-
     "scroll_to_top": "Scroll to top"
   },
   "rarity": {
@@ -134,5 +132,18 @@
   },
   "temp": {
     "wait_file": "Please wait a moment, the file is being prepared for download. This may take some time..."
+  },
+  "userSettings": {
+    "tab-common": "Common",
+    "tab-security": "Security",
+    "logout": "Log out"
+  },
+  "changePassword": {
+    "title": "Change password",
+    "old-placeholder": "Enter old password",
+    "new-placeholder": "Enter new password",
+    "error-new-unique": "New password cannot be the same as old one",
+    "submit": "Save new password",
+    "success": "Password successfully changed"
   }
 }

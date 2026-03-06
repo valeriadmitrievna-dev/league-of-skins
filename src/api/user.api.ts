@@ -2,7 +2,7 @@ import { getLanguageCode } from "@/shared/utils/getLanguageCode";
 import type { ODataResponse, WithLanguage } from "@/types/shared";
 import type { IUser, IUserSkinsStatistic } from "@/types/user";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { SkinsRequest, UpdateOwnedSkinsRequest } from "./types";
+import type { SkinsRequest, UpdateOwnedSkinsRequest, UpdateUserPasswordRequest } from "./types";
 import type { SkinDto } from "@/types/skin";
 
 export const userApi = createApi({
@@ -20,6 +20,14 @@ export const userApi = createApi({
     getUser: build.query<IUser, string | void>({
       query: () => "/",
       providesTags: ["User"],
+    }),
+    updateUserPassword: build.mutation<{ success: true }, UpdateUserPasswordRequest>({
+      query: (body) => ({
+        url: "/password",
+        method: "put",
+        body,
+      }),
+      invalidatesTags: ["User"],
     }),
     getOwnedSkins: build.query<ODataResponse<Omit<SkinDto, "skinlines">[]>, WithLanguage<Omit<SkinsRequest, "owned">>>({
       query: ({ lang, ...params }) => ({
@@ -55,13 +63,14 @@ export const userApi = createApi({
           body: formData,
         };
       },
-      invalidatesTags: ['User', 'OwnedSkins', 'Stats'],
+      invalidatesTags: ["User", "OwnedSkins", "Stats"],
     }),
   }),
 });
 
 export const {
   useGetUserQuery,
+  useUpdateUserPasswordMutation,
   useGetOwnedSkinsQuery,
   useUpdateOwnedSkinsMutation,
   useGetOwnedSkinsStatsQuery,

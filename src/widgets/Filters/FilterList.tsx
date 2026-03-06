@@ -100,7 +100,7 @@ const FilterList: FC<FilterListProps> = ({ items: options, value, onChange, isLo
       onKeyDown={keyDownHandler}
       onFocus={() => setFocus(true)}
       onBlur={() => setFocus(false)}
-      className="plane-input mb-2"
+      className="plain-input mb-2"
     />
   );
 

@@ -7,7 +7,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useSelector } from "react-redux";
 import { appAuthSelector } from "@/store";
 import { Separator } from "@/components/ui/separator";
-import UserSettings from "./UserSettings";
+import { UserSettings } from "./UserSettings";
 import AppHeaderLink from "@/components/AppHeaderLink";
 
 const AppHeader: FC = () => {

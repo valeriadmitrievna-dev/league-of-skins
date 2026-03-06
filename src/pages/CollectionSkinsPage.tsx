@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
 import { useDebounce } from "react-use";
 import { getColorsString } from "@/shared/utils/getColorsString";
-import UploadInventory from '@/widgets/UploadInventory';
+import { UploadInventory } from '@/widgets/UploadInventory';
 import { Typography } from '@/components/Typography';
 import ScrollTop from '@/components/ScrollTop';
 

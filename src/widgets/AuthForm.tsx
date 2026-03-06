@@ -93,7 +93,7 @@ const AuthFormTextInput: FC<AuthFormTextInputProps> = ({
           )}
           <InputGroupInput
             id={id}
-            className="transition-none aria-invalid:text-destructive aria-invalid:placeholder-destructive/50!"
+            className="transition-none aria-invalid:text-destructive aria-invalid:placeholder-destructive/50! bg-muted"
             onChange={changeHandler}
             {...props}
           />

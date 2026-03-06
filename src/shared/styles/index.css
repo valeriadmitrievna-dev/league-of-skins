@@ -32,6 +32,7 @@
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
+  --success: var(--color-lime-500);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
@@ -116,6 +117,7 @@ button {
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
+  --success: var(--color-lime-500);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
@@ -169,7 +171,7 @@ button {
     background-color: oklch(from var(--color-foreground) l c h / calc(alpha - 0.6));
   }
 
-  .plane-input:has(*:is([data-slot="input-group-control"]:focus-visible)) {
+  .plain-input:has(*:is([data-slot="input-group-control"]:focus-visible)) {
     box-shadow: none;
   }
 
@@ -198,6 +200,20 @@ button {
   select:-webkit-autofill,
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
+    -webkit-text-fill-color: rgb(75 85 99 / var(--foreground));
+    -webkit-box-shadow: 0 0 0px 1000px var(--background) inset;
+    caret-color: rgb(75 85 99 / var(--foreground));
+  }
+
+  input.bg-muted:-webkit-autofill,
+  input.bg-muted:-webkit-autofill:hover,
+  input.bg-muted:-webkit-autofill:focus,
+  textarea.bg-muted:-webkit-autofill,
+  textarea.bg-muted:-webkit-autofill:hover,
+  textarea.bg-muted:-webkit-autofill:focus,
+  select.bg-muted:-webkit-autofill,
+  select.bg-muted:-webkit-autofill:hover,
+  select.bg-muted:-webkit-autofill:focus {
     -webkit-text-fill-color: rgb(75 85 99 / var(--foreground));
     -webkit-box-shadow: 0 0 0px 1000px var(--muted) inset;
     caret-color: rgb(75 85 99 / var(--foreground));
