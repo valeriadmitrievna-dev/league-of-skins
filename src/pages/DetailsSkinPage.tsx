@@ -180,7 +180,7 @@ const DetailsSkinPage: FC = () => {
               <Badge variant="outline" className="bg-background absolute -top-2.5 left-1/2 transform -translate-x-1/2">
                 {t("skin.baseChroma")}
               </Badge>
-              <Image src={skin.chromaPath} className="max-w-[85%] h-fit" />
+              <Image src={skin.chromaPath} className="max-w-[85%] h-fit aspect-90/101" />
             </div>
           )}
           <AddToWishlist
@@ -237,7 +237,7 @@ const DetailsSkinPage: FC = () => {
                     id={`chromaView-${chroma.id}`}
                     className="relative rounded-md border not-hover:border-transparent hover:bg-foreground/5 transition"
                   >
-                    <Image src={chroma.path} />
+                    <Image src={chroma.path} className="aspect-90/101" />
                     <Badge className="absolute bottom-2 left-1/2 transform -translate-x-1/2">{chroma.name}</Badge>
                   </div>
                 ))}
