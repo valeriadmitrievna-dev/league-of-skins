@@ -164,7 +164,7 @@ const DetailsSkinPage: FC = () => {
           {!!skin.chromas?.length && (
             <div className="border border-foreground/15 shadow-x py-3 px-4 rounded-md text-xs h-fit">
               <p className="mb-2">{t("skin.chromas")}</p>
-              <div className="flex wrap-normal gap-2">
+              <div className="flex flex-wrap gap-2">
                 {skin.chromas.map((chroma) => (
                   <ChromaColor
                     key={chroma.contentId}

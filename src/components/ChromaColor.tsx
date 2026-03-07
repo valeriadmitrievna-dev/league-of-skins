@@ -12,7 +12,7 @@ const ChromaColor: FC<ChromaColorProps> = ({ colors, className, onClick }) => {
     <div
       onClick={onClick}
       className={cn(
-        "size-5 rotate-45 rounded-full overflow-hidden flex gap-px bg-background border",
+        "size-5 rotate-45 rounded-full overflow-hidden flex gap-px bg-background border shrink-0",
         { "cursor-pointer": !!onClick },
         className,
       )}
