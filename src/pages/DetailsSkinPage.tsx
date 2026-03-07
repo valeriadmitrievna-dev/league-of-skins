@@ -28,7 +28,7 @@ const DetailsSkinPage: FC = () => {
 
   const isAuth = useSelector(appAuthSelector);
 
-  const { data: user } = useGetUserQuery("", { skip: !isAuth });
+  const { data: user } = useGetUserQuery(undefined, { skip: !isAuth });
   const { data: skin, isLoading } = useGetSkinQuery({ contentId: skinContentId!, lang: i18n.language });
   const [updateOwnedSkins, { isLoading: isOwningUpdating }] = useUpdateOwnedSkinsMutation();
 
@@ -126,7 +126,7 @@ const DetailsSkinPage: FC = () => {
     return (
       <div className="grid grid-cols-[320px_1fr] gap-x-4">
         <div className="flex flex-col gap-y-3">
-          <div className="border border-foreground/15 shadow-x p-4 pt-5 rounded-md text-xs h-fit relative">
+          <div className="my-card pt-5! px-4! text-xs h-fit relative">
             {isOwned && (
               <Badge className="absolute bg-background gap-x-1.5 -top-2.5 right-4" variant="outline">
                 <BadgeCheckIcon className="scale-120 text-sky-500 dark:text-blue-600" />
@@ -162,7 +162,7 @@ const DetailsSkinPage: FC = () => {
             )}
           </div>
           {!!skin.chromas?.length && (
-            <div className="border border-foreground/15 shadow-x py-3 px-4 rounded-md text-xs h-fit">
+            <div className="my-card px-4! text-xs h-fit">
               <p className="mb-2">{t("skin.chromas")}</p>
               <div className="flex flex-wrap gap-2">
                 {skin.chromas.map((chroma) => (
@@ -176,7 +176,7 @@ const DetailsSkinPage: FC = () => {
             </div>
           )}
           {skin.chromaPath && (
-            <div className="mt-3 border border-foreground/15 shadow-x py-3 pt-7 px-4 aspect-square rounded-md text-xs h-fit relative bg-muted flex justify-center">
+            <div className="mt-3 my-card py-3 pt-7! px-4! aspect-square text-xs h-fit relative bg-muted flex justify-center">
               <Badge variant="outline" className="bg-background absolute -top-2.5 left-1/2 transform -translate-x-1/2">
                 {t("skin.baseChroma")}
               </Badge>

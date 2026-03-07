@@ -1,11 +1,17 @@
-export interface IUser {
+import type { WishlistDto } from "./wishlist";
+
+export interface UserDto {
   _id: string;
   name: string;
   email: string;
   ownedSkins: string[];
+  wishlists: WishlistDto["_id"][];
+
+  createdAt: string;
+  updatedAt: string;
 }
 
-export interface IUserSkinsStatistic {
+export interface UserSkinsStatisticDto {
   totals: {
     skins: number;
     champions: number;

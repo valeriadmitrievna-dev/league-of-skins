@@ -14,6 +14,8 @@ import { Spinner } from "@/components/ui/spinner";
 import type { SkinDto } from "@/types/skin";
 import { useNavigate } from "react-router";
 import { cn } from "@/shared/utils/cn";
+import { useSelector } from 'react-redux';
+import { appAuthSelector } from '@/store';
 
 interface SkinCardProps {
   data: SkinDto;
@@ -26,7 +28,9 @@ const SkinCard: FC<SkinCardProps> = ({ data, navigatable, addToWishlistButton, t
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const { data: user } = useGetUserQuery();
+  const isAuth = useSelector(appAuthSelector);
+
+  const { data: user } = useGetUserQuery(undefined, { skip: !isAuth });
   const [updateOwnedSkins, { isLoading: isOwningUpdating }] = useUpdateOwnedSkinsMutation();
 
   const isOwned = user?.ownedSkins.includes(data.contentId);

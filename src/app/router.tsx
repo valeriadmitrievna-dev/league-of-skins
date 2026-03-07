@@ -8,6 +8,8 @@ import LayoutPage from "@/pages/LayoutPage";
 import DetailsSkinPage from "@/pages/DetailsSkinPage";
 import AboutPage from "@/pages/AboutPage";
 import SearchSkinsPage from "@/pages/SearchSkinsPage";
+import WishlistsPage from '@/pages/WishlistsPage';
+import DetailsWishlistPage from '@/pages/DetailsWishlistPage';
 
 export const router = createBrowserRouter([
   {
@@ -28,13 +30,14 @@ export const router = createBrowserRouter([
 
       // details
       { path: "/skins/:skinContentId", element: <DetailsSkinPage /> },
+      { path: "/wishlists/:wishlistId", element: <DetailsWishlistPage /> },
 
       // user pages
       {
         path: "",
         element: <ProtectProvider />,
         children: [
-          { path: "/wishlists", element: <>wishlists</> },
+          { path: "/wishlists", element: <WishlistsPage /> },
           {
             path: '/collection',
             // element: <Navigate to="/collection/skins" />,

@@ -1,9 +1,10 @@
 import { getLanguageCode } from "@/shared/utils/getLanguageCode";
 import type { ODataResponse, WithLanguage } from "@/types/shared";
-import type { IUser, IUserSkinsStatistic } from "@/types/user";
+import type { UserDto, UserSkinsStatisticDto } from "@/types/user";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { SkinsRequest, UpdateOwnedSkinsRequest, UpdateUserPasswordRequest } from "./types";
 import type { SkinDto } from "@/types/skin";
+import type { WishlistDto } from "@/types/wishlist";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -15,9 +16,10 @@ export const userApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["User", "OwnedSkins", "Stats"],
+  tagTypes: ["User", "OwnedSkins", "Stats", "Wishlists"],
   endpoints: (build) => ({
-    getUser: build.query<IUser, string | void>({
+    // ****** USER ******
+    getUser: build.query<UserDto, void>({
       query: () => "/",
       providesTags: ["User"],
     }),
@@ -29,6 +31,8 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["User"],
     }),
+
+    // ****** OWNED SKINS ******
     getOwnedSkins: build.query<ODataResponse<Omit<SkinDto, "skinlines">[]>, WithLanguage<Omit<SkinsRequest, "owned">>>({
       query: ({ lang, ...params }) => ({
         url: "/owned/skins",
@@ -37,7 +41,7 @@ export const userApi = createApi({
       }),
       providesTags: ["OwnedSkins"],
     }),
-    updateOwnedSkins: build.mutation<IUser, UpdateOwnedSkinsRequest>({
+    updateOwnedSkins: build.mutation<UserDto, UpdateOwnedSkinsRequest>({
       query: (body) => ({
         url: "/owned/skins",
         method: "put",
@@ -45,13 +49,25 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["User", "OwnedSkins", "Stats"],
     }),
-    getOwnedSkinsStats: build.query<IUserSkinsStatistic, WithLanguage>({
+    getOwnedSkinsStats: build.query<UserSkinsStatisticDto, WithLanguage>({
       query: ({ lang }) => ({
         url: "/owned/skins/stats",
         headers: { "App-Language": getLanguageCode(lang) },
       }),
       providesTags: ["Stats"],
     }),
+
+    // ****** WISHLISTS ******
+    getWishlists: build.query<WishlistDto[], void>({
+      query: () => "/wishlists",
+      providesTags: ["Wishlists"],
+    }),
+    getWishlist: build.query<WishlistDto[], string>({
+      query: (wishlistId) => "/wishlists/" + wishlistId,
+      providesTags: ["Wishlists"],
+    }),
+
+    // ****** INVENTORY ******
     uploadInventory: build.mutation<boolean, File>({
       query: (file) => {
         const formData = new FormData();
@@ -74,5 +90,7 @@ export const {
   useGetOwnedSkinsQuery,
   useUpdateOwnedSkinsMutation,
   useGetOwnedSkinsStatsQuery,
+  useGetWishlistsQuery,
+  useGetWishlistQuery,
   useUploadInventoryMutation,
 } = userApi;
