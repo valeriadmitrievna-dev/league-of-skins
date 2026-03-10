@@ -85,9 +85,9 @@ const CollectionSkinsPage: FC = () => {
   }
 
   return (
-    <div className="w-full grid grid-cols-[320px_1fr] gap-5">
+    <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
       <CollectionSkinsStatistics />
-      <div>
+      <div className='mt-8 md:mt-0'>
         <div className="mb-1 flex items-center justify-between">
           <Breadcrumb>
             <BreadcrumbList>

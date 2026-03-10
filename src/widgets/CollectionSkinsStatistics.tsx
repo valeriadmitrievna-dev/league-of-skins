@@ -13,9 +13,13 @@ import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
 import Skeleton from "@/components/Skeleton";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import FilterItem from "./Filters/FilterItem";
-import ChromaColor from '@/components/ChromaColor';
+import ChromaColor from "@/components/ChromaColor";
 
-const CollectionSkinsStatistics: FC = () => {
+interface IProps {
+  className?: string;
+}
+
+const CollectionSkinsStatistics: FC<IProps> = ({ className }) => {
   const { t, i18n } = useTranslation();
   const { data: statistics, isLoading } = useGetOwnedSkinsStatsQuery({ lang: i18n.language });
 
@@ -42,7 +46,7 @@ const CollectionSkinsStatistics: FC = () => {
   }
 
   return (
-    <div className="flex flex-col gap-y-3">
+    <div className={cn("flex flex-col gap-y-3", className)}>
       {/* Top champions by skins */}
       <div className="my-card flex flex-col gap-y-4">
         {!!Object.keys(statistics?.top.champions ?? {}).length &&
@@ -183,17 +187,13 @@ const CollectionSkinsStatistics: FC = () => {
 
       {/* Chroma */}
       <div className="my-card py-1!">
-        <FilterItem
-          title={t("filters.searchBy_chroma")}
-          value={get("chromaId") ?? ""}
-          onClear={() => update("chromaId")}
-        >
+        <FilterItem title={t("filters.searchBy_chroma")} value={get("chromaId") ?? ""} onClear={() => update("chromaId")}>
           <FilterList
             items={
               orderBy(statistics?.distribution.byChroma, "name").map((chroma) => ({
                 value: chroma.id,
                 label: chroma.name,
-                prefix: <ChromaColor colors={chroma.colors} />
+                prefix: <ChromaColor colors={chroma.colors} />,
               })) ?? []
             }
             value={get("chromaId") ?? ""}

@@ -69,10 +69,11 @@ const SearchSkinsPage: FC = () => {
   }, [search]);
 
   return (
-    <div className="w-full grid grid-cols-[320px_1fr] gap-5">
-      <SearchFilters />
+    <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
+      <SearchFilters className='md:sticky top-4'/>
+      
       <div className='pb-14'>
-        <Breadcrumb className="mb-3">
+        <Breadcrumb className="mb-3 mt-4 md:mt-0">
           <BreadcrumbList>
             <BreadcrumbItem>{t("shared.search")}</BreadcrumbItem>
             <BreadcrumbSeparator />

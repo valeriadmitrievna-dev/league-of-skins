@@ -11,9 +11,14 @@ import { useQueryParams } from "@/hooks/useQueryParams";
 import FilterToggleGroup from "./Filters/FilterToggleGroup";
 import FilterPanelTitle from "./Filters/FilterPanelTitle";
 import FilterToggleTags from "./Filters/FilterToggleTags";
-import { orderBy } from 'lodash';
+import { orderBy } from "lodash";
+import { cn } from '@/shared/utils/cn';
 
-const SearchFilters: FC = () => {
+interface IProps {
+  className?: string;
+}
+
+const SearchFilters: FC<IProps> = ({className}) => {
   const { t, i18n } = useTranslation();
 
   const { get, update, reset, hasActive } = useQueryParams([
@@ -49,7 +54,7 @@ const SearchFilters: FC = () => {
   ];
 
   return (
-    <div className="my-card flex flex-col gap-y-3">
+    <div className={cn("my-card flex flex-col gap-y-3", className)}>
       <FilterPanelTitle onReset={hasActive && reset} />
       <div>
         {isAuth && (
@@ -68,7 +73,7 @@ const SearchFilters: FC = () => {
         />
         <FilterItem value={get("championId") ?? ""} title={t("filters.champion")} onClear={() => update("championId")}>
           <FilterList
-            items={orderBy(champions, 'name').map((champion) => ({ value: champion.id, label: champion.name }))}
+            items={orderBy(champions, "name").map((champion) => ({ value: champion.id, label: champion.name }))}
             value={get("championId") ?? ""}
             onChange={(value) => update("championId", value)}
             isLoading={isChampionsLoading}
@@ -85,7 +90,7 @@ const SearchFilters: FC = () => {
         </FilterItem>
         <FilterItem value={get("skinlineId") ?? ""} title={t("filters.skinline")} onClear={() => update("skinlineId")}>
           <FilterList
-            items={orderBy(skinlines, 'name').map((skinline) => ({ value: skinline.id.toString(), label: skinline.name }))}
+            items={orderBy(skinlines, "name").map((skinline) => ({ value: skinline.id.toString(), label: skinline.name }))}
             value={get("skinlineId") ?? ""}
             onChange={(value) => update("skinlineId", value)}
             isLoading={isSkinlinesLoading}
@@ -94,7 +99,7 @@ const SearchFilters: FC = () => {
         </FilterItem>
         <FilterItem value={get("chromaId") ?? ""} title={t("filters.chroma")} onClear={() => update("chromaId")}>
           <FilterList
-            items={orderBy(chromas, 'name').map((chroma) => ({
+            items={orderBy(chromas, "name").map((chroma) => ({
               value: chroma.id,
               label: chroma.name,
               prefix: <ChromaColor colors={chroma.colors} />,

@@ -124,7 +124,7 @@ const DetailsSkinPage: FC = () => {
 
   if (skin) {
     return (
-      <div className="grid grid-cols-[320px_1fr] gap-x-4">
+      <div className="md:grid grid-cols-[320px_1fr] gap-x-4">
         <div className="flex flex-col gap-y-3">
           <div className="my-card pt-5! px-4! text-xs h-fit relative">
             {isOwned && (
@@ -176,7 +176,7 @@ const DetailsSkinPage: FC = () => {
             </div>
           )}
           {skin.chromaPath && (
-            <div className="mt-3 my-card py-3 pt-7! px-4! aspect-square text-xs h-fit relative bg-muted flex justify-center">
+            <div className="mt-3 my-card py-3 pt-7! px-4! md:aspect-square text-xs h-fit relative bg-muted flex justify-center">
               <Badge variant="outline" className="bg-background absolute -top-2.5 left-1/2 transform -translate-x-1/2">
                 {t("skin.baseChroma")}
               </Badge>
@@ -204,7 +204,7 @@ const DetailsSkinPage: FC = () => {
             </NavLink>
           </Button>
         </div>
-        <div>
+        <div className='mt-8 md:mt-0'>
           <div className="overflow-hidden rounded-md border border-foreground/15 bg-foreground/5 relative">
             {!skin.video && <Image src={skin.image.uncentered!} className="object-cover aspect-405/239 w-full" />}
             {skin.video && (
