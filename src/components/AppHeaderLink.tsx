@@ -5,18 +5,20 @@ import type { VariantProps } from "class-variance-authority";
 import { cn } from "@/shared/utils/cn";
 
 interface AppHeaderLinkProps {
+  className?: string;
   to: string;
   text: string;
   variant?: VariantProps<typeof buttonVariants>["variant"];
   disabled?: boolean;
+  handleClick?: () => void
 }
 
-const AppHeaderLink: FC<AppHeaderLinkProps> = ({ to, text, variant = "ghost", disabled }) => {
+const AppHeaderLink: FC<AppHeaderLinkProps> = ({className, to, text, variant = "ghost", disabled, handleClick }) => {
   return (
-    <Button className={"text-base"} variant={variant} asChild>
+    <Button className={cn("text-base", className)} variant={variant} onClick={handleClick} asChild>
       <NavLink
         to={to}
-        className={cn("aria-[current=page]:text-background aria-[current=page]:bg-foreground", {
+        className={cn("aria-[current=page]:text-background! aria-[current=page]:bg-foreground! rounded-none md:rounded-md", {
           "pointer-events-none opacity-50": disabled,
         })}
       >

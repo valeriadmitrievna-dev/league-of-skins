@@ -66,7 +66,7 @@ const SearchSkinsPage: FC = () => {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setSearchInput(search ?? "");
     }
-  }, [search]);
+  }, []);
 
   return (
     <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">

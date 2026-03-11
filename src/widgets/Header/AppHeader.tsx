@@ -2,8 +2,8 @@ import { type FC } from "react";
 import { NavLink } from "react-router";
 import AppLogo from "@/components/AppLogo";
 
-import Sidebar from "./Header/Sidebar";
-import HeaderNav from "./Header/HeaderNav";
+import Sidebar from "./Sidebar";
+import HeaderNav from "./HeaderNav";
 
 const AppHeader: FC = () => {
   return (

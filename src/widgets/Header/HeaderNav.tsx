@@ -2,7 +2,7 @@ import AppHeaderLink from "@/components/AppHeaderLink";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { cn } from "@/shared/utils/cn";
-import type { FC } from "react";
+import { type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Separator } from "@/components/ui/separator";
 import { UserSettings } from "../UserSettings";
@@ -12,9 +12,10 @@ import { appAuthSelector } from "@/store";
 
 interface IProps {
   className?: string;
+  closeSidebar?: () => void;
 }
 
-const HeaderNav: FC<IProps> = ({ className }) => {
+const HeaderNav: FC<IProps> = ({ className, closeSidebar }) => {
   const { t } = useTranslation();
 
   const { pathname } = useLocation();
@@ -26,26 +27,37 @@ const HeaderNav: FC<IProps> = ({ className }) => {
   };
 
   return (
-    <nav className={cn("flex items-center gap-2 lg:gap-3", className)}>
-      <AppHeaderLink to="/about" text={t("header.about")} />
-      {isAuth && (
-        <>
-          <AppHeaderLink to="/wishlists" text={t("header.wishlists")} disabled />
-          <AppHeaderLink to="/collection/skins" text={t("header.collection")} />
-        </>
-      )}
-      <LanguageSwitcher />
-      <ThemeSwitcher />
+    <nav className={cn("flex items-center gap-2 lg:gap-4", className)}>
+      <div className="w-full flex flex-col md:flex-row items-center gap-2">
+        <AppHeaderLink to="/about" text={t("header.about")} handleClick={closeSidebar} className="w-full md:w-fit" />
+        {isAuth && (
+          <>
+            <AppHeaderLink to="/wishlists" text={t("header.wishlists")} disabled className="w-full md:w-fit" />
+            <AppHeaderLink
+              to="/collection/skins"
+              text={t("header.collection")}
+              handleClick={closeSidebar}
+              className="w-full md:w-fit"
+            />
+          </>
+        )}
+      </div>
 
-      {!isAuth && (
-        <div className="flex items-center gap-x-2 ml-2">
-          <AppHeaderLink to={authLink("signup")} text={t("header.signup")} variant="secondary" />
-          <Separator orientation="vertical" className="h-4!" />
-          <AppHeaderLink to={authLink("signin")} text={t("header.signin")} variant="secondary" />
+      <div className="flex flex-col md:flex-row w-full gap-3 px-4">
+        <div className="flex gap-3 items-center justify-center">
+          <LanguageSwitcher />
+          <ThemeSwitcher />
+          {isAuth && <UserSettings />}
         </div>
-      )}
 
-      {isAuth && <UserSettings />}
+        {!isAuth && (
+          <div className="flex items-center gap-x-2 mx-auto">
+            <AppHeaderLink to={authLink("signup")} text={t("header.signup")} variant="secondary" />
+            <Separator orientation="vertical" className="h-4!" />
+            <AppHeaderLink to={authLink("signin")} text={t("header.signin")} variant="secondary" />
+          </div>
+        )}
+      </div>
     </nav>
   );
 };

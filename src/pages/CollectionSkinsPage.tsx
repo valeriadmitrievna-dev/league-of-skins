@@ -15,9 +15,32 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
 import { useDebounce } from "react-use";
 import { getColorsString } from "@/shared/utils/getColorsString";
-import { UploadInventory } from '@/widgets/UploadInventory';
-import { Typography } from '@/components/Typography';
-import ScrollTop from '@/components/ScrollTop';
+import { UploadInventory } from "@/widgets/UploadInventory";
+import { Typography } from "@/components/Typography";
+import ScrollTop from "@/components/ScrollTop";
+import { cn } from "@/shared/utils/cn";
+
+interface BreadcrumbsProps {
+  className?: string;
+}
+
+const BreadcrumbsLine: FC<BreadcrumbsProps> = ({ className }) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className={cn("flex items-center justify-between", className)}>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>{t("header.collection")}</BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbPage>{t("header.skins")}</BreadcrumbPage>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <UploadInventory />
+    </div>
+  );
+};
 
 const CollectionSkinsPage: FC = () => {
   const { t, i18n } = useTranslation();
@@ -73,11 +96,11 @@ const CollectionSkinsPage: FC = () => {
           <EmptyTitle>{t("empty.collection-skins__title")}</EmptyTitle>
           <EmptyDescription>{t("empty.collection-skins__desc")}</EmptyDescription>
         </EmptyHeader>
-        <EmptyContent className='gap-y-1'>
+        <EmptyContent className="gap-y-1">
           <Button size="sm" asChild>
             <NavLink to="/search/skins">{t("empty.goto__search-skins")}</NavLink>
           </Button>
-          <Typography.Muted>{t('shared.or')}</Typography.Muted>
+          <Typography.Muted>{t("shared.or")}</Typography.Muted>
           <UploadInventory />
         </EmptyContent>
       </Empty>
@@ -86,20 +109,12 @@ const CollectionSkinsPage: FC = () => {
 
   return (
     <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
-      <CollectionSkinsStatistics />
-      <div className='mt-8 md:mt-0'>
-        <div className="mb-1 flex items-center justify-between">
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>{t("header.collection")}</BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbPage>{t("header.skins")}</BreadcrumbPage>
-            </BreadcrumbList>
-          </Breadcrumb>
+      <BreadcrumbsLine className="md:hidden mb-4" />
 
-          <UploadInventory />
-        </div>
-        <Search className="mb-4" value={searchInput} onSearch={setSearchInput} />
+      <CollectionSkinsStatistics />
+      <div className="mt-8 md:mt-0">
+        <BreadcrumbsLine className="hidden md:flex" />
+        <Search className="mb-4 mt-3 md:mt-2" value={searchInput} onSearch={setSearchInput} />
 
         <VirtualizedGrid
           items={ownedSkins}
