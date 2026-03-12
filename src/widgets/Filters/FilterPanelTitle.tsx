@@ -16,7 +16,7 @@ const FilterPanelTitle: FC<FilterPanelTitleProps> = ({ title, onReset, className
   return (
     <div
       className={cn(
-        "flex justify-between items-center bg-neutral-100 dark:bg-neutral-800 px-3 py-2 rounded-md border border-foreground/10",
+        "flex justify-between items-center",
         className,
       )}
     >

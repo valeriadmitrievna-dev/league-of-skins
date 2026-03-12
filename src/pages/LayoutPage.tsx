@@ -6,7 +6,7 @@ const LayoutPage: FC = () => {
   return (
     <div className="min-h-screen grid grid-rows-[auto_1fr]">
       <AppHeader />
-      <div className="h-full p-5 my-container">
+      <div className="h-full p-4 md:p-5 my-container">
         <Outlet />
       </div>
     </div>

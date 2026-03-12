@@ -12,13 +12,13 @@ import FilterToggleGroup from "./Filters/FilterToggleGroup";
 import FilterPanelTitle from "./Filters/FilterPanelTitle";
 import FilterToggleTags from "./Filters/FilterToggleTags";
 import { orderBy } from "lodash";
-import { cn } from '@/shared/utils/cn';
+import { cn } from "@/shared/utils/cn";
 
 interface IProps {
   className?: string;
 }
 
-const SearchFilters: FC<IProps> = ({className}) => {
+const SearchFilters: FC<IProps> = ({ className }) => {
   const { t, i18n } = useTranslation();
 
   const { get, update, reset, hasActive } = useQueryParams([

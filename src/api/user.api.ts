@@ -62,7 +62,7 @@ export const userApi = createApi({
       query: () => "/wishlists",
       providesTags: ["Wishlists"],
     }),
-    getWishlist: build.query<WishlistDto[], string>({
+    getWishlist: build.query<WishlistDto, string>({
       query: (wishlistId) => "/wishlists/" + wishlistId,
       providesTags: ["Wishlists"],
     }),

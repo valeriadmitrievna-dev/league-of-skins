@@ -46,9 +46,9 @@ const CollectionSkinsStatistics: FC<IProps> = ({ className }) => {
   }
 
   return (
-    <div className={cn("flex flex-col gap-y-3", className)}>
+    <div className={cn("flex flex-col gap-y-8 md:gap-y-3", className)}>
       {/* Top champions by skins */}
-      <div className="my-card flex flex-col gap-y-4">
+      <div className="my-card flex flex-col gap-y-3 md:gap-y-4">
         {!!Object.keys(statistics?.top.champions ?? {}).length &&
           Object.entries(statistics!.top.champions).map(([place, items]) => (
             <div key={place} className="flex items-center gap-1">
@@ -73,7 +73,7 @@ const CollectionSkinsStatistics: FC<IProps> = ({ className }) => {
       </div>
 
       {/* Totals */}
-      <div className="my-card flex flex-col gap-y-2 pl-4!">
+      <div className="my-card flex flex-col gap-y-2">
         <InfoLine
           label={t("shared.skins")}
           value={`${statistics?.user.skins} / ${statistics?.totals.skins}`}
@@ -116,6 +116,7 @@ const CollectionSkinsStatistics: FC<IProps> = ({ className }) => {
           }
           className="bg-transparent!"
         />
+
         <Typography.Muted>{t("skin.priceHelperFull")}</Typography.Muted>
       </div>
 
@@ -143,64 +144,66 @@ const CollectionSkinsStatistics: FC<IProps> = ({ className }) => {
         ))}
       </div>
 
-      {/* Champions */}
-      <div className="my-card py-1!">
-        <FilterItem
-          title={t("filters.searchBy_champion")}
-          value={get("championId") ?? ""}
-          onClear={() => update("championId")}
-        >
-          <FilterList
-            items={
-              orderBy(statistics?.distribution.byChampion, "name").map((champion) => ({
-                value: champion.id,
-                label: champion.name,
-              })) ?? []
-            }
+      <div className="flex flex-col gap-y-3">
+        {/* Champions */}
+        <div className="my-card py-1!">
+          <FilterItem
+            title={t("filters.searchBy_champion")}
             value={get("championId") ?? ""}
-            onChange={(value) => update("championId", value)}
-            withSearch
-          />
-        </FilterItem>
-      </div>
+            onClear={() => update("championId")}
+          >
+            <FilterList
+              items={
+                orderBy(statistics?.distribution.byChampion, "name").map((champion) => ({
+                  value: champion.id,
+                  label: champion.name,
+                })) ?? []
+              }
+              value={get("championId") ?? ""}
+              onChange={(value) => update("championId", value)}
+              withSearch
+            />
+          </FilterItem>
+        </div>
 
-      {/* Skinlines */}
-      <div className="my-card py-1!">
-        <FilterItem
-          title={t("filters.searchBy_skinline")}
-          value={get("skinlineId") ?? ""}
-          onClear={() => update("skinlineId")}
-        >
-          <FilterList
-            items={
-              orderBy(statistics?.distribution.bySkinline, "name").map((skinline) => ({
-                value: skinline.id,
-                label: skinline.name,
-              })) ?? []
-            }
+        {/* Skinlines */}
+        <div className="my-card py-1!">
+          <FilterItem
+            title={t("filters.searchBy_skinline")}
             value={get("skinlineId") ?? ""}
-            onChange={(value) => update("skinlineId", value)}
-            withSearch
-          />
-        </FilterItem>
-      </div>
+            onClear={() => update("skinlineId")}
+          >
+            <FilterList
+              items={
+                orderBy(statistics?.distribution.bySkinline, "name").map((skinline) => ({
+                  value: skinline.id,
+                  label: skinline.name,
+                })) ?? []
+              }
+              value={get("skinlineId") ?? ""}
+              onChange={(value) => update("skinlineId", value)}
+              withSearch
+            />
+          </FilterItem>
+        </div>
 
-      {/* Chroma */}
-      <div className="my-card py-1!">
-        <FilterItem title={t("filters.searchBy_chroma")} value={get("chromaId") ?? ""} onClear={() => update("chromaId")}>
-          <FilterList
-            items={
-              orderBy(statistics?.distribution.byChroma, "name").map((chroma) => ({
-                value: chroma.id,
-                label: chroma.name,
-                prefix: <ChromaColor colors={chroma.colors} />,
-              })) ?? []
-            }
-            value={get("chromaId") ?? ""}
-            onChange={(value) => update("chromaId", value)}
-            withSearch
-          />
-        </FilterItem>
+        {/* Chroma */}
+        <div className="my-card py-1!">
+          <FilterItem title={t("filters.searchBy_chroma")} value={get("chromaId") ?? ""} onClear={() => update("chromaId")}>
+            <FilterList
+              items={
+                orderBy(statistics?.distribution.byChroma, "name").map((chroma) => ({
+                  value: chroma.id,
+                  label: chroma.name,
+                  prefix: <ChromaColor colors={chroma.colors} />,
+                })) ?? []
+              }
+              value={get("chromaId") ?? ""}
+              onChange={(value) => update("chromaId", value)}
+              withSearch
+            />
+          </FilterItem>
+        </div>
       </div>
     </div>
   );

@@ -14,17 +14,18 @@ import { Spinner } from "@/components/ui/spinner";
 import type { SkinDto } from "@/types/skin";
 import { useNavigate } from "react-router";
 import { cn } from "@/shared/utils/cn";
-import { useSelector } from 'react-redux';
-import { appAuthSelector } from '@/store';
+import { useSelector } from "react-redux";
+import { appAuthSelector } from "@/store";
 
 interface SkinCardProps {
+  className?: string;
   data: SkinDto;
   navigatable?: boolean;
   addToWishlistButton?: boolean;
   toggleOwnedButton?: boolean;
 }
 
-const SkinCard: FC<SkinCardProps> = ({ data, navigatable, addToWishlistButton, toggleOwnedButton }) => {
+const SkinCard: FC<SkinCardProps> = ({ className, data, navigatable, addToWishlistButton, toggleOwnedButton }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -52,7 +53,7 @@ const SkinCard: FC<SkinCardProps> = ({ data, navigatable, addToWishlistButton, t
   };
 
   return (
-    <Card className="relative mx-auto w-full p-0 overflow-hidden gap-y-4 group select-none">
+    <Card className={cn("relative mx-auto w-full p-0 overflow-hidden gap-y-4 group select-none", className)}>
       {data.video && (data.video.card || data.video.centered) && (
         <video
           src={data.video.card || data.video.centered!}
@@ -84,9 +85,9 @@ const SkinCard: FC<SkinCardProps> = ({ data, navigatable, addToWishlistButton, t
       <CardContent
         className="
           absolute size-full p-4 z-2 pointer-events-none
-          bg-neutral-950/75
+          bg-linear-to-t from-neutral-950 to-transparent
           flex flex-col gap-3 items-end justify-end text-right text-neutral-50
-          opacity-0 group-hover:opacity-100 transition-opacity
+          md:opacity-0 md:group-hover:opacity-100 transition-opacity
         "
       >
         <div className="flex flex-col gap-1 w-full">
@@ -107,7 +108,7 @@ const SkinCard: FC<SkinCardProps> = ({ data, navigatable, addToWishlistButton, t
         {(addToWishlistButton || toggleOwnedButton) && (
           <div className="flex items-center gap-3">
             {toggleOwnedButton && (
-              <Tooltip>
+              <Tooltip disableHoverableContent>
                 <TooltipTrigger asChild>
                   <Button
                     variant="outline"
@@ -133,9 +134,9 @@ const SkinCard: FC<SkinCardProps> = ({ data, navigatable, addToWishlistButton, t
             {addToWishlistButton && (
               <AddToWishlist
                 skinName={data.name}
-                skinContentId={data.contentId}
+                skinContentId={data.contentId} 
                 trigger={({ onOpen }) => (
-                  <Tooltip>
+                  <Tooltip disableHoverableContent>
                     <TooltipTrigger asChild>
                       <Button
                         variant="outline"
@@ -146,7 +147,7 @@ const SkinCard: FC<SkinCardProps> = ({ data, navigatable, addToWishlistButton, t
                         <HeartPlusIcon className="size-5" />
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent>{t("skin.add")}</TooltipContent>
+                    <TooltipContent className="pointer-events-none">{t("skin.add")}</TooltipContent>
                   </Tooltip>
                 )}
               />

@@ -89,7 +89,7 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
     <div ref={parentRef} className={className}>
       {loading && (
         <div className={cn("grid grid-cols-4 gap-4 xl:grid-cols-5", gridClassName)}>
-          <Skeleton count={20} asChild className={cn('h-auto', skeletonAspectRation)} />
+          <Skeleton count={20} asChild className={cn("h-auto", skeletonAspectRation)} />
         </div>
       )}
 
@@ -122,9 +122,16 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
                 const item = items[itemIndex];
                 const key = itemKey ? itemKey(item, itemIndex) : itemIndex;
 
-                return <div key={key} className={cn({
-                  'pointer-events-none animate-pulse': fetching,
-                })}>{render(item, itemIndex)}</div>;
+                return (
+                  <div
+                    key={key}
+                    className={cn({
+                      "pointer-events-none animate-pulse": fetching,
+                    })}
+                  >
+                    {render(item, itemIndex)}
+                  </div>
+                );
               })}
             </div>
           ))}

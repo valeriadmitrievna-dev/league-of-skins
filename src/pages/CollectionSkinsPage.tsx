@@ -87,7 +87,7 @@ const CollectionSkinsPage: FC = () => {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setSearchInput(search ?? "");
     }
-  }, [search]);
+  }, []);
 
   if (!isLoading && !ownedSkins.length) {
     return (
@@ -109,7 +109,7 @@ const CollectionSkinsPage: FC = () => {
 
   return (
     <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
-      <BreadcrumbsLine className="md:hidden mb-4" />
+      <BreadcrumbsLine className="md:hidden mb-8" />
 
       <CollectionSkinsStatistics />
       <div className="mt-8 md:mt-0">
@@ -121,7 +121,7 @@ const CollectionSkinsPage: FC = () => {
           loading={isLoading}
           fetching={isFetching}
           gridClassName="grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-          overscan={2}
+          overscan={4}
           responsiveColumns={[
             { minWidth: BREAKPOINTS.xl, columns: 5 },
             { minWidth: BREAKPOINTS.lg, columns: 4 },

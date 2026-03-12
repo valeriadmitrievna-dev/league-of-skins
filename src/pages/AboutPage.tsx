@@ -1,11 +1,15 @@
 import { Typography } from "@/components/Typography";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BREAKPOINTS } from "@/shared/constants/styles";
 import type { FC } from "react";
+import { useWindowSize } from "react-use";
 
 const AboutPage: FC = () => {
+  const { width } = useWindowSize();
+  const isMobile = width < BREAKPOINTS.md;
   return (
-    <Tabs defaultValue="main" className="gap-6 h-full" orientation="vertical">
-      <TabsList className="w-80 p-3 gap-y-1 h-full! justify-start">
+    <Tabs defaultValue="main" className="gap-6 h-full" orientation={isMobile ? "horizontal" : "vertical"}>
+      <TabsList className="w-full md:w-80 p-3 gap-y-1 md:h-full! justify-start flex-wrap">
         <TabsTrigger className="py-2 px-4 h-fit! flex-none!" value="main">
           Описание проекта
         </TabsTrigger>
@@ -19,7 +23,7 @@ const AboutPage: FC = () => {
           Поддержать проект
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="main">
+      <TabsContent value="main" className="md:h-[calc(100vh-106px)] overflow-auto md:scrollbar md:pe-4">
         <Typography.P>
           Этот проект — инструмент для игроков League of Legends, которым не хватает простой и удобной возможности собирать
           вишлисты скинов и делиться ими с друзьями. Несмотря на огромное количество контента в игре, официального способа
@@ -57,7 +61,7 @@ const AboutPage: FC = () => {
         </ul>
 
         <br />
-        <Typography.P className='mb-2'>
+        <Typography.P className="mb-2">
           Если вы пользуетесь сервисом, делитесь обратной связью или просто интересуетесь развитием — спасибо! Это очень
           помогает двигаться дальше и делает проект живым.
         </Typography.P>

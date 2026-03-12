@@ -1,20 +1,104 @@
-// import { appAuthSelector } from "@/store";
-import type { FC } from "react";
-// import { useTranslation } from "react-i18next";
-// import { useSelector } from "react-redux";
-// import { useNavigate } from "react-router";
+import { useCallback, type FC } from "react";
+import { useGetWishlistQuery } from "@/api";
+import { BREAKPOINTS } from "@/shared/constants/styles";
+import VirtualizedGrid from "@/widgets/VirtualizedGrid";
+import { NavLink, useParams } from "react-router";
+import type { SkinDto } from "@/types/skin";
+import { appAuthSelector } from "@/store";
+import { useSelector } from "react-redux";
+import SkinCard from "@/widgets/SkinCard";
+import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { useTranslation } from "react-i18next";
+import { Clipboard, FacebookIcon, InstagramIcon } from "lucide-react";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { useCopyToClipboard } from "react-use";
+import { toast } from "sonner";
 
 const DetailsWishlistPage: FC = () => {
   // TODO: DetailsSkinPage my-card
   // const navigate = useNavigate();
-  // const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
-  // const isAuth = useSelector(appAuthSelector);
+  const isAuth = useSelector(appAuthSelector);
+
+  const { wishlistId } = useParams();
+  const { data: wishlistInfo, isLoading, isFetching } = useGetWishlistQuery(wishlistId || "");
+  console.log({ wishlistInfo });
+
+  const [clipboardState, copyToClipboard] = useCopyToClipboard();
+  const wishlistLink = wishlistInfo?.link || "//sefnvosldnjlksnvldj";
+  const copyToClickboardHandler = () => {
+    copyToClipboard(wishlistLink);
+
+    if (clipboardState.error) {
+      toast.error(`Unable to copy value: ${clipboardState.error.message}`);
+    } else {
+      toast.success(`Copied ${clipboardState.value}`);
+    }
+  };
+
+  const renderSkin = useCallback(
+    (item: unknown) => {
+      const skin = item as SkinDto;
+      return <SkinCard key={skin.id} data={skin} navigatable toggleOwnedButton={isAuth} />;
+    },
+    [isAuth],
+  );
+
+  if (!wishlistInfo) {
+    return <></>;
+  }
+
+  const pageTitle = wishlistInfo?.name === "__MAIN__" ? t("wishlist.__MAIN__") : wishlistInfo?.name;
 
   return (
-    <div className="grid grid-cols-[320px_1fr] gap-x-4">
-      <div className="flex flex-col gap-y-3"></div>
-      <div></div>
+    <div>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbLink asChild>
+            <NavLink to="/wishlists">{t("app.wishlists")}</NavLink>
+          </BreadcrumbLink>
+          <BreadcrumbSeparator />
+          <BreadcrumbPage>{pageTitle}</BreadcrumbPage>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <h1 className="text-2xl md:text-3xl font-bold mb-4 mt-2">{pageTitle}</h1>
+
+      <section className="w-full md:grid grid-cols-[320px_1fr] gap-5">
+        <aside className="my-card mb-8 md:mb-0">
+          <h2>Share</h2>
+          <InputGroup className="plain-input rounded-sm mt-3">
+            <InputGroupInput
+              className="transition-none aria-invalid:text-destructive aria-invalid:placeholder-destructive/50!"
+              value={wishlistLink}
+              disabled
+            />
+            <InputGroupAddon align="inline-end" className="cursor-pointer" onClick={copyToClickboardHandler}>
+              <Clipboard size={16} />
+            </InputGroupAddon>
+          </InputGroup>
+
+          <div className="flex items-center justify-center gap-3 mt-4">
+            <FacebookIcon />
+            <InstagramIcon />
+          </div>
+        </aside>
+
+        <VirtualizedGrid
+          items={wishlistInfo?.skins}
+          loading={isLoading}
+          fetching={isFetching}
+          gridClassName="grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+          overscan={4}
+          responsiveColumns={[
+            { minWidth: BREAKPOINTS.xl, columns: 5 },
+            { minWidth: BREAKPOINTS.lg, columns: 4 },
+            { minWidth: 0, columns: 3 },
+          ]}
+          render={renderSkin}
+        />
+      </section>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { useGetChromasQuery, useGetSkinsQuery } from "@/api";
-import ScrollTop from '@/components/ScrollTop';
+import ScrollTop from "@/components/ScrollTop";
 import Search from "@/components/Search";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { useQueryParams } from "@/hooks/useQueryParams";
@@ -16,8 +16,26 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useDebounce } from "react-use";
 
+interface IBreadcrumbProps {
+  className?: string;
+}
+
+const SearchSkinsBreadcrumb: FC<IBreadcrumbProps> = ({ className }) => {
+  const { t } = useTranslation();
+
+  return (
+    <Breadcrumb className={className}>
+      <BreadcrumbList>
+        <BreadcrumbItem>{t("shared.search")}</BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbPage>{t("header.skins")}</BreadcrumbPage>
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
+};
+
 const SearchSkinsPage: FC = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
   const isAuth = useSelector(appAuthSelector);
   const [searchInput, setSearchInput] = useState("");
@@ -70,24 +88,20 @@ const SearchSkinsPage: FC = () => {
 
   return (
     <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
-      <SearchFilters className='md:sticky top-4'/>
-      
-      <div className='pb-14'>
-        <Breadcrumb className="mb-3 mt-4 md:mt-0">
-          <BreadcrumbList>
-            <BreadcrumbItem>{t("shared.search")}</BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbPage>{t("header.skins")}</BreadcrumbPage>
-          </BreadcrumbList>
-        </Breadcrumb>
-        <Search className="mb-4" value={searchInput} onSearch={setSearchInput} />
+      <SearchSkinsBreadcrumb className="md:hidden mb-3" />
+      <SearchFilters className="md:sticky top-4" />
+
+      <div className="pb-14">
+        <SearchSkinsBreadcrumb className="hidden md:block" />
+
+        <Search className="my-4 md:mt-3" value={searchInput} onSearch={setSearchInput} />
 
         <VirtualizedGrid
           items={skins}
           loading={isLoading}
           fetching={isFetching}
           gridClassName="grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-          overscan={2}
+          overscan={4}
           responsiveColumns={[
             { minWidth: BREAKPOINTS.xl, columns: 5 },
             { minWidth: BREAKPOINTS.lg, columns: 4 },

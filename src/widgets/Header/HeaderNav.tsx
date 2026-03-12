@@ -32,7 +32,7 @@ const HeaderNav: FC<IProps> = ({ className, closeSidebar }) => {
         <AppHeaderLink to="/about" text={t("header.about")} handleClick={closeSidebar} className="w-full md:w-fit" />
         {isAuth && (
           <>
-            <AppHeaderLink to="/wishlists" text={t("header.wishlists")} disabled className="w-full md:w-fit" />
+            <AppHeaderLink to="/wishlists" text={t("header.wishlists")} handleClick={closeSidebar} className="w-full md:w-fit" />
             <AppHeaderLink
               to="/collection/skins"
               text={t("header.collection")}

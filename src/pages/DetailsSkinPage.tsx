@@ -230,7 +230,7 @@ const DetailsSkinPage: FC = () => {
           {!!skin.chromas?.length && (
             <div className="mt-6">
               <Typography.H4 className="mb-2">{t("skin.chromas")}</Typography.H4>
-              <div className="grid gap-3 grid-cols-5 bg-muted py-5 px-5 rounded-md cursor-pointer">
+              <div className="grid gap-3 grid-cols-3 md:grid-cols-4 lg:grid-cols-5 bg-muted py-5 px-5 rounded-md cursor-pointer">
                 {skin.chromas.map((chroma) => (
                   <div
                     key={chroma.contentId}
