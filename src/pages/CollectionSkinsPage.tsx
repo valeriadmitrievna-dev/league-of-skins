@@ -120,9 +120,10 @@ const CollectionSkinsPage: FC = () => {
           items={ownedSkins}
           loading={isLoading}
           fetching={isFetching}
-          gridClassName="grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+          gridClassName="grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
           overscan={4}
           responsiveColumns={[
+            { minWidth: BREAKPOINTS['2xl'], columns: 6 },
             { minWidth: BREAKPOINTS.xl, columns: 5 },
             { minWidth: BREAKPOINTS.lg, columns: 4 },
             { minWidth: BREAKPOINTS.md, columns: 3 },
