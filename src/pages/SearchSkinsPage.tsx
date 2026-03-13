@@ -11,7 +11,7 @@ import type { SkinDto } from "@/types/skin";
 import SearchFilters from "@/widgets/SearchFilters";
 import SkinCard from "@/widgets/SkinCard";
 import VirtualizedGrid from "@/widgets/VirtualizedGrid";
-import { useCallback, useEffect, useMemo, useState, type FC } from "react";
+import { useCallback, useMemo, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useDebounce } from "react-use";
@@ -38,13 +38,13 @@ const SearchSkinsPage: FC = () => {
   const { i18n } = useTranslation();
 
   const isAuth = useSelector(appAuthSelector);
-  const [searchInput, setSearchInput] = useState("");
 
   const { get, update } = useQueryParams();
-  useDebounce(() => update("search", searchInput), 300, [searchInput]);
-
   const search = get("search");
   const chromaId = get("chromaId");
+
+  const [searchInput, setSearchInput] = useState(search ?? "");
+  useDebounce(() => update("search", searchInput), 300, [searchInput]);
 
   const { data: chromasData } = useGetChromasQuery({ lang: i18n.language });
   const { data: chromas } = getODataWithDefault(chromasData);
@@ -79,13 +79,6 @@ const SearchSkinsPage: FC = () => {
     [isAuth],
   );
 
-  useEffect(() => {
-    if (search !== searchInput) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setSearchInput(search ?? "");
-    }
-  }, []);
-
   return (
     <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
       <SearchSkinsBreadcrumb className="md:hidden mb-3" />
@@ -103,7 +96,7 @@ const SearchSkinsPage: FC = () => {
           gridClassName="grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
           overscan={4}
           responsiveColumns={[
-            { minWidth: BREAKPOINTS['2xl'], columns: 6 },
+            { minWidth: BREAKPOINTS["2xl"], columns: 6 },
             { minWidth: BREAKPOINTS.xl, columns: 5 },
             { minWidth: BREAKPOINTS.lg, columns: 4 },
             { minWidth: BREAKPOINTS.md, columns: 3 },

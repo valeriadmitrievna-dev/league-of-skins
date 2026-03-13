@@ -70,7 +70,11 @@
   "wishlist": {
     "create": "Create wishlist",
     "createAndAdd": "Create wishlist and add",
-    "__MAIN__": "Main"
+    "__MAIN__": "Main",
+    "no-wishlists-yet": "No wishlists yet",
+    "create-new-wishlist": "Create New Wishlist",
+    "enter-wishlist-name": "Enter Wishlist Name",
+    "create-wishlist": "Create Wishlist"
   },
   "auth": {
     "signin_title": "Sign In",
@@ -99,7 +103,8 @@
     "goto__search-skins": "Search skins",
     "goto__reset-filters": "Reset filters",
     "collection-skins__title": "No Owned Skins",
-    "collection-skins__desc": "You haven't mark any skin as owned."
+    "collection-skins__desc": "You haven't mark any skin as owned.",
+    "no-skins_search": "No skins with this name"
   },
   "stats": {
     "total_champions": "Champions with skins",

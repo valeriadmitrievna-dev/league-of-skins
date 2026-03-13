@@ -18,7 +18,7 @@ import MEIcon from "@/shared/assets/mythic-essence-icon.svg?react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import AddToWishlist from "@/widgets/AddToWishlist";
 import Skeleton from "@/components/Skeleton";
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 
 const DetailsSkinPage: FC = () => {
   const navigate = useNavigate();
@@ -111,12 +111,12 @@ const DetailsSkinPage: FC = () => {
           <EmptyMedia variant="icon">
             <FrownIcon />
           </EmptyMedia>
-          <EmptyTitle>{t('empty.details-skin__title')}</EmptyTitle>
+          <EmptyTitle>{t("empty.details-skin__title")}</EmptyTitle>
           <EmptyDescription>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, soluta?</EmptyDescription>
         </EmptyHeader>
         <EmptyContent>
           <Button size="sm" asChild>
-            <NavLink to="/search/skins">{t('empty.goto__search-skins')}</NavLink>
+            <NavLink to="/search/skins">{t("empty.goto__search-skins")}</NavLink>
           </Button>
         </EmptyContent>
       </Empty>
@@ -124,7 +124,7 @@ const DetailsSkinPage: FC = () => {
 
   if (skin) {
     return (
-      <div className="md:grid grid-cols-[320px_1fr] gap-x-4">
+      <div className="grid md:grid-cols-[320px_1fr] gap-x-4">
         <div className="flex flex-col gap-y-3">
           <div className="my-card pt-5! px-4! text-xs h-fit relative">
             {isOwned && (
@@ -204,7 +204,8 @@ const DetailsSkinPage: FC = () => {
             </NavLink>
           </Button>
         </div>
-        <div className='mt-8 md:mt-0'>
+
+        <div className="mt-8 order-first md:order-last md:mt-0">
           <div className="overflow-hidden rounded-md border border-foreground/15 bg-foreground/5 relative">
             {!skin.video && <Image src={skin.image.uncentered!} className="object-cover aspect-405/239 w-full" />}
             {skin.video && (
