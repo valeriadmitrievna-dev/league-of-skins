@@ -7,6 +7,7 @@ import { useWindowSize } from "react-use";
 const AboutPage: FC = () => {
   const { width } = useWindowSize();
   const isMobile = width < BREAKPOINTS.md;
+
   return (
     <Tabs defaultValue="main" className="gap-6 h-full" orientation={isMobile ? "horizontal" : "vertical"}>
       <TabsList className="w-full md:w-80 p-3 gap-y-1 md:h-full! justify-start flex-wrap">

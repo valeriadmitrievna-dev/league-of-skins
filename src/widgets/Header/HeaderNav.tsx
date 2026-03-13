@@ -28,11 +28,16 @@ const HeaderNav: FC<IProps> = ({ className, closeSidebar }) => {
 
   return (
     <nav className={cn("flex items-center gap-2 lg:gap-4", className)}>
-      <div className="w-full flex flex-col md:flex-row items-center gap-2">
+      <div className="flex flex-col md:flex-row items-center gap-5 shrink-0">
         <AppHeaderLink to="/about" text={t("header.about")} handleClick={closeSidebar} className="w-full md:w-fit" />
         {isAuth && (
           <>
-            <AppHeaderLink to="/wishlists" text={t("header.wishlists")} handleClick={closeSidebar} className="w-full md:w-fit" />
+            <AppHeaderLink
+              to="/wishlists"
+              text={t("header.wishlists")}
+              handleClick={closeSidebar}
+              className="w-full md:w-fit"
+            />
             <AppHeaderLink
               to="/collection/skins"
               text={t("header.collection")}
@@ -52,9 +57,9 @@ const HeaderNav: FC<IProps> = ({ className, closeSidebar }) => {
 
         {!isAuth && (
           <div className="flex items-center gap-x-2 mx-auto">
-            <AppHeaderLink to={authLink("signup")} text={t("header.signup")} variant="secondary" />
+            <AppHeaderLink to={authLink("signup")} text={t("header.signup")} />
             <Separator orientation="vertical" className="h-4!" />
-            <AppHeaderLink to={authLink("signin")} text={t("header.signin")} variant="secondary" />
+            <AppHeaderLink to={authLink("signin")} text={t("header.signin")} />
           </div>
         )}
       </div>

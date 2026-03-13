@@ -144,7 +144,7 @@ const CollectionSkinsStatistics: FC<IProps> = ({ className }) => {
         ))}
       </div>
 
-      <div className="flex flex-col gap-y-3">
+      <div className="flex flex-col gap-y-1">
         {/* Champions */}
         <div className="my-card py-1!">
           <FilterItem
