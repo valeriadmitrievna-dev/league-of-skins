@@ -129,7 +129,8 @@ const UserSettingsChangePassword: FC = () => {
           {isLoading && <Spinner />}
           {t("changePassword.submit")}
         </Button>
-        {error && <Typography.Small className="text-destructive">{(error as any).data.message}</Typography.Small>}
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        {error && <Typography.Small className="text-destructive">{(error as any)?.data?.message}</Typography.Small>}
       </div>
     </div>
   );

@@ -1,8 +1,14 @@
+import { useCallback, useMemo, useState, type FC } from "react";
+import { useTranslation } from "react-i18next";
+import { useDebounce } from "react-use";
+import { NavLink } from "react-router";
+
 import { useGetChromasQuery, useGetOwnedSkinsQuery } from "@/api";
+
 import Search from "@/components/Search";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { BREAKPOINTS } from "@/shared/constants/styles";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
@@ -10,10 +16,6 @@ import type { SkinDto } from "@/types/skin";
 import SkinCard from "@/widgets/SkinCard";
 import CollectionSkinsStatistics from "@/widgets/CollectionSkinsStatistics";
 import VirtualizedGrid from "@/widgets/VirtualizedGrid";
-import { useCallback, useEffect, useMemo, useState, type FC } from "react";
-import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router";
-import { useDebounce } from "react-use";
 import { getColorsString } from "@/shared/utils/getColorsString";
 import { UploadInventory } from "@/widgets/UploadInventory";
 import { Typography } from "@/components/Typography";
@@ -45,13 +47,13 @@ const BreadcrumbsLine: FC<BreadcrumbsProps> = ({ className }) => {
 const CollectionSkinsPage: FC = () => {
   const { t, i18n } = useTranslation();
 
-  const [searchInput, setSearchInput] = useState("");
-
   const { get, update } = useQueryParams();
-  useDebounce(() => update("search", searchInput), 300, [searchInput]);
-
   const search = get("search");
   const chromaId = get("chromaId");
+
+  const [searchInput, setSearchInput] = useState(search ?? "");
+
+  useDebounce(() => update("search", searchInput), 300, [searchInput]);
 
   const { data: chromasData } = useGetChromasQuery({ lang: i18n.language });
   const { data: chromas } = getODataWithDefault(chromasData);
@@ -82,14 +84,7 @@ const CollectionSkinsPage: FC = () => {
     return <SkinCard key={skin.id} data={skin} navigatable addToWishlistButton toggleOwnedButton />;
   }, []);
 
-  useEffect(() => {
-    if (search !== searchInput) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setSearchInput(search ?? "");
-    }
-  }, []);
-
-  if (!isLoading && !ownedSkins.length) {
+  if (!isLoading && !ownedSkins.length && !search) {
     return (
       <Empty className="w-full h-full max-h-120">
         <EmptyHeader>
@@ -116,6 +111,13 @@ const CollectionSkinsPage: FC = () => {
         <BreadcrumbsLine className="hidden md:flex" />
         <Search className="mb-4 mt-3 md:mt-2" value={searchInput} onSearch={setSearchInput} />
 
+        {!isLoading && !ownedSkins.length && (
+          <div className="flex flex-col gap-3 items-center justify-center h-full">
+            <Typography.H1>👎</Typography.H1>
+            <Typography.P>{t("empty.no-skins_search")}</Typography.P>
+          </div>
+        )}
+
         <VirtualizedGrid
           items={ownedSkins}
           loading={isLoading}
@@ -123,7 +125,7 @@ const CollectionSkinsPage: FC = () => {
           gridClassName="grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
           overscan={4}
           responsiveColumns={[
-            { minWidth: BREAKPOINTS['2xl'], columns: 6 },
+            { minWidth: BREAKPOINTS["2xl"], columns: 6 },
             { minWidth: BREAKPOINTS.xl, columns: 5 },
             { minWidth: BREAKPOINTS.lg, columns: 4 },
             { minWidth: BREAKPOINTS.md, columns: 3 },
