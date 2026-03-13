@@ -1,4 +1,4 @@
-import type { SkinDto } from './skin';
+import type { SkinDto } from "./skin";
 
 export interface WishlistDto {
   _id: string;
@@ -8,4 +8,10 @@ export interface WishlistDto {
 
   createdAt: string;
   updatedAt: string;
+}
+
+export interface UpdateWishlistBody {
+  name?: string;
+  addIds?: string[];
+  removeIds?: string[];
 }

@@ -2,11 +2,11 @@ import Image from "@/components/Image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { BadgeCheckIcon, HeartPlusIcon, SaveIcon, SaveOffIcon } from "lucide-react";
+import { BadgeCheckIcon, HeartPlusIcon, SaveIcon, SaveOffIcon, Trash } from "lucide-react";
 import type { FC, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import AddToWishlist from "./AddToWishlist";
-import { useGetUserQuery, useUpdateOwnedSkinsMutation } from "@/api";
+import { useGetUserQuery, useUpdateOwnedSkinsMutation, useUpdateWishlistMutation } from "@/api";
 import { Typography } from "@/components/Typography";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import ChromaColor from "@/components/ChromaColor";
@@ -23,9 +23,17 @@ interface SkinCardProps {
   navigatable?: boolean;
   addToWishlistButton?: boolean;
   toggleOwnedButton?: boolean;
+  wishlistId?: string;
 }
 
-const SkinCard: FC<SkinCardProps> = ({ className, data, navigatable, addToWishlistButton, toggleOwnedButton }) => {
+const SkinCard: FC<SkinCardProps> = ({
+  className,
+  data,
+  navigatable,
+  addToWishlistButton,
+  toggleOwnedButton,
+  wishlistId,
+}) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -33,6 +41,7 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, navigatable, addToWishli
 
   const { data: user } = useGetUserQuery(undefined, { skip: !isAuth });
   const [updateOwnedSkins, { isLoading: isOwningUpdating }] = useUpdateOwnedSkinsMutation();
+  const [updateWishlist, { isLoading: isWishlistUpdating }] = useUpdateWishlistMutation();
 
   const isOwned = user?.ownedSkins.includes(data.contentId);
   const actionButtonCN =
@@ -50,6 +59,16 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, navigatable, addToWishli
 
     if (isOwned) updateOwnedSkins({ removeIds: [data.contentId] });
     else updateOwnedSkins({ addIds: [data.contentId] });
+  };
+
+  const removeFromWishlistHandler = async () => {
+    try {
+      if (wishlistId) {
+        await updateWishlist({ wishlistId, body: { removeIds: [data.contentId] } });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -134,7 +153,7 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, navigatable, addToWishli
             {addToWishlistButton && (
               <AddToWishlist
                 skinName={data.name}
-                skinContentId={data.contentId} 
+                skinContentId={data.contentId}
                 trigger={({ onOpen }) => (
                   <Tooltip disableHoverableContent>
                     <TooltipTrigger asChild>
@@ -151,6 +170,22 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, navigatable, addToWishli
                   </Tooltip>
                 )}
               />
+            )}
+            {wishlistId && (
+              <Tooltip disableHoverableContent>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="destructive"
+                    size="icon-lg"
+                    onClick={removeFromWishlistHandler}
+                    className={cn(actionButtonCN, "pointer-events-auto")}
+                    disabled={isWishlistUpdating}
+                  >
+                    <Trash className="size-5" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="pointer-events-none">Remove skin from wishlist</TooltipContent>
+              </Tooltip>
             )}
           </div>
         )}

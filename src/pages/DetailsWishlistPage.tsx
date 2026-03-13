@@ -13,6 +13,8 @@ import { Clipboard, FacebookIcon, InstagramIcon } from "lucide-react";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { useCopyToClipboard } from "react-use";
 import { toast } from "sonner";
+import { Typography } from "@/components/Typography";
+import { Button } from "@/components/ui/button";
 
 const DetailsWishlistPage: FC = () => {
   // TODO: DetailsSkinPage my-card
@@ -40,9 +42,9 @@ const DetailsWishlistPage: FC = () => {
   const renderSkin = useCallback(
     (item: unknown) => {
       const skin = item as SkinDto;
-      return <SkinCard key={skin.id} data={skin} navigatable toggleOwnedButton={isAuth} />;
+      return <SkinCard key={skin.id} data={skin} navigatable toggleOwnedButton={isAuth} wishlistId={wishlistInfo?._id} />;
     },
-    [isAuth],
+    [isAuth, wishlistInfo],
   );
 
   if (!wishlistInfo) {
@@ -63,11 +65,11 @@ const DetailsWishlistPage: FC = () => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <h1 className="text-2xl md:text-3xl font-bold mb-4 mt-2">{pageTitle}</h1>
+      <Typography.H1 className="text-2xl md:text-3xl font-bold mb-4 mt-2">{pageTitle}</Typography.H1>
 
       <section className="w-full md:grid grid-cols-[320px_1fr] gap-5">
         <aside className="my-card mb-8 md:mb-0">
-          <h2>Share</h2>
+          <Typography.H2 className="text-lg">Share</Typography.H2>
           <InputGroup className="plain-input rounded-sm mt-3">
             <InputGroupInput
               className="transition-none aria-invalid:text-destructive aria-invalid:placeholder-destructive/50!"
@@ -85,21 +87,32 @@ const DetailsWishlistPage: FC = () => {
           </div>
         </aside>
 
-        <VirtualizedGrid
-          items={wishlistInfo?.skins}
-          loading={isLoading}
-          fetching={isFetching}
-          gridClassName="grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
-          overscan={4}
-          responsiveColumns={[
-            { minWidth: BREAKPOINTS['2xl'], columns: 6 },
-            { minWidth: BREAKPOINTS.xl, columns: 5 },
-            { minWidth: BREAKPOINTS.lg, columns: 4 },
-            { minWidth: BREAKPOINTS.md, columns: 3 },
-            { minWidth: 0, columns: 2 },
-          ]}
-          render={renderSkin}
-        />
+        <div>
+          {!isFetching && !wishlistInfo?.skins?.length && (
+            <div className="my-20 flex flex-col gap-4 items-center justify-center">
+              <Typography.H3>No skins in wishlist yet</Typography.H3>
+              <a href="/search/skins">
+                <Button>Search for skins</Button>
+              </a>
+            </div>
+          )}
+
+          <VirtualizedGrid
+            items={wishlistInfo?.skins}
+            loading={isLoading}
+            fetching={isFetching}
+            gridClassName="grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
+            overscan={4}
+            responsiveColumns={[
+              { minWidth: BREAKPOINTS["2xl"], columns: 6 },
+              { minWidth: BREAKPOINTS.xl, columns: 5 },
+              { minWidth: BREAKPOINTS.lg, columns: 4 },
+              { minWidth: BREAKPOINTS.md, columns: 3 },
+              { minWidth: 0, columns: 2 },
+            ]}
+            render={renderSkin}
+          />
+        </div>
       </section>
     </div>
   );

@@ -4,7 +4,7 @@ import type { UserDto, UserSkinsStatisticDto } from "@/types/user";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { SkinsRequest, UpdateOwnedSkinsRequest, UpdateUserPasswordRequest } from "./types";
 import type { SkinDto } from "@/types/skin";
-import type { WishlistDto } from "@/types/wishlist";
+import type { UpdateWishlistBody, WishlistDto } from "@/types/wishlist";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -66,6 +66,22 @@ export const userApi = createApi({
       query: (wishlistId) => "/wishlists/" + wishlistId,
       providesTags: ["Wishlists"],
     }),
+    createWishlist: build.mutation<WishlistDto, { name: string }>({
+      query: (body) => ({
+        url: "/wishlists",
+        method: "post",
+        body,
+      }),
+      invalidatesTags: ["User", "Wishlists"],
+    }),
+    updateWishlist: build.mutation<WishlistDto, { wishlistId: string; body: UpdateWishlistBody }>({
+      query: ({ wishlistId, body }) => ({
+        url: "/wishlists/" + wishlistId,
+        method: "put",
+        body,
+      }),
+      invalidatesTags: ["User", "Wishlists"],
+    }),
 
     // ****** INVENTORY ******
     uploadInventory: build.mutation<boolean, File>({
@@ -92,5 +108,7 @@ export const {
   useGetOwnedSkinsStatsQuery,
   useGetWishlistsQuery,
   useGetWishlistQuery,
+  useCreateWishlistMutation,
+  useUpdateWishlistMutation,
   useUploadInventoryMutation,
 } = userApi;

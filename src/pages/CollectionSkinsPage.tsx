@@ -21,6 +21,7 @@ import { UploadInventory } from "@/widgets/UploadInventory";
 import { Typography } from "@/components/Typography";
 import ScrollTop from "@/components/ScrollTop";
 import { cn } from "@/shared/utils/cn";
+import NoResultsState from "@/components/NoResultsState";
 
 interface BreadcrumbsProps {
   className?: string;
@@ -111,12 +112,7 @@ const CollectionSkinsPage: FC = () => {
         <BreadcrumbsLine className="hidden md:flex" />
         <Search className="mb-4 mt-3 md:mt-2" value={searchInput} onSearch={setSearchInput} />
 
-        {!isLoading && !ownedSkins.length && (
-          <div className="flex flex-col gap-3 items-center justify-center h-full">
-            <Typography.H1>👎</Typography.H1>
-            <Typography.P>{t("empty.no-skins_search")}</Typography.P>
-          </div>
-        )}
+        {!isLoading && !ownedSkins.length && <NoResultsState className="my-30" />}
 
         <VirtualizedGrid
           items={ownedSkins}
