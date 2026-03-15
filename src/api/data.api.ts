@@ -1,11 +1,13 @@
-import type { ODataRequest, ODataResponse, WithLanguage } from "@/types/shared";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { SkinsRequest } from "./types";
+
 import { getLanguageCode } from "@/shared/utils/getLanguageCode";
-import type { ChromaDto } from "@/types/chroma";
-import type { SkinlineDto } from "@/types/skinline";
 import type { ChampionDto } from "@/types/champion";
+import type { ChromaDto } from "@/types/chroma";
+import type { ODataRequest, ODataResponse, WithLanguage } from "@/types/shared";
 import type { SkinDto } from "@/types/skin";
+import type { SkinlineDto } from "@/types/skinline";
+
+import type { SkinsRequest } from "./types";
 
 export const dataApi = createApi({
   reducerPath: "dataApi",

@@ -1,24 +1,25 @@
-import { useGetSkinQuery, useGetUserQuery, useUpdateOwnedSkinsMutation } from "@/api";
-import ChromaColor from "@/components/ChromaColor";
-import Image from "@/components/Image";
-import { Typography } from "@/components/Typography";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
-import Video from "@/components/Video";
-import { RARITIES } from "@/shared/constants/rarities";
-import { appAuthSelector } from "@/store";
 import { BadgeCheckIcon, CircleQuestionMarkIcon, FrownIcon, PlayIcon } from "lucide-react";
 import type { FC, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate, useParams } from "react-router";
-import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
-import MEIcon from "@/shared/assets/mythic-essence-icon.svg?react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import AddToWishlist from "@/widgets/AddToWishlist";
+
+import { useGetSkinQuery, useGetUserQuery, useUpdateOwnedSkinsMutation } from "@/api";
+import ChromaColor from "@/components/ChromaColor";
+import Image from "@/components/Image";
 import Skeleton from "@/components/Skeleton";
+import { Typography } from "@/components/Typography";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
+import { Spinner } from "@/components/ui/spinner";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import Video from "@/components/Video";
+import MEIcon from "@/shared/assets/mythic-essence-icon.svg?react";
+import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
+import { RARITIES } from "@/shared/constants/rarities";
+import { appAuthSelector } from "@/store";
+import AddToWishlist from "@/widgets/AddToWishlist";
 
 const DetailsSkinPage: FC = () => {
   const navigate = useNavigate();

@@ -1,12 +1,13 @@
-import { useEffect, type FC } from "react";
-import { Button } from "@/components/ui/button";
 import { GlobeIcon } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, type FC } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+
+import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { appLanguageSelector, setLanguage } from "@/store";
 import { LANGUAGES } from "@/shared/constants/languages";
+import { appLanguageSelector, setLanguage } from "@/store";
 
 const LanguageSwitcher: FC = () => {
   const { i18n } = useTranslation();

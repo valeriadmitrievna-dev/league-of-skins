@@ -1,19 +1,22 @@
-import { useGetOwnedSkinsStatsQuery } from "@/api";
+import { orderBy } from "lodash";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
-import FilterList from "./Filters/FilterList";
-import { Typography } from "@/components/Typography";
+
+import { useGetOwnedSkinsStatsQuery } from "@/api";
+import ChromaColor from "@/components/ChromaColor";
 import InfoLine from "@/components/InfoLine";
-import { cn } from "@/shared/utils/cn";
-import { orderBy } from "lodash";
+import Skeleton from "@/components/Skeleton";
+import { Typography } from "@/components/Typography";
+import { useQueryParams } from "@/hooks/useQueryParams";
 import MedalFirstIcon from "@/shared/assets/medal-first.svg?react";
 import MedalSecondIcon from "@/shared/assets/medal-second.svg?react";
 import MedalThirdIcon from "@/shared/assets/medal-third.svg?react";
 import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
-import Skeleton from "@/components/Skeleton";
-import { useQueryParams } from "@/hooks/useQueryParams";
+import { cn } from "@/shared/utils/cn";
+
 import FilterItem from "./Filters/FilterItem";
-import ChromaColor from "@/components/ChromaColor";
+import FilterList from "./Filters/FilterList";
+
 
 interface CollectionStatisticsProps {
   className?: string;

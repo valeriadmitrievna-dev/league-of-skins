@@ -1,8 +1,9 @@
+import type { FC } from "react";
+import { useWindowSize } from "react-use";
+
 import { Typography } from "@/components/Typography";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BREAKPOINTS } from "@/shared/constants/styles";
-import type { FC } from "react";
-import { useWindowSize } from "react-use";
 
 const AboutPage: FC = () => {
   const { width } = useWindowSize();

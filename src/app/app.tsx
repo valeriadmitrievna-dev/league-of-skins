@@ -1,10 +1,12 @@
 import type { FC } from "react";
-import { RouterProvider } from "react-router";
-import { router } from "./router";
 import { Provider } from "react-redux";
-import { store } from "@/store";
-import { ThemeProvider, ToastsProvider } from "@/shared/providers";
+import { RouterProvider } from "react-router";
+
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { ThemeProvider, ToastsProvider } from "@/shared/providers";
+import { store } from "@/store";
+
+import { router } from "./router";
 
 const App: FC = () => {
   return (

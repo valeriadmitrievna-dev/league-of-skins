@@ -1,7 +1,8 @@
-import { appThemeSelector } from "@/store";
 import { CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon } from "lucide-react";
 import { useSelector } from "react-redux";
 import { Toaster as Sonner, type ToasterProps } from "sonner";
+
+import { appThemeSelector } from "@/store";
 
 const ToastsProvider = ({ ...props }: ToasterProps) => {
   const theme = useSelector(appThemeSelector);

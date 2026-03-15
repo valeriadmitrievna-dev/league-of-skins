@@ -1,10 +1,11 @@
+import type { FC } from "react";
+import { useTranslation } from "react-i18next";
+
 import Skeleton from "@/components/Skeleton";
 import { Typography } from "@/components/Typography";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/shared/utils/cn";
 import type { OptionItem } from "@/types/shared";
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
 
 interface FilterToggleTagsProps {
   value: string;

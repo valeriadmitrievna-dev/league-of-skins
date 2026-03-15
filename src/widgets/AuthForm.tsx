@@ -1,4 +1,6 @@
-/* eslint-disable react-refresh/only-export-components */
+ 
+import type { ComponentProps, FC, PropsWithChildren, ReactNode } from "react";
+
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { Button } from "@/components/ui/button";
@@ -7,7 +9,6 @@ import { Field, FieldContent, FieldDescription, FieldLabel } from "@/components/
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
-import type { ComponentProps, FC, PropsWithChildren, ReactNode } from "react";
 
 interface AuthFormTitleProps {
   children: string;

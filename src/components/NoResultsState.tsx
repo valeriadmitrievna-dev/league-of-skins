@@ -1,7 +1,9 @@
 import type { FC } from "react";
-import { Typography } from "./Typography";
-import { cn } from "@/shared/utils/cn";
 import { useTranslation } from "react-i18next";
+
+import { cn } from "@/shared/utils/cn";
+
+import { Typography } from "./Typography";
 
 interface NoResultsProps {
   className?: string;

@@ -1,3 +1,7 @@
+import { CloudAlertIcon, CloudCheckIcon, CloudUploadIcon } from "lucide-react";
+import { useMemo, useState, type FC } from "react";
+import { Trans, useTranslation } from "react-i18next";
+
 import { useUploadInventoryMutation } from "@/api";
 import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
@@ -5,14 +9,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components
 import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
-import { CloudAlertIcon, CloudCheckIcon, CloudUploadIcon } from "lucide-react";
-import { useMemo, useState, type FC } from "react";
-import { Trans, useTranslation } from "react-i18next";
-import UploadInventoryInstruction from "./UploadInventoryInstruction";
+
 import UploadInventoryDescription from "./UploadInventoryDescription";
 import UploadInventoryHelp from "./UploadInventoryHelp";
-import UploadInventoryNotes from "./UploadInventoryNotes";
 import UploadInventoryInputFile from "./UploadInventoryInputFile";
+import UploadInventoryInstruction from "./UploadInventoryInstruction";
+import UploadInventoryNotes from "./UploadInventoryNotes";
 
 const UploadInventory: FC = () => {
   const { t } = useTranslation();

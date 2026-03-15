@@ -1,21 +1,22 @@
-import { useCallback, type FC } from "react";
-import { useGetWishlistQuery } from "@/api";
-import { BREAKPOINTS } from "@/shared/constants/styles";
-import VirtualizedGrid from "@/widgets/VirtualizedGrid";
-import { NavLink, useParams } from "react-router";
-import type { SkinDto } from "@/types/skin";
-import { appAuthSelector } from "@/store";
-import { useSelector } from "react-redux";
-import SkinCard from "@/widgets/SkinCard";
-import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { useTranslation } from "react-i18next";
 import { Clipboard, FacebookIcon, InstagramIcon } from "lucide-react";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { useCallback, type FC } from "react";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { NavLink, useParams } from "react-router";
 import { useCopyToClipboard } from "react-use";
 import { toast } from "sonner";
+
+import { useGetWishlistQuery } from "@/api";
 import { Typography } from "@/components/Typography";
+import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import EditWishlistModal from '@/widgets/EditWishlistModal';
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { BREAKPOINTS } from "@/shared/constants/styles";
+import { appAuthSelector } from "@/store";
+import type { SkinDto } from "@/types/skin";
+import EditWishlistModal from "@/widgets/EditWishlistModal";
+import SkinCard from "@/widgets/SkinCard";
+import VirtualizedGrid from "@/widgets/VirtualizedGrid";
 
 const DetailsWishlistPage: FC = () => {
   // TODO: DetailsSkinPage my-card
@@ -67,7 +68,7 @@ const DetailsWishlistPage: FC = () => {
           </BreadcrumbList>
         </Breadcrumb>
 
-        <EditWishlistModal wishlistInfo={wishlistInfo}/>
+        <EditWishlistModal wishlistInfo={wishlistInfo} />
       </div>
 
       <Typography.H1 className="text-2xl md:text-3xl font-bold mb-4 mt-2">{pageTitle}</Typography.H1>

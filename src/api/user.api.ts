@@ -1,10 +1,12 @@
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
 import { getLanguageCode } from "@/shared/utils/getLanguageCode";
 import type { ODataResponse, WithLanguage } from "@/types/shared";
-import type { UserDto, UserSkinsStatisticDto } from "@/types/user";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { SkinsRequest, UpdateOwnedSkinsRequest, UpdateUserPasswordRequest } from "./types";
 import type { SkinDto } from "@/types/skin";
-import type { UpdateWishlistBody, WishlistDto } from "@/types/wishlist";
+import type { UserDto, UserSkinsStatisticDto } from "@/types/user";
+import type { UpdateWishlistBody, WishlistFullDto, WishlistDto } from "@/types/wishlist";
+
+import type { SkinsRequest, UpdateOwnedSkinsRequest, UpdateUserPasswordRequest } from "./types";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -62,7 +64,7 @@ export const userApi = createApi({
       query: () => "/wishlists",
       providesTags: ["Wishlists"],
     }),
-    getWishlist: build.query<WishlistDto, string>({
+    getWishlist: build.query<WishlistFullDto, string>({
       query: (wishlistId) => "/wishlists/" + wishlistId,
       providesTags: ["Wishlists"],
     }),
@@ -74,13 +76,20 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["User", "Wishlists"],
     }),
-    updateWishlist: build.mutation<WishlistDto, { wishlistId: string; body: UpdateWishlistBody }>({
+    updateWishlist: build.mutation<WishlistFullDto, { wishlistId: string; body: UpdateWishlistBody }>({
       query: ({ wishlistId, body }) => ({
         url: "/wishlists/" + wishlistId,
         method: "put",
         body,
       }),
       invalidatesTags: ["Wishlists"],
+    }),
+    deleteWishlist: build.mutation<true, { wishlistId: string }>({
+      query: ({ wishlistId }) => ({
+        url: "/wishlists/" + wishlistId,
+        method: "delete",
+      }),
+      invalidatesTags: ["User", "Wishlists"],
     }),
 
     // ****** INVENTORY ******
@@ -110,5 +119,6 @@ export const {
   useGetWishlistQuery,
   useCreateWishlistMutation,
   useUpdateWishlistMutation,
+  useDeleteWishlistMutation,
   useUploadInventoryMutation,
 } = userApi;

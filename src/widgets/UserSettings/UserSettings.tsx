@@ -1,9 +1,3 @@
-import { useGetUserQuery, userApi } from "@/api";
-import Skeleton from "@/components/Skeleton";
-import { Typography } from "@/components/Typography";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { setAppAuth } from "@/store";
 import {
   HourglassIcon,
   LogOutIcon,
@@ -13,10 +7,19 @@ import {
   UserRoundKeyIcon,
 } from "lucide-react";
 import { useState, type FC } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+
+import { useGetUserQuery, userApi } from "@/api";
+import Skeleton from "@/components/Skeleton";
+import { Typography } from "@/components/Typography";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { setAppAuth } from "@/store";
+
 import UserSettingsSecurity from "./UserSettingsSecurity";
 import UserSettingsTab from "./UserSettingsTab";
-import { useTranslation } from "react-i18next";
+
 
 const UserSettings: FC = () => {
   const { t } = useTranslation();

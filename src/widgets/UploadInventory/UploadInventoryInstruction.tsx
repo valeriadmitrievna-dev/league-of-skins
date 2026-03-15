@@ -1,5 +1,6 @@
-import { Typography } from "@/components/Typography";
 import type { FC, PropsWithChildren } from "react";
+
+import { Typography } from "@/components/Typography";
 
 interface UploadInventoryInstructionProps extends PropsWithChildren {
   title: string;

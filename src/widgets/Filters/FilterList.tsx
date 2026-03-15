@@ -1,3 +1,7 @@
+import { useCallback, useEffect, useMemo, useRef, useState, type FC, type KeyboardEvent } from "react";
+import { useTranslation } from "react-i18next";
+import { AutoSizer, CellMeasurer, CellMeasurerCache, List, type ListRowRenderer } from "react-virtualized";
+
 import Search from "@/components/Search";
 import Skeleton from "@/components/Skeleton";
 import { Typography } from "@/components/Typography";
@@ -5,9 +9,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/shared/utils/cn";
 import type { OptionItem } from "@/types/shared";
-import { useCallback, useEffect, useMemo, useRef, useState, type FC, type KeyboardEvent } from "react";
-import { useTranslation } from "react-i18next";
-import { AutoSizer, CellMeasurer, CellMeasurerCache, List, type ListRowRenderer } from "react-virtualized";
 
 interface FilterListProps {
   items: OptionItem[];

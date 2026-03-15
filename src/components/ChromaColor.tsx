@@ -1,5 +1,6 @@
-import { cn } from "@/shared/utils/cn";
 import type { FC } from "react";
+
+import { cn } from "@/shared/utils/cn";
 
 interface ChromaColorProps {
   colors: string[];

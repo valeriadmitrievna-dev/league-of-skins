@@ -1,6 +1,7 @@
-import { Typography } from '@/components/Typography';
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Typography } from '@/components/Typography';
 
 const UploadInventoryDescription: FC = () => {
   const { t } = useTranslation();

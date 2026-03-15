@@ -1,7 +1,8 @@
-import { useEffect, useState, type FC } from "react";
-import { Button } from "./ui/button";
 import { ArrowBigUpIcon } from "lucide-react";
+import { useEffect, useState, type FC } from "react";
 import { useTranslation } from 'react-i18next';
+
+import { Button } from "./ui/button";
 
 interface ScrollTopProps {
   className?: string;

@@ -1,6 +1,8 @@
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { TextAlignJustify } from "lucide-react";
 import { useState, type FC } from "react";
+
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+
 import HeaderNav from "./AppHeaderNav";
 
 const AppSidebar: FC = () => {

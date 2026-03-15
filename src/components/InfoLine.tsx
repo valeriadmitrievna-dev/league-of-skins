@@ -1,6 +1,8 @@
 import type { FC, ReactNode } from "react";
-import { Typography } from "./Typography";
+
 import { cn } from "@/shared/utils/cn";
+
+import { Typography } from "./Typography";
 
 interface InfoLineProps {
   label: string | ReactNode;

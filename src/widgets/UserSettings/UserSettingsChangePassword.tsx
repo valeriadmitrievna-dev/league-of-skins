@@ -1,14 +1,15 @@
+import { EyeIcon, EyeOffIcon, LockIcon } from "lucide-react";
+import { useState, type FC, type MouseEvent } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+
 import { useUpdateUserPasswordMutation } from "@/api";
 import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
 import { Field, FieldContent, FieldDescription } from "@/components/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Spinner } from "@/components/ui/spinner";
-import { EyeIcon, EyeOffIcon, LockIcon } from "lucide-react";
-import { useState, type FC, type MouseEvent } from "react";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 
 interface ChangePasswordFormInput {
   oldPassword: string;

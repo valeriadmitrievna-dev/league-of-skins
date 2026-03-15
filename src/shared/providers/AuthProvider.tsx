@@ -1,7 +1,8 @@
-import { appAuthSelector } from "@/store";
 import { useEffect, type FC } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate, useSearchParams } from "react-router";
+
+import { appAuthSelector } from "@/store";
 
 const AuthSignProvider: FC = () => {
   const navigate = useNavigate();

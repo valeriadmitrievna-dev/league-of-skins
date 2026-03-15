@@ -1,13 +1,14 @@
+import { LockIcon, MailIcon, UserIcon } from "lucide-react";
+import { type FC } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from "react-redux";
+import { NavLink, useLocation } from "react-router";
+
 import { useRegistrationMutation } from "@/api";
 import { Button } from "@/components/ui/button";
 import { setAppAuth } from "@/store";
 import { AuthForm } from "@/widgets/AuthForm";
-import { LockIcon, MailIcon, UserIcon } from "lucide-react";
-import { type FC } from "react";
-import { useDispatch } from "react-redux";
-import { NavLink, useLocation } from "react-router";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { useTranslation } from 'react-i18next';
 
 interface SignUpFormInput {
   name: string;

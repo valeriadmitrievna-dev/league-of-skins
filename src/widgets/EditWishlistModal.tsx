@@ -1,27 +1,41 @@
+import { Pencil } from "lucide-react";
 import { useState, type FC } from "react";
+import { useNavigate, useParams } from "react-router";
 
+import { useDeleteWishlistMutation, useUpdateWishlistMutation } from "@/api";
+import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
-import { useUpdateWishlistMutation } from "@/api";
-import { useParams } from "react-router";
-import type { WishlistDto } from "@/types/wishlist";
+import type { WishlistFullDto } from "@/types/wishlist";
 
 interface EditWishlistProps {
-  wishlistInfo: WishlistDto;
+  wishlistInfo: WishlistFullDto;
 }
 
 const EditWishlistModal: FC<EditWishlistProps> = ({ wishlistInfo }) => {
   const [updateWishlist, { isLoading: isWishlistUpdating }] = useUpdateWishlistMutation();
+  const [deleteWishlist, { isLoading: isWishlistDeleting }] = useDeleteWishlistMutation();
   const { wishlistId } = useParams();
+  const navigate = useNavigate();
 
-  const [newName, setNewName] = useState("");
+  const [newName, setNewName] = useState(wishlistInfo?.name);
 
   const renameWishlistHandler = async () => {
-    await updateWishlist({ wishlistId: wishlistId ?? "", body: { name: newName } });
+    try {
+      await updateWishlist({ wishlistId: wishlistId ?? "", body: { name: newName } });
+    } catch (error) {
+      console.error(error);
+    }
   };
-  const deleteWishlistHandler = async () => {};
+
+  const deleteWishlistHandler = async () => {
+    try {
+      await deleteWishlist({ wishlistId: wishlistId ?? "" });
+      navigate("/wishlists");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Dialog>
@@ -31,7 +45,7 @@ const EditWishlistModal: FC<EditWishlistProps> = ({ wishlistInfo }) => {
           Edit Wishlist
         </Button>
       </DialogTrigger>
-      <DialogContent showCloseButton={true} className="gap-y-2">
+      <DialogContent showCloseButton className="gap-y-2">
         <DialogHeader className="px-2.5 pt-2">
           <DialogTitle>Edit Wishlist</DialogTitle>
         </DialogHeader>
@@ -42,7 +56,7 @@ const EditWishlistModal: FC<EditWishlistProps> = ({ wishlistInfo }) => {
               Save
             </Button>
           )}
-          <Button disabled={isWishlistUpdating} variant="destructive" onClick={deleteWishlistHandler}>
+          <Button disabled={isWishlistDeleting} variant="destructive" onClick={deleteWishlistHandler}>
             Delete Wishlist
           </Button>
         </div>

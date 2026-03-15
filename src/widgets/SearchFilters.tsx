@@ -1,18 +1,20 @@
+import { orderBy } from "lodash";
 import { type FC } from "react";
 import { useTranslation } from "react-i18next";
-import FilterList from "@/widgets/Filters/FilterList";
-import FilterItem from "@/widgets/Filters/FilterItem";
-import ChromaColor from "@/components/ChromaColor";
 import { useSelector } from "react-redux";
-import { appAuthSelector } from "@/store";
+
 import { useGetChampionsQuery, useGetChromasQuery, useGetRaritiesQuery, useGetSkinlinesQuery } from "@/api";
-import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
+import ChromaColor from "@/components/ChromaColor";
 import { useQueryParams } from "@/hooks/useQueryParams";
-import FilterToggleGroup from "./Filters/FilterToggleGroup";
-import FilterPanelTitle from "./Filters/FilterPanelTitle";
-import FilterToggleTags from "./Filters/FilterToggleTags";
-import { orderBy } from "lodash";
 import { cn } from "@/shared/utils/cn";
+import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
+import { appAuthSelector } from "@/store";
+import FilterItem from "@/widgets/Filters/FilterItem";
+import FilterList from "@/widgets/Filters/FilterList";
+
+import FilterPanelTitle from "./Filters/FilterPanelTitle";
+import FilterToggleGroup from "./Filters/FilterToggleGroup";
+import FilterToggleTags from "./Filters/FilterToggleTags";
 
 interface SearchFiltersProps {
   className?: string;

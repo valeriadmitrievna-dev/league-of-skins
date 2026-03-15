@@ -1,4 +1,5 @@
 import type { FC } from "react";
+
 import UserSettingsChangePassword from "./UserSettingsChangePassword";
 
 const UserSettingsSecurity: FC = () => {

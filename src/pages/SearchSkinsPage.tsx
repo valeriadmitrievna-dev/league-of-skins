@@ -1,3 +1,8 @@
+import { useCallback, useMemo, useState, type FC } from "react";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { useDebounce } from "react-use";
+
 import { useGetChromasQuery, useGetSkinsQuery } from "@/api";
 import NoResultsState from "@/components/NoResultsState";
 import ScrollTop from "@/components/ScrollTop";
@@ -12,10 +17,6 @@ import type { SkinDto } from "@/types/skin";
 import SearchFilters from "@/widgets/SearchFilters";
 import SkinCard from "@/widgets/SkinCard";
 import VirtualizedGrid from "@/widgets/VirtualizedGrid";
-import { useCallback, useMemo, useState, type FC } from "react";
-import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { useDebounce } from "react-use";
 
 interface IBreadcrumbProps {
   className?: string;
