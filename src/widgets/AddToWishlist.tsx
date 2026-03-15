@@ -18,6 +18,7 @@ import { useEffect, useState, type FC, type MouseEvent, type ReactNode } from "r
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
+import CreateWishlistModal from "./CreateWishlistModal";
 
 interface AddToWishlistLineProps {
   wishlist: WishlistDto;
@@ -101,12 +102,7 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
     }
   };
 
-  const createNewWishlist = async (event: MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-    event.preventDefault();
 
-    setOpen(false);
-  };
 
   useEffect(() => {
     if (addSkinWaiting && !open && addSkinWaiting === skinContentId && isAuth) {
@@ -120,7 +116,7 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger({ openState: open, onOpen: openHandler })}</DialogTrigger>
-      <DialogContent showCloseButton={true} className="gap-y-2">
+      <DialogContent showCloseButton className="gap-y-2">
         <DialogHeader className="px-2.5 pt-2">
           <DialogTitle>{t("skin.add")}</DialogTitle>
           <DialogDescription>
@@ -134,10 +130,12 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
             ))}
           </div>
 
-          <Button variant="ghost" size="sm" className="justify-start" onClick={createNewWishlist} disabled>
-            <PlusIcon />
-            {t("wishlist.createAndAdd")}
-          </Button>
+          <CreateWishlistModal skinContentId={skinContentId}>
+            <Button variant="ghost" size="sm" className="justify-start">
+              <PlusIcon />
+              {t("wishlist.createAndAdd")}
+            </Button>
+          </CreateWishlistModal>
         </div>
       </DialogContent>
     </Dialog>

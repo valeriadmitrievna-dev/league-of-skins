@@ -1,7 +1,7 @@
 import { useGetWishlistsQuery } from "@/api";
-import CreateWishlistModal from "@/components/CreateWishlistModal";
 import Skeleton from "@/components/Skeleton";
 import { Typography } from "@/components/Typography";
+import CreateWishlistModal from "@/widgets/CreateWishlistModal";
 import { ChevronRightIcon } from "lucide-react";
 import { type FC } from "react";
 import { useTranslation } from "react-i18next";
