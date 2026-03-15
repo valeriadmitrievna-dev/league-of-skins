@@ -1,4 +1,5 @@
 import { useGetChromasQuery, useGetSkinsQuery } from "@/api";
+import NoResultsState from "@/components/NoResultsState";
 import ScrollTop from "@/components/ScrollTop";
 import Search from "@/components/Search";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
@@ -88,6 +89,8 @@ const SearchSkinsPage: FC = () => {
         <SearchSkinsBreadcrumb className="hidden md:block" />
 
         <Search className="my-4 md:mt-3" value={searchInput} onSearch={setSearchInput} />
+
+        {!isLoading && !skins.length && <NoResultsState className="my-30" />}
 
         <VirtualizedGrid
           items={skins}

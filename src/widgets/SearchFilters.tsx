@@ -14,11 +14,11 @@ import FilterToggleTags from "./Filters/FilterToggleTags";
 import { orderBy } from "lodash";
 import { cn } from "@/shared/utils/cn";
 
-interface IProps {
+interface SearchFiltersProps {
   className?: string;
 }
 
-const SearchFilters: FC<IProps> = ({ className }) => {
+const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
   const { t, i18n } = useTranslation();
 
   const { get, update, reset, hasActive } = useQueryParams([

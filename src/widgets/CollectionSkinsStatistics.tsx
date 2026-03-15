@@ -15,11 +15,11 @@ import { useQueryParams } from "@/hooks/useQueryParams";
 import FilterItem from "./Filters/FilterItem";
 import ChromaColor from "@/components/ChromaColor";
 
-interface IProps {
+interface CollectionStatisticsProps {
   className?: string;
 }
 
-const CollectionSkinsStatistics: FC<IProps> = ({ className }) => {
+const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className }) => {
   const { t, i18n } = useTranslation();
   const { data: statistics, isLoading } = useGetOwnedSkinsStatsQuery({ lang: i18n.language });
 
