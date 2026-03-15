@@ -7,11 +7,11 @@ import { useCopyToClipboard } from "react-use";
 import { toast } from "sonner";
 
 import { useGetWishlistQuery } from "@/api";
+import Skeleton from "@/components/Skeleton";
 import { Typography } from "@/components/Typography";
 import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
-import { BREAKPOINTS } from "@/shared/constants/styles";
 import { appAuthSelector } from "@/store";
 import type { SkinDto } from "@/types/skin";
 import EditWishlistModal from "@/widgets/EditWishlistModal";
@@ -44,14 +44,19 @@ const DetailsWishlistPage: FC = () => {
   const renderSkin = useCallback(
     (item: unknown) => {
       const skin = item as SkinDto;
-      return <SkinCard key={skin.id} data={skin} owned={skin.owned} navigatable toggleOwnedButton={isAuth} wishlistId={wishlistInfo?._id} />;
+      return (
+        <SkinCard
+          key={skin.id}
+          data={skin}
+          owned={skin.owned}
+          navigatable
+          toggleOwnedButton={isAuth}
+          wishlistId={wishlistInfo?._id}
+        />
+      );
     },
     [isAuth, wishlistInfo],
   );
-
-  if (!wishlistInfo) {
-    return <></>;
-  }
 
   const pageTitle = wishlistInfo?.name === "__MAIN__" ? t("wishlist.__MAIN__") : wishlistInfo?.name;
 
@@ -64,14 +69,18 @@ const DetailsWishlistPage: FC = () => {
               <NavLink to="/wishlists">{t("app.wishlists")}</NavLink>
             </BreadcrumbLink>
             <BreadcrumbSeparator />
-            <BreadcrumbPage>{pageTitle}</BreadcrumbPage>
+            {isLoading ? <Skeleton className="w-10 h-5" /> : <BreadcrumbPage>{pageTitle}</BreadcrumbPage>}
           </BreadcrumbList>
         </Breadcrumb>
 
-        <EditWishlistModal wishlistInfo={wishlistInfo} />
+        {!!wishlistInfo && <EditWishlistModal wishlistInfo={wishlistInfo} />}
       </div>
 
-      <Typography.H1 className="text-2xl md:text-3xl font-bold mb-4 mt-2">{pageTitle}</Typography.H1>
+      {isLoading ? (
+        <Skeleton className="w-40 h-8 md:h-9 mb-4 mt-2" />
+      ) : (
+        <Typography.H1 className="text-2xl md:text-3xl font-bold mb-4 mt-2">{pageTitle}</Typography.H1>
+      )}
 
       <section className="w-full md:grid grid-cols-[320px_1fr] gap-5">
         <aside className="my-card mb-8 md:mb-0">
@@ -104,18 +113,10 @@ const DetailsWishlistPage: FC = () => {
           )}
 
           <VirtualizedGrid
-            items={wishlistInfo?.skins}
+            items={wishlistInfo?.skins || []}
             loading={isLoading}
             fetching={isFetching}
-            gridClassName="grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
             overscan={4}
-            responsiveColumns={[
-              { minWidth: BREAKPOINTS["2xl"], columns: 6 },
-              { minWidth: BREAKPOINTS.xl, columns: 5 },
-              { minWidth: BREAKPOINTS.lg, columns: 4 },
-              { minWidth: BREAKPOINTS.md, columns: 3 },
-              { minWidth: 0, columns: 2 },
-            ]}
             render={renderSkin}
           />
         </div>

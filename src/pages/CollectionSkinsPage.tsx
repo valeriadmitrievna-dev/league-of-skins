@@ -12,7 +12,6 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbS
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { useQueryParams } from "@/hooks/useQueryParams";
-import { BREAKPOINTS } from "@/shared/constants/styles";
 import { cn } from "@/shared/utils/cn";
 import { getColorsString } from "@/shared/utils/getColorsString";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
@@ -113,21 +112,7 @@ const CollectionSkinsPage: FC = () => {
 
         {!isLoading && !ownedSkins.length && <NoResultsState className="my-30" />}
 
-        <VirtualizedGrid
-          items={ownedSkins}
-          loading={isLoading}
-          fetching={isFetching}
-          gridClassName="grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
-          overscan={4}
-          responsiveColumns={[
-            { minWidth: BREAKPOINTS["2xl"], columns: 6 },
-            { minWidth: BREAKPOINTS.xl, columns: 5 },
-            { minWidth: BREAKPOINTS.lg, columns: 4 },
-            { minWidth: BREAKPOINTS.md, columns: 3 },
-            { minWidth: 0, columns: 2 },
-          ]}
-          render={renderSkin}
-        />
+        <VirtualizedGrid items={ownedSkins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />
 
         <ScrollTop />
       </div>

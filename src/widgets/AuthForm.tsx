@@ -1,4 +1,3 @@
- 
 import type { ComponentProps, FC, PropsWithChildren, ReactNode } from "react";
 
 import LanguageSwitcher from "@/components/LanguageSwitcher";
@@ -26,7 +25,8 @@ interface AuthFormContainerProps extends PropsWithChildren {
 interface AuthFormTextInputProps extends Omit<ComponentProps<"input">, "className"> {
   id: string;
   label?: string;
-  icon?: ReactNode;
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
   description?: string;
   onValueChange?: (value: string) => void;
 }
@@ -63,7 +63,8 @@ const AuthFormContainer: FC<AuthFormContainerProps> = ({ title, children, submit
 const AuthFormTextInput: FC<AuthFormTextInputProps> = ({
   id,
   label,
-  icon,
+  leftIcon,
+  rightIcon,
   description,
   onChange,
   onValueChange,
@@ -83,13 +84,13 @@ const AuthFormTextInput: FC<AuthFormTextInputProps> = ({
             "bg-destructive/10!": props["aria-invalid"] === "true",
           })}
         >
-          {!!icon && (
+          {!!leftIcon && (
             <InputGroupAddon
               className={cn({
                 "text-destructive": props["aria-invalid"] === "true",
               })}
             >
-              {icon}
+              {leftIcon}
             </InputGroupAddon>
           )}
           <InputGroupInput
@@ -98,6 +99,7 @@ const AuthFormTextInput: FC<AuthFormTextInputProps> = ({
             onChange={changeHandler}
             {...props}
           />
+          {!!rightIcon && <InputGroupAddon align="inline-end">{rightIcon}</InputGroupAddon>}
         </InputGroup>
         {!!description && (
           <FieldDescription

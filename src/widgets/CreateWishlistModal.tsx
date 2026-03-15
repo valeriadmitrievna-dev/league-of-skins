@@ -45,7 +45,7 @@ const CreateWishlistModal: FC<CreateWishlistModalProps> = ({ buttonClassName, sk
         )}
       </DialogTrigger>
       <DialogContent className="w-full max-w-sm! overflow-hidden">
-        <div className="flex flex-col justify-center">
+        <form className="flex flex-col justify-center">
           <Typography.P>New Wishlist</Typography.P>
           <Input
             value={wishlistName}
@@ -53,12 +53,17 @@ const CreateWishlistModal: FC<CreateWishlistModalProps> = ({ buttonClassName, sk
             className="mt-3"
             placeholder={t("wishlist.enter-wishlist-name")}
           />
-          <Button disabled={isWishlistCreating || !wishlistName?.trim()} className="mt-4" onClick={createWishlistHandler}>
+          <Button
+            type="submit"
+            disabled={isWishlistCreating || !wishlistName?.trim()}
+            className="mt-4"
+            onClick={createWishlistHandler}
+          >
             {isWishlistCreating && <Spinner />}
 
             {t("wishlist.create-wishlist")}
           </Button>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   );
