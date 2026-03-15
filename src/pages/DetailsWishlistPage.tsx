@@ -97,9 +97,9 @@ const DetailsWishlistPage: FC = () => {
           {!isFetching && !wishlistInfo?.skins?.length && (
             <div className="my-20 flex flex-col gap-4 items-center justify-center">
               <Typography.H3>No skins in wishlist yet</Typography.H3>
-              <a href="/search/skins">
-                <Button>Search for skins</Button>
-              </a>
+                <Button asChild>
+                  <NavLink to="/search/skins">Search for skins</NavLink>
+                </Button>
             </div>
           )}
 

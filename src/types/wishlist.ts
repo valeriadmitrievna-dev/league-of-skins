@@ -14,7 +14,7 @@ export interface WishlistDto {
   _id: string;
   name: string;
   skins: string[];
-  link?: string;
+  link: string;
 
   createdAt: string;
   updatedAt: string;

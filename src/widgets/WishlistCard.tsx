@@ -4,6 +4,7 @@ import { NavLink } from "react-router";
 
 import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
+import useShare from '@/hooks/useShare';
 import type { WishlistDto } from "@/types/wishlist";
 
 
@@ -12,6 +13,14 @@ interface WishlistCardProps {
 }
 
 const WishlistCard: FC<WishlistCardProps> = ({ data }) => {
+  const { share } = useShare();
+
+  const shareHandler = () => {
+    share({ title: data.name, url: `${window.location.origin}/${data.link}` }, {
+      error: 'Ошибка при попытке поделиться'
+    })
+  }
+
   return (
     <div className="my-card px-4! flex flex-col justify-between">
       <div>
@@ -29,7 +38,7 @@ const WishlistCard: FC<WishlistCardProps> = ({ data }) => {
         <Button className="grow" asChild>
           <NavLink to={`/wishlists/${data._id}`}>Open</NavLink>
         </Button>
-        <Button size="icon" variant="outline">
+        <Button size="icon" variant="outline" onClick={shareHandler}>
           <Share2Icon />
         </Button>
         <Button size="icon" variant="outline">
