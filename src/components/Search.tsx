@@ -1,8 +1,9 @@
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/components/ui/input-group";
-import { cn } from '@/shared/utils/cn';
 import { SearchIcon, XIcon } from "lucide-react";
 import type { ChangeEvent, ComponentProps, FC } from "react";
 import { useTranslation } from "react-i18next";
+
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/components/ui/input-group";
+import { cn } from '@/shared/utils/cn';
 
 type SearchSize = "default" | "sm" | "lg";
 

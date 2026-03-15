@@ -1,8 +1,9 @@
-import type { FC, MouseEventHandler, PropsWithChildren } from "react";
 import { ChevronDownIcon, XIcon } from "lucide-react";
-import { cn } from "@/shared/utils/cn";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import type { FC, MouseEventHandler, PropsWithChildren } from "react";
+
 import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { cn } from "@/shared/utils/cn";
 
 interface FilterItemProps extends PropsWithChildren {
   title: string;

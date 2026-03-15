@@ -1,12 +1,12 @@
-import { setAppAuth } from "@/store";
-import type { ApiErrorPayload } from "@/types/shared";
 import { isRejectedWithValue } from "@reduxjs/toolkit";
 import type { Middleware, MiddlewareAPI } from "@reduxjs/toolkit";
 import { Trans } from "react-i18next";
-
-import i18n from "@/i18n/i18n";
 import { toast } from "sonner";
+
 import { Typography } from "@/components/Typography";
+import i18n from "@/i18n/i18n";
+import { setAppAuth } from "@/store";
+import type { ApiErrorPayload } from "@/types/shared";
 
 function isApiErrorPayload(payload: unknown): payload is ApiErrorPayload {
   return typeof payload === "object" && payload !== null && "status" in payload && "data" in payload;

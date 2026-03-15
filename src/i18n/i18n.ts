@@ -2,13 +2,12 @@ import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 
-import type { LocaleTypes } from "./types";
-
-import en from "./locales/en.locale.json";
-import ru from "./locales/ru.locale.json";
 
 import enErrors from './locales/en.errors.locale.json';
+import en from "./locales/en.locale.json";
 import ruErrors from './locales/ru.errors.locale.json';
+import ru from "./locales/ru.locale.json";
+import type { LocaleTypes } from "./types";
 
 const resources: Record<string, { translation: LocaleTypes }> = {
   en: { translation: { ...en, ...enErrors} },

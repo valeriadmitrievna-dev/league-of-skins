@@ -1,7 +1,8 @@
-import { Typography } from "@/components/Typography";
 import { ExternalLinkIcon } from "lucide-react";
 import type { FC } from "react";
 import { Trans, useTranslation } from "react-i18next";
+
+import { Typography } from "@/components/Typography";
 
 const UploadInventoryHelp: FC = () => {
   const { t } = useTranslation();

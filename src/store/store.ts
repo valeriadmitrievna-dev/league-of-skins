@@ -2,9 +2,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
 import { authApi, dataApi, userApi } from "@/api";
+import { errorMiddleware } from '@/middlewares/error.middleware';
 
 import appReducer from "./app/app.slice";
-import { errorMiddleware } from '@/middlewares/error.middleware';
 
 export const store = configureStore({
   reducer: {

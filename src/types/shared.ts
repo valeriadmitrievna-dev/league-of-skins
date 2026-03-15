@@ -1,5 +1,6 @@
-import type { ApiErrorCode } from '@/shared/constants/error';
 import type { ReactNode } from "react";
+
+import type { ApiErrorCode } from '@/shared/constants/error';
 
 export type Theme = "dark" | "light" | "system";
 

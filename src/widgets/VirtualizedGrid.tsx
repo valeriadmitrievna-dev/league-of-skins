@@ -1,8 +1,9 @@
-import Skeleton from "@/components/Skeleton";
-import { cn } from "@/shared/utils/cn";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { useLayoutEffect, useMemo, useRef, useState, type FC, type ReactNode } from "react";
 import { useWindowSize } from "react-use";
+
+import Skeleton from "@/components/Skeleton";
+import { cn } from "@/shared/utils/cn";
 
 interface VirtualizedGridProps {
   items: unknown[];

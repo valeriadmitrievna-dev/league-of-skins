@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { NavLink } from "react-router";
+
 import { cn } from "@/shared/utils/cn";
 
 interface AppHeaderLinkProps {

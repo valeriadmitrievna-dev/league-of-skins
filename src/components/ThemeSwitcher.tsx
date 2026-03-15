@@ -1,7 +1,8 @@
-import type { FC } from "react";
-import { Button } from "@/components/ui/button";
 import { MoonIcon, SunIcon } from "lucide-react";
+import type { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import { Button } from "@/components/ui/button";
 import { appThemeSelector, toggleTheme } from "@/store";
 
 const ThemeSwitcher: FC = () => {

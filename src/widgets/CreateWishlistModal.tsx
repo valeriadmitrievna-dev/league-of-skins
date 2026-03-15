@@ -1,12 +1,13 @@
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useState, type FC, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { cn } from "@/shared/utils/cn";
-import { Button } from "@/components/ui/button";
+
 import { Typography } from "@/components/Typography";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { useCreateWishlist } from "@/hooks/useCreateWishlist";
+import { cn } from "@/shared/utils/cn";
 
 interface CreateWishlistModalProps {
   buttonClassName?: string;
@@ -20,7 +21,7 @@ const CreateWishlistModal: FC<CreateWishlistModalProps> = ({ buttonClassName, sk
   const [wishlistName, setWishlistName] = useState("");
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const { createWishlistHandler: createWishlist, isLoading: isWishlistCreating, isError, error } = useCreateWishlist();
+  const { createWishlistHandler: createWishlist, isLoading: isWishlistCreating } = useCreateWishlist();
 
   const createWishlistHandler = async () => {
     try {
@@ -46,7 +47,6 @@ const CreateWishlistModal: FC<CreateWishlistModalProps> = ({ buttonClassName, sk
             className="mt-3"
             placeholder={t("wishlist.enter-wishlist-name")}
           />
-          {isError && <Typography.P className="mt-2 text-red-500">{(error as any)?.data?.message}</Typography.P>}
           <Button disabled={isWishlistCreating || !wishlistName?.trim()} className="mt-4" onClick={createWishlistHandler}>
             {isWishlistCreating && <Spinner />}
 

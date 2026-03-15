@@ -1,3 +1,9 @@
+import { CirclePlusIcon, PlusIcon } from "lucide-react";
+import { useEffect, useState, type FC, type MouseEvent, type ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router";
+
 import { useGetWishlistsQuery, useUpdateWishlistMutation } from "@/api";
 import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
@@ -13,11 +19,7 @@ import {
 import type { ChromaDto } from "@/types/chroma";
 import type { SkinDto } from "@/types/skin";
 import type { WishlistDto } from "@/types/wishlist";
-import { CirclePlusIcon, PlusIcon } from "lucide-react";
-import { useEffect, useState, type FC, type MouseEvent, type ReactNode } from "react";
-import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router";
+
 import CreateWishlistModal from "./CreateWishlistModal";
 
 interface AddToWishlistLineProps {

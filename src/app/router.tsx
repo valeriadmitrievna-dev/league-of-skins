@@ -1,15 +1,16 @@
 import { createBrowserRouter, Navigate } from "react-router";
-import { AuthProvider } from "@/shared/providers";
-import SignUpPage from "@/pages/SignUpPage";
-import SignInPage from "@/pages/SignInPage";
-import ProtectProvider from "@/shared/providers/ProtectProvider";
-import CollectionSkinsPage from "@/pages/CollectionSkinsPage";
-import LayoutPage from "@/pages/LayoutPage";
-import DetailsSkinPage from "@/pages/DetailsSkinPage";
+
 import AboutPage from "@/pages/AboutPage";
-import SearchSkinsPage from "@/pages/SearchSkinsPage";
-import WishlistsPage from '@/pages/WishlistsPage';
+import CollectionSkinsPage from "@/pages/CollectionSkinsPage";
+import DetailsSkinPage from "@/pages/DetailsSkinPage";
 import DetailsWishlistPage from '@/pages/DetailsWishlistPage';
+import LayoutPage from "@/pages/LayoutPage";
+import SearchSkinsPage from "@/pages/SearchSkinsPage";
+import SignInPage from "@/pages/SignInPage";
+import SignUpPage from "@/pages/SignUpPage";
+import WishlistsPage from '@/pages/WishlistsPage';
+import { AuthProvider } from "@/shared/providers";
+import ProtectProvider from "@/shared/providers/ProtectProvider";
 
 export const router = createBrowserRouter([
   {

@@ -1,14 +1,17 @@
+import { type FC } from "react";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
+
 import AppHeaderLink from "@/components/AppHeaderLink";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
-import { cn } from "@/shared/utils/cn";
-import { type FC } from "react";
-import { useTranslation } from "react-i18next";
 import { Separator } from "@/components/ui/separator";
-import { UserSettings } from "../UserSettings";
-import { useLocation } from "react-router";
-import { useSelector } from "react-redux";
+import { cn } from "@/shared/utils/cn";
 import { appAuthSelector } from "@/store";
+
+import { UserSettings } from "../UserSettings";
+
 
 interface AppHeaderNavProps {
   className?: string;

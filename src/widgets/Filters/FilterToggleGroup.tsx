@@ -1,7 +1,8 @@
+import type { FC } from "react";
+
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/shared/utils/cn";
 import type { OptionItem } from "@/types/shared";
-import type { FC } from "react";
 
 interface FilterToggleGroupProps {
   value: string;

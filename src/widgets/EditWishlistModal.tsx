@@ -1,11 +1,11 @@
+import { Pencil } from "lucide-react";
 import { useState, type FC } from "react";
+import { useNavigate, useParams } from "react-router";
 
+import { useDeleteWishlistMutation, useUpdateWishlistMutation } from "@/api";
+import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
-import { useDeleteWishlistMutation, useUpdateWishlistMutation } from "@/api";
-import { useNavigate, useParams } from "react-router";
 import type { WishlistFullDto } from "@/types/wishlist";
 
 interface EditWishlistProps {

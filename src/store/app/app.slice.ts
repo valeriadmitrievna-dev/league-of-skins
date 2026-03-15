@@ -1,8 +1,9 @@
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+
 import type { ChromaDto } from "@/types/chroma";
 import type { Theme } from "@/types/shared";
 import type { SkinDto } from "@/types/skin";
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface AppState {
   language: string;

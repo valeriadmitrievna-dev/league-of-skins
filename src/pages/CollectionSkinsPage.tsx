@@ -1,27 +1,26 @@
 import { useCallback, useMemo, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
-import { useDebounce } from "react-use";
 import { NavLink } from "react-router";
+import { useDebounce } from "react-use";
 
 import { useGetChromasQuery, useGetOwnedSkinsQuery } from "@/api";
-
+import NoResultsState from "@/components/NoResultsState";
+import ScrollTop from "@/components/ScrollTop";
 import Search from "@/components/Search";
+import { Typography } from "@/components/Typography";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { BREAKPOINTS } from "@/shared/constants/styles";
+import { cn } from "@/shared/utils/cn";
+import { getColorsString } from "@/shared/utils/getColorsString";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import type { SkinDto } from "@/types/skin";
-import SkinCard from "@/widgets/SkinCard";
 import CollectionSkinsStatistics from "@/widgets/CollectionSkinsStatistics";
-import VirtualizedGrid from "@/widgets/VirtualizedGrid";
-import { getColorsString } from "@/shared/utils/getColorsString";
+import SkinCard from "@/widgets/SkinCard";
 import { UploadInventory } from "@/widgets/UploadInventory";
-import { Typography } from "@/components/Typography";
-import ScrollTop from "@/components/ScrollTop";
-import { cn } from "@/shared/utils/cn";
-import NoResultsState from "@/components/NoResultsState";
+import VirtualizedGrid from "@/widgets/VirtualizedGrid";
 
 interface BreadcrumbsProps {
   className?: string;

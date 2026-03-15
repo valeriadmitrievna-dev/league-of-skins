@@ -1,12 +1,16 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { FileDownIcon, FileExclamationPointIcon } from "lucide-react";
 import { useEffect, useMemo, useState, type FC } from "react";
-import { Typography } from "./Typography";
-import { readLocalFile } from "@/shared/utils/readLocalFile";
-import { Spinner } from './ui/spinner';
-import Skeleton from './Skeleton';
-import { cn } from '@/shared/utils/cn';
 import { useTranslation } from 'react-i18next';
+
+import { cn } from '@/shared/utils/cn';
+import { readLocalFile } from "@/shared/utils/readLocalFile";
+
+import Skeleton from './Skeleton';
+import { Typography } from "./Typography";
+import { Spinner } from './ui/spinner';
+
+
 
 interface DownloadFileProps {
   fileName: string;

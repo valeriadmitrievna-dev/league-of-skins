@@ -1,5 +1,7 @@
 import { type FC } from "react";
+
 import logo from '@/shared/assets/logo.png';
+
 import Image from './Image';
 
 const AppLogo: FC = () => {

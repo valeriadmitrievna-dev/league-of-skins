@@ -1,7 +1,8 @@
-import { Button } from '@/components/ui/button';
-import { setAppAuth } from '@/store';
 import type { FC } from "react";
 import { useDispatch } from 'react-redux';
+
+import { Button } from '@/components/ui/button';
+import { setAppAuth } from '@/store';
 
 const Settings: FC = () => {
   const dispatch = useDispatch();

@@ -1,21 +1,25 @@
-import Image from "@/components/Image";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { BadgeCheckIcon, HeartPlusIcon, SaveIcon, SaveOffIcon, Trash } from "lucide-react";
 import type { FC, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import AddToWishlist from "./AddToWishlist";
-import { useGetUserQuery, useUpdateOwnedSkinsMutation, useUpdateWishlistMutation } from "@/api";
-import { Typography } from "@/components/Typography";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import ChromaColor from "@/components/ChromaColor";
-import { Spinner } from "@/components/ui/spinner";
-import type { SkinDto } from "@/types/skin";
-import { useNavigate } from "react-router";
-import { cn } from "@/shared/utils/cn";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+
+import { useGetUserQuery, useUpdateOwnedSkinsMutation, useUpdateWishlistMutation } from "@/api";
+import ChromaColor from "@/components/ChromaColor";
+import Image from "@/components/Image";
+import { Typography } from "@/components/Typography";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Spinner } from "@/components/ui/spinner";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/shared/utils/cn";
 import { appAuthSelector } from "@/store";
+import type { SkinDto } from "@/types/skin";
+
+import AddToWishlist from "./AddToWishlist";
+
+
 
 interface SkinCardProps {
   className?: string;

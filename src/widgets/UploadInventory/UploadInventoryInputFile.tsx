@@ -1,9 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { FileBracesIcon, HardDriveUploadIcon, XIcon } from "lucide-react";
 import { useRef, type ChangeEvent, type FC, type MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface UploadInventoryInputFileProps {
   file: File | undefined;
