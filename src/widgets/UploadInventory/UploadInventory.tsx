@@ -8,7 +8,6 @@ import { cn } from "@/shared/utils/cn";
 import { CloudAlertIcon, CloudCheckIcon, CloudUploadIcon } from "lucide-react";
 import { useMemo, useState, type FC } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import DownloadFile from "@/components/DownloadFile";
 import UploadInventoryInstruction from "./UploadInventoryInstruction";
 import UploadInventoryDescription from "./UploadInventoryDescription";
 import UploadInventoryHelp from "./UploadInventoryHelp";
@@ -53,9 +52,11 @@ const UploadInventory: FC = () => {
           {t("uploadInventory.title")}
         </Button>
       </DialogTrigger>
-      <DialogContent className={cn("w-full max-w-xl!", {
-        "animate-pulse! pointer-events-none!": isLoading,
-      })}>
+      <DialogContent
+        className={cn("w-full max-w-xl!", {
+          "animate-pulse! pointer-events-none!": isLoading,
+        })}
+      >
         <DialogHeader>
           <Typography.H3>{t("uploadInventory.title")}</Typography.H3>
         </DialogHeader>
@@ -65,14 +66,20 @@ const UploadInventory: FC = () => {
           <Typography.H4 className="mb-1">{t("uploadInventory.steps_title")}</Typography.H4>
           <UploadInventoryInstruction title={t("uploadInventory.steps_download")}>
             <Typography.P>
-              <Trans i18nKey="uploadInventory.steps_download_note" components={{ code: <Typography.Code /> }} />
+              <Trans
+                i18nKey="uploadInventory.steps_download_note"
+                components={[
+                  <a
+                    href="https://github.com/valeriadmitrievna-dev/league-of-skins-inventory"
+                    target="_blank"
+                    className="border-b border-dashed border-muted-foreground"
+                  />,
+                ]}
+              />
             </Typography.P>
-            <DownloadFile fileName="league-of-skins-getter.exe" />
           </UploadInventoryInstruction>
           <UploadInventoryInstruction title={t("uploadInventory.steps_run")}>
-            <Typography.P className="font-medium px-2 py-1 rounded-md bg-chart-5/30 flex gap-x-2">
-              {t("uploadInventory.steps_run_note")}
-            </Typography.P>
+            <Typography.P>{t("uploadInventory.steps_run_note")}</Typography.P>
           </UploadInventoryInstruction>
           <UploadInventoryInstruction title={t("uploadInventory.steps_file")}>
             <Typography.P>
@@ -107,7 +114,9 @@ const UploadInventory: FC = () => {
               </>
             )}
           </div>
-          {isError && <Typography.Small className="text-destructive">{t("uploadInventory.error_upload")}</Typography.Small>}
+          {isError && (
+            <Typography.Small className="text-destructive">{t("uploadInventory.error_upload")}</Typography.Small>
+          )}
           <Separator className="my-3" />
           <UploadInventoryNotes />
           <Separator className="my-3" />

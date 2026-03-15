@@ -2,11 +2,16 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useState, type FC, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/shared/utils/cn";
+<<<<<<< HEAD:src/widgets/CreateWishlistModal.tsx
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/Typography";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { useCreateWishlist } from "@/hooks/useCreateWishlist";
+=======
+import { Spinner } from "./ui/spinner";
+import { PlusIcon } from 'lucide-react';
+>>>>>>> 64c8c765bc3640c853e706635224a370bc4596db:src/components/CreateWishlistModal.tsx
 
 interface CreateWishlistModalProps {
   buttonClassName?: string;

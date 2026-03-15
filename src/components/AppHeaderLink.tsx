@@ -7,14 +7,14 @@ interface AppHeaderLinkProps {
   to: string;
   text: string;
   disabled?: boolean;
-  handleClick?: () => void;
+  onClick?: () => void;
 }
 
-const AppHeaderLink: FC<AppHeaderLinkProps> = ({ className, to, text, disabled, handleClick }) => {
+const AppHeaderLink: FC<AppHeaderLinkProps> = ({ className, to, text, disabled, onClick }) => {
   return (
     <NavLink
       to={to}
-      onClick={handleClick}
+      onClick={onClick}
       className={cn(
         "text-sm text-center aria-[current=page]:text-pink-500",
         disabled && "pointer-events-none opacity-50",
