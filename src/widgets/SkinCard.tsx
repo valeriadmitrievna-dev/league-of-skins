@@ -1,10 +1,9 @@
 import { BadgeCheckIcon, HeartPlusIcon, SaveIcon, SaveOffIcon, Trash } from "lucide-react";
 import type { FC, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-import { useGetUserQuery, useUpdateOwnedSkinsMutation, useUpdateWishlistMutation } from "@/api";
+import { useUpdateOwnedSkinsMutation, useUpdateWishlistMutation } from "@/api";
 import ChromaColor from "@/components/ChromaColor";
 import Image from "@/components/Image";
 import { Typography } from "@/components/Typography";
@@ -14,16 +13,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
-import { appAuthSelector } from "@/store";
 import type { SkinDto } from "@/types/skin";
 
 import AddToWishlist from "./AddToWishlist";
 
-
-
 interface SkinCardProps {
   className?: string;
   data: SkinDto;
+  owned?: boolean;
   navigatable?: boolean;
   addToWishlistButton?: boolean;
   toggleOwnedButton?: boolean;
@@ -33,6 +30,7 @@ interface SkinCardProps {
 const SkinCard: FC<SkinCardProps> = ({
   className,
   data,
+  owned,
   navigatable,
   addToWishlistButton,
   toggleOwnedButton,
@@ -41,13 +39,9 @@ const SkinCard: FC<SkinCardProps> = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const isAuth = useSelector(appAuthSelector);
-
-  const { data: user } = useGetUserQuery(undefined, { skip: !isAuth });
   const [updateOwnedSkins, { isLoading: isOwningUpdating }] = useUpdateOwnedSkinsMutation();
   const [updateWishlist, { isLoading: isWishlistUpdating }] = useUpdateWishlistMutation();
 
-  const isOwned = user?.ownedSkins.includes(data.contentId);
   const actionButtonCN =
     "bg-transparent text-neutral-50 light:hover:text-neutral-900 dark:hover:bg-neutral-50 dark:hover:text-neutral-950";
 
@@ -61,7 +55,7 @@ const SkinCard: FC<SkinCardProps> = ({
     event.preventDefault();
     event.stopPropagation();
 
-    if (isOwned) updateOwnedSkins({ removeIds: [data.contentId] });
+    if (owned) updateOwnedSkins({ removeIds: [data.contentId] });
     else updateOwnedSkins({ addIds: [data.contentId] });
   };
 
@@ -97,7 +91,7 @@ const SkinCard: FC<SkinCardProps> = ({
       <div className="absolute top-0 start-0 end-0 p-2 z-3 flex gap-1 justify-end flex-wrap">
         {data.isLegacy && <Badge variant="secondary">{t("rarity.legacy")}</Badge>}
         {data.rarity !== "kNoRarity" && <Badge variant="secondary">{t(`rarity.${data.rarity}`)}</Badge>}
-        {isOwned && (
+        {owned && (
           <Badge variant="secondary" className="gap-x-1.5">
             <BadgeCheckIcon className="scale-120 text-blue-600 dark:text-sky-500" />
             <span>{t("skin.owned")}</span>
@@ -142,7 +136,7 @@ const SkinCard: FC<SkinCardProps> = ({
                   >
                     {isOwningUpdating ? (
                       <Spinner className="size-5" />
-                    ) : isOwned ? (
+                    ) : owned ? (
                       <SaveOffIcon className="size-5" />
                     ) : (
                       <SaveIcon className="size-5" />
@@ -150,7 +144,7 @@ const SkinCard: FC<SkinCardProps> = ({
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent className="pointer-events-none">
-                  {isOwned ? t("skin.unmarkOwnedTooltip") : t("skin.markOwnedTooltip")}
+                  {owned ? t("skin.unmarkOwnedTooltip") : t("skin.markOwnedTooltip")}
                 </TooltipContent>
               </Tooltip>
             )}

@@ -76,7 +76,7 @@ const SearchSkinsPage: FC = () => {
   const renderSkin = useCallback(
     (item: unknown) => {
       const skin = item as SkinDto;
-      return <SkinCard key={skin.id} data={skin} navigatable addToWishlistButton toggleOwnedButton={isAuth} />;
+      return <SkinCard key={skin.id} data={skin} owned={skin.owned} navigatable addToWishlistButton toggleOwnedButton={isAuth} />;
     },
     [isAuth],
   );

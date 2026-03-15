@@ -7,6 +7,7 @@ export interface SkinDto {
   championName: string;
   contentId: string;
   name: string;
+  owned?: boolean;
   image: {
     centered: string | null;
     uncentered: string | null;

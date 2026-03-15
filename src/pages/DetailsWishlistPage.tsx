@@ -44,7 +44,7 @@ const DetailsWishlistPage: FC = () => {
   const renderSkin = useCallback(
     (item: unknown) => {
       const skin = item as SkinDto;
-      return <SkinCard key={skin.id} data={skin} navigatable toggleOwnedButton={isAuth} wishlistId={wishlistInfo?._id} />;
+      return <SkinCard key={skin.id} data={skin} owned={skin.owned} navigatable toggleOwnedButton={isAuth} wishlistId={wishlistInfo?._id} />;
     },
     [isAuth, wishlistInfo],
   );
