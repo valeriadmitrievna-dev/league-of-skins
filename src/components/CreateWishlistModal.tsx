@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "./ui/button";
 import { cn } from "@/shared/utils/cn";
 import { Spinner } from "./ui/spinner";
+import { PlusIcon } from 'lucide-react';
 
 interface CreateWishlistModalProps {
   buttonClassName?: string;
@@ -33,7 +34,10 @@ const CreateWishlistModal: FC<CreateWishlistModalProps> = ({ buttonClassName }) 
   return (
     <Dialog open={isModalOpen} onOpenChange={setModalOpen}>
       <DialogTrigger asChild>
-        <Button className={cn("", buttonClassName)}>{t("wishlist.create-new-wishlist")}</Button>
+        <Button className={cn("", buttonClassName)}>
+          <PlusIcon />
+          {t("wishlist.create-new-wishlist")}
+        </Button>
       </DialogTrigger>
       <DialogContent className="w-full max-w-sm! overflow-hidden">
         <div className="flex flex-col justify-center">

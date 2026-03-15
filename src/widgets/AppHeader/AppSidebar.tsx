@@ -1,9 +1,9 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { TextAlignJustify } from "lucide-react";
 import { useState, type FC } from "react";
-import HeaderNav from "./HeaderNav";
+import HeaderNav from "./AppHeaderNav";
 
-const Sidebar: FC = () => {
+const AppSidebar: FC = () => {
 const [isOpen, setIsOpen] = useState(false)
 const handleCloseSidebar = () => {
   setIsOpen(false)
@@ -15,10 +15,10 @@ const handleCloseSidebar = () => {
         <TextAlignJustify size={16} />
       </SheetTrigger>
       <SheetContent className='pt-12 pb-4'>
-        <HeaderNav closeSidebar={handleCloseSidebar} className="justify-between h-full flex-col md:flex-row" />
+        <HeaderNav onCloseSidebar={handleCloseSidebar} className="justify-between h-full flex-col md:flex-row" />
       </SheetContent>
     </Sheet>
   );
 };
 
-export default Sidebar;
+export default AppSidebar;

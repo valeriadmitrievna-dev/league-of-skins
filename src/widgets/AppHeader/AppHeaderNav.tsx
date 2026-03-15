@@ -10,12 +10,12 @@ import { useLocation } from "react-router";
 import { useSelector } from "react-redux";
 import { appAuthSelector } from "@/store";
 
-interface HeaderNavProps {
+interface AppHeaderNavProps {
   className?: string;
-  closeSidebar?: () => void;
+  onCloseSidebar?: () => void;
 }
 
-const HeaderNav: FC<HeaderNavProps> = ({ className, closeSidebar }) => {
+const AppHeaderNav: FC<AppHeaderNavProps> = ({ className, onCloseSidebar }) => {
   const { t } = useTranslation();
 
   const { pathname } = useLocation();
@@ -28,20 +28,20 @@ const HeaderNav: FC<HeaderNavProps> = ({ className, closeSidebar }) => {
 
   return (
     <nav className={cn("flex items-center gap-2 lg:gap-4", className)}>
-      <div className="flex flex-col md:flex-row items-center gap-5 shrink-0">
-        <AppHeaderLink to="/about" text={t("header.about")} handleClick={closeSidebar} className="w-full md:w-fit" />
+      <div className="flex flex-col md:flex-row items-center gap-8 shrink-0">
+        <AppHeaderLink to="/about" text={t("header.about")} onClick={onCloseSidebar} className="w-full md:w-fit" />
         {isAuth && (
           <>
             <AppHeaderLink
               to="/wishlists"
               text={t("header.wishlists")}
-              handleClick={closeSidebar}
+              onClick={onCloseSidebar}
               className="w-full md:w-fit"
             />
             <AppHeaderLink
               to="/collection/skins"
               text={t("header.collection")}
-              handleClick={closeSidebar}
+              onClick={onCloseSidebar}
               className="w-full md:w-fit"
             />
           </>
@@ -56,7 +56,7 @@ const HeaderNav: FC<HeaderNavProps> = ({ className, closeSidebar }) => {
         </div>
 
         {!isAuth && (
-          <div className="flex items-center gap-x-2 mx-auto">
+          <div className="flex items-center gap-x-3 mx-auto md:ml-3">
             <AppHeaderLink to={authLink("signup")} text={t("header.signup")} />
             <Separator orientation="vertical" className="h-4!" />
             <AppHeaderLink to={authLink("signin")} text={t("header.signin")} />
@@ -67,4 +67,4 @@ const HeaderNav: FC<HeaderNavProps> = ({ className, closeSidebar }) => {
   );
 };
 
-export default HeaderNav;
+export default AppHeaderNav;
