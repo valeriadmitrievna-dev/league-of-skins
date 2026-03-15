@@ -51,8 +51,8 @@ const AppHeaderNav: FC<AppHeaderNavProps> = ({ className, onCloseSidebar }) => {
         )}
       </div>
 
-      <div className="flex flex-col md:flex-row w-full gap-3 px-4">
-        <div className="flex gap-3 items-center justify-center">
+      <div className="flex flex-col md:flex-row w-full gap-3">
+        <div className="flex gap-3 items-center justify-center md:ml-4">
           <LanguageSwitcher />
           <ThemeSwitcher />
           {isAuth && <UserSettings />}

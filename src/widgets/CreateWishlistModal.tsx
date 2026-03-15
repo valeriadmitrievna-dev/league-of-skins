@@ -1,3 +1,4 @@
+import { PlusIcon } from "lucide-react";
 import { useState, type FC, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -36,7 +37,12 @@ const CreateWishlistModal: FC<CreateWishlistModalProps> = ({ buttonClassName, sk
   return (
     <Dialog open={isModalOpen} onOpenChange={setModalOpen}>
       <DialogTrigger asChild>
-        {children ?? <Button className={cn("", buttonClassName)}>{t("wishlist.create-new-wishlist")}</Button>}
+        {children ?? (
+          <Button className={cn("", buttonClassName)}>
+            <PlusIcon />
+            {t("wishlist.create")}
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="w-full max-w-sm! overflow-hidden">
         <div className="flex flex-col justify-center">

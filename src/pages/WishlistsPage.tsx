@@ -7,32 +7,33 @@ import { useGetWishlistsQuery } from "@/api";
 import Skeleton from "@/components/Skeleton";
 import { Typography } from "@/components/Typography";
 import CreateWishlistModal from "@/widgets/CreateWishlistModal";
+import WishlistCard from '@/widgets/WishlistCard';
 
 const WishlistsPage: FC = () => {
   const { t } = useTranslation();
-  const { data: wishlists = [], isFetching, isLoading } = useGetWishlistsQuery();
-  console.log("[DEV]", wishlists);
+  const { data: wishlists = [], isLoading } = useGetWishlistsQuery();
 
-  if (isFetching || isLoading) {
-    return (
-      <div className="flex flex-col gap-y-4 py-10 max-w-2xl m-auto">
-        <Skeleton className="h-16" />
-        <Skeleton className="h-16" />
-        <Skeleton className="w-42 h-9 mx-auto" />
+  return (
+    <div className='mx-auto max-w-8xl'>
+      <div className='flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center'>
+        <div className='flex flex-col gap-y-1'>
+          <Typography.H3>{t("header.wishlists")}</Typography.H3>
+          <Typography.P>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, sit!</Typography.P>
+        </div>
+        <CreateWishlistModal />
       </div>
-    );
-  }
 
-  if (!isFetching && !wishlists?.length) {
-    return (
-      <section className="flex  flex-col items-center justify-center h-full">
-        <Typography.H1 className="text-4xl font-bold">Oh oh! 🫣</Typography.H1>
-        <Typography.P className="mt-2">{t("wishlist.no-wishlists-yet")}</Typography.P>
+      <div className='mt-6 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
+        {isLoading && !wishlists.length && (
+          <Skeleton count={6} asChild className='h-40' />
+        )}
 
-        <CreateWishlistModal buttonClassName="mt-5" />
-      </section>
-    );
-  }
+        {!isLoading && !!wishlists.length && wishlists.map(wishlist => (
+          <WishlistCard key={wishlist._id} data={wishlist} />
+        ))}
+      </div>
+    </div>
+  );
 
   return (
     <div className="flex flex-col gap-y-4 py-10 max-w-2xl m-auto">
