@@ -10,12 +10,12 @@ import { useLocation } from "react-router";
 import { useSelector } from "react-redux";
 import { appAuthSelector } from "@/store";
 
-interface IProps {
+interface HeaderNavProps {
   className?: string;
   closeSidebar?: () => void;
 }
 
-const HeaderNav: FC<IProps> = ({ className, closeSidebar }) => {
+const HeaderNav: FC<HeaderNavProps> = ({ className, closeSidebar }) => {
   const { t } = useTranslation();
 
   const { pathname } = useLocation();

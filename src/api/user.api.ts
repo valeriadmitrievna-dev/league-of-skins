@@ -80,7 +80,7 @@ export const userApi = createApi({
         method: "put",
         body,
       }),
-      invalidatesTags: ["User", "Wishlists"],
+      invalidatesTags: ["Wishlists"],
     }),
 
     // ****** INVENTORY ******

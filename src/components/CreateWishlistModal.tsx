@@ -3,16 +3,16 @@ import { useState, type FC } from "react";
 import { Typography } from "./Typography";
 import { Input } from "./ui/input";
 import { useCreateWishlistMutation } from "@/api";
-import { Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "./ui/button";
 import { cn } from "@/shared/utils/cn";
+import { Spinner } from "./ui/spinner";
 
-interface IProps {
+interface CreateWishlistModalProps {
   buttonClassName?: string;
 }
 
-const CreateWishlistModal: FC<IProps> = ({ buttonClassName }) => {
+const CreateWishlistModal: FC<CreateWishlistModalProps> = ({ buttonClassName }) => {
   const { t } = useTranslation();
 
   const [wishlistName, setWishlistName] = useState("");
@@ -22,7 +22,7 @@ const CreateWishlistModal: FC<IProps> = ({ buttonClassName }) => {
 
   const createWishlistHandler = async () => {
     try {
-      await createWishlist({ name: wishlistName });
+      await createWishlist({ name: wishlistName?.trim() });
     } catch (error) {
       console.log(error);
     } finally {
@@ -45,10 +45,10 @@ const CreateWishlistModal: FC<IProps> = ({ buttonClassName }) => {
             placeholder={t("wishlist.enter-wishlist-name")}
           />
           {isError && <Typography.P className="mt-2 text-red-500">{(error as any)?.data?.message}</Typography.P>}
-          <Button disabled={isWishlistCreating || !wishlistName} className="mt-4" onClick={createWishlistHandler}>
-            {t("wishlist.create-wishlist")}
+          <Button disabled={isWishlistCreating || !wishlistName?.trim()} className="mt-4" onClick={createWishlistHandler}>
+            {isWishlistCreating && <Spinner />}
 
-            {isWishlistCreating && <Loader2 className="animate-spin" />}
+            {t("wishlist.create-wishlist")}
           </Button>
         </div>
       </DialogContent>

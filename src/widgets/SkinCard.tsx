@@ -175,13 +175,13 @@ const SkinCard: FC<SkinCardProps> = ({
               <Tooltip disableHoverableContent>
                 <TooltipTrigger asChild>
                   <Button
-                    variant="destructive"
+                    variant="outline"
                     size="icon-lg"
                     onClick={removeFromWishlistHandler}
                     className={cn(actionButtonCN, "pointer-events-auto")}
                     disabled={isWishlistUpdating}
                   >
-                    <Trash className="size-5" />
+                    <Trash className="size-5 stroke-red-400" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent className="pointer-events-none">Remove skin from wishlist</TooltipContent>

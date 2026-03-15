@@ -3,11 +3,11 @@ import { Typography } from "./Typography";
 import { cn } from "@/shared/utils/cn";
 import { useTranslation } from "react-i18next";
 
-interface IProps {
+interface NoResultsProps {
   className?: string;
 }
 
-const NoResultsState: FC<IProps> = ({ className }) => {
+const NoResultsState: FC<NoResultsProps> = ({ className }) => {
   const { t } = useTranslation();
   return (
     <div className={cn("flex flex-col gap-3 items-center justify-center", className)}>

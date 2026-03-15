@@ -15,6 +15,7 @@ import { useCopyToClipboard } from "react-use";
 import { toast } from "sonner";
 import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
+import EditWishlistModal from '@/widgets/EditWishlistModal';
 
 const DetailsWishlistPage: FC = () => {
   // TODO: DetailsSkinPage my-card
@@ -25,17 +26,17 @@ const DetailsWishlistPage: FC = () => {
 
   const { wishlistId } = useParams();
   const { data: wishlistInfo, isLoading, isFetching } = useGetWishlistQuery(wishlistId || "");
-  console.log({ wishlistInfo });
 
   const [clipboardState, copyToClipboard] = useCopyToClipboard();
   const wishlistLink = wishlistInfo?.link || "//sefnvosldnjlksnvldj";
+
   const copyToClickboardHandler = () => {
     copyToClipboard(wishlistLink);
 
     if (clipboardState.error) {
       toast.error(`Unable to copy value: ${clipboardState.error.message}`);
     } else {
-      toast.success(`Copied ${clipboardState.value}`);
+      toast.success(`Copied ${wishlistLink}`);
     }
   };
 
@@ -55,15 +56,19 @@ const DetailsWishlistPage: FC = () => {
 
   return (
     <div>
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbLink asChild>
-            <NavLink to="/wishlists">{t("app.wishlists")}</NavLink>
-          </BreadcrumbLink>
-          <BreadcrumbSeparator />
-          <BreadcrumbPage>{pageTitle}</BreadcrumbPage>
-        </BreadcrumbList>
-      </Breadcrumb>
+      <div className="flex items-center justify-between">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbLink asChild>
+              <NavLink to="/wishlists">{t("app.wishlists")}</NavLink>
+            </BreadcrumbLink>
+            <BreadcrumbSeparator />
+            <BreadcrumbPage>{pageTitle}</BreadcrumbPage>
+          </BreadcrumbList>
+        </Breadcrumb>
+
+        <EditWishlistModal wishlistInfo={wishlistInfo}/>
+      </div>
 
       <Typography.H1 className="text-2xl md:text-3xl font-bold mb-4 mt-2">{pageTitle}</Typography.H1>
 
