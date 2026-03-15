@@ -4,10 +4,9 @@ import { getLanguageCode } from "@/shared/utils/getLanguageCode";
 import type { ODataResponse, WithLanguage } from "@/types/shared";
 import type { SkinDto } from "@/types/skin";
 import type { UserDto, UserSkinsStatisticDto } from "@/types/user";
-import type { UpdateWishlistBody,WishlistFullDto, WishlistDto } from "@/types/wishlist";
+import type { UpdateWishlistBody, WishlistFullDto, WishlistDto } from "@/types/wishlist";
 
 import type { SkinsRequest, UpdateOwnedSkinsRequest, UpdateUserPasswordRequest } from "./types";
-
 
 export const userApi = createApi({
   reducerPath: "userApi",
