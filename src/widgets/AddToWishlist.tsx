@@ -1,11 +1,10 @@
-import { CirclePlusIcon, PlusIcon } from "lucide-react";
+import { CircleMinusIcon, CirclePlusIcon, PlusIcon } from "lucide-react";
 import { useEffect, useState, type FC, type MouseEvent, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 
 import { useGetWishlistsQuery, useUpdateWishlistMutation } from "@/api";
-import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/spinner";
@@ -31,13 +30,13 @@ const AddToWishlistLine: FC<AddToWishlistLineProps> = ({ wishlist, skinContentId
 
   const [updateWishlist, { isLoading: isWishlistUpdating }] = useUpdateWishlistMutation();
 
-  const addToExistingWishlist = async (wishlistId: string) => {
-    try {
-      await updateWishlist({ wishlistId, body: { addIds: [skinContentId] } });
-    } catch (error) {
-      console.log(error);
-    }
+  const addToExistingWishlist = async () => {
+    await updateWishlist({ wishlistId: wishlist._id, body: { addIds: [skinContentId] } });
   };
+
+  const removeFromExistingWishlist = async () => {
+    await updateWishlist({ wishlistId: wishlist._id, body: { removeIds: [skinContentId] } });
+  }
 
   const isSkinInWishlist = wishlist.skins.includes(skinContentId);
 
@@ -54,10 +53,14 @@ const AddToWishlistLine: FC<AddToWishlistLineProps> = ({ wishlist, skinContentId
         </div>
       )}
 
-      {!isWishlistUpdating && isSkinInWishlist && <Typography.Muted>Already added</Typography.Muted>}
+      {!isWishlistUpdating && isSkinInWishlist && (
+        <Button size="icon-sm" variant="ghost" onClick={removeFromExistingWishlist}>
+          <CircleMinusIcon />
+        </Button>
+      )}
 
       {!isWishlistUpdating && !isSkinInWishlist && (
-        <Button size="icon-sm" variant="ghost" onClick={() => addToExistingWishlist(wishlist._id)}>
+        <Button size="icon-sm" variant="ghost" onClick={addToExistingWishlist}>
           <CirclePlusIcon />
         </Button>
       )}
