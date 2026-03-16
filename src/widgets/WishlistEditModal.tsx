@@ -1,4 +1,5 @@
 import { useState, type ChangeEvent, type FC, type PropsWithChildren } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 
 import { useUpdateWishlistMutation } from "@/api";
@@ -12,6 +13,7 @@ interface EditWishlistProps extends PropsWithChildren {
 }
 
 const WishlistEditModal: FC<EditWishlistProps> = ({ wishlist, children }) => {
+  const { t } = useTranslation();
   const { wishlistId } = useParams();
 
   const [updateWishlist, { isLoading: isWishlistUpdating }] = useUpdateWishlistMutation();
@@ -43,21 +45,21 @@ const WishlistEditModal: FC<EditWishlistProps> = ({ wishlist, children }) => {
 
   return (
     <Dialog open={open} onOpenChange={openChangeHandler}>
-      <DialogTrigger asChild>{children ?? <Button>Edit Wishlist</Button>}</DialogTrigger>
+      <DialogTrigger asChild>{children ?? <Button>{t("wishlist.edit")}</Button>}</DialogTrigger>
       <DialogContent showCloseButton className="gap-y-5">
-        <DialogTitle>Edit Wishlist</DialogTitle>
+        <DialogTitle>{t("wishlist.edit_title")}</DialogTitle>
         <div className="flex flex-col gap-y-2">
-          <Input value={newName} onChange={changeNameHandler} />
+          <Input value={newName} onChange={changeNameHandler} placeholder={t("wishlist.edit_placeholder")} />
 
           <div className="flex flex-col gap-y-1">
             <Button
               onClick={renameWishlistHandler}
               disabled={isWishlistUpdating || wishlist.name.trim() === newName.trim() || !newName.trim().length}
             >
-              Save
+              {t("shared.save")}
             </Button>
             <Button variant="outline" onClick={closeHandler}>
-              Cancel
+              {t("shared.cancel")}
             </Button>
           </div>
         </div>

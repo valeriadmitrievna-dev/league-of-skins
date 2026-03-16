@@ -1,4 +1,5 @@
 import { useState, type FC, type MouseEvent, type ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 
 import { useDeleteWishlistMutation } from "@/api";
 import {
@@ -11,7 +12,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 
 interface WishlistDeleteModalProps {
@@ -22,6 +23,7 @@ interface WishlistDeleteModalProps {
 }
 
 const WishlistDeleteModal: FC<WishlistDeleteModalProps> = ({ wishlistId, trigger, onSubmit, onCancel }) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   const [deleteWishlist, { isLoading }] = useDeleteWishlistMutation();
@@ -39,23 +41,21 @@ const WishlistDeleteModal: FC<WishlistDeleteModalProps> = ({ wishlistId, trigger
     await deleteWishlist(wishlistId);
     onSubmit?.();
     setOpen(false);
-  }
+  };
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>{trigger({ openState: open, onOpen: openHandler })}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your wishlist.
-          </AlertDialogDescription>
+          <AlertDialogTitle>{t("shared.delete_title")}</AlertDialogTitle>
+          <AlertDialogDescription>{t("shared.delete_text")}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onCancel}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel onClick={onCancel}>{t('shared.cancel')}</AlertDialogCancel>
           <Button variant="destructive" disabled={isLoading} onClick={deleteWishlistHandler}>
             {isLoading && <Spinner />}
-            Delete wishlist
+            {t('shared.delete')}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

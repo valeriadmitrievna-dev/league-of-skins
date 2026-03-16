@@ -50,12 +50,12 @@ const WishlistCreateModal: FC<WishlistCreateModalProps> = ({ buttonClassName, sk
       </DialogTrigger>
       <DialogContent className="w-full max-w-sm! overflow-hidden">
         <form className="flex flex-col justify-center">
-          <Typography.P>New Wishlist</Typography.P>
+          <Typography.P>{t("wishlist.create_title")}</Typography.P>
           <InputGroup className="mt-3">
             <InputGroupInput
               value={wishlistName}
               onChange={changeNameHandler}
-              placeholder={t("wishlist.enter-wishlist-name")}
+              placeholder={t("wishlist.create_placeholder")}
             />
             <InputGroupAddon align="inline-end">{wishlistName.trim().length}/100</InputGroupAddon>
           </InputGroup>
@@ -67,7 +67,7 @@ const WishlistCreateModal: FC<WishlistCreateModalProps> = ({ buttonClassName, sk
           >
             {isWishlistCreating && <Spinner />}
 
-            {t("wishlist.create-wishlist")}
+            {t("shared.save")}
           </Button>
         </form>
       </DialogContent>

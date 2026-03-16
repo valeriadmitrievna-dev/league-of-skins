@@ -18,10 +18,17 @@
     "yes": "Yes",
     "no": "No",
     "or": "or",
-    "skin": "{{count}} skin",
-    "skin_plural": "{{count}} skins",
+    "skin_one": "skin",
+    "skin_few": "skins",
+    "skin_many": "skins",
+    "skin_other": "skins",
     "scroll_to_top": "Scroll to top",
-    "soon": "Coming soon"
+    "soon": "Coming soon",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete_title": "Are you sure?",
+    "delete_text": "This action cannot be undone.",
+    "delete": "Delete"
   },
   "rarity": {
     "kNoRarity": "No rarity",
@@ -70,11 +77,11 @@
   "wishlist": {
     "create": "Create wishlist",
     "createAndAdd": "Create wishlist and add",
-    "__MAIN__": "Main",
-    "no-wishlists-yet": "No wishlists yet",
-    "create-new-wishlist": "Create New Wishlist",
-    "enter-wishlist-name": "Enter Wishlist Name",
-    "create-wishlist": "Create Wishlist"
+    "share": "Share",
+    "edit": "Edit",
+    "delete": "Delete",
+    "edit_title": "Edit wishlist",
+    "edit_placeholder": "Wishlist's name"
   },
   "auth": {
     "signin_title": "Sign In",
@@ -108,7 +115,15 @@
   },
   "stats": {
     "total_champions": "Champions with skins",
-    "total_legacy": "Legacy skins"
+    "total_legacy": "Legacy skins",
+    "progress": "Progress",
+    "created": "Created",
+    "elements": "Elements",
+    "visits": "Visits",
+    "visits_times_one": "time",
+    "visits_times_few": "times",
+    "visits_times_many": "times",
+    "visits_times_other": "times"
   },
   "uploadInventory": {
     "title": "Upload inventory",

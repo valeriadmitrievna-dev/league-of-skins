@@ -1,5 +1,6 @@
 import { HeartIcon, Share2Icon, TrashIcon } from "lucide-react";
 import type { FC, MouseEvent } from "react";
+import { useTranslation } from 'react-i18next';
 import { NavLink } from "react-router";
 
 import { Typography } from "@/components/Typography";
@@ -15,6 +16,7 @@ interface WishlistCardProps {
 }
 
 const WishlistCard: FC<WishlistCardProps> = ({ data }) => {
+  const { t } = useTranslation();
   const { share } = useShare();
 
   const shareHandler = (event: MouseEvent) => {
@@ -36,7 +38,7 @@ const WishlistCard: FC<WishlistCardProps> = ({ data }) => {
       <div className="mt-2 w-full flex items-center gap-2">
         <div className="flex items-center gap-1 text-muted-foreground mt-2">
           <HeartIcon className={cn("size-3", { "fill-muted-foreground": data.skins.length })} />
-          <Typography.Muted>{data.skins.length} items</Typography.Muted>
+          <Typography.Muted>{data.skins.length} {t('shared.skin', { count: data.skins.length })}</Typography.Muted>
         </div>
         <Button size="icon" variant="outline" onClick={shareHandler} className="ml-auto">
           <Share2Icon />

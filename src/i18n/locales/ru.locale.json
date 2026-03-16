@@ -18,11 +18,17 @@
     "yes": "Да",
     "no": "Нет",
     "or": "или",
-    "skin": "{{count}} образ",
-    "skin_few": "{{count}} образа",
-    "skin_plural": "{{count}} образов",
+    "skin_one": "образ",
+    "skin_few": "образа",
+    "skin_many": "образов",
+    "skin_other": "образов",
     "scroll_to_top": "Наверх",
-    "soon": "Скоро"
+    "soon": "Скоро",
+    "save": "Сохранить",
+    "cancel": "Отменить",
+    "delete_title": "Вы уверены?",
+    "delete_text": "Это действие нельзя отменить.",
+    "delete": "Удалить"
   },
   "rarity": {
     "kNoRarity": "Без редкости",
@@ -71,7 +77,13 @@
   "wishlist": {
     "create": "Создать вишлист",
     "createAndAdd": "Создать вишлист и добавить в него",
-    "__MAIN__": "Основной"
+    "share": "Поделиться",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "edit_title": "Редактировать вишлист",
+    "edit_placeholder": "Название вишлиста",
+    "create_title": "Создать вишлист",
+    "create_placeholder": "Название вишлиста"
   },
   "auth": {
     "signin_title": "Вход",
@@ -104,7 +116,15 @@
   },
   "stats": {
     "total_champions": "Чемпионы с образами",
-    "total_legacy": "Архивные образы"
+    "total_legacy": "Архивные образы",
+    "progress": "Прогресс",
+    "created": "Создан",
+    "elements": "Элементы",
+    "visits": "Посещения",
+    "visits_times_one": "раз",
+    "visits_times_few": "раза",
+    "visits_times_many": "раз",
+    "visits_times_other": "раз"
   },
   "uploadInventory": {
     "title": "Загрузка инвентаря",

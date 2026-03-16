@@ -1,6 +1,9 @@
 import { format } from "date-fns";
-import { CalendarIcon, EyeIcon, LayoutGridIcon, Share2Icon, SquarePenIcon, TrashIcon } from "lucide-react";
+import { ru } from "date-fns/locale";
+import type { TFunction } from "i18next";
+import { CalendarIcon, EyeIcon, LayoutGridIcon } from "lucide-react";
 import { useCallback, useMemo, type FC } from "react";
+import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate, useParams } from "react-router";
 
 import { useGetWishlistQuery } from "@/api";
@@ -20,9 +23,11 @@ import WishlistEditModal from "@/widgets/WishlistEditModal";
 
 interface WishlistBreadcrumbProps {
   name: string;
+  t: TFunction;
 }
 
 interface WishlistSidebarProps {
+  t: TFunction;
   wishlist: WishlistFullDto;
   progress: {
     allSkinsCount: number;
@@ -40,8 +45,10 @@ interface StatItemProps {
 }
 
 const DetailsWishlistPage: FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { wishlistId } = useParams<{ wishlistId: string }>();
+
   const { share } = useShare();
 
   const {
@@ -89,10 +96,6 @@ const DetailsWishlistPage: FC = () => {
     };
   }, [wishlist]);
 
-  if (!wishlistId) {
-    return <div>Invalid wishlist ID</div>;
-  }
-
   if (isLoading) {
     return <WishlistSkeleton />;
   }
@@ -107,10 +110,10 @@ const DetailsWishlistPage: FC = () => {
 
   return (
     <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-8">
-      <WishlistSidebar wishlist={wishlist} progress={progress!} onShare={shareHandler} onDelete={deleteHandler} />
+      <WishlistSidebar t={t} wishlist={wishlist} progress={progress!} onShare={shareHandler} onDelete={deleteHandler} />
 
       <div className="flex flex-col gap-y-3 w-full overflow-hidden">
-        <WishlistBreadcrumb name={wishlist.name} />
+        <WishlistBreadcrumb t={t} name={wishlist.name} />
 
         <VirtualizedGrid items={wishlist.skins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />
       </div>
@@ -127,19 +130,14 @@ const WishlistSkeleton: FC = () => (
       </div>
       <Field className="w-full max-w-sm">
         <FieldLabel htmlFor="progress" className="text-muted-foreground">
-          Progress
+          <Skeleton className="h-5 w-25" />
         </FieldLabel>
         <Progress value={0} id="progress" />
       </Field>
       <div className="flex flex-col gap-y-1">
-        <Button disabled>
-          <Share2Icon />
-          Share
-        </Button>
-        <Button variant="outline" disabled>
-          <SquarePenIcon />
-          Edit Details
-        </Button>
+        <Skeleton className="h-9" />
+        <Skeleton className="h-9" />
+        <Skeleton className="h-9" />
       </div>
     </div>
     <div className="flex flex-col gap-y-3">
@@ -149,19 +147,27 @@ const WishlistSkeleton: FC = () => (
   </div>
 );
 
-const WishlistSidebar: FC<WishlistSidebarProps> = ({ wishlist, progress, onShare, onDelete }) => (
+const WishlistSidebar: FC<WishlistSidebarProps> = ({ t, wishlist, progress, onShare, onDelete }) => (
   <aside className="my-card flex flex-col gap-y-3 sticky top-4">
     <Typography.Large>{wishlist.name}</Typography.Large>
 
     <div className="py-2 flex flex-col gap-y-3">
-      <StatItem icon={<CalendarIcon />} label="Created" value={format(new Date(wishlist.createdAt), "MMMM d, yyyy")} />
-      <StatItem icon={<LayoutGridIcon />} label="Items" value={`${wishlist.skins.length} skins`} />
-      <StatItem icon={<EyeIcon />} label="Visits" value="0 times" />
+      <StatItem
+        icon={<CalendarIcon />}
+        label={t("stats.created")}
+        value={format(new Date(wishlist.createdAt), "d MMMM yyyy", { locale: ru })}
+      />
+      <StatItem
+        icon={<LayoutGridIcon />}
+        label={t("stats.elements")}
+        value={`${wishlist.skins.length} ${t("shared.skin", { count: wishlist.skins.length })}`}
+      />
+      <StatItem icon={<EyeIcon />} label={t("stats.visits")} value={`0 ${t("stats.visits_times", { count: 0 })}`} />
     </div>
 
     <Field className="w-full max-w-sm">
       <FieldLabel htmlFor="progress">
-        <span>Progress</span>
+        <span>{t("stats.progress")}</span>
         <span className="ml-auto">
           {progress.ownedSkinsCount}/{progress.allSkinsCount}
         </span>
@@ -170,23 +176,16 @@ const WishlistSidebar: FC<WishlistSidebarProps> = ({ wishlist, progress, onShare
     </Field>
 
     <div className="flex flex-col gap-y-1">
-      <Button onClick={onShare}>
-        <Share2Icon />
-        Share
-      </Button>
+      <Button onClick={onShare}>{t("wishlist.share")}</Button>
       <WishlistEditModal wishlist={wishlist}>
-        <Button variant="outline">
-          <SquarePenIcon />
-          Edit Details
-        </Button>
+        <Button variant="outline">{t("wishlist.edit")}</Button>
       </WishlistEditModal>
       <WishlistDeleteModal
         wishlistId={wishlist._id}
         onSubmit={onDelete}
         trigger={({ onOpen }) => (
           <Button variant="ghost" onClick={onOpen}>
-            <TrashIcon />
-            Delete
+            {t("wishlist.delete")}
           </Button>
         )}
       />
@@ -204,11 +203,11 @@ const StatItem: FC<StatItemProps> = ({ icon, label, value }) => (
   </div>
 );
 
-const WishlistBreadcrumb: FC<WishlistBreadcrumbProps> = ({ name }) => (
+const WishlistBreadcrumb: FC<WishlistBreadcrumbProps> = ({ t, name }) => (
   <Breadcrumb className="hidden md:flex">
     <BreadcrumbList className="flex-nowrap overflow-hidden">
       <BreadcrumbLink asChild>
-        <NavLink to="/wishlists">Wishlists</NavLink>
+        <NavLink to="/wishlists">{t("header.wishlists")}</NavLink>
       </BreadcrumbLink>
       <BreadcrumbSeparator />
       <BreadcrumbPage className="text-ellipsis whitespace-nowrap overflow-hidden">{name}</BreadcrumbPage>
