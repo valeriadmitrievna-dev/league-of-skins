@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate, useParams } from "react-router";
 
 import { useGetWishlistQuery } from "@/api";
+import CustomHead from "@/components/CustomMetaHead";
 import Skeleton from "@/components/Skeleton";
 import { Typography } from "@/components/Typography";
 import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
@@ -109,15 +110,28 @@ const DetailsWishlistPage: FC = () => {
   }
 
   return (
-    <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-8">
-      <WishlistSidebar t={t} wishlist={wishlist} progress={progress!} onShare={shareHandler} onDelete={deleteHandler} />
+    <>
+      <CustomHead>
+        <title>League of Skins | Wishlist</title>
+        <meta name="description" content="Your wishlist" />
+      </CustomHead>
 
-      <div className="flex flex-col gap-y-3 w-full overflow-hidden">
-        <WishlistBreadcrumb t={t} name={wishlist.name} />
+      <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-8">
+        <WishlistSidebar t={t} wishlist={wishlist} progress={progress!} onShare={shareHandler} onDelete={deleteHandler} />
 
-        <VirtualizedGrid items={wishlist.skins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />
+        <div className="flex flex-col gap-y-3 w-full overflow-hidden">
+          <WishlistBreadcrumb t={t} name={wishlist.name} />
+
+          <VirtualizedGrid
+            items={wishlist.skins}
+            loading={isLoading}
+            fetching={isFetching}
+            overscan={4}
+            render={renderSkin}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -148,7 +162,7 @@ const WishlistSkeleton: FC = () => (
 );
 
 const WishlistSidebar: FC<WishlistSidebarProps> = ({ t, wishlist, progress, onShare, onDelete }) => (
-  <aside className="my-card flex flex-col gap-y-3 sticky top-4">
+  <aside className="my-card flex flex-col gap-y-3">
     <Typography.Large>{wishlist.name}</Typography.Large>
 
     <div className="py-2 flex flex-col gap-y-3">
@@ -165,7 +179,7 @@ const WishlistSidebar: FC<WishlistSidebarProps> = ({ t, wishlist, progress, onSh
       <StatItem icon={<EyeIcon />} label={t("stats.visits")} value={`0 ${t("stats.visits_times", { count: 0 })}`} />
     </div>
 
-    <Field className="w-full max-w-sm">
+    <Field>
       <FieldLabel htmlFor="progress">
         <span>{t("stats.progress")}</span>
         <span className="ml-auto">
