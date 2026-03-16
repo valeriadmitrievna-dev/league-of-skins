@@ -21,7 +21,7 @@ const WishlistsPage: FC = () => {
         <CreateWishlistModal />
       </div>
 
-      <div className='mt-6 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
+      <div className='mt-6 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr'>
         {isLoading && !wishlists.length && (
           <Skeleton count={6} asChild className='h-40' />
         )}

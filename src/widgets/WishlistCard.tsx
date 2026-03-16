@@ -28,8 +28,8 @@ const WishlistCard: FC<WishlistCardProps> = ({ data }) => {
   };
 
   return (
-    <NavLink to={`/wishlists/${data._id}`} className="my-card px-4! flex flex-col justify-between">
-      <Typography.Large>{data.name}</Typography.Large>
+    <NavLink to={`/wishlists/${data._id}`} className="my-card h-auto! px-4! flex flex-col justify-between">
+      <Typography.Large className='line-clamp-3'>{data.name}</Typography.Large>
 
       <div className="mt-2 w-full flex items-center gap-2">
         <div className="flex items-center gap-1 text-muted-foreground mt-2">

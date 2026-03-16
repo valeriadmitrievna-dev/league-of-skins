@@ -1,11 +1,11 @@
 import { PlusIcon } from "lucide-react";
-import { useState, type FC, type ReactNode } from "react";
+import { useState, type ChangeEvent, type FC, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Spinner } from "@/components/ui/spinner";
 import { useCreateWishlist } from "@/hooks/useCreateWishlist";
 import { cn } from "@/shared/utils/cn";
@@ -23,6 +23,10 @@ const CreateWishlistModal: FC<CreateWishlistModalProps> = ({ buttonClassName, sk
   const [isModalOpen, setModalOpen] = useState(false);
 
   const { createWishlistHandler: createWishlist, isLoading: isWishlistCreating } = useCreateWishlist();
+
+  const changeNameHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setWishlistName(event.target.value.slice(0, 100));
+  };
 
   const createWishlistHandler = async () => {
     try {
@@ -47,12 +51,14 @@ const CreateWishlistModal: FC<CreateWishlistModalProps> = ({ buttonClassName, sk
       <DialogContent className="w-full max-w-sm! overflow-hidden">
         <form className="flex flex-col justify-center">
           <Typography.P>New Wishlist</Typography.P>
-          <Input
-            value={wishlistName}
-            onChange={(e) => setWishlistName(e?.target?.value)}
-            className="mt-3"
-            placeholder={t("wishlist.enter-wishlist-name")}
-          />
+          <InputGroup className="mt-3">
+            <InputGroupInput
+              value={wishlistName}
+              onChange={changeNameHandler}
+              placeholder={t("wishlist.enter-wishlist-name")}
+            />
+            <InputGroupAddon align="inline-end">{wishlistName.trim().length}/100</InputGroupAddon>
+          </InputGroup>
           <Button
             type="submit"
             disabled={isWishlistCreating || !wishlistName?.trim()}

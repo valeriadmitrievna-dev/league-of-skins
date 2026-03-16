@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { CalendarIcon, EyeIcon, LayoutGridIcon, Share2Icon, SquarePenIcon } from "lucide-react";
+import { CalendarIcon, EyeIcon, LayoutGridIcon, Share2Icon, SquarePenIcon, TrashIcon } from "lucide-react";
 import { useCallback, useMemo, type FC } from "react";
 import { NavLink, useParams } from "react-router";
 
@@ -12,7 +12,7 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import { Progress } from "@/components/ui/progress";
 import useShare from "@/hooks/useShare";
 import type { SkinDto } from "@/types/skin";
-import type { WishlistFullDto } from '@/types/wishlist';
+import type { WishlistFullDto } from "@/types/wishlist";
 import EditWishlistModal from "@/widgets/EditWishlistModal";
 import SkinCard from "@/widgets/SkinCard";
 import VirtualizedGrid from "@/widgets/VirtualizedGrid";
@@ -22,7 +22,7 @@ interface WishlistBreadcrumbProps {
 }
 
 interface WishlistSidebarProps {
-  wishlist: WishlistFullDto
+  wishlist: WishlistFullDto;
   progress: {
     allSkinsCount: number;
     ownedSkinsCount: number;
@@ -41,7 +41,11 @@ const DetailsWishlistPage: FC = () => {
   const { wishlistId } = useParams<{ wishlistId: string }>();
   const { share } = useShare();
 
-  const { data: wishlist, isLoading, isFetching } = useGetWishlistQuery(wishlistId || '', {
+  const {
+    data: wishlist,
+    isLoading,
+    isFetching,
+  } = useGetWishlistQuery(wishlistId || "", {
     skip: !wishlistId,
   });
 
@@ -58,14 +62,7 @@ const DetailsWishlistPage: FC = () => {
     (item: unknown) => {
       const skin = item as SkinDto;
       return (
-        <SkinCard
-          key={skin.id}
-          data={skin}
-          owned={skin.owned}
-          navigatable
-          toggleOwnedButton
-          wishlistId={wishlist?._id}
-        />
+        <SkinCard key={skin.id} data={skin} owned={skin.owned} navigatable toggleOwnedButton wishlistId={wishlist?._id} />
       );
     },
     [wishlist?._id],
@@ -73,7 +70,7 @@ const DetailsWishlistPage: FC = () => {
 
   const progress = useMemo(() => {
     if (!wishlist) return null;
-    
+
     const allSkinsCount = wishlist.skins.length;
     const ownedSkinsCount = wishlist.skins.filter((skin) => skin.owned).length;
     const value = allSkinsCount > 0 ? (100 * ownedSkinsCount) / allSkinsCount : 0;
@@ -103,22 +100,12 @@ const DetailsWishlistPage: FC = () => {
 
   return (
     <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-8">
-      <WishlistSidebar
-        wishlist={wishlist}
-        progress={progress!}
-        onShare={shareHandler}
-      />
-      
-      <div className="flex flex-col gap-y-3">
+      <WishlistSidebar wishlist={wishlist} progress={progress!} onShare={shareHandler} />
+
+      <div className="flex flex-col gap-y-3 w-full overflow-hidden">
         <WishlistBreadcrumb name={wishlist.name} />
-        
-        <VirtualizedGrid
-          items={wishlist.skins}
-          loading={isLoading}
-          fetching={isFetching}
-          overscan={4}
-          render={renderSkin}
-        />
+
+        <VirtualizedGrid items={wishlist.skins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />
       </div>
     </div>
   );
@@ -158,23 +145,11 @@ const WishlistSkeleton: FC = () => (
 const WishlistSidebar: FC<WishlistSidebarProps> = ({ wishlist, progress, onShare }) => (
   <aside className="my-card flex flex-col gap-y-3 sticky top-4">
     <Typography.Large>{wishlist.name}</Typography.Large>
-    
+
     <div className="py-2 flex flex-col gap-y-3">
-      <StatItem
-        icon={<CalendarIcon />}
-        label="Created"
-        value={format(new Date(wishlist.createdAt), "MMMM d, yyyy")}
-      />
-      <StatItem
-        icon={<LayoutGridIcon />}
-        label="Items"
-        value={`${wishlist.skins.length} skins`}
-      />
-      <StatItem
-        icon={<EyeIcon />}
-        label="Visits"
-        value="0 times"
-      />
+      <StatItem icon={<CalendarIcon />} label="Created" value={format(new Date(wishlist.createdAt), "MMMM d, yyyy")} />
+      <StatItem icon={<LayoutGridIcon />} label="Items" value={`${wishlist.skins.length} skins`} />
+      <StatItem icon={<EyeIcon />} label="Visits" value="0 times" />
     </div>
 
     <Field className="w-full max-w-sm">
@@ -198,6 +173,10 @@ const WishlistSidebar: FC<WishlistSidebarProps> = ({ wishlist, progress, onShare
           Edit Details
         </Button>
       </EditWishlistModal>
+      <Button variant="ghost">
+        <TrashIcon />
+        Delete
+      </Button>
     </div>
   </aside>
 );
@@ -214,12 +193,12 @@ const StatItem: FC<StatItemProps> = ({ icon, label, value }) => (
 
 const WishlistBreadcrumb: FC<WishlistBreadcrumbProps> = ({ name }) => (
   <Breadcrumb className="hidden md:flex">
-    <BreadcrumbList>
+    <BreadcrumbList className='flex-nowrap overflow-hidden'>
       <BreadcrumbLink asChild>
         <NavLink to="/wishlists">Wishlists</NavLink>
       </BreadcrumbLink>
       <BreadcrumbSeparator />
-      <BreadcrumbPage>{name}</BreadcrumbPage>
+      <BreadcrumbPage className='text-ellipsis whitespace-nowrap overflow-hidden'>{name}</BreadcrumbPage>
     </BreadcrumbList>
   </Breadcrumb>
 );
