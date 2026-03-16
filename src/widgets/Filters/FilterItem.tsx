@@ -25,13 +25,13 @@ const FilterItem: FC<FilterItemProps> = ({ title, value, onClear, children, defa
         {!!value && <span className="flex size-2 rounded-full bg-blue-500 mr-auto" />}
         <ChevronDownIcon
           className={cn("size-4 text-muted-foreground group-data-[state=open]:rotate-180 absolute right-1", {
-            "group-hover:hidden": !!value && !!onClear,
+            ",d:group-hover:hidden": !!value && !!onClear,
           })}
         />
         <Button
           size="icon-xs"
           onClick={clearHandler}
-          className={cn("transition-none absolute right-0 opacity-0 group-hover:opacity-100", {
+          className={cn("transition-none absolute right-0 opacity-0 md:group-hover:opacity-100", {
             "hidden!": !value || !onClear,
           })}
           variant="secondary"

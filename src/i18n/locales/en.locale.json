@@ -25,10 +25,13 @@
     "scroll_to_top": "Scroll to top",
     "soon": "Coming soon",
     "save": "Save",
+    "apply": "Apply",
     "cancel": "Cancel",
     "delete_title": "Are you sure?",
     "delete_text": "This action cannot be undone.",
-    "delete": "Delete"
+    "delete": "Delete",
+    "open": "Open",
+    "close": "Close"
   },
   "rarity": {
     "kNoRarity": "No rarity",
