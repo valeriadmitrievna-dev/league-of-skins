@@ -57,7 +57,7 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
 
   return (
     <div className={cn("my-card flex flex-col gap-y-3", className)}>
-      <FilterPanelTitle onReset={hasActive && reset} />
+      <FilterPanelTitle onReset={hasActive && reset} className='mb-3' />
       <div>
         {isAuth && (
           <FilterToggleGroup
