@@ -186,7 +186,7 @@ const DetailsSkinPage: FC = () => {
           )}
           <AddToWishlist
             skinName={skin.name}
-            skinContentId={skin.contentId}
+            skinContentIds={[skin.contentId]}
             trigger={({ onOpen }) => <Button onClick={onOpen}>{t("skin.add")}</Button>}
           />
           {isAuth && (

@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import type { TFunction } from "i18next";
 import { CalendarIcon, EyeIcon, LayoutGridIcon } from "lucide-react";
-import { useCallback, useMemo, type FC } from "react";
+import { useCallback, useMemo, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate, useParams } from "react-router";
 
@@ -11,7 +11,9 @@ import Skeleton from "@/components/Skeleton";
 import { Typography } from "@/components/Typography";
 import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldLabel } from "@/components/ui/field";
+import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import useShare from "@/hooks/useShare";
 import type { SkinDto } from "@/types/skin";
@@ -29,11 +31,13 @@ interface WishlistBreadcrumbProps {
 interface WishlistSidebarProps {
   t: TFunction;
   wishlist: WishlistFullDto;
+  showOwned: boolean;
   progress: {
     allSkinsCount: number;
     ownedSkinsCount: number;
     value: number;
   };
+  onToogleShowOwned: (checked: boolean) => void;
   onShare: () => void;
   onDelete: () => void;
 }
@@ -50,6 +54,12 @@ const DetailsWishlistPage: FC = () => {
   const { wishlistId } = useParams<{ wishlistId: string }>();
 
   const { share } = useShare();
+
+  const [showOwned, setShowOwned] = useState(true);
+
+  const toggleShowOwnedHandler = (checked: boolean) => {
+    setShowOwned(checked);
+  };
 
   const {
     data: wishlist,
@@ -79,7 +89,7 @@ const DetailsWishlistPage: FC = () => {
         <SkinCard key={skin.id} data={skin} owned={skin.owned} navigatable toggleOwnedButton wishlistId={wishlist?._id} />
       );
     },
-    [wishlist?._id],
+    [wishlist?._id, showOwned],
   );
 
   const progress = useMemo(() => {
@@ -96,6 +106,11 @@ const DetailsWishlistPage: FC = () => {
     };
   }, [wishlist]);
 
+  const skins = useMemo(
+    () => (wishlist?.skins ?? []).filter((skin) => (showOwned ? true : !skin.owned)),
+    [wishlist, showOwned],
+  );
+
   if (isLoading) {
     return <WishlistSkeleton />;
   }
@@ -110,12 +125,20 @@ const DetailsWishlistPage: FC = () => {
 
   return (
     <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-8">
-      <WishlistSidebar t={t} wishlist={wishlist} progress={progress!} onShare={shareHandler} onDelete={deleteHandler} />
+      <WishlistSidebar
+        t={t}
+        wishlist={wishlist}
+        progress={progress!}
+        showOwned={showOwned}
+        onToogleShowOwned={toggleShowOwnedHandler}
+        onShare={shareHandler}
+        onDelete={deleteHandler}
+      />
 
       <div className="flex flex-col gap-y-3 w-full overflow-hidden">
         <WishlistBreadcrumb t={t} name={wishlist.name} />
 
-        <VirtualizedGrid items={wishlist.skins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />
+        <VirtualizedGrid items={skins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />
       </div>
     </div>
   );
@@ -147,7 +170,15 @@ const WishlistSkeleton: FC = () => (
   </div>
 );
 
-const WishlistSidebar: FC<WishlistSidebarProps> = ({ t, wishlist, progress, onShare, onDelete }) => (
+const WishlistSidebar: FC<WishlistSidebarProps> = ({
+  t,
+  wishlist,
+  progress,
+  showOwned,
+  onToogleShowOwned,
+  onShare,
+  onDelete,
+}) => (
   <aside className="my-card flex flex-col gap-y-3 sticky top-4">
     <Typography.Large>{wishlist.name}</Typography.Large>
 
@@ -173,6 +204,11 @@ const WishlistSidebar: FC<WishlistSidebarProps> = ({ t, wishlist, progress, onSh
         </span>
       </FieldLabel>
       <Progress value={progress.value} id="progress" />
+    </Field>
+
+    <Field orientation="horizontal" className="justify-between">
+      <Label htmlFor="show-owned">{t("wishlist.show_owned_skins")}</Label>
+      <Checkbox id="show-owned" name="show-owned" checked={showOwned} onCheckedChange={onToogleShowOwned} />
     </Field>
 
     <div className="flex flex-col gap-y-1">

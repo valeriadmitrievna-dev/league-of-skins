@@ -151,7 +151,7 @@ const SkinCard: FC<SkinCardProps> = ({
             {addToWishlistButton && (
               <AddToWishlist
                 skinName={data.name}
-                skinContentId={data.contentId}
+                skinContentIds={[data.contentId]}
                 trigger={({ onOpen }) => (
                   <Tooltip disableHoverableContent>
                     <TooltipTrigger asChild>

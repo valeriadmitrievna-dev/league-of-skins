@@ -5,12 +5,12 @@ export const useCreateWishlist = () => {
 
   const [updateWishlist] = useUpdateWishlistMutation();
 
-  const createWishlistHandler = async (wishlistName: string, skinContentId?: string) => {
+  const createWishlistHandler = async (wishlistName: string, skinContentIds?: string[]) => {
     try {
       const newWishlist = await createWishlist({ name: wishlistName });
 
-      if (skinContentId) {
-        await updateWishlist({ wishlistId: newWishlist?.data?._id ?? "", body: { addIds: [skinContentId] } });
+      if (skinContentIds?.length) {
+        await updateWishlist({ wishlistId: newWishlist?.data?._id ?? "", body: { addIds: skinContentIds } });
       }
     } catch (error) {
       console.log(error);

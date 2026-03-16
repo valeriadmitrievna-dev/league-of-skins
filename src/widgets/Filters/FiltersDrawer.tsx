@@ -9,6 +9,7 @@ import ChromaColor from "@/components/ChromaColor";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useQueryParams } from "@/hooks/useQueryParams";
+import { cn } from '@/shared/utils/cn';
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import { appAuthSelector } from "@/store";
 
@@ -19,9 +20,10 @@ import FilterToggleTags from "./FilterToggleTags";
 
 interface FiltersDrawerProps {
   trigger?: (options: { openState: boolean; onOpen: (event: MouseEvent<HTMLElement>) => void }) => ReactNode;
+  className?: string;
 }
 
-const FiltersDrawer: FC<FiltersDrawerProps> = ({ trigger }) => {
+const FiltersDrawer: FC<FiltersDrawerProps> = ({ trigger, className }) => {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
 
@@ -73,7 +75,7 @@ const FiltersDrawer: FC<FiltersDrawerProps> = ({ trigger }) => {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger className="relative" asChild>
+      <SheetTrigger className={cn("relative", className)} asChild>
         {trigger?.({ openState: open, onOpen: openHandler }) ?? (
           <Button size="icon">
             <FunnelIcon />

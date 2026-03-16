@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-import type { ChromaDto } from "@/types/chroma";
 import type { Theme } from "@/types/shared";
 import type { SkinDto } from "@/types/skin";
 
@@ -9,8 +8,7 @@ export interface AppState {
   language: string;
   theme: Theme;
   isAuth: boolean;
-  addSkinWaiting: SkinDto["id"] | null;
-  addChromaWaiting: ChromaDto["id"] | null;
+  addSkinsWaiting: SkinDto["id"][];
   addWaitingFrom: string | null;
 }
 
@@ -18,8 +16,7 @@ const initialState: AppState = {
   language: localStorage.getItem("language") || navigator.language.replace("-", "_") || "en",
   theme: (localStorage.getItem("theme") as Theme) || "system",
   isAuth: !!localStorage.getItem("access-token"),
-  addSkinWaiting: null,
-  addChromaWaiting: null,
+  addSkinsWaiting: [],
   addWaitingFrom: null,
 };
 
@@ -47,15 +44,12 @@ export const appSlice = createSlice({
     setAppAuth: (state, { payload }: PayloadAction<boolean>) => {
       state.isAuth = payload;
     },
-    setAddSkinWaiting: (state, { payload }: PayloadAction<AppState["addSkinWaiting"]>) => {
-      state.addSkinWaiting = payload;
-    },
-    setAddChromaWaiting: (state, { payload }: PayloadAction<AppState["addChromaWaiting"]>) => {
-      state.addChromaWaiting = payload;
+    setAddSkinsWaiting: (state, { payload }: PayloadAction<AppState["addSkinsWaiting"]>) => {
+      state.addSkinsWaiting = payload;
     },
   },
 });
 
-export const { setLanguage, setTheme, toggleTheme, setAppAuth, setAddSkinWaiting, setAddChromaWaiting } = appSlice.actions;
+export const { setLanguage, setTheme, toggleTheme, setAppAuth, setAddSkinsWaiting } = appSlice.actions;
 
 export default appSlice.reducer;

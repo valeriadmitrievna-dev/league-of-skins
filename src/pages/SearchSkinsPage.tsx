@@ -7,12 +7,15 @@ import { useGetChromasQuery, useGetSkinsQuery } from "@/api";
 import NoResultsState from "@/components/NoResultsState";
 import ScrollTop from "@/components/ScrollTop";
 import Search from "@/components/Search";
+import { Typography } from "@/components/Typography";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { Button } from '@/components/ui/button';
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { getColorsString } from "@/shared/utils/getColorsString";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import { appAuthSelector } from "@/store";
 import type { SkinDto } from "@/types/skin";
+import AddToWishlist from '@/widgets/AddToWishlist';
 import FiltersDrawer from "@/widgets/Filters/FiltersDrawer";
 import SearchFilters from "@/widgets/SearchFilters";
 import SkinCard from "@/widgets/SkinCard";
@@ -71,7 +74,7 @@ const SearchSkinsPage: FC = () => {
   );
 
   const { data: skinsData, isLoading, isFetching } = useGetSkinsQuery(skinsQueryParams);
-  const { data: skins } = getODataWithDefault(skinsData);
+  const { data: skins, count: skinsCount } = getODataWithDefault(skinsData);
 
   const renderSkin = useCallback(
     (item: unknown) => {
@@ -84,17 +87,25 @@ const SearchSkinsPage: FC = () => {
   );
 
   return (
-    <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
+    <div className="w-full md:grid grid-cols-[300px_1fr] gap-5">
       <SearchSkinsBreadcrumb className="md:hidden mb-3" />
       <SearchFilters className="hidden md:block" />
 
       <div className="pb-14">
         <SearchSkinsBreadcrumb className="hidden md:block" />
 
-        <div className="my-4 md:mt-3 flex items-center gap-2">
+        <div className="my-4 mb-1 md:mt-3 flex items-center gap-2">
           <Search value={searchInput} onSearch={setSearchInput} />
-          <FiltersDrawer />
+          <FiltersDrawer className="md:hidden" />
+          
+          {!!skinsCount && <AddToWishlist skinContentIds={skins.map(skin => skin.contentId)} trigger={({ onOpen }) => (
+            <Button onClick={onOpen}>Добавить в вишлист</Button>
+          )} />}
         </div>
+
+        {!isLoading && !!skins.length && (
+          <Typography.Muted className="mb-3">Найдено скинов: {skins.length}</Typography.Muted>
+        )}
 
         {!isLoading && !skins.length && <NoResultsState className="my-30" />}
 

@@ -1,19 +1,15 @@
+import { isEqual } from "lodash";
 import { CircleMinusIcon, CirclePlusIcon, PlusIcon } from "lucide-react";
 import { useEffect, useState, type FC, type MouseEvent, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 
 import { useGetWishlistsQuery, useUpdateWishlistMutation } from "@/api";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/spinner";
-import {
-  appAddSkinWaitingSelector,
-  appAuthSelector,
-  setAddChromaWaiting,
-  setAddSkinWaiting,
-} from "@/store";
+import { appAddSkinsWaitingSelector, appAuthSelector, setAddSkinsWaiting } from "@/store";
 import type { ChromaDto } from "@/types/chroma";
 import type { SkinDto } from "@/types/skin";
 import type { WishlistDto } from "@/types/wishlist";
@@ -22,31 +18,33 @@ import WishlistCreateModal from "./WishlistCreateModal";
 
 interface AddToWishlistLineProps {
   wishlist: WishlistDto;
-  skinContentId: string;
+  skinContentIds: string[];
 }
 
-const AddToWishlistLine: FC<AddToWishlistLineProps> = ({ wishlist, skinContentId }) => {
+const AddToWishlistLine: FC<AddToWishlistLineProps> = ({ wishlist, skinContentIds }) => {
   const { t } = useTranslation();
 
   const [updateWishlist, { isLoading: isWishlistUpdating }] = useUpdateWishlistMutation();
 
   const addToExistingWishlist = async () => {
-    await updateWishlist({ wishlistId: wishlist._id, body: { addIds: [skinContentId] } });
+    await updateWishlist({ wishlistId: wishlist._id, body: { addIds: skinContentIds } });
   };
 
   const removeFromExistingWishlist = async () => {
-    await updateWishlist({ wishlistId: wishlist._id, body: { removeIds: [skinContentId] } });
-  }
+    await updateWishlist({ wishlistId: wishlist._id, body: { removeIds: skinContentIds } });
+  };
 
-  const isSkinInWishlist = wishlist.skins.includes(skinContentId);
+  const isSkinInWishlist = skinContentIds.every((skinContentId) => wishlist.skins.includes(skinContentId));
 
   return (
     <div
       role="list-item"
-      className="min-h-8  rounded-md flex items-center justify-between px-2.5 py-1 border-b"
+      className="min-h-10 rounded-md flex items-center justify-between px-2.5 py-1 border-b"
       key={wishlist._id}
     >
-      <span className="text-sm font-medium">{wishlist.name === "__MAIN__" ? t("wishlist.__MAIN__") : wishlist.name}</span>
+      <NavLink to={`/wishlists/${wishlist._id}`} className="text-sm font-medium">
+        {wishlist.name === "__MAIN__" ? t("wishlist.__MAIN__") : wishlist.name}
+      </NavLink>
       {isWishlistUpdating && (
         <div className="p-2">
           <Spinner />
@@ -70,13 +68,13 @@ const AddToWishlistLine: FC<AddToWishlistLineProps> = ({ wishlist, skinContentId
 
 interface AddToWishlistProps {
   trigger: (options: { openState: boolean; onOpen: (event: MouseEvent<HTMLElement>) => void }) => ReactNode;
-  skinName: string;
-  skinContentId: SkinDto["id"];
+  skinName?: string;
+  skinContentIds: SkinDto["id"][];
   chromaName?: string;
   chromaId?: ChromaDto["id"];
 }
 
-const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentId, chromaId }) => {
+const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentIds, chromaId }) => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
@@ -84,7 +82,7 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
   const { pathname } = useLocation();
 
   const isAuth = useSelector(appAuthSelector);
-  const addSkinWaiting = useSelector(appAddSkinWaitingSelector);
+  const addSkinsWaiting = useSelector(appAddSkinsWaitingSelector);
 
   const [open, setOpen] = useState(false);
 
@@ -94,25 +92,24 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
     event.stopPropagation();
     event.preventDefault();
 
-    if (!skinContentId && !chromaId) return;
+    if (!skinContentIds.length && !chromaId) return;
 
     if (isAuth) setOpen(true);
     else {
-      if (skinContentId) dispatch(setAddSkinWaiting(skinContentId));
-      if (chromaId) dispatch(setAddChromaWaiting(chromaId));
+      if (skinContentIds.length) dispatch(setAddSkinsWaiting(skinContentIds));
 
       navigate("/auth/signin?redirect=" + pathname);
     }
   };
 
   useEffect(() => {
-    if (addSkinWaiting && !open && addSkinWaiting === skinContentId && isAuth) {
-      dispatch(setAddSkinWaiting(null));
+    if (addSkinsWaiting.length && !open && isEqual(addSkinsWaiting, skinContentIds) && isAuth) {
+      dispatch(setAddSkinsWaiting([]));
 
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setOpen(true);
     }
-  }, [isAuth, addSkinWaiting]);
+  }, [isAuth, addSkinsWaiting]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -121,17 +118,25 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
         <DialogHeader className="px-2.5 pt-2">
           <DialogTitle>{t("skin.add")}</DialogTitle>
           <DialogDescription>
-            {t("skin.addHelper")} {skinName}
+            {skinContentIds.length === 1 && skinName ? (
+              <>
+                {t("skin.addHelper")} {skinName}
+              </>
+            ) : (
+              <>
+                {t("skin.addHelperMany")} ({skinContentIds.length})
+              </>
+            )}
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-y-2">
           <div role="list">
             {wishlists?.map((wishlist) => (
-              <AddToWishlistLine wishlist={wishlist} skinContentId={skinContentId} />
+              <AddToWishlistLine wishlist={wishlist} skinContentIds={skinContentIds} />
             ))}
           </div>
 
-          <WishlistCreateModal skinContentId={skinContentId}>
+          <WishlistCreateModal skinContentIds={skinContentIds}>
             <Button variant="ghost" size="sm" className="justify-start">
               <PlusIcon />
               {t("wishlist.createAndAdd")}
