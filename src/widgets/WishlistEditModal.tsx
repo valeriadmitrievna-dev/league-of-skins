@@ -38,6 +38,7 @@ const WishlistEditModal: FC<EditWishlistProps> = ({ wishlist, children }) => {
   const renameWishlistHandler = async () => {
     try {
       await updateWishlist({ wishlistId: wishlistId ?? "", body: { name: newName } });
+      setOpen(false);
     } catch (error) {
       console.error(error);
     }
@@ -48,21 +49,22 @@ const WishlistEditModal: FC<EditWishlistProps> = ({ wishlist, children }) => {
       <DialogTrigger asChild>{children ?? <Button>{t("wishlist.edit")}</Button>}</DialogTrigger>
       <DialogContent showCloseButton className="gap-y-5">
         <DialogTitle>{t("wishlist.edit_title")}</DialogTitle>
-        <div className="flex flex-col gap-y-2">
+        <form className="flex flex-col gap-y-2">
           <Input value={newName} onChange={changeNameHandler} placeholder={t("wishlist.edit_placeholder")} />
 
           <div className="flex flex-col gap-y-1">
             <Button
               onClick={renameWishlistHandler}
               disabled={isWishlistUpdating || wishlist.name.trim() === newName.trim() || !newName.trim().length}
+              type="submit"
             >
               {t("shared.save")}
             </Button>
-            <Button variant="outline" onClick={closeHandler}>
+            <Button type="button" variant="outline" onClick={closeHandler}>
               {t("shared.cancel")}
             </Button>
           </div>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

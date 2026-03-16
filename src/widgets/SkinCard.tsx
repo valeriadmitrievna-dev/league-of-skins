@@ -182,7 +182,7 @@ const SkinCard: FC<SkinCardProps> = ({
                     <Trash className="size-5" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent className="pointer-events-none">Remove skin from wishlist</TooltipContent>
+                <TooltipContent className="pointer-events-none">{t('wishlist.removeFromWishlist')}</TooltipContent>
               </Tooltip>
             )}
           </div>

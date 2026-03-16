@@ -81,6 +81,7 @@
   "wishlist": {
     "create": "Create wishlist",
     "createAndAdd": "Create wishlist and add",
+    "removeFromWishlist": "Remove skin from wishlist",
     "share": "Share",
     "edit": "Edit",
     "delete": "Delete",

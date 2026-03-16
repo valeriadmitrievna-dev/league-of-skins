@@ -50,7 +50,7 @@ interface StatItemProps {
 }
 
 const DetailsWishlistPage: FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { wishlistId } = useParams<{ wishlistId: string }>();
 
@@ -66,7 +66,7 @@ const DetailsWishlistPage: FC = () => {
     data: wishlist,
     isLoading,
     isFetching,
-  } = useGetWishlistQuery(wishlistId || "", {
+  } = useGetWishlistQuery({ wishlistId: wishlistId || "", lang: i18n.language }, {
     skip: !wishlistId,
   });
 
@@ -187,7 +187,7 @@ const WishlistSidebar: FC<WishlistSidebarProps> = ({
   onShare,
   onDelete,
 }) => (
-  <aside className="my-card flex flex-col gap-y-3 sticky top-4">
+  <aside className="my-card flex flex-col gap-y-3 md:sticky top-4">
     <Typography.Large>{wishlist.name}</Typography.Large>
 
     <div className="py-2 flex flex-col gap-y-3">
