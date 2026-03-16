@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import { useGetWishlistsQuery } from "@/api";
 import Skeleton from "@/components/Skeleton";
 import { Typography } from "@/components/Typography";
-import CreateWishlistModal from "@/widgets/CreateWishlistModal";
 import WishlistCard from '@/widgets/WishlistCard';
+import WishlistCreateModal from "@/widgets/WishlistCreateModal";
 
 const WishlistsPage: FC = () => {
   const { t } = useTranslation();
@@ -18,7 +18,7 @@ const WishlistsPage: FC = () => {
           <Typography.H3>{t("header.wishlists")}</Typography.H3>
           <Typography.P>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, sit!</Typography.P>
         </div>
-        <CreateWishlistModal />
+        <WishlistCreateModal />
       </div>
 
       <div className='mt-6 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr'>

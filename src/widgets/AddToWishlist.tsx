@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/spinner";
 import {
-  // appAddChromaWaitingSelector,
   appAddSkinWaitingSelector,
   appAuthSelector,
   setAddChromaWaiting,
@@ -20,7 +19,7 @@ import type { ChromaDto } from "@/types/chroma";
 import type { SkinDto } from "@/types/skin";
 import type { WishlistDto } from "@/types/wishlist";
 
-import CreateWishlistModal from "./CreateWishlistModal";
+import WishlistCreateModal from "./WishlistCreateModal";
 
 interface AddToWishlistLineProps {
   wishlist: WishlistDto;
@@ -83,7 +82,6 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
 
   const isAuth = useSelector(appAuthSelector);
   const addSkinWaiting = useSelector(appAddSkinWaitingSelector);
-  // const addChromaWaiting = useSelector(appAddChromaWaitingSelector);
 
   const [open, setOpen] = useState(false);
 
@@ -103,8 +101,6 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
       navigate("/auth/signin?redirect=" + pathname);
     }
   };
-
-
 
   useEffect(() => {
     if (addSkinWaiting && !open && addSkinWaiting === skinContentId && isAuth) {
@@ -132,12 +128,12 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
             ))}
           </div>
 
-          <CreateWishlistModal skinContentId={skinContentId}>
+          <WishlistCreateModal skinContentId={skinContentId}>
             <Button variant="ghost" size="sm" className="justify-start">
               <PlusIcon />
               {t("wishlist.createAndAdd")}
             </Button>
-          </CreateWishlistModal>
+          </WishlistCreateModal>
         </div>
       </DialogContent>
     </Dialog>

@@ -1,4 +1,3 @@
-import { Pencil } from "lucide-react";
 import { useState, type ChangeEvent, type FC, type PropsWithChildren } from "react";
 import { useParams } from "react-router";
 
@@ -12,7 +11,7 @@ interface EditWishlistProps extends PropsWithChildren {
   wishlist: WishlistFullDto;
 }
 
-const EditWishlistModal: FC<EditWishlistProps> = ({ wishlist, children }) => {
+const WishlistEditModal: FC<EditWishlistProps> = ({ wishlist, children }) => {
   const { wishlistId } = useParams();
 
   const [updateWishlist, { isLoading: isWishlistUpdating }] = useUpdateWishlistMutation();
@@ -44,14 +43,7 @@ const EditWishlistModal: FC<EditWishlistProps> = ({ wishlist, children }) => {
 
   return (
     <Dialog open={open} onOpenChange={openChangeHandler}>
-      <DialogTrigger asChild>
-        {children ?? (
-          <Button>
-            <Pencil />
-            Edit Wishlist
-          </Button>
-        )}
-      </DialogTrigger>
+      <DialogTrigger asChild>{children ?? <Button>Edit Wishlist</Button>}</DialogTrigger>
       <DialogContent showCloseButton className="gap-y-5">
         <DialogTitle>Edit Wishlist</DialogTitle>
         <div className="flex flex-col gap-y-2">
@@ -74,4 +66,4 @@ const EditWishlistModal: FC<EditWishlistProps> = ({ wishlist, children }) => {
   );
 };
 
-export default EditWishlistModal;
+export default WishlistEditModal;

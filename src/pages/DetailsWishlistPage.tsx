@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import { CalendarIcon, EyeIcon, LayoutGridIcon, Share2Icon, SquarePenIcon, TrashIcon } from "lucide-react";
 import { useCallback, useMemo, type FC } from "react";
-import { NavLink, useParams } from "react-router";
+import { NavLink, useNavigate, useParams } from "react-router";
 
 import { useGetWishlistQuery } from "@/api";
 import Skeleton from "@/components/Skeleton";
@@ -13,9 +13,10 @@ import { Progress } from "@/components/ui/progress";
 import useShare from "@/hooks/useShare";
 import type { SkinDto } from "@/types/skin";
 import type { WishlistFullDto } from "@/types/wishlist";
-import EditWishlistModal from "@/widgets/EditWishlistModal";
 import SkinCard from "@/widgets/SkinCard";
 import VirtualizedGrid from "@/widgets/VirtualizedGrid";
+import WishlistDeleteModal from "@/widgets/WishlistDeleteModal";
+import WishlistEditModal from "@/widgets/WishlistEditModal";
 
 interface WishlistBreadcrumbProps {
   name: string;
@@ -29,6 +30,7 @@ interface WishlistSidebarProps {
     value: number;
   };
   onShare: () => void;
+  onDelete: () => void;
 }
 
 interface StatItemProps {
@@ -38,6 +40,7 @@ interface StatItemProps {
 }
 
 const DetailsWishlistPage: FC = () => {
+  const navigate = useNavigate();
   const { wishlistId } = useParams<{ wishlistId: string }>();
   const { share } = useShare();
 
@@ -49,14 +52,18 @@ const DetailsWishlistPage: FC = () => {
     skip: !wishlistId,
   });
 
-  const shareHandler = useCallback(() => {
+  const shareHandler = () => {
     if (!wishlist) return;
 
     share({
       title: wishlist.name,
       url: `${window.location.origin}/${wishlist.link}`,
     });
-  }, [wishlist, share]);
+  };
+
+  const deleteHandler = () => {
+    navigate("/wishlists");
+  };
 
   const renderSkin = useCallback(
     (item: unknown) => {
@@ -100,7 +107,7 @@ const DetailsWishlistPage: FC = () => {
 
   return (
     <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-8">
-      <WishlistSidebar wishlist={wishlist} progress={progress!} onShare={shareHandler} />
+      <WishlistSidebar wishlist={wishlist} progress={progress!} onShare={shareHandler} onDelete={deleteHandler} />
 
       <div className="flex flex-col gap-y-3 w-full overflow-hidden">
         <WishlistBreadcrumb name={wishlist.name} />
@@ -142,7 +149,7 @@ const WishlistSkeleton: FC = () => (
   </div>
 );
 
-const WishlistSidebar: FC<WishlistSidebarProps> = ({ wishlist, progress, onShare }) => (
+const WishlistSidebar: FC<WishlistSidebarProps> = ({ wishlist, progress, onShare, onDelete }) => (
   <aside className="my-card flex flex-col gap-y-3 sticky top-4">
     <Typography.Large>{wishlist.name}</Typography.Large>
 
@@ -167,16 +174,22 @@ const WishlistSidebar: FC<WishlistSidebarProps> = ({ wishlist, progress, onShare
         <Share2Icon />
         Share
       </Button>
-      <EditWishlistModal wishlist={wishlist}>
+      <WishlistEditModal wishlist={wishlist}>
         <Button variant="outline">
           <SquarePenIcon />
           Edit Details
         </Button>
-      </EditWishlistModal>
-      <Button variant="ghost">
-        <TrashIcon />
-        Delete
-      </Button>
+      </WishlistEditModal>
+      <WishlistDeleteModal
+        wishlistId={wishlist._id}
+        onSubmit={onDelete}
+        trigger={({ onOpen }) => (
+          <Button variant="ghost" onClick={onOpen}>
+            <TrashIcon />
+            Delete
+          </Button>
+        )}
+      />
     </div>
   </aside>
 );
@@ -193,12 +206,12 @@ const StatItem: FC<StatItemProps> = ({ icon, label, value }) => (
 
 const WishlistBreadcrumb: FC<WishlistBreadcrumbProps> = ({ name }) => (
   <Breadcrumb className="hidden md:flex">
-    <BreadcrumbList className='flex-nowrap overflow-hidden'>
+    <BreadcrumbList className="flex-nowrap overflow-hidden">
       <BreadcrumbLink asChild>
         <NavLink to="/wishlists">Wishlists</NavLink>
       </BreadcrumbLink>
       <BreadcrumbSeparator />
-      <BreadcrumbPage className='text-ellipsis whitespace-nowrap overflow-hidden'>{name}</BreadcrumbPage>
+      <BreadcrumbPage className="text-ellipsis whitespace-nowrap overflow-hidden">{name}</BreadcrumbPage>
     </BreadcrumbList>
   </Breadcrumb>
 );

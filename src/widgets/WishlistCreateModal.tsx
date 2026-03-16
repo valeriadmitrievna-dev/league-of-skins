@@ -10,13 +10,13 @@ import { Spinner } from "@/components/ui/spinner";
 import { useCreateWishlist } from "@/hooks/useCreateWishlist";
 import { cn } from "@/shared/utils/cn";
 
-interface CreateWishlistModalProps {
+interface WishlistCreateModalProps {
   buttonClassName?: string;
   skinContentId?: string;
   children?: ReactNode;
 }
 
-const CreateWishlistModal: FC<CreateWishlistModalProps> = ({ buttonClassName, skinContentId, children }) => {
+const WishlistCreateModal: FC<WishlistCreateModalProps> = ({ buttonClassName, skinContentId, children }) => {
   const { t } = useTranslation();
 
   const [wishlistName, setWishlistName] = useState("");
@@ -75,4 +75,4 @@ const CreateWishlistModal: FC<CreateWishlistModalProps> = ({ buttonClassName, sk
   );
 };
 
-export default CreateWishlistModal;
+export default WishlistCreateModal;
