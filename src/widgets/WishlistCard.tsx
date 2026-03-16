@@ -33,7 +33,7 @@ const WishlistCard: FC<WishlistCardProps> = ({ data }) => {
 
       <div className="mt-2 w-full flex items-center gap-2">
         <div className="flex items-center gap-1 text-muted-foreground mt-2">
-          <HeartIcon className={cn("size-3", data.skins.length && "fill-muted-foreground")} />
+          <HeartIcon className={cn("size-3", { "fill-muted-foreground": data.skins.length })} />
           <Typography.Muted>{data.skins.length} items</Typography.Muted>
         </div>
         <Button size="icon" variant="outline" onClick={shareHandler} className="ml-auto">

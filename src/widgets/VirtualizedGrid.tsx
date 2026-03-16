@@ -51,7 +51,7 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
   estimatedItemHeight = 400,
   responsiveColumns = defaultBreakpoints,
 }) => {
-  const skeletonAspectRation = `aspect-${itemAspectRatio[1]}/${itemAspectRatio[0]}`;
+  const skeletonAspectRatio = `aspect-${itemAspectRatio[1]}/${itemAspectRatio[0]}`;
   const parentRef = useRef<HTMLDivElement | null>(null);
   const [containerWidth, setContainerWidth] = useState(0);
 
@@ -93,7 +93,7 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
     <div ref={parentRef} className={className}>
       {loading && (
         <div className={cn("grid gap-3", gridClassName)} style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
-          <Skeleton count={20} asChild className={cn("h-auto", skeletonAspectRation)} />
+          <Skeleton count={20} asChild className={cn("h-auto", skeletonAspectRatio)} />
         </div>
       )}
 

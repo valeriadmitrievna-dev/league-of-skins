@@ -125,7 +125,7 @@ const DetailsSkinPage: FC = () => {
 
   if (skin) {
     return (
-      <div className="grid md:grid-cols-[320px_1fr] gap-x-4">
+      <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-8">
         <div className="flex flex-col gap-y-3">
           <div className="my-card pt-5! px-4! text-xs h-fit relative">
             {isOwned && (

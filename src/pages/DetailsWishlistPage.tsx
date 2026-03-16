@@ -1,45 +1,58 @@
-import { Clipboard, FacebookIcon, InstagramIcon } from "lucide-react";
-import { useCallback, type FC } from "react";
-import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { format } from "date-fns";
+import { CalendarIcon, EyeIcon, LayoutGridIcon, Share2Icon, SquarePenIcon } from "lucide-react";
+import { useCallback, useMemo, type FC } from "react";
 import { NavLink, useParams } from "react-router";
-import { useCopyToClipboard } from "react-use";
-import { toast } from "sonner";
 
 import { useGetWishlistQuery } from "@/api";
 import Skeleton from "@/components/Skeleton";
 import { Typography } from "@/components/Typography";
 import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
-import { appAuthSelector } from "@/store";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { Progress } from "@/components/ui/progress";
+import useShare from "@/hooks/useShare";
 import type { SkinDto } from "@/types/skin";
+import type { WishlistFullDto } from '@/types/wishlist';
 import EditWishlistModal from "@/widgets/EditWishlistModal";
 import SkinCard from "@/widgets/SkinCard";
 import VirtualizedGrid from "@/widgets/VirtualizedGrid";
 
-const DetailsWishlistPage: FC = () => {
-  // TODO: DetailsSkinPage my-card
-  // const navigate = useNavigate();
-  const { t } = useTranslation();
+interface WishlistBreadcrumbProps {
+  name: string;
+}
 
-  const isAuth = useSelector(appAuthSelector);
-
-  const { wishlistId } = useParams();
-  const { data: wishlistInfo, isLoading, isFetching } = useGetWishlistQuery(wishlistId || "");
-
-  const [clipboardState, copyToClipboard] = useCopyToClipboard();
-  const wishlistLink = wishlistInfo?.link || "//sefnvosldnjlksnvldj";
-
-  const copyToClickboardHandler = () => {
-    copyToClipboard(wishlistLink);
-
-    if (clipboardState.error) {
-      toast.error(`Unable to copy value: ${clipboardState.error.message}`);
-    } else {
-      toast.success(`Copied ${wishlistLink}`);
-    }
+interface WishlistSidebarProps {
+  wishlist: WishlistFullDto
+  progress: {
+    allSkinsCount: number;
+    ownedSkinsCount: number;
+    value: number;
   };
+  onShare: () => void;
+}
+
+interface StatItemProps {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}
+
+const DetailsWishlistPage: FC = () => {
+  const { wishlistId } = useParams<{ wishlistId: string }>();
+  const { share } = useShare();
+
+  const { data: wishlist, isLoading, isFetching } = useGetWishlistQuery(wishlistId || '', {
+    skip: !wishlistId,
+  });
+
+  const shareHandler = useCallback(() => {
+    if (!wishlist) return;
+
+    share({
+      title: wishlist.name,
+      url: `${window.location.origin}/${wishlist.link}`,
+    });
+  }, [wishlist, share]);
 
   const renderSkin = useCallback(
     (item: unknown) => {
@@ -50,79 +63,165 @@ const DetailsWishlistPage: FC = () => {
           data={skin}
           owned={skin.owned}
           navigatable
-          toggleOwnedButton={isAuth}
-          wishlistId={wishlistInfo?._id}
+          toggleOwnedButton
+          wishlistId={wishlist?._id}
         />
       );
     },
-    [isAuth, wishlistInfo],
+    [wishlist?._id],
   );
 
-  const pageTitle = wishlistInfo?.name === "__MAIN__" ? t("wishlist.__MAIN__") : wishlistInfo?.name;
+  const progress = useMemo(() => {
+    if (!wishlist) return null;
+    
+    const allSkinsCount = wishlist.skins.length;
+    const ownedSkinsCount = wishlist.skins.filter((skin) => skin.owned).length;
+    const value = allSkinsCount > 0 ? (100 * ownedSkinsCount) / allSkinsCount : 0;
+
+    return {
+      allSkinsCount,
+      ownedSkinsCount,
+      value,
+    };
+  }, [wishlist]);
+
+  if (!wishlistId) {
+    return <div>Invalid wishlist ID</div>;
+  }
+
+  if (isLoading) {
+    return <WishlistSkeleton />;
+  }
+
+  if (!wishlist) {
+    return (
+      <div className="text-center py-8">
+        <Typography.Large>Wishlist not found</Typography.Large>
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <div className="flex items-center justify-between">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbLink asChild>
-              <NavLink to="/wishlists">{t("app.wishlists")}</NavLink>
-            </BreadcrumbLink>
-            <BreadcrumbSeparator />
-            {isLoading ? <Skeleton className="w-10 h-5" /> : <BreadcrumbPage>{pageTitle}</BreadcrumbPage>}
-          </BreadcrumbList>
-        </Breadcrumb>
-
-        {!!wishlistInfo && <EditWishlistModal wishlistInfo={wishlistInfo} />}
+    <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-8">
+      <WishlistSidebar
+        wishlist={wishlist}
+        progress={progress!}
+        onShare={shareHandler}
+      />
+      
+      <div className="flex flex-col gap-y-3">
+        <WishlistBreadcrumb name={wishlist.name} />
+        
+        <VirtualizedGrid
+          items={wishlist.skins}
+          loading={isLoading}
+          fetching={isFetching}
+          overscan={4}
+          render={renderSkin}
+        />
       </div>
-
-      {isLoading ? (
-        <Skeleton className="w-40 h-8 md:h-9 mb-4 mt-2" />
-      ) : (
-        <Typography.H1 className="text-2xl md:text-3xl font-bold mb-4 mt-2">{pageTitle}</Typography.H1>
-      )}
-
-      <section className="w-full md:grid grid-cols-[320px_1fr] gap-5">
-        <aside className="my-card mb-8 md:mb-0">
-          <Typography.H2 className="text-lg">Share</Typography.H2>
-          <InputGroup className="plain-input rounded-sm mt-3">
-            <InputGroupInput
-              className="transition-none aria-invalid:text-destructive aria-invalid:placeholder-destructive/50!"
-              value={wishlistLink}
-              disabled
-            />
-            <InputGroupAddon align="inline-end" className="cursor-pointer" onClick={copyToClickboardHandler}>
-              <Clipboard size={16} />
-            </InputGroupAddon>
-          </InputGroup>
-
-          <div className="flex items-center justify-center gap-3 mt-4">
-            <FacebookIcon />
-            <InstagramIcon />
-          </div>
-        </aside>
-
-        <div>
-          {!isFetching && !wishlistInfo?.skins?.length && (
-            <div className="my-20 flex flex-col gap-4 items-center justify-center">
-              <Typography.H3>No skins in wishlist yet</Typography.H3>
-                <Button asChild>
-                  <NavLink to="/search/skins">Search for skins</NavLink>
-                </Button>
-            </div>
-          )}
-
-          <VirtualizedGrid
-            items={wishlistInfo?.skins || []}
-            loading={isLoading}
-            fetching={isFetching}
-            overscan={4}
-            render={renderSkin}
-          />
-        </div>
-      </section>
     </div>
   );
 };
+
+const WishlistSkeleton: FC = () => (
+  <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-8">
+    <div className="my-card flex flex-col gap-y-3">
+      <Skeleton className="h-7" />
+      <div className="py-2 flex flex-col gap-y-3">
+        <Skeleton asChild count={3} className="h-8" />
+      </div>
+      <Field className="w-full max-w-sm">
+        <FieldLabel htmlFor="progress" className="text-muted-foreground">
+          Progress
+        </FieldLabel>
+        <Progress value={0} id="progress" />
+      </Field>
+      <div className="flex flex-col gap-y-1">
+        <Button disabled>
+          <Share2Icon />
+          Share
+        </Button>
+        <Button variant="outline" disabled>
+          <SquarePenIcon />
+          Edit Details
+        </Button>
+      </div>
+    </div>
+    <div className="flex flex-col gap-y-3">
+      <Skeleton className="h-5" />
+      <VirtualizedGrid items={[]} loading overscan={4} render={() => null} />
+    </div>
+  </div>
+);
+
+const WishlistSidebar: FC<WishlistSidebarProps> = ({ wishlist, progress, onShare }) => (
+  <aside className="my-card flex flex-col gap-y-3">
+    <Typography.Large>{wishlist.name}</Typography.Large>
+    
+    <div className="py-2 flex flex-col gap-y-3">
+      <StatItem
+        icon={<CalendarIcon />}
+        label="Created"
+        value={format(new Date(wishlist.createdAt), "MMMM d, yyyy")}
+      />
+      <StatItem
+        icon={<LayoutGridIcon />}
+        label="Items"
+        value={`${wishlist.skins.length} skins`}
+      />
+      <StatItem
+        icon={<EyeIcon />}
+        label="Visits"
+        value="0 times"
+      />
+    </div>
+
+    <Field className="w-full max-w-sm">
+      <FieldLabel htmlFor="progress">
+        <span>Progress</span>
+        <span className="ml-auto">
+          {progress.ownedSkinsCount}/{progress.allSkinsCount}
+        </span>
+      </FieldLabel>
+      <Progress value={progress.value} id="progress" />
+    </Field>
+
+    <div className="flex flex-col gap-y-1">
+      <Button onClick={onShare}>
+        <Share2Icon />
+        Share
+      </Button>
+      <EditWishlistModal wishlist={wishlist}>
+        <Button variant="outline">
+          <SquarePenIcon />
+          Edit Details
+        </Button>
+      </EditWishlistModal>
+    </div>
+  </aside>
+);
+
+const StatItem: FC<StatItemProps> = ({ icon, label, value }) => (
+  <div className="flex items-center gap-3">
+    {icon}
+    <div>
+      <Typography.Muted className="leading-none">{label}</Typography.Muted>
+      <Typography.Small>{value}</Typography.Small>
+    </div>
+  </div>
+);
+
+const WishlistBreadcrumb: FC<WishlistBreadcrumbProps> = ({ name }) => (
+  <Breadcrumb className="hidden md:flex">
+    <BreadcrumbList>
+      <BreadcrumbLink asChild>
+        <NavLink to="/wishlists">Wishlists</NavLink>
+      </BreadcrumbLink>
+      <BreadcrumbSeparator />
+      <BreadcrumbPage>{name}</BreadcrumbPage>
+    </BreadcrumbList>
+  </Breadcrumb>
+);
 
 export default DetailsWishlistPage;

@@ -12,7 +12,7 @@ const WishlistsPage: FC = () => {
   const { data: wishlists = [], isLoading } = useGetWishlistsQuery();
 
   return (
-    <div className='mx-auto max-w-8xl'>
+    <div>
       <div className='flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center'>
         <div className='flex flex-col gap-y-1'>
           <Typography.H3>{t("header.wishlists")}</Typography.H3>

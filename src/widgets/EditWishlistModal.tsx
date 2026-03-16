@@ -1,5 +1,5 @@
 import { Pencil } from "lucide-react";
-import { useState, type FC } from "react";
+import { useState, type FC, type PropsWithChildren } from "react";
 import { useNavigate, useParams } from "react-router";
 
 import { useDeleteWishlistMutation, useUpdateWishlistMutation } from "@/api";
@@ -8,17 +8,17 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input";
 import type { WishlistFullDto } from "@/types/wishlist";
 
-interface EditWishlistProps {
-  wishlistInfo: WishlistFullDto;
+interface EditWishlistProps extends PropsWithChildren {
+  wishlist: WishlistFullDto;
 }
 
-const EditWishlistModal: FC<EditWishlistProps> = ({ wishlistInfo }) => {
+const EditWishlistModal: FC<EditWishlistProps> = ({ wishlist, children }) => {
   const [updateWishlist, { isLoading: isWishlistUpdating }] = useUpdateWishlistMutation();
   const [deleteWishlist, { isLoading: isWishlistDeleting }] = useDeleteWishlistMutation();
   const { wishlistId } = useParams();
   const navigate = useNavigate();
 
-  const [newName, setNewName] = useState(wishlistInfo?.name);
+  const [newName, setNewName] = useState(wishlist?.name);
 
   const renameWishlistHandler = async () => {
     try {
@@ -40,10 +40,12 @@ const EditWishlistModal: FC<EditWishlistProps> = ({ wishlistInfo }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>
-          <Pencil />
-          Edit Wishlist
-        </Button>
+        {children ?? (
+          <Button>
+            <Pencil />
+            Edit Wishlist
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent showCloseButton className="gap-y-2">
         <DialogHeader className="px-2.5 pt-2">
@@ -51,7 +53,7 @@ const EditWishlistModal: FC<EditWishlistProps> = ({ wishlistInfo }) => {
         </DialogHeader>
         <div className="flex flex-col gap-y-2">
           <Input value={newName} onChange={(e) => setNewName(e?.target?.value)} />
-          {wishlistInfo?.name !== newName && (
+          {wishlist?.name !== newName && (
             <Button disabled={isWishlistUpdating} onClick={renameWishlistHandler}>
               Save
             </Button>
