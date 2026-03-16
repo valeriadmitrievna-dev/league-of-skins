@@ -3,6 +3,7 @@ import { useLayoutEffect, useMemo, useRef, useState, type FC, type ReactNode } f
 import { useWindowSize } from "react-use";
 
 import Skeleton from "@/components/Skeleton";
+import { BREAKPOINTS } from "@/shared/constants/styles";
 import { cn } from "@/shared/utils/cn";
 
 interface VirtualizedGridProps {
@@ -27,9 +28,11 @@ interface VirtualizedGridProps {
 }
 
 const defaultBreakpoints = [
-  { minWidth: 1536, columns: 7 },
-  { minWidth: 1280, columns: 6 },
-  { minWidth: 0, columns: 4 },
+  { minWidth: BREAKPOINTS["2xl"], columns: 6 },
+  { minWidth: BREAKPOINTS.xl, columns: 5 },
+  { minWidth: BREAKPOINTS.lg, columns: 4 },
+  { minWidth: BREAKPOINTS.md, columns: 3 },
+  { minWidth: 0, columns: 2 },
 ];
 
 const VirtualizedGrid: FC<VirtualizedGridProps> = ({
@@ -89,7 +92,7 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
   return (
     <div ref={parentRef} className={className}>
       {loading && (
-        <div className={cn("grid grid-cols-4 gap-4 xl:grid-cols-5", gridClassName)}>
+        <div className={cn("grid gap-3", gridClassName)} style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
           <Skeleton count={20} asChild className={cn("h-auto", skeletonAspectRation)} />
         </div>
       )}

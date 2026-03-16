@@ -9,7 +9,6 @@ import ScrollTop from "@/components/ScrollTop";
 import Search from "@/components/Search";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { useQueryParams } from "@/hooks/useQueryParams";
-import { BREAKPOINTS } from "@/shared/constants/styles";
 import { getColorsString } from "@/shared/utils/getColorsString";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import { appAuthSelector } from "@/store";
@@ -76,7 +75,9 @@ const SearchSkinsPage: FC = () => {
   const renderSkin = useCallback(
     (item: unknown) => {
       const skin = item as SkinDto;
-      return <SkinCard key={skin.id} data={skin} owned={skin.owned} navigatable addToWishlistButton toggleOwnedButton={isAuth} />;
+      return (
+        <SkinCard key={skin.id} data={skin} owned={skin.owned} navigatable addToWishlistButton toggleOwnedButton={isAuth} />
+      );
     },
     [isAuth],
   );
@@ -84,7 +85,7 @@ const SearchSkinsPage: FC = () => {
   return (
     <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
       <SearchSkinsBreadcrumb className="md:hidden mb-3" />
-      <SearchFilters className="md:sticky top-4" />
+      <SearchFilters />
 
       <div className="pb-14">
         <SearchSkinsBreadcrumb className="hidden md:block" />
@@ -93,21 +94,7 @@ const SearchSkinsPage: FC = () => {
 
         {!isLoading && !skins.length && <NoResultsState className="my-30" />}
 
-        <VirtualizedGrid
-          items={skins}
-          loading={isLoading}
-          fetching={isFetching}
-          gridClassName="grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
-          overscan={4}
-          responsiveColumns={[
-            { minWidth: BREAKPOINTS["2xl"], columns: 6 },
-            { minWidth: BREAKPOINTS.xl, columns: 5 },
-            { minWidth: BREAKPOINTS.lg, columns: 4 },
-            { minWidth: BREAKPOINTS.md, columns: 3 },
-            { minWidth: 0, columns: 2 },
-          ]}
-          render={renderSkin}
-        />
+        <VirtualizedGrid items={skins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />
 
         <ScrollTop />
       </div>
