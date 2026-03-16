@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useDebounce } from "react-use";
 
 import { useGetChromasQuery, useGetSkinsQuery } from "@/api";
+import CustomHead from "@/components/CustomMetaHead";
 import NoResultsState from "@/components/NoResultsState";
 import ScrollTop from "@/components/ScrollTop";
 import Search from "@/components/Search";
@@ -83,22 +84,29 @@ const SearchSkinsPage: FC = () => {
   );
 
   return (
-    <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
-      <SearchSkinsBreadcrumb className="md:hidden mb-3" />
-      <SearchFilters />
+    <>
+      <CustomHead>
+        <title>League of Skins | Skins Search</title>
+        <meta name="description" content="Search for skins" />
+      </CustomHead>
 
-      <div className="pb-14">
-        <SearchSkinsBreadcrumb className="hidden md:block" />
+      <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
+        <SearchSkinsBreadcrumb className="md:hidden mb-3" />
+        <SearchFilters />
 
-        <Search className="my-4 md:mt-3" value={searchInput} onSearch={setSearchInput} />
+        <div className="pb-14">
+          <SearchSkinsBreadcrumb className="hidden md:block" />
 
-        {!isLoading && !skins.length && <NoResultsState className="my-30" />}
+          <Search className="my-4 md:mt-3" value={searchInput} onSearch={setSearchInput} />
 
-        <VirtualizedGrid items={skins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />
+          {!isLoading && !skins.length && <NoResultsState className="my-30" />}
 
-        <ScrollTop />
+          <VirtualizedGrid items={skins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />
+
+          <ScrollTop />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
