@@ -2,7 +2,7 @@ import { BadgeCheckIcon, CircleQuestionMarkIcon, FrownIcon, PlayIcon } from "luc
 import type { FC, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import { NavLink, useNavigate, useParams } from "react-router";
+import { NavLink, useParams } from "react-router";
 
 import { useGetSkinQuery, useGetUserQuery, useUpdateOwnedSkinsMutation } from "@/api";
 import ChromaColor from "@/components/ChromaColor";
@@ -22,8 +22,6 @@ import { appAuthSelector } from "@/store";
 import AddToWishlist from "@/widgets/AddToWishlist";
 
 const DetailsSkinPage: FC = () => {
-  const navigate = useNavigate();
-
   const { skinContentId } = useParams();
   const { t, i18n } = useTranslation();
 
@@ -44,18 +42,6 @@ const DetailsSkinPage: FC = () => {
         behavior: "smooth",
       });
     }
-  };
-
-  const championBadgeHandler = () => {
-    navigate("/search/skins?championId=" + skin!.championId);
-  };
-
-  const rarityBadgeHandler = () => {
-    navigate("/search/skins?rarity=" + skin!.rarity);
-  };
-
-  const skinlineBadgeHandler = (skinlineId: string) => {
-    navigate("/search/skins?skinlineId=" + skinlineId);
   };
 
   const toggleOwnedHandler = () => {
@@ -136,16 +122,20 @@ const DetailsSkinPage: FC = () => {
             )}
             {infoLine(
               t("filters.champion"),
-              <Badge variant="secondary" className="border-none cursor-pointer gap-x-1.5" onClick={championBadgeHandler}>
-                {skin.championName}
-              </Badge>,
+              <NavLink to={"/search/skins?championId=" + skin!.championId}>
+                <Badge variant="secondary" className="border-none gap-x-1.5">
+                  {skin.championName}
+                </Badge>
+              </NavLink>,
             )}
             {infoLine(
               t("filters.rarity"),
-              <Badge variant="secondary" className="gap-x-1.5 cursor-pointer border-none" onClick={rarityBadgeHandler}>
-                {RARITIES?.icon && <Image src={RARITIES[skin.rarity].icon} className="size-4" />}
-                {t(`rarity.${skin.rarity}`)}
-              </Badge>,
+              <NavLink to={"/search/skins?rarity=" + skin!.rarity}>
+                <Badge variant="secondary" className="gap-x-1.5 border-none">
+                  {RARITIES?.icon && <Image src={RARITIES[skin.rarity].icon} className="size-4" />}
+                  {t(`rarity.${skin.rarity}`)}
+                </Badge>
+              </NavLink>,
             )}
             {!!RARITIES[skin.rarity]?.price &&
               infoLine(
@@ -216,14 +206,11 @@ const DetailsSkinPage: FC = () => {
 
           <div className="mt-3 flex wrap-normal gap-2">
             {skin.skinlines.map((skinline) => (
-              <Badge
-                key={skinline.id}
-                variant="secondary"
-                className="cursor-pointer"
-                onClick={() => skinlineBadgeHandler(String(skinline.id))}
-              >
-                {skinline.name}
-              </Badge>
+              <NavLink to={"/search/skins?skinlineId=" + String(skinline.id)}>
+                <Badge key={skinline.id} variant="secondary">
+                  {skinline.name}
+                </Badge>
+              </NavLink>
             ))}
           </div>
           <Typography.H2 className="mt-1">{skin.name}</Typography.H2>

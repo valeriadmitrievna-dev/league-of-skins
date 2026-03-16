@@ -4,6 +4,7 @@ import { NavLink } from "react-router";
 import { useDebounce } from "react-use";
 
 import { useGetChromasQuery, useGetOwnedSkinsQuery } from "@/api";
+import CustomHead from "@/components/CustomMetaHead";
 import NoResultsState from "@/components/NoResultsState";
 import ScrollTop from "@/components/ScrollTop";
 import Search from "@/components/Search";
@@ -102,21 +103,28 @@ const CollectionSkinsPage: FC = () => {
   }
 
   return (
-    <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
-      <BreadcrumbsLine className="md:hidden mb-8" />
+    <>
+      <CustomHead>
+        <title>League of Skins | Collection</title>
+        <meta name="description" content="Your skins collection" />
+      </CustomHead>
 
-      <CollectionSkinsStatistics />
-      <div className="mt-8 md:mt-0">
-        <BreadcrumbsLine className="hidden md:flex" />
-        <Search className="mb-4 mt-3 md:mt-2" value={searchInput} onSearch={setSearchInput} />
+      <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
+        <BreadcrumbsLine className="md:hidden mb-8" />
 
-        {!isLoading && !ownedSkins.length && <NoResultsState className="my-30" />}
+        <CollectionSkinsStatistics />
+        <div className="mt-8 md:mt-0">
+          <BreadcrumbsLine className="hidden md:flex" />
+          <Search className="mb-4 mt-3 md:mt-2" value={searchInput} onSearch={setSearchInput} />
 
-        <VirtualizedGrid items={ownedSkins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />
+          {!isLoading && !ownedSkins.length && <NoResultsState className="my-30" />}
 
-        <ScrollTop />
+          <VirtualizedGrid items={ownedSkins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />
+
+          <ScrollTop />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
