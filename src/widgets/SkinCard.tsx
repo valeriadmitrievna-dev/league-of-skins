@@ -179,7 +179,7 @@ const SkinCard: FC<SkinCardProps> = ({
                     className={cn(actionButtonCN, "pointer-events-auto")}
                     disabled={isWishlistUpdating}
                   >
-                    <Trash className="size-5 stroke-red-400" />
+                    <Trash className="size-5" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent className="pointer-events-none">Remove skin from wishlist</TooltipContent>
