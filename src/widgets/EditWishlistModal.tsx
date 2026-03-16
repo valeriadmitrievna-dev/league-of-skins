@@ -1,10 +1,10 @@
 import { Pencil } from "lucide-react";
-import { useState, type FC, type PropsWithChildren } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useState, type ChangeEvent, type FC, type PropsWithChildren } from "react";
+import { useParams } from "react-router";
 
-import { useDeleteWishlistMutation, useUpdateWishlistMutation } from "@/api";
+import { useUpdateWishlistMutation } from "@/api";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import type { WishlistFullDto } from "@/types/wishlist";
 
@@ -13,12 +13,26 @@ interface EditWishlistProps extends PropsWithChildren {
 }
 
 const EditWishlistModal: FC<EditWishlistProps> = ({ wishlist, children }) => {
-  const [updateWishlist, { isLoading: isWishlistUpdating }] = useUpdateWishlistMutation();
-  const [deleteWishlist, { isLoading: isWishlistDeleting }] = useDeleteWishlistMutation();
   const { wishlistId } = useParams();
-  const navigate = useNavigate();
 
+  const [updateWishlist, { isLoading: isWishlistUpdating }] = useUpdateWishlistMutation();
+
+  const [open, setOpen] = useState(false);
   const [newName, setNewName] = useState(wishlist?.name);
+
+  const changeNameHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setNewName(event.target.value);
+  };
+
+  const closeHandler = () => {
+    setOpen(false);
+    setNewName(wishlist.name);
+  };
+
+  const openChangeHandler = (value: boolean) => {
+    if (value) setOpen(value);
+    else closeHandler();
+  };
 
   const renameWishlistHandler = async () => {
     try {
@@ -28,17 +42,8 @@ const EditWishlistModal: FC<EditWishlistProps> = ({ wishlist, children }) => {
     }
   };
 
-  const deleteWishlistHandler = async () => {
-    try {
-      await deleteWishlist({ wishlistId: wishlistId ?? "" });
-      navigate("/wishlists");
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={openChangeHandler}>
       <DialogTrigger asChild>
         {children ?? (
           <Button>
@@ -47,20 +52,22 @@ const EditWishlistModal: FC<EditWishlistProps> = ({ wishlist, children }) => {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent showCloseButton className="gap-y-2">
-        <DialogHeader className="px-2.5 pt-2">
-          <DialogTitle>Edit Wishlist</DialogTitle>
-        </DialogHeader>
+      <DialogContent showCloseButton className="gap-y-5">
+        <DialogTitle>Edit Wishlist</DialogTitle>
         <div className="flex flex-col gap-y-2">
-          <Input value={newName} onChange={(e) => setNewName(e?.target?.value)} />
-          {wishlist?.name !== newName && (
-            <Button disabled={isWishlistUpdating} onClick={renameWishlistHandler}>
+          <Input value={newName} onChange={changeNameHandler} />
+
+          <div className="flex flex-col gap-y-1">
+            <Button
+              onClick={renameWishlistHandler}
+              disabled={isWishlistUpdating || wishlist.name.trim() === newName.trim() || !newName.trim().length}
+            >
               Save
             </Button>
-          )}
-          <Button disabled={isWishlistDeleting} variant="destructive" onClick={deleteWishlistHandler}>
-            Delete Wishlist
-          </Button>
+            <Button variant="outline" onClick={closeHandler}>
+              Cancel
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

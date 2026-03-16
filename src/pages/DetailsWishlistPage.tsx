@@ -156,7 +156,7 @@ const WishlistSkeleton: FC = () => (
 );
 
 const WishlistSidebar: FC<WishlistSidebarProps> = ({ wishlist, progress, onShare }) => (
-  <aside className="my-card flex flex-col gap-y-3">
+  <aside className="my-card flex flex-col gap-y-3 sticky top-4">
     <Typography.Large>{wishlist.name}</Typography.Large>
     
     <div className="py-2 flex flex-col gap-y-3">
