@@ -1,4 +1,4 @@
-import { TextAlignJustify } from "lucide-react";
+import { TextAlignJustifyIcon } from "lucide-react";
 import { useState, type FC } from "react";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -14,7 +14,7 @@ const handleCloseSidebar = () => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger>
-        <TextAlignJustify size={16} />
+        <TextAlignJustifyIcon className='size-5' />
       </SheetTrigger>
       <SheetContent className='pt-12 pb-4'>
         <HeaderNav onCloseSidebar={handleCloseSidebar} className="justify-between h-full flex-col md:flex-row" />

@@ -13,6 +13,7 @@ import { getColorsString } from "@/shared/utils/getColorsString";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import { appAuthSelector } from "@/store";
 import type { SkinDto } from "@/types/skin";
+import FiltersDrawer from "@/widgets/Filters/FiltersDrawer";
 import SearchFilters from "@/widgets/SearchFilters";
 import SkinCard from "@/widgets/SkinCard";
 import VirtualizedGrid from "@/widgets/VirtualizedGrid";
@@ -85,12 +86,15 @@ const SearchSkinsPage: FC = () => {
   return (
     <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
       <SearchSkinsBreadcrumb className="md:hidden mb-3" />
-      <SearchFilters />
+      <SearchFilters className="hidden md:block" />
 
       <div className="pb-14">
         <SearchSkinsBreadcrumb className="hidden md:block" />
 
-        <Search className="my-4 md:mt-3" value={searchInput} onSearch={setSearchInput} />
+        <div className="my-4 md:mt-3 flex items-center gap-2">
+          <Search value={searchInput} onSearch={setSearchInput} />
+          <FiltersDrawer />
+        </div>
 
         {!isLoading && !skins.length && <NoResultsState className="my-30" />}
 

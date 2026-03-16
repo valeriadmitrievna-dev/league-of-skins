@@ -16,7 +16,7 @@ const AppHeader: FC = () => {
 
         <AppHeaderNav className="hidden md:flex" />
 
-        <div className="md:hidden">
+        <div className="md:hidden h-5">
           <AppSidebar />
         </div>
       </div>
