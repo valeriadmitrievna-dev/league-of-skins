@@ -77,7 +77,7 @@ const SkinCard: FC<SkinCardProps> = ({
           autoPlay
           muted
           loop
-          className="absolute z-1 aspect-11/20 object-cover transition-opacity opacity-0 group-hover:opacity-100 pointer-events-none"
+          className="absolute z-1 aspect-11/20 object-cover transition-opacity md:opacity-0 group-hover:opacity-100 pointer-events-none"
         />
       )}
       <Image

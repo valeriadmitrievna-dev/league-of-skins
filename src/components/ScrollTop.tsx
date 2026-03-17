@@ -37,7 +37,7 @@ const ScrollTop: FC<ScrollTopProps> = () => {
   }
 
   return (
-    <div className="my-container absolute-center h-screen fixed! z-10 pointer-events-none flex items-end justify-end pb-5">
+    <div className="my-container absolute-center h-screen fixed! z-10 pointer-events-none md:flex items-end justify-end md:pb-5 hidden">
       <Button className="pointer-events-auto" onClick={scrollToTopHandler} size="lg">
         <ArrowBigUpIcon />
         {t('shared.scroll_to_top')}

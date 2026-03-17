@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { Outlet } from "react-router";
 
-import { AppHeader } from "@/widgets/AppHeader";
+import { AppHeader, AppMenu } from "@/widgets/AppHeader";
 
 const LayoutPage: FC = () => {
   return (
@@ -10,6 +10,8 @@ const LayoutPage: FC = () => {
       <div className="h-full p-4 md:p-5 my-container">
         <Outlet />
       </div>
+
+      <AppMenu />
     </div>
   );
 };

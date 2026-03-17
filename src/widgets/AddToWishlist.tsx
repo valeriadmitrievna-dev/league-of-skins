@@ -86,7 +86,9 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
 
   const [open, setOpen] = useState(false);
 
-  const { data: wishlists = [] } = useGetWishlistsQuery();
+  const { data: wishlists = [] } = useGetWishlistsQuery(undefined, {
+    skip: !isAuth,
+  });
 
   const openHandler = (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
