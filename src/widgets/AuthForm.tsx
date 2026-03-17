@@ -32,7 +32,7 @@ interface AuthFormTextInputProps extends Omit<ComponentProps<"input">, "classNam
 }
 
 const AuthFormWrapper: FC<PropsWithChildren> = ({ children }) => {
-  return <div className="h-screen flex flex-col items-center justify-center gap-y-4 p-6">{children}</div>;
+  return <form className="h-screen flex flex-col items-center justify-center gap-y-4 p-6">{children}</form>;
 };
 
 const AuthFormTitle: FC<AuthFormTitleProps> = ({ children, className }) => {
@@ -50,7 +50,7 @@ const AuthFormContainer: FC<AuthFormContainerProps> = ({ title, children, submit
       </div>
       <div className="flex flex-col gap-y-4">{children}</div>
       <div className="p-0 flex items-center gap-3">
-        <Button size="lg" onClick={onSubmit} disabled={loading}>
+        <Button type="submit" size="lg" onClick={onSubmit} disabled={loading}>
           {loading && <Spinner data-icon="inline-start" />}
           {submitText}
         </Button>

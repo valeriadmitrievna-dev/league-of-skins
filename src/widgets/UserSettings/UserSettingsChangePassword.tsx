@@ -58,7 +58,7 @@ const UserSettingsChangePassword: FC = () => {
   const NewPasswordIcon = newPasswordVisible ? EyeIcon : EyeOffIcon;
 
   return (
-    <div className="flex flex-col gap-y-4 items-start">
+    <form className="flex flex-col gap-y-4 items-start">
       <Typography.Large>{t("changePassword.title")}</Typography.Large>
       <div className="flex flex-col gap-y-3 w-full">
         <Field className="gap-y-1">
@@ -126,14 +126,14 @@ const UserSettingsChangePassword: FC = () => {
         </Field>
       </div>
       <div className="flex items-center gap-x-2">
-        <Button size="sm" disabled={isLoading} onClick={handleSubmit(savePasswordHandler)}>
+        <Button type="submit" size="sm" disabled={isLoading} onClick={handleSubmit(savePasswordHandler)}>
           {isLoading && <Spinner />}
           {t("changePassword.submit")}
         </Button>
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         {error && <Typography.Small className="text-destructive">{(error as any)?.data?.message}</Typography.Small>}
       </div>
-    </div>
+    </form>
   );
 };
 
