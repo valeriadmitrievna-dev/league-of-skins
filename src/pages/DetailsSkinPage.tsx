@@ -111,11 +111,11 @@ const DetailsSkinPage: FC = () => {
 
   if (skin) {
     return (
-      <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-8">
-        <div className="flex flex-col gap-y-3">
-          <div className="my-card pt-5! px-4! text-xs h-fit relative">
+      <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-8 pb-20">
+        <div className="flex flex-col gap-y-5 md:gap-y-3">
+          <div className="my-card md:pt-5! px-4! text-xs h-fit relative">
             {isOwned && (
-              <Badge className="absolute bg-background gap-x-1.5 -top-2.5 right-4" variant="outline">
+              <Badge className="absolute bg-background gap-x-1.5 -top-2.5 right-4 hidden md:flex" variant="outline">
                 <BadgeCheckIcon className="scale-120 text-sky-500 dark:text-blue-600" />
                 {t("skin.owned")}
               </Badge>
@@ -196,7 +196,7 @@ const DetailsSkinPage: FC = () => {
           </Button>
         </div>
 
-        <div className="mt-8 order-first md:order-last md:mt-0">
+        <div className="order-first md:order-last md:mt-0">
           <div className="overflow-hidden rounded-md border border-foreground/15 bg-foreground/5 relative">
             {!skin.video && <Image src={skin.image.uncentered!} className="object-cover aspect-405/239 w-full" />}
             {skin.video && (
@@ -205,6 +205,12 @@ const DetailsSkinPage: FC = () => {
           </div>
 
           <div className="mt-3 flex wrap-normal gap-2">
+            {isOwned && (
+              <Badge className="bg-background gap-x-1.5 md:hidden" variant="outline">
+                <BadgeCheckIcon className="scale-120 text-sky-500 dark:text-blue-600" />
+                {t("skin.owned")}
+              </Badge>
+            )}
             {skin.skinlines.map((skinline) => (
               <NavLink to={"/search/skins?skinlineId=" + String(skinline.id)}>
                 <Badge key={skinline.id} variant="secondary">
