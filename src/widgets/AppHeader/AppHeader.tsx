@@ -4,7 +4,6 @@ import { NavLink } from "react-router";
 import AppLogo from "@/components/AppLogo";
 
 import AppHeaderNav from './AppHeaderNav';
-import AppSidebar from './AppSidebar';
 
 const AppHeader: FC = () => {
   return (
@@ -15,10 +14,6 @@ const AppHeader: FC = () => {
         </NavLink>
 
         <AppHeaderNav className="hidden md:flex" />
-
-        <div className="md:hidden h-5">
-          <AppSidebar />
-        </div>
       </div>
     </>
   );
