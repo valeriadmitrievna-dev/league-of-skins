@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { NavLink, useLocation } from "react-router";
 
 import { useLoginMutation } from "@/api";
+import CustomHead from "@/components/CustomMetaHead";
 import { Button } from "@/components/ui/button";
 import { setAppAuth } from "@/store";
 import { AuthForm } from "@/widgets/AuthForm";
@@ -48,53 +49,60 @@ const SignInPage: FC = () => {
   const PasswordIcon = isPasswordVisible ? EyeIcon : EyeOffIcon;
 
   return (
-    <AuthForm.Wrapper>
-      <AuthForm.Form
-        title={t("auth.signin_title")}
-        submitText={t("auth.submit_signin")}
-        onSubmit={handleSubmit(submitHandler)}
-        loading={isLoading}
-        extra={
-          <p>
-            {t("auth.signin_extra")}{" "}
-            <Button variant="link" className="p-0 px-1 h-fit text-base" asChild>
-              <NavLink to={`/auth/signup${location.search}`}>{t("auth.signup_link")}</NavLink>
-            </Button>
-          </p>
-        }
-      >
-        <AuthForm.TextInput
-          id="email"
-          leftIcon={<MailIcon />}
-          placeholder={t("auth.email_placeholder")}
-          type="email"
-          aria-invalid={errors.email ? "true" : "false"}
-          description={errors.email?.message}
-          {...register("email", {
-            disabled: isLoading,
-            required: t("auth.field_required"),
-            pattern: {
-              value: /\S+@\S+\.\S+/,
-              message: t("auth.email_invalid"),
-            },
-          })}
-        />
-        <AuthForm.TextInput
-          id="password"
-          leftIcon={<LockIcon />}
-          rightIcon={<PasswordIcon className="cursor-pointer" onClick={togglePasswordVisibilityHandler} />}
-          placeholder={t("auth.password_placeholder")}
-          type={isPasswordVisible ? "text" : "password"}
-          aria-invalid={errors.password ? "true" : "false"}
-          description={errors.password?.message}
-          {...register("password", {
-            disabled: isLoading,
-            required: t("auth.field_required"),
-            minLength: { message: t("auth.field_minlength", { length: 6 }), value: 6 },
-          })}
-        />
-      </AuthForm.Form>
-    </AuthForm.Wrapper>
+    <>
+      <CustomHead>
+        <title>League of Skins | Sign In</title>
+        <meta name="description" content="Sign in to your account" />
+      </CustomHead>
+
+      <AuthForm.Wrapper>
+        <AuthForm.Form
+          title={t("auth.signin_title")}
+          submitText={t("auth.submit_signin")}
+          onSubmit={handleSubmit(submitHandler)}
+          loading={isLoading}
+          extra={
+            <p>
+              {t("auth.signin_extra")}{" "}
+              <Button variant="link" className="p-0 px-1 h-fit text-base" asChild>
+                <NavLink to={`/auth/signup${location.search}`}>{t("auth.signup_link")}</NavLink>
+              </Button>
+            </p>
+          }
+        >
+          <AuthForm.TextInput
+            id="email"
+            leftIcon={<MailIcon />}
+            placeholder={t("auth.email_placeholder")}
+            type="email"
+            aria-invalid={errors.email ? "true" : "false"}
+            description={errors.email?.message}
+            {...register("email", {
+              disabled: isLoading,
+              required: t("auth.field_required"),
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: t("auth.email_invalid"),
+              },
+            })}
+          />
+          <AuthForm.TextInput
+            id="password"
+            leftIcon={<LockIcon />}
+            rightIcon={<PasswordIcon className="cursor-pointer" onClick={togglePasswordVisibilityHandler} />}
+            placeholder={t("auth.password_placeholder")}
+            type={isPasswordVisible ? "text" : "password"}
+            aria-invalid={errors.password ? "true" : "false"}
+            description={errors.password?.message}
+            {...register("password", {
+              disabled: isLoading,
+              required: t("auth.field_required"),
+              minLength: { message: t("auth.field_minlength", { length: 6 }), value: 6 },
+            })}
+          />
+        </AuthForm.Form>
+      </AuthForm.Wrapper>
+    </>
   );
 };
 

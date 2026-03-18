@@ -1,4 +1,5 @@
 import type { FC, ReactNode } from "react";
+import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 
 // const Canonical = () => {
@@ -22,17 +23,13 @@ const CustomHead: FC<CustomHeadProps> = ({ children }) => {
 
   return (
     <>
-      <head>
-        <meta property="og:locale" content={language} />
+      <Helmet>
         <meta httpEquiv="content-language" content={language} />
-
         {/* {!withCustomCanonical && Canonical()} */}
-
         <meta name="robots" content="noindex" />
         <meta name="googlebot" content="noindex" />
-
         {children}
-      </head>
+      </Helmet>
     </>
   );
 };

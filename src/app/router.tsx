@@ -3,12 +3,13 @@ import { createBrowserRouter, Navigate } from "react-router";
 import AboutPage from "@/pages/AboutPage";
 import CollectionSkinsPage from "@/pages/CollectionSkinsPage";
 import DetailsSkinPage from "@/pages/DetailsSkinPage";
-import DetailsWishlistPage from '@/pages/DetailsWishlistPage';
+import DetailsWishlistPage from "@/pages/DetailsWishlistPage";
 import LayoutPage from "@/pages/LayoutPage";
+import NotFoundPage from "@/pages/NotFoundPage";
 import SearchSkinsPage from "@/pages/SearchSkinsPage";
 import SignInPage from "@/pages/SignInPage";
 import SignUpPage from "@/pages/SignUpPage";
-import WishlistsPage from '@/pages/WishlistsPage';
+import WishlistsPage from "@/pages/WishlistsPage";
 import { AuthProvider } from "@/shared/providers";
 import ProtectProvider from "@/shared/providers/ProtectProvider";
 
@@ -40,12 +41,10 @@ export const router = createBrowserRouter([
         children: [
           { path: "/wishlists", element: <WishlistsPage /> },
           {
-            path: '/collection',
+            path: "/collection",
             // element: <Navigate to="/collection/skins" />,
-            children: [
-              { path: "skins", element: <CollectionSkinsPage /> },
-            ]
-          }
+            children: [{ path: "skins", element: <CollectionSkinsPage /> }],
+          },
         ],
       },
 
@@ -53,7 +52,7 @@ export const router = createBrowserRouter([
       { path: "/about", element: <AboutPage /> },
 
       // 404
-      { path: "*", element: "404" },
+      { path: "*", element: <NotFoundPage /> },
     ],
   },
   {
