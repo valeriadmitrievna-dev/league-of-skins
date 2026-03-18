@@ -1,7 +1,10 @@
 {
   "app": {
     "title": "League of Legends Skins Wishlists",
-    "wishlists": "Wishlists"
+    "wishlists": "Wishlists",
+    "page-doesnt-exist": "The page you’re looking for doesn’t exist.",
+    "go-home": "Go Home",
+    "go-back": "Go Back"
   },
   "header": {
     "wishlists": "Wishlists",

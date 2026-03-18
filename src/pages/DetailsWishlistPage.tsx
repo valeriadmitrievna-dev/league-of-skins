@@ -66,9 +66,12 @@ const DetailsWishlistPage: FC = () => {
     data: wishlist,
     isLoading,
     isFetching,
-  } = useGetWishlistQuery({ wishlistId: wishlistId || "", lang: i18n.language }, {
-    skip: !wishlistId,
-  });
+  } = useGetWishlistQuery(
+    { wishlistId: wishlistId || "", lang: i18n.language },
+    {
+      skip: !wishlistId,
+    },
+  );
 
   const shareHandler = () => {
     if (!wishlist) return;
@@ -127,7 +130,7 @@ const DetailsWishlistPage: FC = () => {
   return (
     <>
       <CustomHead>
-        <title>League of Skins | Wishlist</title>
+        <title>{wishlist?.name ? `League of Skins | ${wishlist.name}` : "League of Skins"}</title>
         <meta name="description" content="Your wishlist" />
       </CustomHead>
 
@@ -219,7 +222,7 @@ const WishlistSidebar: FC<WishlistSidebarProps> = ({
       <Checkbox id="show-owned" name="show-owned" checked={showOwned} onCheckedChange={onToogleShowOwned} />
     </Field>
 
-    <div className="flex flex-col gap-y-1">
+    <div className="flex flex-col gap-y-2">
       <Button onClick={onShare}>{t("wishlist.share")}</Button>
       <WishlistEditModal wishlist={wishlist}>
         <Button variant="outline">{t("wishlist.edit")}</Button>
