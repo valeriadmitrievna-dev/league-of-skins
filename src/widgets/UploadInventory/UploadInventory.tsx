@@ -16,7 +16,11 @@ import UploadInventoryInputFile from "./UploadInventoryInputFile";
 import UploadInventoryInstruction from "./UploadInventoryInstruction";
 import UploadInventoryNotes from "./UploadInventoryNotes";
 
-const UploadInventory: FC = () => {
+interface UploadInventoryProps {
+  triggerClassName?: string;
+}
+
+const UploadInventory: FC<UploadInventoryProps> = ({ triggerClassName }) => {
   const { t } = useTranslation();
 
   const [file, setFile] = useState<File>();
@@ -49,7 +53,7 @@ const UploadInventory: FC = () => {
   return (
     <Dialog {...(isLoading ? { open: true } : {})}>
       <DialogTrigger asChild>
-        <Button size="sm">
+        <Button size="sm" className={cn(triggerClassName)}>
           <CloudUploadIcon />
           {t("uploadInventory.title")}
         </Button>

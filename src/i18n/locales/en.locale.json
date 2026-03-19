@@ -64,7 +64,8 @@
     "empty-options": "Options not found",
     "searchBy_champion": "Search by champion",
     "searchBy_skinline": "Search by skinline",
-    "searchBy_chroma": "Search by chroma"
+    "searchBy_chroma": "Search by chroma",
+    "found_count": "Found:"
   },
   "skin": {
     "add": "Add to wishlist",

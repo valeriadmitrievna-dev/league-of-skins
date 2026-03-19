@@ -1,3 +1,4 @@
+import { PlusIcon } from "lucide-react";
 import { useCallback, useMemo, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -8,6 +9,7 @@ import CustomHead from "@/components/CustomMetaHead";
 import NoResultsState from "@/components/NoResultsState";
 import ScrollTop from "@/components/ScrollTop";
 import Search from "@/components/Search";
+import { Typography } from "@/components/Typography";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { useQueryParams } from "@/hooks/useQueryParams";
@@ -40,7 +42,7 @@ const SearchSkinsBreadcrumb: FC<IBreadcrumbProps> = ({ className }) => {
 };
 
 const SearchSkinsPage: FC = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const isAuth = useSelector(appAuthSelector);
 
@@ -100,21 +102,30 @@ const SearchSkinsPage: FC = () => {
         <div className="pb-14">
           <SearchSkinsBreadcrumb className="hidden md:block" />
 
-          <div className="my-4 md:mt-3 flex items-center gap-2">
+          <div className="mt-3 mb-3 flex items-center gap-2">
             <Search value={searchInput} onSearch={setSearchInput} />
-            <FiltersDrawer className='md:hidden' />
-
-            {!!skinsCount && (
-              <AddToWishlist
-                skinContentIds={skins.map((skin) => skin.contentId)}
-                trigger={({ onOpen }) => (
-                  <Button onClick={onOpen} className="hidden md:flex">
-                    Добавить в вишлист
-                  </Button>
-                )}
-              />
-            )}
+            <FiltersDrawer className="md:hidden" />
           </div>
+
+          {!!skinsCount && (
+            <div className="flex items-center justify-between my-3">
+              <Typography.Muted>
+                <Typography.Small className="text-foreground!">{skinsCount}</Typography.Small>{" "}
+                {t("shared.skin", { count: skinsCount })}
+              </Typography.Muted>
+              {!!skinsCount && (
+                <AddToWishlist
+                  skinContentIds={skins.map((skin) => skin.contentId)}
+                  trigger={({ onOpen }) => (
+                    <Button onClick={onOpen} size="sm">
+                      <PlusIcon />
+                      Добавить в вишлист
+                    </Button>
+                  )}
+                />
+              )}
+            </div>
+          )}
 
           {!isLoading && !skins.length && <NoResultsState className="my-30" />}
 

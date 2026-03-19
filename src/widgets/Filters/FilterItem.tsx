@@ -20,7 +20,7 @@ const FilterItem: FC<FilterItemProps> = ({ title, value, onClear, children, defa
 
   return (
     <Collapsible defaultOpen={defaultOpen} className="not-last:border-b">
-      <CollapsibleTrigger className="group h-9 w-full flex items-center justify-between gap-x-2 relative">
+      <CollapsibleTrigger className="group h-10 w-full flex items-center justify-between gap-x-2 relative">
         <span className="text-sm font-medium group-hover:underline">{title}</span>
         {!!value && <span className="flex size-2 rounded-full bg-blue-500 mr-auto" />}
         <ChevronDownIcon

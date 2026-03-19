@@ -44,13 +44,13 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
   const { data: chromas } = getODataWithDefault(chromasData);
 
   const legacyOptions = [
-    { value: "all", label: t("filters.all"), className: "max-w-15" },
+    { value: "all", label: t("filters.all"), className: "max-w-13" },
     { value: "on", label: t("filters.legacy-on") },
     { value: "off", label: t("filters.legacy-off") },
   ];
 
   const ownedOptions = [
-    { value: "all", label: t("filters.all"), className: "max-w-15" },
+    { value: "all", label: t("filters.all"), className: "max-w-13" },
     { value: "on", label: t("filters.owned-on") },
     { value: "off", label: t("filters.owned-off") },
   ];
