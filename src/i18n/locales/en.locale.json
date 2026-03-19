@@ -90,7 +90,10 @@
     "delete": "Delete",
     "edit_title": "Edit wishlist",
     "edit_placeholder": "Wishlist's name",
-    "show_owned_skins": "Show owned"
+    "show_owned_skins": "Show owned",
+    "complete": "Complete",
+    "price_total": "Total Value",
+    "price_owned": "Owned Value"
   },
   "auth": {
     "signin_title": "Sign In",

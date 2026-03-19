@@ -13,6 +13,7 @@ import MedalSecondIcon from "@/shared/assets/medal-second.svg?react";
 import MedalThirdIcon from "@/shared/assets/medal-third.svg?react";
 import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
 import { cn } from "@/shared/utils/cn";
+import { formatNumber } from '@/shared/utils/formatNumber';
 
 import FilterItem from "./Filters/FilterItem";
 import FilterList from "./Filters/FilterList";
@@ -113,7 +114,7 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
           label={<Typography.Small>{t("skin.price")}</Typography.Small>}
           value={
             <div className="my-tag">
-              <Typography.P>{statistics?.user.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</Typography.P>
+              <Typography.P>{formatNumber(statistics?.user.value ?? 0)}</Typography.P>
               <RPIcon className="size-4.5" />
             </div>
           }

@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import type { TFunction } from "i18next";
 import { CalendarIcon, EyeIcon, LayoutGridIcon } from "lucide-react";
-import { useCallback, useMemo, useState, type FC } from "react";
+import { useCallback, useMemo, useState, type ComponentType, type FC, type SVGProps } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate, useParams } from "react-router";
 
@@ -13,10 +13,12 @@ import { Typography } from "@/components/Typography";
 import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Field, FieldLabel } from "@/components/ui/field";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import useShare from "@/hooks/useShare";
+import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
+import { formatNumber } from "@/shared/utils/formatNumber";
 import type { SkinDto } from "@/types/skin";
 import type { WishlistFullDto } from "@/types/wishlist";
 import SkinCard from "@/widgets/SkinCard";
@@ -44,7 +46,7 @@ interface WishlistSidebarProps {
 }
 
 interface StatItemProps {
-  icon: React.ReactNode;
+  icon: ComponentType<SVGProps<SVGSVGElement>>;
   label: string;
   value: string;
 }
@@ -134,7 +136,7 @@ const DetailsWishlistPage: FC = () => {
         <meta name="description" content="Your wishlist" />
       </CustomHead>
 
-      <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-8">
+      <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-3">
         <WishlistSidebar
           t={t}
           wishlist={wishlist}
@@ -190,36 +192,58 @@ const WishlistSidebar: FC<WishlistSidebarProps> = ({
   onShare,
   onDelete,
 }) => (
-  <aside className="my-card flex flex-col gap-y-3 md:sticky top-4">
+  <aside className="my-card flex flex-col gap-y-3 md:sticky top-4 pb-2 border-b">
     <Typography.Large>{wishlist.name}</Typography.Large>
 
     <div className="py-2 flex flex-col gap-y-3">
       <StatItem
-        icon={<CalendarIcon />}
+        icon={CalendarIcon}
         label={t("stats.created")}
         value={format(new Date(wishlist.createdAt), "d MMMM yyyy", { locale: ru })}
       />
       <StatItem
-        icon={<LayoutGridIcon />}
+        icon={LayoutGridIcon}
         label={t("stats.elements")}
         value={`${wishlist.skins.length} ${t("shared.skin", { count: wishlist.skins.length })}`}
       />
-      <StatItem icon={<EyeIcon />} label={t("stats.visits")} value={`0 ${t("stats.visits_times", { count: 0 })}`} />
+      <StatItem icon={EyeIcon} label={t("stats.visits")} value={`0 ${t("stats.visits_times", { count: 0 })}`} />
     </div>
 
-    <Field>
-      <FieldLabel htmlFor="progress">
+    {!!wishlist.price.total && !!wishlist.price.owned && (
+      <div className="my-card flex flex-col gap-y-2 md:pl-4!">
+        <div className="flex items-center justify-between">
+          <Typography.Muted>{t('wishlist.price_total')}</Typography.Muted>
+          <div className="my-tag">
+            <Typography.P>{formatNumber(wishlist.price.total)}</Typography.P>
+            <RPIcon className="size-4.5" />
+          </div>
+        </div>
+        <div className="flex items-center justify-between">
+          <Typography.Muted>{t('wishlist.price_owned')}</Typography.Muted>
+          <div className="my-tag">
+            <Typography.P>{formatNumber(wishlist.price.owned)}</Typography.P>
+            <RPIcon className="size-4.5" />
+          </div>
+        </div>
+      </div>
+    )}
+
+    <Field orientation="horizontal" className="justify-between my-2">
+      <Label htmlFor="show-owned">{t("wishlist.show_owned_skins")}</Label>
+      <Checkbox id="show-owned" name="show-owned" checked={showOwned} onCheckedChange={onToogleShowOwned} />
+    </Field>
+
+    <Field className="block">
+      <FieldLabel htmlFor="progress" className="mb-2">
         <span>{t("stats.progress")}</span>
         <span className="ml-auto">
           {progress.ownedSkinsCount}/{progress.allSkinsCount}
         </span>
       </FieldLabel>
       <Progress value={progress.value} id="progress" />
-    </Field>
-
-    <Field orientation="horizontal" className="justify-between">
-      <Label htmlFor="show-owned">{t("wishlist.show_owned_skins")}</Label>
-      <Checkbox id="show-owned" name="show-owned" checked={showOwned} onCheckedChange={onToogleShowOwned} />
+      <FieldDescription className="mt-1.5! text-center text-[12px]">
+        {Math.round(progress.value)}% {t("wishlist.complete")}
+      </FieldDescription>
     </Field>
 
     <div className="flex flex-col gap-y-2">
@@ -240,9 +264,9 @@ const WishlistSidebar: FC<WishlistSidebarProps> = ({
   </aside>
 );
 
-const StatItem: FC<StatItemProps> = ({ icon, label, value }) => (
+const StatItem: FC<StatItemProps> = ({ icon: Icon, label, value }) => (
   <div className="flex items-center gap-3">
-    {icon}
+    <Icon className="size-5" />
     <div>
       <Typography.Muted className="leading-none">{label}</Typography.Muted>
       <Typography.Small>{value}</Typography.Small>

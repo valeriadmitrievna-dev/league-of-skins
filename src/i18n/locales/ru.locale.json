@@ -89,7 +89,10 @@
     "edit_placeholder": "Название вишлиста",
     "create_title": "Создать вишлист",
     "create_placeholder": "Название вишлиста",
-    "show_owned_skins": "Показывать купленные"
+    "show_owned_skins": "Показывать купленные",
+    "complete": "Завершено",
+    "price_total": "Полная цена",
+    "price_owned": "Потрачено"
   },
   "auth": {
     "signin_title": "Вход",
