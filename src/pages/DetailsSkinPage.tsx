@@ -231,12 +231,12 @@ const DetailsSkinPage: FC = () => {
             {!!skin.chromas?.length && (
               <div className="mt-6">
                 <Typography.H4 className="mb-2">{t("skin.chromas")}</Typography.H4>
-                <div className="grid gap-3 grid-cols-[repeat(auto-fit,minmax(120px,1fr))] bg-muted py-5 px-5 rounded-md cursor-pointer">
+                <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 bg-muted py-5 px-5 rounded-md cursor-pointer">
                   {skin.chromas.map((chroma) => (
                     <div
                       key={chroma.contentId}
                       id={`chromaView-${chroma.id}`}
-                      className="relative rounded-md border not-hover:border-transparent hover:bg-foreground/5 transition mx-auto"
+                      className="relative rounded-md border not-hover:border-transparent hover:bg-foreground/5 transition w-full aspect-90/101 mx-auto"
                     >
                       <Image src={chroma.path} className="aspect-90/101" />
                       <Badge className="absolute bottom-2 left-1/2 transform -translate-x-1/2">{chroma.name}</Badge>
