@@ -41,13 +41,22 @@ function DialogContent({
   className,
   children,
   showCloseButton = true,
+  preventDefault,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean;
+  preventDefault?: boolean;
 }) {
+  const clickHandler = (event: React.MouseEvent) => {
+    if (preventDefault) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+  };
+
   return (
     <DialogPortal>
-      <DialogOverlay>
+      <DialogOverlay onClick={clickHandler}>
         <DialogPrimitive.Content
           data-slot="dialog-content"
           className={cn(

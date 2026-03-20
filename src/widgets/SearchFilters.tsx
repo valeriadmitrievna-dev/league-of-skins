@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 import { useGetChampionsQuery, useGetChromasQuery, useGetRaritiesQuery, useGetSkinlinesQuery } from "@/api";
 import ChromaColor from "@/components/ChromaColor";
+import { Separator } from "@/components/ui/separator";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { cn } from "@/shared/utils/cn";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
@@ -56,8 +57,8 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
   ];
 
   return (
-    <div className={cn("my-card flex flex-col gap-y-3", className)}>
-      <FilterPanelTitle onReset={hasActive && reset} className='mb-3' />
+    <div className={cn("bg-card border-2 border-primary/20 p-5 h-fit", className)}>
+      <FilterPanelTitle onReset={hasActive && reset} className="mb-5" />
       <div>
         {isAuth && (
           <FilterToggleGroup
@@ -71,9 +72,9 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
           value={get("legacy") ?? "all"}
           onChange={(value) => update("legacy", value)}
           options={legacyOptions}
-          className="pb-3 border-b"
         />
-        <FilterItem value={get("championId") ?? ""} title={t("filters.champion")} onClear={() => update("championId")}>
+        <Separator className="mt-3" />
+        <FilterItem defaultOpen value={get("championId") ?? ""} title={t("filters.champion")} onClear={() => update("championId")}>
           <FilterList
             items={orderBy(champions, "name").map((champion) => ({ value: champion.id, label: champion.name }))}
             value={get("championId") ?? ""}
@@ -82,11 +83,16 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
             withSearch
           />
         </FilterItem>
-        <FilterItem defaultOpen value={get("rarity") ?? ""} title={t("filters.rarity")} onClear={() => update("rarity")}>
+        <FilterItem value={get("rarity") ?? ""} title={t("filters.rarity")} onClear={() => update("rarity")}>
           <FilterToggleTags
             value={get("rarity") ?? ""}
             onChange={(value) => update("rarity", value)}
-            options={rarities.map((r) => ({ value: r, label: t(`rarity.${r}`) }))}
+            options={rarities.map((r) => {
+              return {
+                value: r,
+                label: t(`rarity.${r}`),
+              };
+            })}
             loading={isRaritiesLoading}
           />
         </FilterItem>

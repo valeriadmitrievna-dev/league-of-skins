@@ -27,7 +27,7 @@ const LanguageSwitcher: FC = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant="lol-outline" size="icon">
           <GlobeIcon />
         </Button>
       </DropdownMenuTrigger>

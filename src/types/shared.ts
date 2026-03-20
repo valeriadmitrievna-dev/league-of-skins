@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 import type { ApiErrorCode } from '@/shared/constants/error';
 
@@ -39,6 +39,7 @@ export interface OptionItem {
   label: string;
 
   className?: string;
+  style?: CSSProperties;
   prefix?: ReactNode;
   suffix?: ReactNode;
 }

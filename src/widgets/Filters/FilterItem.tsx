@@ -21,11 +21,11 @@ const FilterItem: FC<FilterItemProps> = ({ title, value, onClear, children, defa
   return (
     <Collapsible defaultOpen={defaultOpen} className="not-last:border-b">
       <CollapsibleTrigger className="group h-10 w-full flex items-center justify-between gap-x-2 relative">
-        <span className="text-sm font-medium group-hover:underline">{title}</span>
-        {!!value && <span className="flex size-2 rounded-full bg-blue-500 mr-auto" />}
+        <span className="text-sm font-medium group-hover:underline uppercase">{title}</span>
+        {!!value && <span className="flex size-2 rounded-full bg-primary mr-auto" />}
         <ChevronDownIcon
-          className={cn("size-4 text-muted-foreground group-data-[state=open]:rotate-180 absolute right-1", {
-            ",d:group-hover:hidden": !!value && !!onClear,
+          className={cn("size-4 text-primary group-data-[state=open]:rotate-180 absolute right-1", {
+            "group-hover:hidden": !!value && !!onClear,
           })}
         />
         <Button
@@ -34,7 +34,7 @@ const FilterItem: FC<FilterItemProps> = ({ title, value, onClear, children, defa
           className={cn("transition-none absolute right-0 opacity-0 md:group-hover:opacity-100", {
             "hidden!": !value || !onClear,
           })}
-          variant="secondary"
+          variant="lol-secondary"
         >
           <XIcon className="size-4!" />
         </Button>

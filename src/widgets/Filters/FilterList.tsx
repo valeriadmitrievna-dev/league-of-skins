@@ -74,8 +74,8 @@ const FilterList: FC<FilterListProps> = ({ items: options, value, onChange, isLo
             <div ref={registerChild} style={style}>
               <ToggleGroupItem
                 className={cn(
-                  "w-full flex justify-start gap-2 transition-colors hover:text-foreground hover:bg-muted-foreground/10 data-state-on:bg-muted-foreground/30 whitespace-normal text-left py-1 h-fit min-h-8",
-                  { "bg-muted-foreground/10": focus && !index },
+                  "w-full flex justify-start gap-2 transition-colors hover:text-foreground hover:bg-muted-foreground/10 data-state-on:bg-muted-foreground/30 whitespace-normal text-left py-1 h-fit min-h-9 clip-corner-sm",
+                  { "bg-muted-foreground/5": focus && !index },
                 )}
                 value={item.value}
                 aria-label={item.label}
@@ -83,7 +83,6 @@ const FilterList: FC<FilterListProps> = ({ items: options, value, onChange, isLo
                 {!!item.prefix && <div className="shrink-0">{item.prefix}</div>}
                 <span className={item.className}>{item.label}</span>
                 {!!item.suffix && !focus && <div className="shrink-0 ml-auto">{item.suffix}</div>}
-                {/* {focus && !index && <div className='shrink-0 ml-auto'>focus</div>} */}
               </ToggleGroupItem>
             </div>
           )}
@@ -95,7 +94,6 @@ const FilterList: FC<FilterListProps> = ({ items: options, value, onChange, isLo
 
   const searchComponent = (
     <Search
-      size="sm"
       value={search}
       onSearch={setSearch}
       onKeyDown={keyDownHandler}
@@ -117,8 +115,8 @@ const FilterList: FC<FilterListProps> = ({ items: options, value, onChange, isLo
   return (
     <div>
       {withSearch && searchComponent}
-      <div className="bg-neutral-100 dark:bg-neutral-800 px-2 py-2 rounded-md border border-foreground/10">
-        <ScrollArea className="max-h-62 overflow-auto scrollbar" ref={containerRef}>
+      <div className="">
+        <ScrollArea className="max-h-62" ref={containerRef}>
           <ToggleGroup
             type="single"
             orientation="vertical"
@@ -127,7 +125,7 @@ const FilterList: FC<FilterListProps> = ({ items: options, value, onChange, isLo
             value={value}
             onValueChange={onChange}
           >
-            {isLoading && <Skeleton count={4} className="bg-neutral-300 dark:bg-neutral-700" />}
+            {isLoading && <Skeleton count={4} />}
 
             {!isLoading && !!items.length && listHeight > 0 && (
               <AutoSizer disableHeight>

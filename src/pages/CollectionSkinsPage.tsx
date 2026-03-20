@@ -39,7 +39,7 @@ const BreadcrumbsLine: FC<BreadcrumbsProps> = ({ className }) => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <UploadInventory triggerClassName='hidden md:flex' />
+      <UploadInventory triggerClassName="hidden md:flex" />
     </div>
   );
 };
@@ -79,9 +79,11 @@ const CollectionSkinsPage: FC = () => {
   const { data, isLoading, isFetching } = useGetOwnedSkinsQuery(skinsQueryParams);
   const { data: ownedSkins } = getODataWithDefault(data);
 
-  const renderSkin = useCallback((item: unknown) => {
+  const renderSkin = useCallback((item: unknown, _index: number, className?: string) => {
     const skin = item as SkinDto;
-    return <SkinCard key={skin.id} data={skin} owned navigatable addToWishlistButton toggleOwnedButton />;
+    return (
+      <SkinCard key={skin.id} data={skin} addToWishlistButton toggleOwnedButton className={className} />
+    );
   }, []);
 
   if (!isLoading && !ownedSkins.length && !search) {

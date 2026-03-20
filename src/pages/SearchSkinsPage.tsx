@@ -9,7 +9,6 @@ import CustomHead from "@/components/CustomMetaHead";
 import NoResultsState from "@/components/NoResultsState";
 import ScrollTop from "@/components/ScrollTop";
 import Search from "@/components/Search";
-import { Typography } from "@/components/Typography";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { useQueryParams } from "@/hooks/useQueryParams";
@@ -79,10 +78,17 @@ const SearchSkinsPage: FC = () => {
   const { data: skins, count: skinsCount } = getODataWithDefault(skinsData);
 
   const renderSkin = useCallback(
-    (item: unknown) => {
+    (item: unknown, _index: number, className?: string) => {
       const skin = item as SkinDto;
       return (
-        <SkinCard key={skin.id} data={skin} owned={skin.owned} navigatable addToWishlistButton toggleOwnedButton={isAuth} />
+        <SkinCard
+          key={skin.id}
+          data={skin}
+          owned={skin.owned}
+          className={className}
+          addToWishlistButton
+          toggleOwnedButton={isAuth}
+        />
       );
     },
     [isAuth],
@@ -95,7 +101,7 @@ const SearchSkinsPage: FC = () => {
         <meta name="description" content="Search for skins" />
       </CustomHead>
 
-      <div className="w-full md:grid grid-cols-[300px_1fr] gap-5">
+      <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
         <SearchSkinsBreadcrumb className="md:hidden mb-3" />
         <SearchFilters className="hidden md:block" />
 
@@ -109,10 +115,11 @@ const SearchSkinsPage: FC = () => {
 
           {!!skinsCount && (
             <div className="flex items-center justify-between my-3">
-              <Typography.Muted>
-                <Typography.Small className="text-foreground!">{skinsCount}</Typography.Small>{" "}
+              <span className='text-muted-foreground font-medium tracking-wide'>
+                {t("filters.found_count")}{" "}
+                <span className="text-primary text-glow-gold font-bold">{skinsCount}</span>{" "}
                 {t("shared.skin", { count: skinsCount })}
-              </Typography.Muted>
+              </span>
               {!!skinsCount && (
                 <AddToWishlist
                   skinContentIds={skins.map((skin) => skin.contentId)}

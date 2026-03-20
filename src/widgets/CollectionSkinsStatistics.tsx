@@ -35,7 +35,7 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
         <div className="my-card flex flex-col gap-y-4">
           <Skeleton asChild count={3} className="h-7" />
         </div>
-        <div className="my-card flex flex-col gap-y-2">
+        <div className="my-card flex flex-col gap-y-3">
           <Skeleton asChild count={4} className="h-6" />
         </div>
         <div className="my-card flex flex-col gap-y-2">
@@ -63,9 +63,9 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
               <InfoLine
                 label={
                   <div className="flex items-center gap-1">
-                    <Typography.P className="my-tag ml-1">{items[0].name}</Typography.P>
+                    <Typography.P className="my-tag clip-corner-sm ml-1">{items[0].name}</Typography.P>
                     {items.length > 1 && (
-                      <Typography.P className="my-tag text-muted-foreground px-2!">+{items.length - 1}</Typography.P>
+                      <Typography.P className="my-tag clip-corner-sm text-muted-foreground px-2!">+{items.length - 1}</Typography.P>
                     )}
                   </div>
                 }
@@ -77,7 +77,7 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
       </div>
 
       {/* Totals */}
-      <div className="my-card flex flex-col gap-y-2">
+      <div className="my-card flex flex-col gap-y-3">
         <InfoLine
           label={t("shared.skins")}
           value={`${statistics?.user.skins} / ${statistics?.totals.skins}`}
@@ -113,7 +113,7 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
         <InfoLine
           label={<Typography.Small>{t("skin.price")}</Typography.Small>}
           value={
-            <div className="my-tag">
+            <div className="my-tag clip-corner">
               <Typography.P>{formatNumber(statistics?.user.value ?? 0)}</Typography.P>
               <RPIcon className="size-4.5" />
             </div>
@@ -134,16 +134,16 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
                 onClick={() =>
                   rarity.value === get("rarity") ? update("rarity", undefined) : update("rarity", rarity.value)
                 }
-                className={cn("my-tag cursor-pointer select-none", {
-                  "text-muted-foreground pointer-events-none": !rarity.count,
-                  "bg-foreground! text-background!": rarity.value === get("rarity"),
+                className={cn("my-tag cursor-pointer select-none clip-corner", {
+                  "opacity-50 pointer-events-none": !rarity.count,
+                  "bg-primary! text-(--lol-navy-dark)!": rarity.value === get("rarity"),
                 })}
               >
                 {t(`rarity.${rarity.value}`)}
               </Typography.Small>
             }
             value={String(rarity.count)}
-            valueClassName={cn("text-sm leading-4 px-2!", { "text-muted-foreground pointer-events-none": !rarity.count })}
+            valueClassName={cn("text-sm leading-4 px-2!", { "opacity-50 pointer-events-none": !rarity.count })}
           />
         ))}
       </div>

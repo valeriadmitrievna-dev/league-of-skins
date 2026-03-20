@@ -43,7 +43,7 @@ const UserSettings: FC = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant="lol-outline" size="icon">
           <SettingsIcon />
         </Button>
       </DialogTrigger>

@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 
-import AppHeaderLink from "@/components/AppHeaderLink";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { Separator } from "@/components/ui/separator";
@@ -11,6 +10,7 @@ import { cn } from "@/shared/utils/cn";
 import { appAuthSelector } from "@/store";
 
 import { UserSettings } from "../UserSettings";
+import AppHeaderLink from './AppHeaderLink';
 
 
 interface AppHeaderNavProps {
