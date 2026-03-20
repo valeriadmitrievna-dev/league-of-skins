@@ -39,7 +39,7 @@ const BreadcrumbsLine: FC<BreadcrumbsProps> = ({ className }) => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <UploadInventory triggerClassName='hidden md:flex' />
+      <UploadInventory triggerClassName="hidden md:flex" />
     </div>
   );
 };
