@@ -6,7 +6,7 @@ import type { SkinDto } from "@/types/skin";
 import type { UserDto, UserSkinsStatisticDto } from "@/types/user";
 import type { UpdateWishlistBody, WishlistFullDto, WishlistDto } from "@/types/wishlist";
 
-import type { SkinsRequest, UpdateOwnedSkinsRequest, UpdateUserPasswordRequest } from "./types";
+import type { SkinsRequest, UpdateOwnedSkinsRequest, UpdateUserPasswordRequest } from "../types";
 
 export const userApi = createApi({
   reducerPath: "userApi",

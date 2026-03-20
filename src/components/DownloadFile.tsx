@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+ 
 import { FileDownIcon, FileExclamationPointIcon } from "lucide-react";
 import { useEffect, useMemo, useState, type FC } from "react";
 import { useTranslation } from 'react-i18next';

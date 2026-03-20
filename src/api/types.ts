@@ -1,6 +1,5 @@
-import type { ODataRequest } from "@/types/shared";
-
-export interface SkinsRequest extends ODataRequest {
+export interface SkinsRequest {
+  search?: string;
   championId?: string;
   skinlineId?: string;
   chromaName?: string;
