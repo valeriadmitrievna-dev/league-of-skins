@@ -29,9 +29,10 @@ const FilterItem: FC<FilterItemProps> = ({ title, value, onClear, children, defa
           })}
         />
         <Button
+          asChild
           size="icon-xs"
           onClick={clearHandler}
-          className={cn("transition-none absolute right-0 opacity-0 md:group-hover:opacity-100", {
+          className={cn("transition-none absolute right-1 opacity-0 md:group-hover:opacity-100", {
             "hidden!": !value || !onClear,
           })}
           variant="secondary"
