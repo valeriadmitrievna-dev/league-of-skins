@@ -18,16 +18,16 @@ const AboutPage: FC = () => {
       </CustomHead>
       <Tabs defaultValue="main" className="gap-6 h-full" orientation={isMobile ? "horizontal" : "vertical"}>
         <TabsList className="w-full md:w-80 p-3 gap-y-1 md:h-full! justify-start flex-wrap">
-          <TabsTrigger className="py-2 px-4 h-fit! flex-none! clip-corner data-[state=active]:bg-primary!" value="main">
+          <TabsTrigger className="py-2 px-4 h-fit! flex-none! data-[state=active]:bg-primary!" value="main">
             Описание проекта
           </TabsTrigger>
-          <TabsTrigger className="py-2 px-4 h-fit! flex-none! clip-corner data-[state=active]:bg-primary!" value="faq">
+          <TabsTrigger className="py-2 px-4 h-fit! flex-none! data-[state=active]:bg-primary!" value="faq">
             FAQ
           </TabsTrigger>
-          <TabsTrigger className="py-2 px-4 h-fit! flex-none! clip-corner data-[state=active]:bg-primary!" value="contacts">
+          <TabsTrigger className="py-2 px-4 h-fit! flex-none! data-[state=active]:bg-primary!" value="contacts">
             Контакты
           </TabsTrigger>
-          <TabsTrigger className="py-2 px-4 h-fit! flex-none! clip-corner data-[state=active]:bg-primary!" value="support">
+          <TabsTrigger className="py-2 px-4 h-fit! flex-none! data-[state=active]:bg-primary!" value="support">
             Поддержать проект
           </TabsTrigger>
         </TabsList>

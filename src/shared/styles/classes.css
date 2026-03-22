@@ -7,19 +7,25 @@
 
   .scrollbar::-webkit-scrollbar-track {
     border: 1px solid;
-    background-color: oklch(from var(--color-foreground) l c h / calc(alpha - 0.95));
-    border-color: oklch(from var(--color-foreground) l c h / calc(alpha - 0.9));
+    border-radius: 100vh;
+    background-color: var(--color-background);
+    /* background-color: oklch(from var(--color-foreground) l c h / calc(alpha - 0.95)); */
+    border-color: var(--color-input);
+    /* border-color: oklch(from var(--color-foreground) l c h / calc(alpha - 0.9)); */
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
     cursor: pointer;
-    background-color: oklch(from var(--color-foreground) l c h / calc(alpha - 0.7));
+    background-color: var(--color-input);
+    /* background-color: oklch(from var(--color-foreground) l c h / calc(alpha - 0.7)); */
     border: 2px solid rgba(0, 0, 0, 0);
     background-clip: padding-box;
+    border-radius: 100vh;
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
-    background-color: oklch(from var(--color-foreground) l c h / calc(alpha - 0.6));
+    background-color: var(--color-secondary);
+    /* background-color: oklch(from var(--color-foreground) l c h / calc(alpha - 0.6)); */
   }
 
   .plain-input:has(*:is([data-slot="input-group-control"]:focus-visible)) {
@@ -39,7 +45,7 @@
   }
 
   .my-tag {
-    @apply bg-muted font-medium px-3 py-1 flex items-center gap-x-1;
+    @apply bg-muted font-medium px-3 py-1 flex items-center gap-x-1 rounded-sm;
   }
 
   input:-webkit-autofill,

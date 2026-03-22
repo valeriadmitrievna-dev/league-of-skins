@@ -14,7 +14,7 @@ interface FilterToggleGroupProps {
 const FilterToggleGroup: FC<FilterToggleGroupProps> = ({ value, onChange, options, className }) => {
   return (
     <ToggleGroup
-      variant="lol-outline"
+      variant="outline"
       type="single"
       value={value}
       onValueChange={onChange}

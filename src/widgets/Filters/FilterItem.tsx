@@ -24,20 +24,20 @@ const FilterItem: FC<FilterItemProps> = ({ title, value, onClear, children, defa
         <span className="text-sm font-medium group-hover:underline uppercase">{title}</span>
         {!!value && <span className="flex size-2 rounded-full bg-primary mr-auto" />}
         <ChevronDownIcon
-          className={cn("size-4 text-primary group-data-[state=open]:rotate-180 absolute right-1", {
+          className={cn("size-4 text-primary group-data-[state=open]:rotate-180 absolute right-0.75", {
             "group-hover:hidden": !!value && !!onClear,
           })}
         />
         <Button
-          asChild
           size="icon-xs"
+          asChild
           onClick={clearHandler}
-          className={cn("transition-none absolute right-1 opacity-0 md:group-hover:opacity-100", {
+          className={cn("transition-none absolute right-0 p-1 opacity-0 text-primary md:group-hover:opacity-100", {
             "hidden!": !value || !onClear,
           })}
-          variant="lol-secondary"
+          variant="ghost"
         >
-          <XIcon className="size-4!" />
+          <XIcon />
         </Button>
       </CollapsibleTrigger>
       <CollapsibleContent className="pb-3">{children}</CollapsibleContent>

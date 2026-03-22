@@ -15,8 +15,8 @@ interface InfoLineProps {
 const InfoLine: FC<InfoLineProps> = ({ label, value, className, labelClassName, valueClassName }) => {
   return (
     <div className={cn("flex items-center justify-between gap-x-8", className)}>
-      {typeof label === "string" ? <Typography.P className={cn("my-tag clip-corner-sm", labelClassName)}>{label}</Typography.P> : label}
-      {typeof value === "string" ? <Typography.P className={cn("my-tag clip-corner-sm", valueClassName)}>{value}</Typography.P> : value}
+      {typeof label === "string" ? <Typography.P className={cn("my-tag", labelClassName)}>{label}</Typography.P> : label}
+      {typeof value === "string" ? <Typography.P className={cn("my-tag", valueClassName)}>{value}</Typography.P> : value}
     </div>
   );
 };

@@ -8,7 +8,7 @@ import AppSidebar from "./AppSidebar";
 
 const AppHeader: FC = () => {
   return (
-    <header className="relative border-b border-primary/20 bg-linear-to-r from-background via-card to-background overflow-hidden">
+    <header className="relative border-b border-primary/20 bg-card overflow-hidden">
       <div className="h-16 md:h-20 flex items-center justify-between my-container">
         <NavLink to="/">
           <AppLogo />

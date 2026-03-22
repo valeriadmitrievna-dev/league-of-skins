@@ -22,11 +22,11 @@ const FilterPanelTitle: FC<FilterPanelTitleProps> = ({ title, onReset, className
       )}
     >
       <p className="flex items-center gap-2">
-        <SlidersHorizontalIcon className='text-primary size-6' />
-        <span className="text-base font-black uppercase tracking-wider text-primary">{title ?? t("filters.title")}</span>
+        <SlidersHorizontalIcon className='size-6' />
+        <span className="text-base font-black uppercase tracking-wider">{title ?? t("filters.title")}</span>
       </p>
       {!!onReset && (
-        <Button size="xs" onClick={onReset} className="rounded-sm" variant="secondary">
+        <Button size="xs" onClick={onReset} variant="secondary">
           {t("filters.reset")}
         </Button>
       )}

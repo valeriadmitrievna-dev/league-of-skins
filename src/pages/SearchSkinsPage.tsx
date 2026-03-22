@@ -115,7 +115,7 @@ const SearchSkinsPage: FC = () => {
 
           {!!skinsCount && (
             <div className="flex items-center justify-between my-3">
-              <span className='text-muted-foreground font-medium tracking-wide'>
+              <span className='text-muted-foreground tracking-wide'>
                 {t("filters.found_count")}{" "}
                 <span className="text-primary text-glow-gold font-bold">{skinsCount}</span>{" "}
                 {t("shared.skin", { count: skinsCount })}
@@ -124,7 +124,7 @@ const SearchSkinsPage: FC = () => {
                 <AddToWishlist
                   skinContentIds={skins.map((skin) => skin.contentId)}
                   trigger={({ onOpen }) => (
-                    <Button onClick={onOpen} size="sm">
+                    <Button onClick={onOpen}>
                       <PlusIcon />
                       Добавить в вишлист
                     </Button>

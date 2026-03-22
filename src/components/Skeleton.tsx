@@ -7,13 +7,15 @@ interface SkeletonProps extends ComponentProps<"div"> {
   rounded?: boolean;
   count?: number;
   asChild?: boolean;
+  pulse?: boolean;
 }
 
-const SkeletonItem: FC<SkeletonProps> = ({ rounded, className, ...props }) => {
+const SkeletonItem: FC<SkeletonProps> = ({ rounded, className, pulse = true, ...props }) => {
   return (
     <div
-      className={cn("w-full rounded-sm h-6 animate-pulse bg-muted-foreground clip-corner", className, {
+      className={cn("w-full rounded-sm h-6 bg-muted-foreground", className, {
         ["rounded-full"]: rounded,
+        ['animate-pulse']: pulse,
       })}
       {...props}
     ></div>

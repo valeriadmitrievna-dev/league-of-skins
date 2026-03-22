@@ -74,8 +74,8 @@ const FilterList: FC<FilterListProps> = ({ items: options, value, onChange, isLo
             <div ref={registerChild} style={style}>
               <ToggleGroupItem
                 className={cn(
-                  "w-full flex justify-start gap-2 transition-colors hover:text-foreground hover:bg-muted-foreground/10 data-state-on:bg-muted-foreground/30 whitespace-normal text-left py-1 h-fit min-h-9 clip-corner-sm",
-                  { "bg-muted-foreground/5": focus && !index },
+                  "w-full flex justify-start gap-2 transition-colors hover:text-foreground hover:bg-accent/50 data-state-on:bg-accent whitespace-normal text-left py-1 h-fit min-h-9",
+                  { "bg-accent/50": focus && !index },
                 )}
                 value={item.value}
                 aria-label={item.label}
@@ -99,13 +99,13 @@ const FilterList: FC<FilterListProps> = ({ items: options, value, onChange, isLo
       onKeyDown={keyDownHandler}
       onFocus={() => setFocus(true)}
       onBlur={() => setFocus(false)}
-      className="plain-input mb-2"
+      className="plain-input"
     />
   );
 
   if (!isLoading && !items.length) {
     return (
-      <div>
+      <div className="flex flex-col gap-y-2">
         {withSearch && searchComponent}
         <Typography.Small className="text-muted-foreground">{t("filters.empty-options")}</Typography.Small>
       </div>
@@ -113,39 +113,37 @@ const FilterList: FC<FilterListProps> = ({ items: options, value, onChange, isLo
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-y-2">
       {withSearch && searchComponent}
-      <div className="">
-        <ScrollArea className="max-h-62" ref={containerRef}>
-          <ToggleGroup
-            type="single"
-            orientation="vertical"
-            spacing={1}
-            className="flex-col items-start w-full"
-            value={value}
-            onValueChange={onChange}
-          >
-            {isLoading && <Skeleton count={4} />}
+      <ScrollArea className="max-h-62" ref={containerRef}>
+        <ToggleGroup
+          type="single"
+          orientation="vertical"
+          spacing={1}
+          className="flex-col items-start w-full"
+          value={value}
+          onValueChange={onChange}
+        >
+          {isLoading && <Skeleton count={4} />}
 
-            {!isLoading && !!items.length && listHeight > 0 && (
-              <AutoSizer disableHeight>
-                {({ width }) => (
-                  <List
-                    width={width}
-                    height={listHeight}
-                    deferredMeasurementCache={cacheRef.current}
-                    rowHeight={cacheRef.current.rowHeight}
-                    rowRenderer={rowRenderer}
-                    rowCount={items.length}
-                    overscanRowCount={5}
-                    className="pe-2 scrollbar"
-                  />
-                )}
-              </AutoSizer>
-            )}
-          </ToggleGroup>
-        </ScrollArea>
-      </div>
+          {!isLoading && !!items.length && listHeight > 0 && (
+            <AutoSizer disableHeight>
+              {({ width }) => (
+                <List
+                  width={width}
+                  height={listHeight}
+                  deferredMeasurementCache={cacheRef.current}
+                  rowHeight={cacheRef.current.rowHeight}
+                  rowRenderer={rowRenderer}
+                  rowCount={items.length}
+                  overscanRowCount={5}
+                  className="pe-2 scrollbar"
+                />
+              )}
+            </AutoSizer>
+          )}
+        </ToggleGroup>
+      </ScrollArea>
     </div>
   );
 };

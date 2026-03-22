@@ -14,7 +14,7 @@ const ThemeSwitcher: FC = () => {
   };
 
   return (
-    <Button type="button" variant="lol-outline" size="icon" onClick={toggleThemeHandler}>
+    <Button type="button" variant="outline" size="icon" onClick={toggleThemeHandler}>
       {theme === "dark" && <SunIcon />}
       {theme === "light" && <MoonIcon />}
     </Button>

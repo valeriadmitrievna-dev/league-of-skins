@@ -63,9 +63,9 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
               <InfoLine
                 label={
                   <div className="flex items-center gap-1">
-                    <Typography.P className="my-tag clip-corner-sm ml-1">{items[0].name}</Typography.P>
+                    <Typography.P className="my-tag ml-1">{items[0].name}</Typography.P>
                     {items.length > 1 && (
-                      <Typography.P className="my-tag clip-corner-sm text-muted-foreground px-2!">+{items.length - 1}</Typography.P>
+                      <Typography.P className="my-tag text-muted-foreground px-2!">+{items.length - 1}</Typography.P>
                     )}
                   </div>
                 }
@@ -113,7 +113,7 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
         <InfoLine
           label={<Typography.Small>{t("skin.price")}</Typography.Small>}
           value={
-            <div className="my-tag clip-corner">
+            <div className="my-tag">
               <Typography.P>{formatNumber(statistics?.user.value ?? 0)}</Typography.P>
               <RPIcon className="size-4.5" />
             </div>
@@ -130,20 +130,20 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
           <InfoLine
             key={rarity.value}
             label={
-              <Typography.Small
+              <Typography.P
                 onClick={() =>
                   rarity.value === get("rarity") ? update("rarity", undefined) : update("rarity", rarity.value)
                 }
-                className={cn("my-tag cursor-pointer select-none clip-corner", {
+                className={cn("my-tag cursor-pointer select-none", {
                   "opacity-50 pointer-events-none": !rarity.count,
-                  "bg-primary! text-(--lol-navy-dark)!": rarity.value === get("rarity"),
+                  "bg-primary! text-primary-foreground!": rarity.value === get("rarity"),
                 })}
               >
                 {t(`rarity.${rarity.value}`)}
-              </Typography.Small>
+              </Typography.P>
             }
             value={String(rarity.count)}
-            valueClassName={cn("text-sm leading-4 px-2!", { "opacity-50 pointer-events-none": !rarity.count })}
+            valueClassName={cn("px-2!", { "opacity-50 pointer-events-none": !rarity.count })}
           />
         ))}
       </div>

@@ -57,7 +57,7 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
   ];
 
   return (
-    <div className={cn("bg-card border-2 border-primary/20 p-5 h-fit", className)}>
+    <div className={cn("bg-card border border-primary/20 p-5 h-fit rounded-md", className)}>
       <FilterPanelTitle onReset={hasActive && reset} className="mb-5" />
       <div>
         {isAuth && (

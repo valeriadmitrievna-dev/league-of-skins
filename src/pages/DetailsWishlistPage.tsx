@@ -220,14 +220,14 @@ const WishlistSidebar: FC<WishlistSidebarProps> = ({
       <div className="my-card flex flex-col gap-y-2 md:pl-4!">
         <div className="flex items-center justify-between">
           <Typography.Muted>{t("wishlist.price_total")}</Typography.Muted>
-          <div className="my-tag clip-corner">
+          <div className="my-tag">
             <Typography.P>{formatNumber(wishlist.price.total)}</Typography.P>
             <RPIcon className="size-4.5" />
           </div>
         </div>
         <div className="flex items-center justify-between">
           <Typography.Muted>{t("wishlist.price_owned")}</Typography.Muted>
-          <div className="my-tag clip-corner">
+          <div className="my-tag">
             <Typography.P>{formatNumber(wishlist.price.owned)}</Typography.P>
             <RPIcon className="size-4.5" />
           </div>
@@ -262,7 +262,7 @@ const WishlistSidebar: FC<WishlistSidebarProps> = ({
         wishlistId={wishlist._id}
         onSubmit={onDelete}
         trigger={({ onOpen }) => (
-          <Button variant="ghost" onClick={onOpen}>
+          <Button variant="ghost" onClick={onOpen} className='hover:bg-destructive!'>
             {t("wishlist.delete")}
           </Button>
         )}
