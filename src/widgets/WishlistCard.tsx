@@ -1,12 +1,12 @@
-import { HeartIcon, Share2Icon, TrashIcon } from "lucide-react";
+import { Share2Icon, TrashIcon } from "lucide-react";
 import type { FC, MouseEvent } from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
 
+import { ImageStack } from "@/components/ImageStack";
 import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
 import useShare from "@/hooks/useShare";
-import { cn } from "@/shared/utils/cn";
 import type { WishlistDto } from "@/types/wishlist";
 
 import WishlistDeleteModal from "./WishlistDeleteModal";
@@ -32,25 +32,36 @@ const WishlistCard: FC<WishlistCardProps> = ({ data }) => {
   };
 
   return (
-    <NavLink to={`/wishlists/${data._id}`} className="my-card h-auto! px-4! flex flex-col justify-between">
-      <Typography.Large className="line-clamp-3">{data.name}</Typography.Large>
+    <NavLink
+      to={`/wishlists/${data._id}`}
+      className="flex flex-col justify-between bg-card border rounded-md overflow-hidden group"
+    >
+      <ImageStack images={(data.preview ?? []).map((i) => i ?? "")} />
 
-      <div className="mt-2 w-full flex items-center gap-2">
-        <div className="flex items-center gap-1 text-muted-foreground mt-2">
-          <HeartIcon className={cn("size-3", { "fill-muted-foreground": data.skins.length })} />
-          <Typography.Muted>{data.skins.length} {t('shared.skin', { count: data.skins.length })}</Typography.Muted>
+      <div className="px-4 py-3">
+        <Typography.Large className="line-clamp-3">{data.name}</Typography.Large>
+
+        <div className="mt-2 w-full flex items-center gap-2">
+          <Typography.Muted>
+            {data.skins.length} {t("shared.skin", { count: data.skins.length })}
+          </Typography.Muted>
+          <Button size="icon" variant="outline" onClick={shareHandler} className="ml-auto">
+            <Share2Icon />
+          </Button>
+          <WishlistDeleteModal
+            wishlistId={data._id}
+            trigger={({ onOpen }) => (
+              <Button
+                size="icon"
+                variant="outline"
+                onClick={onOpen}
+                className="hover:bg-destructive hover:border-destructive dark:hover:border-destructive dark:hover:text-destructive"
+              >
+                <TrashIcon />
+              </Button>
+            )}
+          />
         </div>
-        <Button size="icon" variant="outline" onClick={shareHandler} className="ml-auto">
-          <Share2Icon />
-        </Button>
-        <WishlistDeleteModal
-          wishlistId={data._id}
-          trigger={({ onOpen }) => (
-            <Button size="icon" variant="outline" onClick={onOpen}>
-              <TrashIcon />
-            </Button>
-          )}
-        />
       </div>
     </NavLink>
   );

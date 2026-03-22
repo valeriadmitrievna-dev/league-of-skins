@@ -24,11 +24,11 @@ const FilterToggleTags: FC<FilterToggleTagsProps> = ({ value, onChange, options,
       size="sm"
       variant="outline"
       spacing={1}
-      className={cn("items-start w-full flex-wrap", className)}
+      className={cn("items-start w-full flex-col gap-y-2", className)}
       value={value}
       onValueChange={onChange}
     >
-      {loading && <Skeleton count={8} asChild className="w-[30%] h-8" />}
+      {loading && <Skeleton count={8} asChild className="h-10" />}
       {!loading && !options.length && (
         <Typography.Small className="text-muted-foreground">{t("filters.empty-options")}</Typography.Small>
       )}
@@ -38,7 +38,8 @@ const FilterToggleTags: FC<FilterToggleTagsProps> = ({ value, onChange, options,
           <ToggleGroupItem
             key={option.value}
             value={option.value}
-            className={cn("w-fit h-8 items-center justify-start", option.className)}
+            className={cn("w-full h-10 items-center border-2 data-state-on:text-primary data-state-on:border-primary data-state-on:bg-primary/10", {}, option.className)}
+            style={option.style}
           >
             {option.label}
           </ToggleGroupItem>

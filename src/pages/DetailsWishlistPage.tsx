@@ -89,10 +89,17 @@ const DetailsWishlistPage: FC = () => {
   };
 
   const renderSkin = useCallback(
-    (item: unknown) => {
+    (item: unknown, _index: number, className?: string) => {
       const skin = item as SkinDto;
       return (
-        <SkinCard key={skin.id} data={skin} owned={skin.owned} navigatable toggleOwnedButton wishlistId={wishlist?._id} />
+        <SkinCard
+          key={skin.id}
+          data={skin}
+          owned={skin.owned}
+          toggleOwnedButton
+          wishlistId={wishlist?._id}
+          className={className}
+        />
       );
     },
     [wishlist?._id, showOwned],
@@ -212,14 +219,14 @@ const WishlistSidebar: FC<WishlistSidebarProps> = ({
     {!!wishlist.price.total && !!wishlist.price.owned && (
       <div className="my-card flex flex-col gap-y-2 md:pl-4!">
         <div className="flex items-center justify-between">
-          <Typography.Muted>{t('wishlist.price_total')}</Typography.Muted>
+          <Typography.Muted>{t("wishlist.price_total")}</Typography.Muted>
           <div className="my-tag">
             <Typography.P>{formatNumber(wishlist.price.total)}</Typography.P>
             <RPIcon className="size-4.5" />
           </div>
         </div>
         <div className="flex items-center justify-between">
-          <Typography.Muted>{t('wishlist.price_owned')}</Typography.Muted>
+          <Typography.Muted>{t("wishlist.price_owned")}</Typography.Muted>
           <div className="my-tag">
             <Typography.P>{formatNumber(wishlist.price.owned)}</Typography.P>
             <RPIcon className="size-4.5" />
@@ -255,7 +262,7 @@ const WishlistSidebar: FC<WishlistSidebarProps> = ({
         wishlistId={wishlist._id}
         onSubmit={onDelete}
         trigger={({ onOpen }) => (
-          <Button variant="ghost" onClick={onOpen}>
+          <Button variant="ghost" onClick={onOpen} className='hover:bg-destructive!'>
             {t("wishlist.delete")}
           </Button>
         )}

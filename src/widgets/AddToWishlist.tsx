@@ -113,7 +113,7 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger({ openState: open, onOpen: openHandler })}</DialogTrigger>
-      <DialogContent showCloseButton className="gap-y-2">
+      <DialogContent preventDefault showCloseButton className="gap-y-2">
         <DialogHeader className="px-2.5 pt-2">
           <DialogTitle>{t("skin.add")}</DialogTitle>
           <DialogDescription>

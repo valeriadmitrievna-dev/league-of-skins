@@ -41,13 +41,22 @@ function DialogContent({
   className,
   children,
   showCloseButton = true,
+  preventDefault,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean;
+  preventDefault?: boolean;
 }) {
+  const clickHandler = (event: React.MouseEvent) => {
+    if (preventDefault) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+  };
+
   return (
     <DialogPortal>
-      <DialogOverlay>
+      <DialogOverlay onClick={clickHandler}>
         <DialogPrimitive.Content
           data-slot="dialog-content"
           className={cn(
@@ -60,8 +69,8 @@ function DialogContent({
           {children}
           {showCloseButton && (
             <DialogPrimitive.Close data-slot="dialog-close" asChild>
-              <Button variant="ghost" className="absolute top-2 right-2" size="icon-sm">
-                <XIcon />
+              <Button variant="ghost" className="absolute top-3.5 right-4" size="icon-xs">
+                <XIcon className='size-4!' />
                 <span className="sr-only">Close</span>
               </Button>
             </DialogPrimitive.Close>

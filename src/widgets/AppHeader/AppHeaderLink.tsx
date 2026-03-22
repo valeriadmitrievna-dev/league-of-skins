@@ -17,12 +17,14 @@ const AppHeaderLink: FC<AppHeaderLinkProps> = ({ className, to, text, disabled, 
       to={to}
       onClick={onClick}
       className={cn(
-        "text-sm text-center aria-[current=page]:text-pink-500",
+        "group relative text-sm font-medium text-center text-muted-foreground aria-[current=page]:text-primary uppercase",
         disabled && "pointer-events-none opacity-50",
         className,
       )}
     >
       {text}
+
+      {/* <div className='hidden group-aria-[current=page]:block absolute -bottom-2 left-0 right-0 h-0.5 bg-linear-to-r from-transparent via-(--primary) to-transparent' /> */}
     </NavLink>
   );
 };

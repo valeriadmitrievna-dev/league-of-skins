@@ -1,5 +1,5 @@
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
-import { useLayoutEffect, useMemo, useRef, useState, type FC, type JSX, type ReactNode } from "react";
+import { Fragment, useLayoutEffect, useMemo, useRef, useState, type FC, type JSX, type ReactNode } from "react";
 import { useWindowSize } from "react-use";
 
 import Skeleton from "@/components/Skeleton";
@@ -8,7 +8,7 @@ import { cn } from "@/shared/utils/cn";
 
 interface VirtualizedGridProps {
   items: unknown[];
-  render: (item: unknown, index: number) => ReactNode | JSX.Element;
+  render: (item: unknown, index: number, className?: string) => ReactNode | JSX.Element;
   loading?: boolean;
   fetching?: boolean;
   emptyState?: ReactNode;
@@ -28,10 +28,10 @@ interface VirtualizedGridProps {
 }
 
 const defaultBreakpoints = [
-  { minWidth: BREAKPOINTS["2xl"], columns: 6 },
-  { minWidth: BREAKPOINTS.xl, columns: 5 },
-  { minWidth: BREAKPOINTS.lg, columns: 4 },
-  { minWidth: BREAKPOINTS.md, columns: 3 },
+  { minWidth: BREAKPOINTS["2xl"], columns: 5 },
+  { minWidth: BREAKPOINTS.xl, columns: 4 },
+  { minWidth: BREAKPOINTS.lg, columns: 3 },
+  { minWidth: BREAKPOINTS.md, columns: 2 },
   { minWidth: 0, columns: 2 },
 ];
 
@@ -51,7 +51,7 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
   estimatedItemHeight = 400,
   responsiveColumns = defaultBreakpoints,
 }) => {
-  const skeletonAspectRatio = `aspect-${itemAspectRatio[1]}/${itemAspectRatio[0]}`;
+  const itemAspectRatioCN = `aspect-${itemAspectRatio[1]}/${itemAspectRatio[0]}`;
   const parentRef = useRef<HTMLDivElement | null>(null);
   const [containerWidth, setContainerWidth] = useState(0);
 
@@ -93,7 +93,7 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
     <div ref={parentRef} className={className}>
       {loading && (
         <div className={cn("grid gap-3", gridClassName)} style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
-          <Skeleton count={20} asChild className={cn("h-auto", skeletonAspectRatio)} />
+          <Skeleton count={20} asChild className={cn("h-auto", itemAspectRatioCN)} />
         </div>
       )}
 
@@ -127,14 +127,9 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
                 const key = itemKey ? itemKey(item, itemIndex) : itemIndex;
 
                 return (
-                  <div
-                    key={key}
-                    className={cn({
-                      "pointer-events-none animate-pulse": fetching,
-                    })}
-                  >
-                    {render(item, itemIndex)}
-                  </div>
+                  <Fragment key={key}>
+                    {render(item, itemIndex, cn(itemAspectRatioCN, { "pointer-events-none animate-pulse": fetching }))}
+                  </Fragment>
                 );
               })}
             </div>

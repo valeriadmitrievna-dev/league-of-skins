@@ -3,7 +3,7 @@ import type { ChangeEvent, ComponentProps, FC } from "react";
 import { useTranslation } from "react-i18next";
 
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/components/ui/input-group";
-import { cn } from '@/shared/utils/cn';
+import { cn } from "@/shared/utils/cn";
 
 type SearchSize = "default" | "sm" | "lg";
 
@@ -17,8 +17,9 @@ const Search: FC<SearchProps> = ({ size, onSearch, onClear, className, ...inputP
   const { t } = useTranslation();
 
   const getGroupClassName = (size?: SearchSize) => {
-    if (size === "lg") return "h-10 px-1";
+    if (size === "lg") return "h-12 px-1";
     if (size === "sm") return "h-8";
+    else return "h-10";
   };
 
   const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -31,10 +32,15 @@ const Search: FC<SearchProps> = ({ size, onSearch, onClear, className, ...inputP
   };
 
   return (
-    <InputGroup className={cn(getGroupClassName(size), 'border-foreground/15', className)}>
-      <InputGroupInput placeholder={t("shared.search")} {...inputProps} onChange={changeHandler} />
+    <InputGroup className={cn(getGroupClassName(size), "group border-foreground/15", className)}>
+      <InputGroupInput
+        placeholder={t("shared.search")}
+        className="focus:placeholder:text-primary/50"
+        {...inputProps}
+        onChange={changeHandler}
+      />
       <InputGroupAddon>
-        <SearchIcon />
+        <SearchIcon className="group-focus-within:text-primary transition-colors" />
       </InputGroupAddon>
       {inputProps.value && (
         <InputGroupAddon align="inline-end">

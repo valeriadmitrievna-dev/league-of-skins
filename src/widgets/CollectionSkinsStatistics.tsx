@@ -35,7 +35,7 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
         <div className="my-card flex flex-col gap-y-4">
           <Skeleton asChild count={3} className="h-7" />
         </div>
-        <div className="my-card flex flex-col gap-y-2">
+        <div className="my-card flex flex-col gap-y-3">
           <Skeleton asChild count={4} className="h-6" />
         </div>
         <div className="my-card flex flex-col gap-y-2">
@@ -77,7 +77,7 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
       </div>
 
       {/* Totals */}
-      <div className="my-card flex flex-col gap-y-2">
+      <div className="my-card flex flex-col gap-y-3">
         <InfoLine
           label={t("shared.skins")}
           value={`${statistics?.user.skins} / ${statistics?.totals.skins}`}
@@ -130,20 +130,20 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
           <InfoLine
             key={rarity.value}
             label={
-              <Typography.Small
+              <Typography.P
                 onClick={() =>
                   rarity.value === get("rarity") ? update("rarity", undefined) : update("rarity", rarity.value)
                 }
                 className={cn("my-tag cursor-pointer select-none", {
-                  "text-muted-foreground pointer-events-none": !rarity.count,
-                  "bg-foreground! text-background!": rarity.value === get("rarity"),
+                  "opacity-50 pointer-events-none": !rarity.count,
+                  "bg-primary! text-primary-foreground!": rarity.value === get("rarity"),
                 })}
               >
                 {t(`rarity.${rarity.value}`)}
-              </Typography.Small>
+              </Typography.P>
             }
             value={String(rarity.count)}
-            valueClassName={cn("text-sm leading-4 px-2!", { "text-muted-foreground pointer-events-none": !rarity.count })}
+            valueClassName={cn("px-2!", { "opacity-50 pointer-events-none": !rarity.count })}
           />
         ))}
       </div>

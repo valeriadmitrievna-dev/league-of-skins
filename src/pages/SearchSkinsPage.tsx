@@ -76,11 +76,11 @@ const SearchSkinsPage: FC = () => {
   const ownedSet = useMemo(() => new Set(user?.ownedSkins ?? []), [user?.ownedSkins]);
 
   const renderSkin = useCallback(
-    (item: unknown) => {
+    (item: unknown, _index: number, className?: string) => {
       const skin = item as SkinDto;
       const owned = ownedSet.has(skin.contentId);
 
-      return <SkinCard data={skin} owned={owned} navigatable addToWishlistButton toggleOwnedButton={Boolean(user)} />;
+      return <SkinCard data={skin} owned={owned} className={className} addToWishlistButton toggleOwnedButton={Boolean(user)} />;
     },
     [user, ownedSet],
   );
@@ -92,7 +92,7 @@ const SearchSkinsPage: FC = () => {
         <meta name="description" content="Search for skins" />
       </CustomHead>
 
-      <div className="w-full md:grid grid-cols-[300px_1fr] gap-5">
+      <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
         <SearchSkinsBreadcrumb className="md:hidden mb-3" />
         <SearchFilters className="hidden md:block" />
 
@@ -106,15 +106,16 @@ const SearchSkinsPage: FC = () => {
 
           {/* {!!count && (
             <div className="flex items-center justify-between my-3">
-              <Typography.Muted>
-                <Typography.Small className="text-foreground!">{count}</Typography.Small>{" "}
-                {t("shared.skin", { count: count })}
-              </Typography.Muted>
-              {!!count && (
+              <span className='text-muted-foreground tracking-wide'>
+                {t("filters.found_count")}{" "}
+                <span className="text-primary text-glow-gold font-bold">{skinsCount}</span>{" "}
+                {t("shared.skin", { count: skinsCount })}
+              </span>
+              {!!skinsCount && (
                 <AddToWishlist
                   skinContentIds={skins.map((skin) => skin.contentId)}
                   trigger={({ onOpen }) => (
-                    <Button onClick={onOpen} size="sm">
+                    <Button onClick={onOpen}>
                       <PlusIcon />
                       Добавить в вишлист
                     </Button>

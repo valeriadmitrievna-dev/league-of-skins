@@ -125,7 +125,7 @@ const DetailsSkinPage: FC = () => {
         </CustomHead>
         <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-8">
           <div className="flex flex-col gap-y-3">
-            <div className="my-card pt-5! px-4! text-xs h-fit relative">
+            <div className="my-card pt-6! pb-5! px-4! text-xs h-fit relative">
               {isOwned && (
                 <Badge className="absolute bg-background gap-x-1.5 -top-2.5 right-4" variant="outline">
                   <BadgeCheckIcon className="scale-120 text-sky-500 dark:text-blue-600" />
@@ -229,7 +229,7 @@ const DetailsSkinPage: FC = () => {
             {!!skin.chromas?.length && (
               <div className="mt-6">
                 <Typography.H4 className="mb-2">{t("skin.chromas")}</Typography.H4>
-                <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 bg-muted py-5 px-5 rounded-md cursor-pointer">
+                <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 md:bg-muted md:py-5 md:px-5 rounded-md cursor-pointer">
                   {skin.chromas.map((chroma) => (
                     <div
                       key={chroma.contentId}
@@ -247,13 +247,13 @@ const DetailsSkinPage: FC = () => {
             {!!skin.features?.length && (
               <div className="mt-6">
                 <Typography.H4 className="mb-2">{t("skin.features")}</Typography.H4>
-                <div className="grid gap-3 grid-cols-2">
+                <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
                   {skin.features.map((feature) => (
-                    <div key={feature.description} className="relative overflow-hidden rounded-md">
-                      <Video src={feature.videoPath} className="w-full" controls loop />
+                    <div key={feature.description} className="relative overflow-hidden rounded-md aspect-1056/720">
+                      <Video src={feature.videoPath} className="w-full aspect-1056/720" controls loop />
 
                       <div className="absolute w-full z-10 top-2 left-2">
-                        <Image src={feature.iconPath} className="w-[10%] rounded-md border border-neutral-50" />
+                        <Image src={feature.iconPath} className="w-[10%] aspect-square" />
                       </div>
                     </div>
                   ))}

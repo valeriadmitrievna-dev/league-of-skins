@@ -3,13 +3,13 @@ import { NavLink } from "react-router";
 
 import AppLogo from "@/components/AppLogo";
 
-import AppHeaderNav from './AppHeaderNav';
-import AppSidebar from './AppSidebar';
+import AppHeaderNav from "./AppHeaderNav";
+import AppSidebar from "./AppSidebar";
 
 const AppHeader: FC = () => {
   return (
-    <>
-      <div className="flex items-center justify-between py-1.5 pt-3 my-container">
+    <header className="relative border-b border-primary/20 bg-card overflow-hidden">
+      <div className="h-16 md:h-20 flex items-center justify-between my-container">
         <NavLink to="/">
           <AppLogo />
         </NavLink>
@@ -20,7 +20,7 @@ const AppHeader: FC = () => {
           <AppSidebar />
         </div>
       </div>
-    </>
+    </header>
   );
 };
 

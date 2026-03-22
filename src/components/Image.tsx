@@ -6,10 +6,10 @@ import { cn } from "@/shared/utils/cn";
 import Skeleton from "./Skeleton";
 
 interface ImageProps extends ComponentProps<"img"> {
-  //
+  pulseLoading?: boolean;
 }
 
-const Image: FC<ImageProps> = ({ src, className, ...props }) => {
+const Image: FC<ImageProps> = ({ src, className, style, pulseLoading = true, ...props }) => {
   const [state, setState] = useState<"loading" | "loaded" | "error">("loading");
 
   return (
@@ -20,7 +20,7 @@ const Image: FC<ImageProps> = ({ src, className, ...props }) => {
         onLoadStart={() => setState("loading")}
         onLoad={() => setState("loaded")}
         onError={() => setState("error")}
-        style={{ display: state === "loading" || state === "error" ? "none" : "block" }}
+        style={{ display: state === "loading" || state === "error" ? "none" : "block", ...style }}
         {...props}
       />
 
@@ -30,7 +30,7 @@ const Image: FC<ImageProps> = ({ src, className, ...props }) => {
         </div>
       )}
 
-      {state === "loading" && <Skeleton className={cn("h-auto", className)} />}
+      {state === "loading" && <Skeleton pulse={pulseLoading} className={cn("h-auto", className)} style={style} />}
     </>
   );
 };
