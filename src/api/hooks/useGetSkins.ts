@@ -1,4 +1,3 @@
-import { uniqBy } from "lodash";
 import { useEffect, useState } from "react";
 
 import { useInViewport } from "@/hooks/useInViewport";
@@ -11,7 +10,6 @@ import type { SkinsRequest } from "../types";
 
 export const useGetSkins = (params: WithLanguage<SkinsRequest>, size: number = 30) => {
   const [page, setPage] = useState(1);
-
   const [totalData, setTotalData] = useState<SkinDto[]>([]);
 
   const { data, isLoading, isFetching } = useGetSkinsQuery({ ...params, page, size });
@@ -26,8 +24,15 @@ export const useGetSkins = (params: WithLanguage<SkinsRequest>, size: number = 3
   }, [visible]);
 
   useEffect(() => {
-    const { data: skins } = getODataWithDefault(data);
-    setTotalData((prev) => uniqBy([...prev, ...skins], 'id'));
+    if (totalData.length < page * size) {
+      const { data: skins } = getODataWithDefault(data);
+
+      if (page === 1) {
+        setTotalData(skins);
+      } else {
+        setTotalData((prev) => [...prev, ...skins]);
+      }
+    }
   }, [data]);
 
   return {

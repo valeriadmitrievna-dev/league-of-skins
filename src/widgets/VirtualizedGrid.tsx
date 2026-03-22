@@ -1,5 +1,5 @@
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
-import { useLayoutEffect, useMemo, useRef, useState, type FC, type ReactNode } from "react";
+import { useLayoutEffect, useMemo, useRef, useState, type FC, type JSX, type ReactNode } from "react";
 import { useWindowSize } from "react-use";
 
 import Skeleton from "@/components/Skeleton";
@@ -8,7 +8,7 @@ import { cn } from "@/shared/utils/cn";
 
 interface VirtualizedGridProps {
   items: unknown[];
-  render: (item: unknown, index: number) => ReactNode;
+  render: (item: unknown, index: number) => ReactNode | JSX.Element;
   loading?: boolean;
   fetching?: boolean;
   emptyState?: ReactNode;
