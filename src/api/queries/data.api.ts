@@ -3,11 +3,11 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getLanguageCode } from "@/shared/utils/getLanguageCode";
 import type { ChampionDto } from "@/types/champion";
 import type { ChromaDto } from "@/types/chroma";
-import type { ODataRequest, ODataResponse, WithLanguage } from "@/types/shared";
+import type { ODataResponse, PaginatedRequest, WithLanguage } from "@/types/shared";
 import type { SkinDto } from "@/types/skin";
 import type { SkinlineDto } from "@/types/skinline";
 
-import type { SkinsRequest } from "./types";
+import type { SkinsRequest } from "../types";
 
 export const dataApi = createApi({
   reducerPath: "dataApi",
@@ -30,7 +30,7 @@ export const dataApi = createApi({
     getRarities: build.query<string[], void>({
       query: () => "/shared/rarities",
     }),
-    getChromas: build.query<ODataResponse<ChromaDto[]>, WithLanguage<ODataRequest | void>>({
+    getChromas: build.query<ODataResponse<ChromaDto[]>, WithLanguage>({
       query: ({ lang }) => ({
         url: "/shared/chromas",
         headers: { "App-Language": getLanguageCode(lang) },
@@ -38,7 +38,7 @@ export const dataApi = createApi({
     }),
 
     // skinlines
-    getSkinlines: build.query<ODataResponse<SkinlineDto[]>, WithLanguage<ODataRequest>>({
+    getSkinlines: build.query<ODataResponse<SkinlineDto[]>, PaginatedRequest<WithLanguage>>({
       query: ({ lang, ...params }) => ({
         url: "/skinlines",
         params,
@@ -47,7 +47,7 @@ export const dataApi = createApi({
     }),
 
     // champions
-    getChampions: build.query<ODataResponse<ChampionDto[]>, WithLanguage<ODataRequest | void>>({
+    getChampions: build.query<ODataResponse<ChampionDto[]>, PaginatedRequest<WithLanguage>>({
       query: ({ lang, ...params }) => ({
         url: "/champions",
         params: params ?? {},
@@ -62,7 +62,7 @@ export const dataApi = createApi({
     }),
 
     // skins
-    getSkins: build.query<ODataResponse<SkinDto[]>, WithLanguage<SkinsRequest>>({
+    getSkins: build.query<ODataResponse<SkinDto[]>, PaginatedRequest<WithLanguage<SkinsRequest>>>({
       query: ({ lang, ...params }) => ({
         url: "/skins",
         headers: { "App-Language": getLanguageCode(lang) },
@@ -83,15 +83,12 @@ export const {
   useGetLanguagesQuery,
   useGetRaritiesQuery,
   useGetChromasQuery,
-  useLazyGetChromasQuery,
 
   useGetSkinlinesQuery,
-  useLazyGetSkinlinesQuery,
 
   useGetChampionsQuery,
   useLazyGetChampionsQuery,
   useGetChampionByIdQuery,
-  useLazyGetChampionByIdQuery,
 
   useGetSkinsQuery,
   useLazyGetSkinsQuery,
