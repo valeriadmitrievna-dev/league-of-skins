@@ -21,7 +21,7 @@ const FilterToggleGroup: FC<FilterToggleGroupProps> = ({ value, onChange, option
       className={cn("w-full", className)}
     >
       {options.map((option) => (
-        <ToggleGroupItem key={option.value} className={cn("grow text-[14px]! font-normal uppe", option.className)} value={option.value}>
+        <ToggleGroupItem key={option.value} className={cn("grow text-[14px]! font-normal", option.className)} value={option.value}>
           {option.label}
         </ToggleGroupItem>
       ))}
