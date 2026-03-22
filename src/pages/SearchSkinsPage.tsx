@@ -127,8 +127,8 @@ const SearchSkinsPage: FC = () => {
 
           {!isLoading && !isFetching && !count && <NoResultsState className="my-30" />}
 
-          <VirtualizedGrid items={skins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />
-          {isFetching && <Spinner className="mx-auto mt-4 size-8" />}
+          <VirtualizedGrid items={skins} loading={isLoading || (!skins.length && isFetching)} fetching={isFetching} overscan={4} render={renderSkin} />
+          {!!skins && isFetching && <Spinner className="mx-auto mt-4 size-8" />}
           {!!skins && !isLoading && <div ref={ref} />}
 
           <ScrollTop />

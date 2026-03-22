@@ -35,6 +35,11 @@ export const useGetSkins = (params: WithLanguage<SkinsRequest>, size: number = 3
     }
   }, [data]);
 
+  useEffect(() => {
+    setTotalData([]);
+    setPage(1);
+  }, Object.values(params))
+
   return {
     ref,
     count: totalCount,
