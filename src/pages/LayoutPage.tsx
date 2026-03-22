@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Outlet } from "react-router";
+import { Outlet, ScrollRestoration } from "react-router";
 
 import { AppHeader } from "@/widgets/AppHeader";
 
@@ -9,6 +9,7 @@ const LayoutPage: FC = () => {
       <AppHeader />
       <div className="h-full p-4 md:p-5 my-container">
         <Outlet />
+        <ScrollRestoration />
       </div>
     </div>
   );

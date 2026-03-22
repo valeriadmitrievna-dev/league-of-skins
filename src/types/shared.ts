@@ -8,15 +8,14 @@ export type WithLanguage<T = Record<string, string>> = T & {
   lang: string;
 };
 
+export type PaginatedRequest<T> = T & {
+  page?: number;
+  size?: number;
+}
+
 export interface ODataResponse<T> {
   count: number;
   data: T;
-}
-
-export interface ODataRequest {
-  search?: string;
-  page?: number;
-  size?: number;
 }
 
 export interface ApiErrorPayload {

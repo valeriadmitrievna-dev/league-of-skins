@@ -1,3 +1,3 @@
-export * from './auth.api';
-export * from './data.api';
-export * from './user.api';
+export * from './queries/auth.api';
+export * from './queries/data.api';
+export * from './queries/user.api';

@@ -1,22 +1,19 @@
-import { PlusIcon } from "lucide-react";
 import { useCallback, useMemo, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import { useDebounce } from "react-use";
 
-import { useGetChromasQuery, useGetSkinsQuery } from "@/api";
+import { useGetChromasQuery, useGetUserQuery } from "@/api";
+import { useGetSkins } from "@/api/hooks/useGetSkins";
 import CustomHead from "@/components/CustomMetaHead";
 import NoResultsState from "@/components/NoResultsState";
 import ScrollTop from "@/components/ScrollTop";
 import Search from "@/components/Search";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { getColorsString } from "@/shared/utils/getColorsString";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
-import { appAuthSelector } from "@/store";
 import type { SkinDto } from "@/types/skin";
-import AddToWishlist from "@/widgets/AddToWishlist";
 import FiltersDrawer from "@/widgets/Filters/FiltersDrawer";
 import SearchFilters from "@/widgets/SearchFilters";
 import SkinCard from "@/widgets/SkinCard";
@@ -41,9 +38,9 @@ const SearchSkinsBreadcrumb: FC<IBreadcrumbProps> = ({ className }) => {
 };
 
 const SearchSkinsPage: FC = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
-  const isAuth = useSelector(appAuthSelector);
+  const { data: user } = useGetUserQuery();
 
   const { get, update } = useQueryParams();
   const search = get("search");
@@ -74,24 +71,18 @@ const SearchSkinsPage: FC = () => {
     [i18n.language, search, chroma, get],
   );
 
-  const { data: skinsData, isLoading, isFetching } = useGetSkinsQuery(skinsQueryParams);
-  const { data: skins, count: skinsCount } = getODataWithDefault(skinsData);
+  const { ref, data: skins, count, isLoading, isFetching } = useGetSkins(skinsQueryParams);
+
+  const ownedSet = useMemo(() => new Set(user?.ownedSkins ?? []), [user?.ownedSkins]);
 
   const renderSkin = useCallback(
     (item: unknown, _index: number, className?: string) => {
       const skin = item as SkinDto;
-      return (
-        <SkinCard
-          key={skin.id}
-          data={skin}
-          owned={skin.owned}
-          className={className}
-          addToWishlistButton
-          toggleOwnedButton={isAuth}
-        />
-      );
+      const owned = ownedSet.has(skin.contentId);
+
+      return <SkinCard data={skin} owned={owned} className={className} addToWishlistButton toggleOwnedButton={Boolean(user)} />;
     },
-    [isAuth],
+    [user, ownedSet],
   );
 
   return (
@@ -105,7 +96,7 @@ const SearchSkinsPage: FC = () => {
         <SearchSkinsBreadcrumb className="md:hidden mb-3" />
         <SearchFilters className="hidden md:block" />
 
-        <div className="pb-14">
+        <div className="pb-10">
           <SearchSkinsBreadcrumb className="hidden md:block" />
 
           <div className="mt-3 mb-3 flex items-center gap-2">
@@ -113,7 +104,7 @@ const SearchSkinsPage: FC = () => {
             <FiltersDrawer className="md:hidden" />
           </div>
 
-          {!!skinsCount && (
+          {/* {!!count && (
             <div className="flex items-center justify-between my-3">
               <span className='text-muted-foreground tracking-wide'>
                 {t("filters.found_count")}{" "}
@@ -132,11 +123,13 @@ const SearchSkinsPage: FC = () => {
                 />
               )}
             </div>
-          )}
+          )} */}
 
-          {!isLoading && !skins.length && <NoResultsState className="my-30" />}
+          {!isLoading && !isFetching && !count && <NoResultsState className="my-30" />}
 
           <VirtualizedGrid items={skins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />
+          {isFetching && <Spinner className="mx-auto mt-4 size-8" />}
+          {!!skins && !isLoading && <div ref={ref} />}
 
           <ScrollTop />
         </div>

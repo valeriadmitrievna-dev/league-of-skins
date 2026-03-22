@@ -23,7 +23,6 @@ const Video: FC<VideoProps> = ({ src, className, ...props }) => {
 
   useEffect(() => {
     if (!src) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState("error");
       return;
     }

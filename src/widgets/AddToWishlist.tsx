@@ -106,7 +106,6 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
     if (addSkinsWaiting.length && !open && isEqual(addSkinsWaiting, skinContentIds) && isAuth) {
       dispatch(setAddSkinsWaiting([]));
 
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setOpen(true);
     }
   }, [isAuth, addSkinsWaiting]);

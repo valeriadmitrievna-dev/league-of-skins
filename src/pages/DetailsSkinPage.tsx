@@ -218,10 +218,8 @@ const DetailsSkinPage: FC = () => {
 
             <div className="mt-3 flex wrap-normal gap-2">
               {skin.skinlines.map((skinline) => (
-                <NavLink to={"/search/skins?skinlineId=" + String(skinline.id)}>
-                  <Badge key={skinline.id} variant="secondary">
-                    {skinline.name}
-                  </Badge>
+                <NavLink to={"/search/skins?skinlineId=" + String(skinline.id)} key={skinline.id}>
+                  <Badge variant="secondary">{skinline.name}</Badge>
                 </NavLink>
               ))}
             </div>
