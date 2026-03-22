@@ -9,7 +9,7 @@ import Image from "@/components/Image";
 import { Typography } from '@/components/Typography';
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from '@/components/ui/card';
+import { CardContent } from '@/components/ui/card';
 import { Spinner } from "@/components/ui/spinner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
@@ -185,7 +185,7 @@ const SkinCard: FC<SkinCardProps> = ({
   }
 
   return (
-    <Card className={cn("relative mx-auto w-full p-0 overflow-hidden gap-y-4 group select-none", className)}>
+    <NavLink to={`/skins/${data.contentId}`} className={cn("relative rounded-md flex border mx-auto w-full p-0 overflow-hidden gap-y-4 group select-none", className)}>
       {data.video && (data.video.card || data.video.centered) && (
         <video
           src={data.video.card || data.video.centered!}
@@ -300,7 +300,7 @@ const SkinCard: FC<SkinCardProps> = ({
           </div>
         )}
       </CardContent>
-    </Card>
+    </NavLink>
   );
 };
 
