@@ -192,7 +192,7 @@ const DetailsSkinPage: FC = () => {
               trigger={({ onOpen }) => <Button onClick={onOpen}>{t("skin.add")}</Button>}
             />
             {isAuth && (
-              <Button variant="secondary" onClick={toggleOwnedHandler} disabled={isOwningUpdating}>
+              <Button variant="outline" onClick={toggleOwnedHandler} disabled={isOwningUpdating}>
                 {isOwningUpdating && <Spinner />}
                 {isOwned ? t("skin.unmarkOwnedTooltip") : t("skin.markOwnedTooltip")}
               </Button>

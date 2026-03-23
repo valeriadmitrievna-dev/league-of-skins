@@ -1,5 +1,5 @@
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
-import { Fragment, useLayoutEffect, useMemo, useRef, useState, type FC, type JSX, type ReactNode } from "react";
+import { useLayoutEffect, useMemo, useRef, useState, type FC, type JSX, type ReactNode } from "react";
 import { useWindowSize } from "react-use";
 
 import Skeleton from "@/components/Skeleton";
@@ -8,7 +8,7 @@ import { cn } from "@/shared/utils/cn";
 
 interface VirtualizedGridProps {
   items: unknown[];
-  render: (item: unknown, index: number, className?: string) => ReactNode | JSX.Element;
+  render: (item: unknown, index: number) => ReactNode | JSX.Element;
   loading?: boolean;
   fetching?: boolean;
   emptyState?: ReactNode;
@@ -51,7 +51,7 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
   estimatedItemHeight = 400,
   responsiveColumns = defaultBreakpoints,
 }) => {
-  const itemAspectRatioCN = `aspect-${itemAspectRatio[1]}/${itemAspectRatio[0]}`;
+  const itemAspectRatioCN = `aspect-[${itemAspectRatio[1]}/${itemAspectRatio[0]}]`;
   const parentRef = useRef<HTMLDivElement | null>(null);
   const [containerWidth, setContainerWidth] = useState(0);
 
@@ -127,9 +127,13 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
                 const key = itemKey ? itemKey(item, itemIndex) : itemIndex;
 
                 return (
-                  <Fragment key={key}>
-                    {render(item, itemIndex, cn(itemAspectRatioCN, { "pointer-events-none animate-pulse": fetching }))}
-                  </Fragment>
+                  <div
+                    key={key}
+                    className={cn(itemAspectRatioCN, { "pointer-events-none animate-pulse": fetching })}
+                    style={{ aspectRatio: `${itemAspectRatio[1]}/${itemAspectRatio[0]}` }}
+                  >
+                    {render(item, itemIndex)}
+                  </div>
                 );
               })}
             </div>

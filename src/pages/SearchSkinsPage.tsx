@@ -91,13 +91,11 @@ const SearchSkinsPage: FC = () => {
   const ownedSet = useMemo(() => new Set(user?.ownedSkins ?? []), [user?.ownedSkins]);
 
   const renderSkin = useCallback(
-    (item: unknown, _index: number, className?: string) => {
+    (item: unknown, _index: number) => {
       const skin = item as SkinDto;
       const owned = ownedSet.has(skin.contentId);
 
-      return (
-        <SkinCard data={skin} owned={owned} className={className} addToWishlistButton toggleOwnedButton={Boolean(user)} />
-      );
+      return <SkinCard data={skin} owned={owned} addToWishlistButton toggleOwnedButton={Boolean(user)} />;
     },
     [user, ownedSet],
   );

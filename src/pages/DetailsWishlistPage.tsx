@@ -89,7 +89,7 @@ const DetailsWishlistPage: FC = () => {
   };
 
   const renderSkin = useCallback(
-    (item: unknown, _index: number, className?: string) => {
+    (item: unknown, _index: number) => {
       const skin = item as SkinDto;
       return (
         <SkinCard
@@ -98,7 +98,6 @@ const DetailsWishlistPage: FC = () => {
           owned={skin.owned}
           toggleOwnedButton
           wishlistId={wishlist?._id}
-          className={className}
         />
       );
     },

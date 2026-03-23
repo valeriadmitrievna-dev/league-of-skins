@@ -3,6 +3,7 @@
 :root {
   --radius: 0.625rem;
   
+  /* Ваши базовые цвета */
   --background: oklch(0.9822 0.0118 313.22);
   --foreground: oklch(0.1226 0.0732 271.08);
   
@@ -12,57 +13,68 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.1226 0.0732 271.08);
   
-  --primary: oklch(0.5082 0.1565 20.19);
-  --primary-foreground: oklch(0.98 0.01 20.19);
+  /* Ваши основные акценты */
+  --primary: oklch(0.5142 0.068 185.97);
+  --primary-foreground: oklch(0.98 0.01 185.97);
   
-  --secondary: oklch(0.6381 0.0537 292.45);
-  --secondary-foreground: oklch(0.98 0.01 292.45);
+  --secondary: oklch(0.7746 0.0849 116.49);
+  --secondary-foreground: oklch(0.2 0.05 116.49);
   
   --accent: oklch(0.5046 0.0375 254.17);
   --accent-foreground: oklch(0.98 0.01 254.17);
   
+  /* Muted — приглушенная версия фона */
   --muted: oklch(0.94 0.015 313.22);
-  --muted-foreground: oklch(0.45 0.06 271.08);
+  --muted-foreground: oklch(0.45 0.05 271.08);
   
+  /* Destructive и Success */
   --destructive: oklch(0.55 0.2 27);
   --success: oklch(0.55 0.12 145);
   
+  /* Border и Input */
   --border: oklch(0.88 0.02 313.22);
   --input: oklch(0.88 0.02 313.22);
-  --ring: oklch(0.5082 0.1565 20.19);
+  --ring: oklch(0.5142 0.068 185.97);
   
-  --chart-1: oklch(0.5082 0.1565 20.19);
-  --chart-2: oklch(0.6381 0.0537 292.45);
+  /* Chart — расширенная палитра из ваших цветов */
+  --chart-1: oklch(0.5142 0.068 185.97);
+  --chart-2: oklch(0.7746 0.0849 116.49);
   --chart-3: oklch(0.5046 0.0375 254.17);
-  --chart-4: oklch(0.7 0.08 313.22);
-  --chart-5: oklch(0.6 0.1 85);
+  --chart-4: oklch(0.65 0.08 313.22);
+  --chart-5: oklch(0.6 0.1 45);
   
+  /* Sidebar */
   --sidebar: oklch(0.96 0.012 313.22);
   --sidebar-foreground: oklch(0.1226 0.0732 271.08);
-  --sidebar-primary: oklch(0.5082 0.1565 20.19);
-  --sidebar-primary-foreground: oklch(0.98 0.01 20.19);
+  --sidebar-primary: oklch(0.5142 0.068 185.97);
+  --sidebar-primary-foreground: oklch(0.98 0.01 185.97);
   --sidebar-accent: oklch(0.5046 0.0375 254.17);
   --sidebar-accent-foreground: oklch(0.98 0.01 254.17);
   --sidebar-border: oklch(0.88 0.02 313.22);
-  --sidebar-ring: oklch(0.5082 0.1565 20.19);
+  --sidebar-ring: oklch(0.5142 0.068 185.97);
 }
 
 .dark {
+  /* Темная тема — глубокий фон на основе foreground */
   --background: oklch(0.1226 0.0732 271.08);
   --foreground: oklch(0.95 0.02 313.22);
   
+  /* Card — чуть светлее фона */
   --card: oklch(0.18 0.06 271.08);
   --card-foreground: oklch(0.95 0.02 313.22);
   
   --popover: oklch(0.18 0.06 271.08);
   --popover-foreground: oklch(0.95 0.02 313.22);
   
-  --primary: oklch(0.65 0.18 20.19);
+  /* Primary в темной теме — ярче, насыщеннее */
+  --primary: oklch(0.65 0.09 185.97);
   --primary-foreground: oklch(0.1226 0.0732 271.08);
   
-  --secondary: oklch(0.75 0.08 292.45);
+  /* Secondary — светлый салатовый */
+  --secondary: oklch(0.85 0.1 116.49);
   --secondary-foreground: oklch(0.1226 0.0732 271.08);
   
+  /* Accent — яркий синий */
   --accent: oklch(0.65 0.06 254.17);
   --accent-foreground: oklch(0.1226 0.0732 271.08);
   
@@ -74,22 +86,22 @@
   
   --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.65 0.18 20.19);
+  --ring: oklch(0.65 0.09 185.97);
   
-  --chart-1: oklch(0.65 0.18 20.19);
-  --chart-2: oklch(0.75 0.08 292.45);
+  --chart-1: oklch(0.65 0.09 185.97);
+  --chart-2: oklch(0.85 0.1 116.49);
   --chart-3: oklch(0.65 0.06 254.17);
   --chart-4: oklch(0.7 0.06 313.22);
-  --chart-5: oklch(0.6 0.1 85);
+  --chart-5: oklch(0.6 0.1 45);
   
   --sidebar: oklch(0.15 0.06 271.08);
   --sidebar-foreground: oklch(0.95 0.02 313.22);
-  --sidebar-primary: oklch(0.65 0.18 20.19);
+  --sidebar-primary: oklch(0.65 0.09 185.97);
   --sidebar-primary-foreground: oklch(0.1226 0.0732 271.08);
   --sidebar-accent: oklch(0.65 0.06 254.17);
   --sidebar-accent-foreground: oklch(0.1226 0.0732 271.08);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.65 0.18 20.19);
+  --sidebar-ring: oklch(0.65 0.09 185.97);
 }
 
 @theme inline {
@@ -115,6 +127,7 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-success: var(--success);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);

@@ -22,7 +22,7 @@ const UserSettingsTab: FC<UserSettingsTabProps> = ({ id, title, icon: Icon, acti
       variant="ghost"
       onClick={clickHandler}
       className={cn("justify-start rounded-md p-1! flex items-center gap-x-2", {
-        "bg-secondary! text-secondary-foreground": active,
+        "bg-secondary! text-secondary-foreground!": active,
       })}
     >
       <Icon className="size-8 p-1.5" />
