@@ -11,37 +11,36 @@ import type { SkinsRequest } from "../types";
 export const useGetSkins = (params: WithLanguage<SkinsRequest>, size: number = 30) => {
   const [page, setPage] = useState(1);
   const [totalData, setTotalData] = useState<SkinDto[]>([]);
-
   const { data, isLoading, isFetching } = useGetSkinsQuery({ ...params, page, size });
   const { count: totalCount } = getODataWithDefault(data);
 
-  const { ref, visible } = useInViewport<HTMLDivElement>();
+  const { ref: loaderRef, visible } = useInViewport<HTMLDivElement>();
+
+  const canLoadMore = totalCount !== undefined ? totalData.length < totalCount : true;
 
   useEffect(() => {
-    if (visible && !isLoading && !isFetching && totalData.length < totalCount) {
+    if (visible && !isLoading && !isFetching && canLoadMore) {
       setPage((page) => page + 1);
     }
-  }, [visible]);
+  }, [visible, isLoading, isFetching, canLoadMore]);
 
   useEffect(() => {
-    if (totalData.length < page * size) {
-      const { data: skins } = getODataWithDefault(data);
+    const { data: skins } = getODataWithDefault(data);
 
-      if (page === 1) {
-        setTotalData(skins);
-      } else {
-        setTotalData((prev) => [...prev, ...skins]);
-      }
-    }
-  }, [data]);
+    setTotalData((prev) => {
+      const merged = page === 1 ? skins : [...prev, ...skins];
+      const map = new Map(merged.map((s) => [s.contentId, s]));
+      return Array.from(map.values());
+    });
+  }, [data, page]);
 
   useEffect(() => {
-    setTotalData([]);
     setPage(1);
-  }, Object.values(params))
+    setTotalData([]);
+  }, [JSON.stringify(params)]);
 
   return {
-    ref,
+    loaderRef,
     count: totalCount,
     data: totalData,
     isLoading,
