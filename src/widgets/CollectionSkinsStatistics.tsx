@@ -111,7 +111,7 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
       {/* Price */}
       <div className="my-card flex flex-col gap-y-2">
         <InfoLine
-          label={<Typography.Small>{t("skin.price")}</Typography.Small>}
+          label={<Typography.Small>{t("skin.wasted")}</Typography.Small>}
           value={
             <div className="my-tag">
               <Typography.P>{formatNumber(statistics?.user.value ?? 0)}</Typography.P>

@@ -73,7 +73,7 @@ const SkinCard: FC<SkinCardProps> = ({
       >
         {/* Badges */}
         <div className="absolute top-0 start-0 end-0 p-2 z-3 flex gap-1 flex-wrap">
-          {owned && <Badge className="bg-success">{t("skin.owned")}</Badge>}
+          {owned && <Badge className="bg-success text-neutral-800">{t("skin.owned")}</Badge>}
           {data.rarity !== "kNoRarity" && (
             <Badge className="border-b border-s text-neutral-800" style={{ background: RARITIES[data.rarity]?.color }}>
               {t(`rarity.${data.rarity}`)}
