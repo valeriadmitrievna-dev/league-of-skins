@@ -79,10 +79,10 @@ const CollectionSkinsPage: FC = () => {
   const { data, isLoading, isFetching } = useGetOwnedSkinsQuery(skinsQueryParams);
   const { data: ownedSkins } = getODataWithDefault(data);
 
-  const renderSkin = useCallback((item: unknown, _index: number, className?: string) => {
+  const renderSkin = useCallback((item: unknown, _index: number) => {
     const skin = item as SkinDto;
     return (
-      <SkinCard key={skin.id} data={skin} addToWishlistButton toggleOwnedButton className={className} />
+      <SkinCard key={skin.id} data={skin} addToWishlistButton toggleOwnedButton />
     );
   }, []);
 
