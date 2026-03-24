@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
 import { useDebounce } from "react-use";
 
-import { useGetChromasQuery, useGetOwnedSkinsQuery } from "@/api";
+import { useGetChromasQuery, useLazyGetOwnedSkinsQuery } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
 import NoResultsState from "@/components/NoResultsState";
 import ScrollTop from "@/components/ScrollTop";
@@ -12,6 +12,8 @@ import { Typography } from "@/components/Typography";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
+import { Spinner } from "@/components/ui/spinner";
+import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { cn } from "@/shared/utils/cn";
 import { getColorsString } from "@/shared/utils/getColorsString";
@@ -62,31 +64,43 @@ const CollectionSkinsPage: FC = () => {
     return chromas.find((chroma) => chroma.id === chromaId);
   }, [chromaId, chromas]);
 
+  const championId = get("championId");
+  const skinlineId = get("skinlineId");
+  const rarity = get("rarity");
+  const legacy = get("legacy");
+
   const skinsQueryParams = useMemo(
     () => ({
       lang: i18n.language,
       search: search || undefined,
-      championId: get("championId") || undefined,
-      skinlineId: get("skinlineId") || undefined,
-      rarity: get("rarity") || undefined,
+      championId: championId || undefined,
+      skinlineId: skinlineId || undefined,
+      rarity: rarity || undefined,
       chromaName: chroma?.name,
       chromaColors: getColorsString(chroma?.colors),
-      legacy: get("legacy") || "all",
+      legacy: legacy || "all",
     }),
-    [i18n.language, search, chroma, get],
+    [i18n.language, search, chroma, championId, skinlineId, rarity, legacy],
   );
 
-  const { data, isLoading, isFetching } = useGetOwnedSkinsQuery(skinsQueryParams);
-  const { data: ownedSkins } = getODataWithDefault(data);
+  const [getSkins, { isFetching }] = useLazyGetOwnedSkinsQuery();
+  const {
+    items: ownedSkins,
+    loaderRef,
+    isInitialLoadDone,
+    isLoading,
+    hasMore,
+  } = useInfiniteScroll({
+    trigger: getSkins,
+    initialParams: skinsQueryParams,
+  });
 
   const renderSkin = useCallback((item: unknown, _index: number) => {
     const skin = item as SkinDto;
-    return (
-      <SkinCard key={skin.id} data={skin} addToWishlistButton toggleOwnedButton />
-    );
+    return <SkinCard key={skin.id} data={skin} addToWishlistButton toggleOwnedButton />;
   }, []);
 
-  if (!isLoading && !ownedSkins.length && !search) {
+  if (!isLoading && !ownedSkins.length && !search && isInitialLoadDone) {
     return (
       <Empty className="w-full h-full max-h-120">
         <EmptyHeader>
@@ -119,9 +133,17 @@ const CollectionSkinsPage: FC = () => {
           <BreadcrumbsLine className="hidden md:flex" />
           <Search className="mb-4 mt-3 md:mt-2" value={searchInput} onSearch={setSearchInput} />
 
-          {!isLoading && !ownedSkins.length && <NoResultsState className="my-30" />}
+          {!isLoading && !isFetching && ownedSkins.length === 0 && isInitialLoadDone && <NoResultsState className="my-30" />}
 
-          <VirtualizedGrid items={ownedSkins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />
+          <VirtualizedGrid
+            items={ownedSkins}
+            loading={!ownedSkins.length && isLoading}
+            fetching={isFetching}
+            overscan={4}
+            render={renderSkin}
+          />
+          {!!ownedSkins && isFetching && <Spinner className="mx-auto mt-4 size-8" />}
+          {hasMore && <div ref={loaderRef} />}
 
           <ScrollTop />
         </div>

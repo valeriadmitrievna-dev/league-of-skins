@@ -62,12 +62,12 @@ const SignInPage: FC = () => {
           onSubmit={handleSubmit(submitHandler)}
           loading={isLoading}
           extra={
-            <p>
+            <>
               {t("auth.signin_extra")}{" "}
               <Button variant="link" className="p-0 px-1 h-fit text-base" asChild>
                 <NavLink to={`/auth/signup${location.search}`}>{t("auth.signup_link")}</NavLink>
               </Button>
-            </p>
+            </>
           }
         >
           <AuthForm.TextInput

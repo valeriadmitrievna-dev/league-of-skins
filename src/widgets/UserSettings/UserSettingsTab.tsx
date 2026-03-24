@@ -1,7 +1,7 @@
 import type { ComponentType, FC, SVGProps } from "react";
 
-import { Typography } from '@/components/Typography';
-import { Button } from '@/components/ui/button';
+import { Typography } from "@/components/Typography";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
 interface UserSettingsTabProps {

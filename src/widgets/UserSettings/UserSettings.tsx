@@ -14,12 +14,11 @@ import { useGetUserQuery, userApi } from "@/api";
 import Skeleton from "@/components/Skeleton";
 import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { setAppAuth } from "@/store";
 
 import UserSettingsSecurity from "./UserSettingsSecurity";
 import UserSettingsTab from "./UserSettingsTab";
-
 
 const UserSettings: FC = () => {
   const { t } = useTranslation();
@@ -89,6 +88,8 @@ const UserSettings: FC = () => {
           </Button>
         </div>
         <div className="h-full overflow-hidden p-2">
+          <DialogTitle className="opacity-0 h-0">User Settings</DialogTitle>
+
           <div className="h-full overflow-auto scrollbar">
             {tab === "common" && (
               <div className="h-full flex items-center justify-center">

@@ -31,6 +31,10 @@ button {
   cursor: pointer;
 }
 
+input {
+  -webkit-text-fill-color: var(--foreground);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

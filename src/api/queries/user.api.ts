@@ -65,7 +65,7 @@ export const userApi = createApi({
       providesTags: ["Wishlists"],
     }),
     getWishlist: build.query<WishlistFullDto, WithLanguage<{ wishlistId: string }>>({
-      query: ({ wishlistId, lang}) => ({
+      query: ({ wishlistId, lang }) => ({
         url: "/wishlists/" + wishlistId,
         headers: { "App-Language": getLanguageCode(lang) },
       }),
@@ -116,6 +116,7 @@ export const {
   useGetUserQuery,
   useUpdateUserPasswordMutation,
   useGetOwnedSkinsQuery,
+  useLazyGetOwnedSkinsQuery,
   useUpdateOwnedSkinsMutation,
   useGetOwnedSkinsStatsQuery,
   useGetWishlistsQuery,
