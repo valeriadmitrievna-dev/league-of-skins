@@ -90,7 +90,7 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
   }, [cardHeight]);
 
   return (
-    <div ref={parentRef} className={cn('min-h-full', className)}>
+    <div ref={parentRef} className={cn('', className)}>
       {loading && (
         <div className={cn("grid gap-3", gridClassName)} style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
           <Skeleton count={20} asChild className='h-auto' style={{ aspectRatio: `${itemAspectRatio[1]}/${itemAspectRatio[0]}`}} />
