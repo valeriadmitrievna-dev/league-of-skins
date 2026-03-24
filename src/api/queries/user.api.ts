@@ -95,6 +95,13 @@ export const userApi = createApi({
       invalidatesTags: ["User", "Wishlists"],
     }),
 
+    getGuestWishlist: build.query<WishlistFullDto, WithLanguage<{ link: string }>>({
+      query: ({ link, lang}) => ({
+        url: "/wishlists/guest/" + link,
+        headers: { "App-Language": getLanguageCode(lang) },
+      }),
+    }),
+
     // ****** INVENTORY ******
     uploadInventory: build.mutation<boolean, File>({
       query: (file) => {
@@ -123,5 +130,6 @@ export const {
   useCreateWishlistMutation,
   useUpdateWishlistMutation,
   useDeleteWishlistMutation,
+  useGetGuestWishlistQuery,
   useUploadInventoryMutation,
 } = userApi;

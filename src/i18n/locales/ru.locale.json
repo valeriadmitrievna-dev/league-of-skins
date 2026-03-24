@@ -94,7 +94,8 @@
     "show_owned_skins": "Показывать купленные",
     "complete": "Завершено",
     "price_total": "Полная цена",
-    "price_owned": "Потрачено"
+    "price_owned": "Потрачено",
+    "subscribe": "Подписаться"
   },
   "auth": {
     "signin_title": "Вход",
