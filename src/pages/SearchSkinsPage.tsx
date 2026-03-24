@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import { useDebounce } from "react-use";
 
 import { useGetChromasQuery, useGetUserQuery, useLazyGetSkinsQuery } from "@/api";
@@ -13,6 +14,7 @@ import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { getColorsString } from "@/shared/utils/getColorsString";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
+import { appAuthSelector } from "@/store";
 import type { SkinDto } from "@/types/skin";
 import FiltersDrawer from "@/widgets/Filters/FiltersDrawer";
 import SearchFilters from "@/widgets/SearchFilters";
@@ -40,7 +42,10 @@ const SearchSkinsBreadcrumb: FC<IBreadcrumbProps> = ({ className }) => {
 const SearchSkinsPage: FC = () => {
   const { i18n } = useTranslation();
 
-  const { data: user } = useGetUserQuery();
+  const isAuth = useSelector(appAuthSelector);
+  const { data: user } = useGetUserQuery(undefined, {
+    skip: !isAuth,
+  });
 
   const { get, update } = useQueryParams();
   const search = get("search");
