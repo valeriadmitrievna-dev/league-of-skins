@@ -74,7 +74,12 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
           options={legacyOptions}
         />
         <Separator className="mt-3" />
-        <FilterItem defaultOpen value={get("championId") ?? ""} title={t("filters.champion")} onClear={() => update("championId")}>
+        <FilterItem
+          defaultOpen
+          value={get("championId") ?? ""}
+          title={t("filters.champion")}
+          onClear={() => update("championId")}
+        >
           <FilterList
             items={orderBy(champions, "name").map((champion) => ({ value: champion.id, label: champion.name }))}
             value={get("championId") ?? ""}
