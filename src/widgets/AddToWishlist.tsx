@@ -14,7 +14,7 @@ import type { ChromaDto } from "@/types/chroma";
 import type { SkinDto } from "@/types/skin";
 import type { WishlistDto } from "@/types/wishlist";
 
-import WishlistCreateModal from "./WishlistCreateModal";
+import WishlistCreateModal from "./Wishlist/WishlistCreateModal";
 
 interface AddToWishlistLineProps {
   wishlist: WishlistDto;

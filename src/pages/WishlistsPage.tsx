@@ -5,8 +5,8 @@ import { useGetWishlistsQuery } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
 import Skeleton from "@/components/Skeleton";
 import { Typography } from "@/components/Typography";
-import WishlistCard from "@/widgets/WishlistCard";
-import WishlistCreateModal from "@/widgets/WishlistCreateModal";
+import WishlistCard from "@/widgets/Wishlist/WishlistCard";
+import WishlistCreateModal from "@/widgets/Wishlist/WishlistCreateModal";
 
 const WishlistsPage: FC = () => {
   const { t } = useTranslation();

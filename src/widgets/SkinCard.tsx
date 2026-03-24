@@ -21,7 +21,7 @@ import AddToWishlist from "./AddToWishlist";
 interface SkinCardProps {
   className?: string;
   data: SkinDto;
-  owned?: boolean;
+  owned?: boolean | 'hidden';
   addToWishlistButton?: boolean;
   toggleOwnedButton?: boolean;
   wishlistId?: string;
@@ -73,7 +73,7 @@ const SkinCard: FC<SkinCardProps> = ({
       >
         {/* Badges */}
         <div className="absolute top-0 start-0 end-0 p-2 z-3 flex gap-1 flex-wrap">
-          {owned && <Badge className="bg-success text-neutral-800">{t("skin.owned")}</Badge>}
+          {typeof owned === 'boolean' && owned && <Badge className="bg-success text-neutral-800">{t("skin.owned")}</Badge>}
           {data.rarity !== "kNoRarity" && (
             <Badge className="border-b border-s text-neutral-800" style={{ background: RARITIES[data.rarity]?.color }}>
               {t(`rarity.${data.rarity}`)}
@@ -87,13 +87,13 @@ const SkinCard: FC<SkinCardProps> = ({
         </div>
 
         {/* Video preview */}
-        {data.video && data.video.centered && (
+        {data.video && (data.video.card || data.video.centered) && (
           <video
-            src={data.video.centered}
+            src={data.video.card ?? data.video.centered!}
             autoPlay
             muted
             loop
-            className="absolute z-1 aspect-square object-cover transition-opacity opacity-0 group-hover:opacity-100 pointer-events-none"
+            className="absolute z-1 w-full h-full object-cover transition-opacity opacity-0 group-hover:opacity-100 pointer-events-none"
           />
         )}
 

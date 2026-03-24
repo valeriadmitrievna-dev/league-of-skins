@@ -4,11 +4,9 @@ export interface WishlistFullDto {
   _id: string;
   name: string;
   skins: SkinDto[];
-  price: {
-    total: number;
-    owned: number;
-  };
-  link?: string;
+  price: number;
+  link: string;
+  views: number;
 
   createdAt: string;
   updatedAt: string;

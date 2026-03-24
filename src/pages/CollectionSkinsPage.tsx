@@ -82,7 +82,7 @@ const CollectionSkinsPage: FC = () => {
   const renderSkin = useCallback((item: unknown, _index: number) => {
     const skin = item as SkinDto;
     return (
-      <SkinCard key={skin.id} data={skin} addToWishlistButton toggleOwnedButton />
+      <SkinCard key={skin.id} data={skin} owned="hidden" addToWishlistButton toggleOwnedButton />
     );
   }, []);
 

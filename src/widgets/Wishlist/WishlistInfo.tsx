@@ -1,0 +1,149 @@
+import { format } from "date-fns";
+import { CalendarIcon, CircleQuestionMarkIcon, EyeIcon, LayoutGridIcon, WalletIcon } from "lucide-react";
+import { useMemo, type FC } from "react";
+import { useTranslation } from "react-i18next";
+
+import { Typography } from "@/components/Typography";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/ui/item";
+import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
+import { formatNumber } from "@/shared/utils/formatNumber";
+import type { WishlistFullDto } from "@/types/wishlist";
+
+import WishlistDeleteModal from "./WishlistDeleteModal";
+import WishlistEditModal from "./WishlistEditModal";
+
+interface WishlistInfoProps {
+  wishlist: WishlistFullDto;
+  showOwned: boolean;
+  onToogleShowOwned: (checked: boolean) => void;
+  onShare?: () => void;
+  onDelete?: () => void;
+  guest?: boolean;
+}
+
+const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, onShare, onToogleShowOwned, guest }) => {
+  const { t } = useTranslation();
+
+  const progress = useMemo(() => {
+    if (!wishlist) return { total: 0, owned: 0, value: 0 };
+
+    const total = wishlist.skins.length;
+    const owned = wishlist.skins.filter((skin) => skin.owned).length;
+    const value = total > 0 ? (100 * owned) / total : 0;
+
+    return {
+      total,
+      owned,
+      value,
+    };
+  }, [wishlist]);
+
+  return (
+    <aside className="my-card flex flex-col gap-y-3 md:sticky top-4 pb-2 border-b">
+      <Typography.Large>{wishlist.name}</Typography.Large>
+
+      <div className="py-2 flex flex-col gap-y-3">
+        <Item size="xs">
+          <ItemMedia variant="icon">
+            <CalendarIcon />
+          </ItemMedia>
+          <ItemContent className="gap-0.5">
+            <ItemDescription>{t("stats.created")}</ItemDescription>
+            <ItemTitle>{format(new Date(wishlist.createdAt), "dd.MM.yyyy")}</ItemTitle>
+          </ItemContent>
+        </Item>
+        <Item size="xs">
+          <ItemMedia variant="icon">
+            <LayoutGridIcon />
+          </ItemMedia>
+          <ItemContent className="gap-0.5">
+            <ItemDescription>{t("stats.elements")}</ItemDescription>
+            <ItemTitle>{`${wishlist.skins.length} ${t("shared.skin", { count: wishlist.skins.length })}`}</ItemTitle>
+          </ItemContent>
+        </Item>
+        <Item size="xs">
+          <ItemMedia variant="icon">
+            <WalletIcon />
+          </ItemMedia>
+          <ItemContent className="gap-0.5">
+            <ItemDescription className='flex items-baseline gap-2'>
+              {t("wishlist.price_total")}{" "}
+              <div className="hidden md:block">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <CircleQuestionMarkIcon className="size-3.25 text-foreground/60 cursor-help transform translate-y-0.5" />
+                  </TooltipTrigger>
+                  <TooltipContent>{t("skin.priceHelper")}</TooltipContent>
+                </Tooltip>
+              </div>
+            </ItemDescription>
+            <ItemTitle>
+              {formatNumber(wishlist.price)} <RPIcon />
+            </ItemTitle>
+          </ItemContent>
+        </Item>
+        <Item size="xs">
+          <ItemMedia variant="icon">
+            <EyeIcon />
+          </ItemMedia>
+          <ItemContent className="gap-0.5">
+            <ItemDescription>{t("stats.visits")}</ItemDescription>
+            <ItemTitle>{`${wishlist.views} ${t("stats.visits_times", { count: wishlist.views })}`}</ItemTitle>
+          </ItemContent>
+        </Item>
+      </div>
+
+      <Field orientation="horizontal" className="justify-between my-2">
+        <Label htmlFor="show-owned">{t("wishlist.show_owned_skins")}</Label>
+        <Checkbox id="show-owned" name="show-owned" checked={showOwned} onCheckedChange={onToogleShowOwned} />
+      </Field>
+
+      <Field className="block">
+        <FieldLabel htmlFor="progress" className="mb-2">
+          <span>{t("stats.progress")}</span>
+          <span className="ml-auto">
+            {progress.owned}/{progress.total}
+          </span>
+        </FieldLabel>
+        <Progress value={progress.value} id="progress" />
+        <FieldDescription className="mt-1.5! text-center text-[12px]">
+          {Math.round(progress.value)}% {t("wishlist.complete")}
+        </FieldDescription>
+      </Field>
+
+      <div className="flex flex-col gap-y-2">
+        {!guest && (
+          <>
+            <Button onClick={onShare}>{t("wishlist.share")}</Button>
+            <WishlistEditModal wishlist={wishlist}>
+              <Button variant="outline">{t("wishlist.edit")}</Button>
+            </WishlistEditModal>
+            <WishlistDeleteModal
+              wishlistId={wishlist._id}
+              onSubmit={onDelete}
+              trigger={({ onOpen }) => (
+                <Button variant="ghost" onClick={onOpen} className="hover:bg-destructive!">
+                  {t("wishlist.delete")}
+                </Button>
+              )}
+            />
+          </>
+        )}
+
+        {guest && (
+          <>
+            <Button disabled>{t("wishlist.subscribe")}</Button>
+          </>
+        )}
+      </div>
+    </aside>
+  );
+};
+
+export default WishlistInfo;

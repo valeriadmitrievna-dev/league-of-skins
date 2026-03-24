@@ -94,8 +94,9 @@
     "edit_placeholder": "Wishlist's name",
     "show_owned_skins": "Show owned",
     "complete": "Complete",
-    "price_total": "Total Value",
-    "price_owned": "Owned Value"
+    "price_total": "Full Price",
+    "price_owned": "Owned Value",
+    "subscribe": "Subscribe"
   },
   "auth": {
     "signin_title": "Sign In",
