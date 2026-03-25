@@ -1,7 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
 
-import type { ApiErrorCode } from '@/shared/constants/error';
-
 export type Theme = "dark" | "light" | "system";
 
 export type WithLanguage<T = Record<string, string>> = T & {
@@ -24,13 +22,10 @@ export interface ApiErrorPayload {
 }
 
 export interface ApiError {
-  code: (typeof ApiErrorCode)[keyof typeof ApiErrorCode];
+  code: string;
   status?: number;
   message?: string;
   params?: string[];
-  entity?: string;
-
-  //   type: ApiErrorType;
 }
 
 export interface OptionItem {
