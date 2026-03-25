@@ -46,7 +46,7 @@ const DetailsWishlistOwnedPage: FC<DetailsWishlistOwnedPageProps> = () => {
 
     share({
       title: wishlist.name,
-      url: `${window.location.origin}/${wishlist.link}`,
+      url: `${window.location.origin}/wishlists/${wishlist.link}`,
     });
   };
 
