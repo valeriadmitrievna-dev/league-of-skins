@@ -69,6 +69,7 @@ const UserSettingsChangePassword: FC = () => {
               </InputGroupAddon>
               <InputGroupInput
                 id="password"
+                autoComplete="password"
                 className="transition-none aria-invalid:text-destructive aria-invalid:placeholder-destructive/50!"
                 placeholder={t("changePassword.old-placeholder")}
                 type={oldPasswordVisible ? "text" : "password"}
@@ -100,6 +101,7 @@ const UserSettingsChangePassword: FC = () => {
               </InputGroupAddon>
               <InputGroupInput
                 id="new-password"
+                autoComplete="new-password"
                 className="transition-none aria-invalid:text-destructive aria-invalid:placeholder-destructive/50!"
                 placeholder={t("changePassword.new-placeholder")}
                 type={newPasswordVisible ? "text" : "password"}

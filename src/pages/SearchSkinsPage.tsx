@@ -86,7 +86,7 @@ const SearchSkinsPage: FC = () => {
   const {
     items: skins,
     loaderRef,
-    totalCount,
+    isInitialLoadDone,
     isLoading,
     hasMore,
   } = useInfiniteScroll({
@@ -145,7 +145,7 @@ const SearchSkinsPage: FC = () => {
             </div>
           )} */}
 
-          {!isLoading && !isFetching && totalCount === 0 && <NoResultsState className="my-30" />}
+          {!isLoading && !isFetching && skins?.length === 0 && isInitialLoadDone && <NoResultsState className="my-30" />}
 
           <VirtualizedGrid
             items={skins}
