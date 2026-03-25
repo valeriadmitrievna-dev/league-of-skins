@@ -91,12 +91,16 @@
     "edit": "Edit",
     "delete": "Delete",
     "edit_title": "Edit wishlist",
-    "edit_placeholder": "Wishlist's name",
+    "edit_name_title": "Wishlist's name",
+    "edit_name_placeholder": "Enter wishlist's name",
+    "edit_public_title": "Public wishlist",
     "show_owned_skins": "Show owned",
     "complete": "Complete",
     "price_total": "Full Price",
     "price_owned": "Owned Value",
-    "subscribe": "Subscribe"
+    "subscribe": "Subscribe",
+    "private_true": "Private",
+    "private_false": "Public"
   },
   "auth": {
     "signin_title": "Sign In",

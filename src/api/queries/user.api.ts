@@ -18,7 +18,7 @@ export const userApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["User", "OwnedSkins", "Stats", "Wishlists"],
+  tagTypes: ["User", "OwnedSkins", "Stats", "Wishlist", "Wishlists"],
   endpoints: (build) => ({
     // ****** USER ******
     getUser: build.query<UserDto, void>({
@@ -49,7 +49,7 @@ export const userApi = createApi({
         method: "put",
         body,
       }),
-      invalidatesTags: ["User", "OwnedSkins", "Stats"],
+      invalidatesTags: ["User", "OwnedSkins", "Stats", "Wishlist"],
     }),
     getOwnedSkinsStats: build.query<UserSkinsStatisticDto, WithLanguage>({
       query: ({ lang }) => ({
@@ -69,7 +69,7 @@ export const userApi = createApi({
         url: "/wishlists/" + wishlistId,
         headers: { "App-Language": getLanguageCode(lang) },
       }),
-      providesTags: ["Wishlists"],
+      providesTags: ["Wishlist"],
     }),
     createWishlist: build.mutation<WishlistDto, { name: string }>({
       query: (body) => ({
@@ -85,7 +85,7 @@ export const userApi = createApi({
         method: "put",
         body,
       }),
-      invalidatesTags: ["Wishlists"],
+      invalidatesTags: ["Wishlist"],
     }),
     deleteWishlist: build.mutation<true, string>({
       query: (wishlistId) => ({

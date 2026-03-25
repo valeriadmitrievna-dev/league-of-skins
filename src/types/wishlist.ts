@@ -7,6 +7,7 @@ export interface WishlistFullDto {
   price: number;
   link: string;
   views: number;
+  private: boolean;
 
   createdAt: string;
   updatedAt: string;
@@ -17,6 +18,7 @@ export interface WishlistDto {
   name: string;
   skins: string[];
   link: string;
+  private: boolean;
   preview?: (string | null)[];
 
   createdAt: string;
@@ -27,4 +29,5 @@ export interface UpdateWishlistBody {
   name?: string;
   addIds?: string[];
   removeIds?: string[];
+  private?: boolean;
 }

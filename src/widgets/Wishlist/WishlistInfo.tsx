@@ -1,16 +1,25 @@
 import { format } from "date-fns";
-import { CalendarIcon, CircleQuestionMarkIcon, EyeIcon, LayoutGridIcon, WalletIcon } from "lucide-react";
+import {
+  CalendarIcon,
+  CircleQuestionMarkIcon,
+  EyeIcon,
+  LayoutGridIcon,
+  LockIcon,
+  LockOpenIcon,
+  WalletIcon,
+} from "lucide-react";
 import { useMemo, type FC } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Typography } from "@/components/Typography";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/ui/item";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
 import { formatNumber } from "@/shared/utils/formatNumber";
 import type { WishlistFullDto } from "@/types/wishlist";
@@ -46,6 +55,11 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
 
   return (
     <aside className="my-card flex flex-col gap-y-3 md:sticky top-4 pb-2 border-b">
+      <Badge variant={wishlist.private ? "destructive" : "default"}>
+        {wishlist.private ? <LockIcon /> : <LockOpenIcon />}
+        {t(`wishlist.private_${wishlist.private}`)}
+      </Badge>
+
       <Typography.Large>{wishlist.name}</Typography.Large>
 
       <div className="py-2 flex flex-col gap-y-3">
@@ -72,7 +86,7 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
             <WalletIcon />
           </ItemMedia>
           <ItemContent className="gap-0.5">
-            <ItemDescription className='flex items-baseline gap-2'>
+            <ItemDescription className="flex items-baseline gap-2">
               {t("wishlist.price_total")}{" "}
               <div className="hidden md:block">
                 <Tooltip>
@@ -99,10 +113,12 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
         </Item>
       </div>
 
-      <Field orientation="horizontal" className="justify-between my-2">
-        <Label htmlFor="show-owned">{t("wishlist.show_owned_skins")}</Label>
-        <Checkbox id="show-owned" name="show-owned" checked={showOwned} onCheckedChange={onToogleShowOwned} />
-      </Field>
+      {!!wishlist.skins.filter((skin) => skin.owned).length && (
+        <Field orientation="horizontal" className="justify-between my-2">
+          <Label htmlFor="show-owned">{t("wishlist.show_owned_skins")}</Label>
+          <Checkbox id="show-owned" name="show-owned" checked={showOwned} onCheckedChange={onToogleShowOwned} />
+        </Field>
+      )}
 
       <Field className="block">
         <FieldLabel htmlFor="progress" className="mb-2">
@@ -120,7 +136,7 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
       <div className="flex flex-col gap-y-2">
         {!guest && (
           <>
-            <Button onClick={onShare}>{t("wishlist.share")}</Button>
+            {!wishlist.private && <Button onClick={onShare}>{t("wishlist.share")}</Button>}
             <WishlistEditModal wishlist={wishlist}>
               <Button variant="outline">{t("wishlist.edit")}</Button>
             </WishlistEditModal>

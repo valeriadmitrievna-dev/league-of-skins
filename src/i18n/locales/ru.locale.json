@@ -88,14 +88,18 @@
     "edit": "Редактировать",
     "delete": "Удалить",
     "edit_title": "Редактировать вишлист",
-    "edit_placeholder": "Название вишлиста",
+    "edit_name_title": "Название вишлиста",
+    "edit_name_placeholder": "Введите название вишлиста",
+    "edit_public_title": "Публичный вишлист",
     "create_title": "Создать вишлист",
     "create_placeholder": "Название вишлиста",
     "show_owned_skins": "Показывать купленные",
     "complete": "Завершено",
     "price_total": "Полная цена",
     "price_owned": "Потрачено",
-    "subscribe": "Подписаться"
+    "subscribe": "Подписаться",
+    "private_true": "Приватный",
+    "private_false": "Публичный"
   },
   "auth": {
     "signin_title": "Вход",
