@@ -8,11 +8,12 @@ interface UserSettingsTabProps {
   id: string;
   title: string;
   icon: ComponentType<SVGProps<SVGSVGElement>>;
+  className?: string;
   active?: boolean;
   onClick?: (tabId: string) => void;
 }
 
-const UserSettingsTab: FC<UserSettingsTabProps> = ({ id, title, icon: Icon, active, onClick }) => {
+const UserSettingsTab: FC<UserSettingsTabProps> = ({ id, title, icon: Icon, className, active, onClick }) => {
   const clickHandler = () => {
     onClick?.(id);
   };
@@ -21,7 +22,7 @@ const UserSettingsTab: FC<UserSettingsTabProps> = ({ id, title, icon: Icon, acti
     <Button
       variant="ghost"
       onClick={clickHandler}
-      className={cn("justify-start rounded-md p-1! flex items-center gap-x-2", {
+      className={cn(className, "justify-start rounded-md p-1! flex items-center gap-x-2", {
         "bg-secondary! text-secondary-foreground!": active,
       })}
     >

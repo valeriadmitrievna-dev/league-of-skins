@@ -10,8 +10,7 @@ import { cn } from "@/shared/utils/cn";
 import { appAuthSelector } from "@/store";
 
 import { UserSettings } from "../UserSettings";
-import AppHeaderLink from './AppHeaderLink';
-
+import AppHeaderLink from "./AppHeaderLink";
 
 interface AppHeaderNavProps {
   className?: string;
