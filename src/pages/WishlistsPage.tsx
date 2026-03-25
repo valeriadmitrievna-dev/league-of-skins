@@ -24,11 +24,11 @@ const WishlistsPage: FC = () => {
           <Typography.H3>{t("header.wishlists")}</Typography.H3>
           <Typography.P>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, sit!</Typography.P>
         </div>
-        <WishlistCreateModal />
+        {wishlists.length < 3 && <WishlistCreateModal />}
       </div>
 
       <div className="mt-6 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
-        {isLoading && !wishlists.length && <Skeleton count={6} asChild className="h-40" />}
+        {isLoading && !wishlists.length && <Skeleton count={3} asChild className="h-40" />}
 
         {!isLoading &&
           !!wishlists.length &&

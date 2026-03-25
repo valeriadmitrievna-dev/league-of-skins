@@ -10,6 +10,7 @@
     "ERR_0007": "User with this email does not exist",
     "ERR_0008": "Invalid password",
     "ERR_0010": "Error viewing private wishlist",
+    "ERR_0011": "You can create up to three wishlists",
     "ERR_0014": "Wishlist not found",
     "ERR_0024": "Champion not found",
     "ERR_0034": "Image not found"
