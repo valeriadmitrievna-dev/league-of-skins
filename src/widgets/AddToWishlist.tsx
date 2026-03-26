@@ -9,6 +9,7 @@ import { useGetWishlistsQuery, useUpdateWishlistMutation } from "@/api";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/spinner";
+import { cn } from '@/shared/utils/cn';
 import { appAddSkinsWaitingSelector, appAuthSelector, setAddSkinsWaiting } from "@/store";
 import type { ChromaDto } from "@/types/chroma";
 import type { SkinDto } from "@/types/skin";
@@ -39,7 +40,7 @@ const AddToWishlistLine: FC<AddToWishlistLineProps> = ({ wishlist, skinContentId
   return (
     <div
       role="list-item"
-      className="min-h-10 rounded-md flex items-center justify-between px-2.5 py-1 border-b"
+      className="min-h-10 flex items-center justify-between px-2.5 py-1 not-last:border-b"
       key={wishlist._id}
     >
       <NavLink to={`/wishlists/${wishlist._id}`} className="text-sm font-medium">
@@ -87,7 +88,7 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
   const [open, setOpen] = useState(false);
 
   const { data: wishlists = [] } = useGetWishlistsQuery(undefined, {
-    skip: !isAuth
+    skip: !isAuth,
   });
 
   const openHandler = (event: MouseEvent<HTMLElement>) => {
@@ -131,18 +132,20 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-y-2">
-          <div role="list">
+          <div role="list" className={cn({ 'border-b': wishlists.length < 3 })}>
             {wishlists?.map((wishlist) => (
               <AddToWishlistLine wishlist={wishlist} skinContentIds={skinContentIds} />
             ))}
           </div>
 
-          <WishlistCreateModal skinContentIds={skinContentIds}>
-            <Button variant="ghost" size="sm" className="justify-start">
-              <PlusIcon />
-              {t("wishlist.createAndAdd")}
-            </Button>
-          </WishlistCreateModal>
+          {wishlists.length < 3 && (
+            <WishlistCreateModal skinContentIds={skinContentIds}>
+              <Button variant="ghost" size="sm" className="justify-start">
+                <PlusIcon />
+                {t("wishlist.createAndAdd")}
+              </Button>
+            </WishlistCreateModal>
+          )}
         </div>
       </DialogContent>
     </Dialog>

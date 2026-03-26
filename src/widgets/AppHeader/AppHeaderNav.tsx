@@ -31,7 +31,7 @@ const AppHeaderNav: FC<AppHeaderNavProps> = ({ className, onCloseSidebar }) => {
   return (
     <nav className={cn("flex items-center gap-2 lg:gap-4", className)}>
       <div className="flex flex-col md:flex-row items-center gap-8 shrink-0">
-        <AppHeaderLink to="/about" text={t("header.about")} onClick={onCloseSidebar} className="w-full md:w-fit" />
+        <AppHeaderLink to="/search" text={t("header.search")} onClick={onCloseSidebar} className="w-full md:w-fit" />
         {isAuth && (
           <>
             <AppHeaderLink
@@ -48,6 +48,7 @@ const AppHeaderNav: FC<AppHeaderNavProps> = ({ className, onCloseSidebar }) => {
             />
           </>
         )}
+        <AppHeaderLink to="/about" text={t("header.about")} onClick={onCloseSidebar} className="w-full md:w-fit" />
       </div>
 
       <div className="flex flex-col md:flex-row w-full gap-3">

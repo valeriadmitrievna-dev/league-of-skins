@@ -37,7 +37,7 @@ const TypographyH4: FC<ComponentProps<"h4">> = ({ children, className, ...props 
 
 const TypographyP: FC<ComponentProps<"p">> = ({ children, className, ...props }) => {
   return (
-    <p {...props} className={cn("leading-5", className)}>
+    <p {...props} className={cn("leading-5.5", className)}>
       {children}
     </p>
   );
