@@ -9,7 +9,7 @@ type ApiResponse<TItem> = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function useInfiniteScroll<TRequest extends Record<string, any>, TItem>({
+export const useInfiniteScroll = <TRequest extends Record<string, any>, TItem>({
   trigger,
   initialParams,
   pageSize = 30,
@@ -19,11 +19,13 @@ export function useInfiniteScroll<TRequest extends Record<string, any>, TItem>({
   initialParams: TRequest;
   pageSize?: number;
   skip?: boolean;
-}) {
+}) => {
   const [items, setItems] = useState<TItem[]>([]);
   const [page, setPage] = useState(1);
+
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitialLoadDone, setIsInitialLoadDone] = useState<undefined | boolean>(undefined);
   const [totalCount, setTotalCount] = useState<number | undefined>();
 
   const ref = useRef<HTMLDivElement | null>(null);
@@ -68,17 +70,22 @@ export function useInfiniteScroll<TRequest extends Record<string, any>, TItem>({
 
   // Trigger loading when sentinel becomes visible
   useEffect(() => {
-    if (intersection?.isIntersecting && !isLoading) {
+    if (intersection?.isIntersecting) {
       loadMore();
+      if (!isInitialLoadDone) {
+        setIsInitialLoadDone(true);
+      }
     }
-  }, [intersection?.isIntersecting, isLoading]);
+  }, [intersection?.isIntersecting]);
 
   // Reset when params change
   useEffect(() => {
-    setItems([]);
-    setPage(1);
-    setHasMore(true);
-    loadMore(1);
+    if (isInitialLoadDone !== undefined) {
+      setItems([]);
+      setPage(1);
+      setHasMore(true);
+      loadMore(1);
+    }
   }, [initialParams]);
 
   return {
@@ -87,5 +94,6 @@ export function useInfiniteScroll<TRequest extends Record<string, any>, TItem>({
     isLoading,
     loaderRef: ref,
     totalCount,
+    isInitialLoadDone,
   };
-}
+};
