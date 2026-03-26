@@ -62,12 +62,12 @@ const SignUpPage: FC = () => {
           submitText={t("auth.submit_signup")}
           onSubmit={handleSubmit(submitHandler)}
           extra={
-            <p>
+            <>
               {t("auth.signup_extra")}{" "}
               <Button variant="link" className="p-0 px-1 h-fit text-base" asChild>
                 <NavLink to={`/auth/signin${location.search}`}>{t("auth.signin_link")}</NavLink>
               </Button>
-            </p>
+            </>
           }
         >
           <AuthForm.TextInput
@@ -113,7 +113,7 @@ const SignUpPage: FC = () => {
             })}
           />
         </AuthForm.Form>
-      </AuthForm.Wrapper>{" "}
+      </AuthForm.Wrapper>
     </>
   );
 };

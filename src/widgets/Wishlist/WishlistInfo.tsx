@@ -88,14 +88,14 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
           <ItemContent className="gap-0.5">
             <ItemDescription className="flex items-baseline gap-2">
               {t("wishlist.price_total")}{" "}
-              <div className="hidden md:block">
+              <span className="hidden md:block">
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <CircleQuestionMarkIcon className="size-3.25 text-foreground/60 cursor-help transform translate-y-0.5" />
                   </TooltipTrigger>
                   <TooltipContent>{t("skin.priceHelper")}</TooltipContent>
                 </Tooltip>
-              </div>
+              </span>
             </ItemDescription>
             <ItemTitle>
               {formatNumber(wishlist.price)} <RPIcon />
