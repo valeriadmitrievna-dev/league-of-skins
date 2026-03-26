@@ -1,22 +1,18 @@
-import { LogOutIcon, SettingsIcon, SlidersHorizontalIcon, UserRoundKeyIcon } from "lucide-react";
+import { SettingsIcon, SlidersHorizontalIcon, UserRoundKeyIcon } from "lucide-react";
 import { useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
 
-import { useGetUserQuery, userApi } from "@/api";
+import { useGetUserQuery } from "@/api";
 import Skeleton from "@/components/Skeleton";
-import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { setAppAuth } from "@/store";
 
+import UserSettingsCommon from "./UserSettingsCommon";
 import UserSettingsSecurity from "./UserSettingsSecurity";
 import UserSettingsTab from "./UserSettingsTab";
 
 const UserSettings: FC = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
 
   const [tab, setTab] = useState("common");
 
@@ -24,13 +20,6 @@ const UserSettings: FC = () => {
 
   const changeTabHandler = (tabId: string) => {
     if (tabId !== tab) setTab(tabId);
-  };
-
-  const logoutHandler = () => {
-    localStorage.removeItem("access-token");
-
-    dispatch(userApi.util.resetApiState());
-    dispatch(setAppAuth(false));
   };
 
   return (
@@ -65,7 +54,7 @@ const UserSettings: FC = () => {
           </div>
         </div>
         <div className="h-full overflow-hidden p-4">
-          <DialogTitle className="opacity-0 h-0">User Settings</DialogTitle>
+          <DialogTitle className="opacity-0 h-0">{t("app.user-settings")}</DialogTitle>
 
           {isUserLoading ? (
             <div className="p-2">
@@ -75,22 +64,7 @@ const UserSettings: FC = () => {
             </div>
           ) : (
             <div className="h-full overflow-auto scrollbar">
-              {tab === "common" && (
-                <div className="h-full flex flex-col justify-between p-2">
-                  <div className="flex flex-col gap-4">
-                    <Typography.Large>User Settings</Typography.Large>
-                    <div className="flex flex-col gap-3">
-                      <Input id="name" value={user?.name} disabled />
-                      <Input id="email" value={user?.email} disabled />
-                    </div>
-                  </div>
-
-                  <Button variant="destructive" onClick={logoutHandler} className="w-full md:w-fit">
-                    <LogOutIcon />
-                    {t("userSettings.logout")}
-                  </Button>
-                </div>
-              )}
+              {tab === "common" && <UserSettingsCommon user={user} />}
               {tab === "security" && <UserSettingsSecurity />}
             </div>
           )}
