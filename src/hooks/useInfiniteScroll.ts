@@ -68,6 +68,14 @@ export const useInfiniteScroll = <TRequest extends Record<string, any>, TItem>({
     }
   };
 
+  const reset = () => {
+    setItems([]);
+    setPage(1);
+    setHasMore(true);
+    setIsInitialLoadDone(false);
+    setTotalCount(undefined);
+  };
+
   // Trigger loading when sentinel becomes visible
   useEffect(() => {
     if (intersection?.isIntersecting) {
@@ -95,5 +103,6 @@ export const useInfiniteScroll = <TRequest extends Record<string, any>, TItem>({
     loaderRef: ref,
     totalCount,
     isInitialLoadDone,
+    reset,
   };
 };
