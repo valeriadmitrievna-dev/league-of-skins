@@ -9,6 +9,8 @@ export interface WishlistFullDto {
   views: number;
   private: boolean;
 
+  userId: string;
+
   createdAt: string;
   updatedAt: string;
 }
@@ -18,8 +20,11 @@ export interface WishlistDto {
   name: string;
   skins: string[];
   link: string;
+  views: number;
   private: boolean;
   preview?: (string | null)[];
+
+  userId: string | { _id: string; name: string };
 
   createdAt: string;
   updatedAt: string;
