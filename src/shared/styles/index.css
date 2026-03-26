@@ -32,7 +32,12 @@ button {
 }
 
 input {
-  -webkit-text-fill-color: var(--foreground);
+  -webkit-text-fill-color: var(--color-foreground);
+}
+
+input::placeholder {
+  color: var(--color-muted-foreground);
+  -webkit-text-fill-color: var(--color-muted-foreground);
 }
 
 @layer base {

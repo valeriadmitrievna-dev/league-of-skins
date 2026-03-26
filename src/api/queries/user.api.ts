@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 import { getLanguageCode } from "@/shared/utils/getLanguageCode";
-import type { ODataResponse, WithLanguage } from "@/types/shared";
+import type { ODataResponse, PaginatedRequest, WithLanguage } from "@/types/shared";
 import type { SkinDto } from "@/types/skin";
 import type { UserDto, UserSkinsStatisticDto } from "@/types/user";
 import type { UpdateWishlistBody, WishlistFullDto, WishlistDto } from "@/types/wishlist";
@@ -96,9 +96,15 @@ export const userApi = createApi({
     }),
 
     getGuestWishlist: build.query<WishlistFullDto, WithLanguage<{ link: string }>>({
-      query: ({ link, lang}) => ({
+      query: ({ link, lang }) => ({
         url: "/wishlists/guest/" + link,
         headers: { "App-Language": getLanguageCode(lang) },
+      }),
+    }),
+    searchWishlists: build.query<ODataResponse<WishlistDto[]>, PaginatedRequest<{ search: string }>>({
+      query: (params) => ({
+        url: "/wishlists/search",
+        params,
       }),
     }),
 
@@ -132,5 +138,6 @@ export const {
   useUpdateWishlistMutation,
   useDeleteWishlistMutation,
   useGetGuestWishlistQuery,
+  useLazySearchWishlistsQuery,
   useUploadInventoryMutation,
 } = userApi;

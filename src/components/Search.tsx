@@ -35,7 +35,7 @@ const Search: FC<SearchProps> = ({ size, onSearch, onClear, className, ...inputP
     <InputGroup className={cn(getGroupClassName(size), "group border-foreground/15", className)}>
       <InputGroupInput
         placeholder={t("shared.search")}
-        className="focus:placeholder:text-primary/50"
+        className="focus:placeholder:text-primary/50!"
         {...inputProps}
         onChange={changeHandler}
       />

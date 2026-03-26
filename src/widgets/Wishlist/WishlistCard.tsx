@@ -1,4 +1,4 @@
-import { LockIcon, LockOpenIcon, Share2Icon, TrashIcon } from "lucide-react";
+import { EyeIcon, LockIcon, LockOpenIcon, Share2Icon, TrashIcon, UserRoundIcon } from "lucide-react";
 import type { FC, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
@@ -14,9 +14,10 @@ import WishlistDeleteModal from "./WishlistDeleteModal";
 
 interface WishlistCardProps {
   data: WishlistDto;
+  guest?: boolean;
 }
 
-const WishlistCard: FC<WishlistCardProps> = ({ data }) => {
+const WishlistCard: FC<WishlistCardProps> = ({ data, guest }) => {
   const { t } = useTranslation();
   const { share } = useShare();
 
@@ -37,38 +38,55 @@ const WishlistCard: FC<WishlistCardProps> = ({ data }) => {
       to={`/wishlists/${data._id}`}
       className="relative flex flex-col justify-between bg-card border rounded-md overflow-hidden group"
     >
-      <Badge variant={data.private ? "destructive" : "default"} className="absolute z-5 top-2 left-2">
-        {data.private ? <LockIcon /> : <LockOpenIcon />}
-        {t(`wishlist.private_${data.private}`)}
-      </Badge>
+      {!guest && (
+        <Badge variant={data.private ? "destructive" : "default"} className="absolute z-5 top-2 left-2">
+          {data.private ? <LockIcon /> : <LockOpenIcon />}
+          {t(`wishlist.private_${data.private}`)}
+        </Badge>
+      )}
 
-      <ImageStack images={(data.preview ?? []).map((i) => i ?? "")} />
+      <ImageStack images={(data.preview ?? []).map((i) => i ?? "")} className="bg-accent" />
 
       <div className="px-4 py-3">
         <Typography.Large className="line-clamp-3">{data.name}</Typography.Large>
 
         <div className="mt-2 w-full flex items-center gap-2">
-          <Typography.Muted className='mr-auto'>
-            {data.skins.length} {t("shared.skin", { count: data.skins.length })}
+          {guest && typeof data.userId === "object" && (
+            <Badge variant="secondary">
+              <UserRoundIcon />
+              {data.userId.name}
+            </Badge>
+          )}
+          {guest && (
+            <Badge variant="ghost" className="bg-foreground/20">
+              <EyeIcon />
+              {data.views > 999 ? "999+" : data.views}
+            </Badge>
+          )}
+          <Typography.Muted className="mr-auto">
+            {data.skins.length > 999 ? "999+" : data.skins.length}{" "}
+            {t("shared.skin", { count: data.skins.length > 999 ? 999 : data.skins.length })}
           </Typography.Muted>
-          {!data.private && (
+          {!data.private && !guest && (
             <Button size="icon" variant="outline" onClick={shareHandler}>
               <Share2Icon />
             </Button>
           )}
-          <WishlistDeleteModal
-            wishlistId={data._id}
-            trigger={({ onOpen }) => (
-              <Button
-                size="icon"
-                variant="outline"
-                onClick={onOpen}
-                className="hover:bg-destructive hover:border-destructive dark:hover:border-destructive dark:hover:text-destructive"
-              >
-                <TrashIcon />
-              </Button>
-            )}
-          />
+          {!guest && (
+            <WishlistDeleteModal
+              wishlistId={data._id}
+              trigger={({ onOpen }) => (
+                <Button
+                  size="icon"
+                  variant="outline"
+                  onClick={onOpen}
+                  className="hover:bg-destructive hover:border-destructive dark:hover:border-destructive dark:hover:text-destructive"
+                >
+                  <TrashIcon />
+                </Button>
+              )}
+            />
+          )}
         </div>
       </div>
     </NavLink>

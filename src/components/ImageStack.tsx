@@ -22,7 +22,7 @@ export const ImageStack: FC<ImageStackProps> = ({ images, className }) => {
 
   return (
     <div
-      className="relative overflow-hidden h-40 bg-background grid"
+      className={cn("relative overflow-hidden h-40 bg-background grid", className)}
       style={{ gridTemplateColumns: `repeat(${images.length ?? 1}, 1fr)` }}
     >
       {images.map((url, index) => {
