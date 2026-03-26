@@ -1,83 +1,53 @@
+import { CircleQuestionMarkIcon, HeartIcon, InfoIcon, MailIcon } from "lucide-react";
 import type { FC } from "react";
-import { useWindowSize } from "react-use";
 
 import CustomHead from "@/components/CustomMetaHead";
-import { Typography } from "@/components/Typography";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BREAKPOINTS } from "@/shared/constants/styles";
+import { cn } from "@/shared/utils/cn";
+import AboutContact from "@/widgets/About/AboutContact";
+import AboutFAQ from "@/widgets/About/AboutFAQ";
+import AboutSummary from "@/widgets/About/AboutSummary";
+import AboutSupport from "@/widgets/About/AboutSupport";
+
+const data = [
+  { value: "summary", icon: InfoIcon, title: "Summary", content: AboutSummary },
+  { value: "faq", icon: CircleQuestionMarkIcon, title: "FAQ", content: AboutFAQ },
+  { value: "contact", icon: MailIcon, title: "Contact", content: AboutContact },
+  { value: "support", icon: HeartIcon, title: "Support project", content: AboutSupport, accent: true },
+];
 
 const AboutPage: FC = () => {
-  const { width } = useWindowSize();
-  const isMobile = width < BREAKPOINTS.md;
+  const tabsTriggerCN = cn(
+    "p-3 rounded-none relative",
+    "data-[state=active]:text-primary! data-[state=active]:bg-card!",
+    "border-b-2! data-[state=active]:border-b-primary!",
+  );
 
   return (
     <>
       <CustomHead>
-        <title>League of Skins | About Us</title>
+        <title>League of Skins | About</title>
         <meta name="description" content="Tool for collecting LoL skins wishlists" />
       </CustomHead>
-      <Tabs defaultValue="main" className="gap-6 h-full" orientation={isMobile ? "horizontal" : "vertical"}>
-        <TabsList className="w-full md:w-80 p-3 gap-y-1 md:h-full! justify-start flex-wrap">
-          <TabsTrigger className="py-2 px-4 h-fit! flex-none! data-[state=active]:bg-primary!" value="main">
-            Описание проекта
-          </TabsTrigger>
-          <TabsTrigger className="py-2 px-4 h-fit! flex-none! data-[state=active]:bg-primary!" value="faq">
-            FAQ
-          </TabsTrigger>
-          <TabsTrigger className="py-2 px-4 h-fit! flex-none! data-[state=active]:bg-primary!" value="contacts">
-            Контакты
-          </TabsTrigger>
-          <TabsTrigger className="py-2 px-4 h-fit! flex-none! data-[state=active]:bg-primary!" value="support">
-            Поддержать проект
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="main" className="md:h-[calc(100vh-106px)] overflow-auto md:scrollbar md:pe-4">
-          <Typography.P>
-            Этот проект — инструмент для игроков League of Legends, которым не хватает простой и удобной возможности собирать
-            вишлисты скинов и делиться ими с друзьями. Несмотря на огромное количество контента в игре, официального способа
-            создать собственный список желаемых образов до сих пор нет, и многие делают это вручную: в блокнотах, заметках,
-            таблицах или просто «в голове». Такой подход неудобен, особенно если вы хотите получить скин в подарок или просто
-            не потерять из виду понравившийся образ.
-          </Typography.P>
-          <br />
-          <Typography.P>
-            Я сама сталкивалась с этой проблемой: делала Google-таблицу, помечала цветами нужные скины, хромы, купленное и
-            желаемое — и регулярно путалась. Именно так и родилась идея создать сервис, который возьмёт на себя всю скучную
-            организационную часть, оставив игроку только удовольствие от выбора.
-          </Typography.P>
-          <br />
-          <Typography.P>
-            Проект позволяет искать скины по множеству критериев, просматривать подробную информацию о каждом из них,
-            сохранять вишлисты и отмечать уже купленное. Он стремится быть тем инструментом, который мог бы существовать в
-            самой игре, но по какой-то причине не существует. При этом он уважает ограничения API Riot Games и аккуратно
-            обходит отсутствующие данные, предоставляя максимально удобный пользовательский опыт там, где это возможно.
-          </Typography.P>
-          <br />
-          <Typography.P>
-            Этот сервис создаётся как хобби-проект одного разработчика — живой, растущий, иногда спотыкающийся, но всегда
-            движущийся вперёд. Здесь появляются новые фичи, улучшается интерфейс, переписываются куски кода, фиксится то, что
-            нужно фиксить, и добавляется то, что вдохновляет. Это не коммерческий продукт, а любовь к игре и желание сделать
-            сообществу что-то полезное.
-          </Typography.P>
-          <br />
-          <Typography.P className="mb-2">В конечном итоге цель проекта — дать игрокам простой способ:</Typography.P>
-          <ul className="list-disc list-inside">
-            <li>сохранить понравившиеся скины и хромы;</li>
-            <li>поделиться своим вишлистом одной ссылкой;</li>
-            <li>следить за прогрессом собранных коллекций;</li>
-            <li>получить удобный инструмент, которого так давно не хватало.</li>
-          </ul>
 
-          <br />
-          <Typography.P className="mb-2">
-            Если вы пользуетесь сервисом, делитесь обратной связью или просто интересуетесь развитием — спасибо! Это очень
-            помогает двигаться дальше и делает проект живым.
-          </Typography.P>
-          <Typography.P>
-            А если вы тут впервые — добро пожаловать. Надеюсь, инструмент окажется полезным именно вам ✨
-          </Typography.P>
-        </TabsContent>
-      </Tabs>{" "}
+      <Tabs defaultValue="summary" className="w-full max-w-5xl mx-auto gap-0">
+        <TabsList
+          variant="line"
+          className="w-full rounded-t-md! border border-b-transparent p-0 bg-transparent overflow-hidden"
+        >
+          {data.map(({ icon: Icon, ...item }) => (
+            <TabsTrigger key={item.value} className={tabsTriggerCN} value={item.value}>
+              <Icon className={cn({ "text-destructive": item.accent })} />
+              {item.title}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {data.map(({ content: Content, ...item }) => (
+          <TabsContent key={item.value} value={item.value} className="rounded-md rounded-t-none border p-6 bg-card">
+            <Content />
+          </TabsContent>
+        ))}
+      </Tabs>
     </>
   );
 };
