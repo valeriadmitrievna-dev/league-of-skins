@@ -1,26 +1,44 @@
-import { useEffect, useState, type FC } from "react";
-import { useTranslation } from "react-i18next";
+import { HeartIcon } from "lucide-react";
+import { useEffect, useMemo, useState, type FC } from "react";
 import { useDebounce } from "react-use";
 
-import { useGetWishlistsQuery, useLazySearchWishlistsQuery } from "@/api";
+import { useLazySearchWishlistsQuery } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
 import NoResultsState from "@/components/NoResultsState";
 import Search from "@/components/Search";
 import Skeleton from "@/components/Skeleton";
 import { Typography } from "@/components/Typography";
-import EmptyWishlistsOwned from '@/emptystates/EmptyWishlistsOwned';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useQueryParams } from "@/hooks/useQueryParams";
+import { cn } from "@/shared/utils/cn";
+import MyWishlistsSection from "@/widgets/Wishlist/MyWishlistSection";
+import SubscribedWishlistsSection from "@/widgets/Wishlist/SubscribedWishlistsSection";
 import WishlistCard from "@/widgets/Wishlist/WishlistCard";
-import WishlistCreateModal from "@/widgets/Wishlist/WishlistCreateModal";
 
 const WishlistsPage: FC = () => {
-  const { t } = useTranslation();
-  const { data: ownedWishlists = [], isLoading: isOwnedWishlistsLoading } = useGetWishlistsQuery();
   const [searchWishlists, { isFetching: isSearchFetching }] = useLazySearchWishlistsQuery();
 
+  const data = [
+    { value: "my_wishlists", title: "Мои Вишлисты", content: MyWishlistsSection },
+    { value: "subscriptions", icon: HeartIcon, title: "Подписки", content: SubscribedWishlistsSection },
+  ];
+
   const { get, update } = useQueryParams();
-  const search = get("search") ?? '';
+  const search = get("search") ?? "";
+
+  const tabsTriggerCN = cn(
+    "p-3 rounded-none relative",
+    "data-[state=active]:text-primary! data-[state=active]:bg-card!",
+    "border-b-2! data-[state=active]:border-b-primary!",
+  );
+
+  const skinsQueryParams = useMemo(
+    () => ({
+      search: search,
+    }),
+    [search],
+  );
 
   const [searchInput, setSearchInput] = useState(search ?? "");
   useDebounce(() => update("search", searchInput), 300, [searchInput]);
@@ -34,7 +52,7 @@ const WishlistsPage: FC = () => {
     reset,
   } = useInfiniteScroll({
     trigger: searchWishlists,
-    initialParams: { search },
+    initialParams: skinsQueryParams,
     pageSize: 6,
     skip: !search.length,
   });
@@ -50,22 +68,24 @@ const WishlistsPage: FC = () => {
         <meta name="description" content="List of all your wishlists" />
       </CustomHead>
 
-      <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
-        <Typography.H3>{t("header.wishlists")}</Typography.H3>
-        {ownedWishlists.length < 3 && !!ownedWishlists.length && <WishlistCreateModal />}
-      </div>
-
-      <div className="mt-5 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
-        {isOwnedWishlistsLoading && !ownedWishlists.length && <Skeleton count={3} asChild className="h-64" />}
-
-        {!isOwnedWishlistsLoading &&
-          !!ownedWishlists.length &&
-          ownedWishlists.map((wishlist) => <WishlistCard key={wishlist._id} data={wishlist} />)}
-
-        {!isOwnedWishlistsLoading && !ownedWishlists.length && (
-          <EmptyWishlistsOwned className='col-span-full' />
-        )}
-      </div>
+      <Tabs defaultValue="my_wishlists" className="gap-0">
+        <TabsList
+          variant="line"
+          className="w-full rounded-t-md! border border-b-transparent p-0 bg-transparent overflow-hidden"
+        >
+          {data.map(({ icon: Icon, ...item }) => (
+            <TabsTrigger key={item.value} className={tabsTriggerCN} value={item.value}>
+              {Icon && <Icon />}
+              {item.title}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {data.map(({ content: Content, ...item }) => (
+          <TabsContent key={item.value} value={item.value} className="rounded-md rounded-t-none border p-6 bg-card">
+            <Content />
+          </TabsContent>
+        ))}
+      </Tabs>
 
       <Typography.H3 className="mt-8 mb-4">Поиск вишлистов</Typography.H3>
       <Search placeholder="Поиск по имени пользователя (временно)" value={searchInput} onSearch={setSearchInput} />
