@@ -35,7 +35,7 @@ const WishlistCard: FC<WishlistCardProps> = ({ data, guest }) => {
 
   return (
     <NavLink
-      to={`/wishlists/${data._id}`}
+      to={`/wishlists/${guest ? data.link : data._id}`}
       className="relative flex flex-col justify-between bg-card border rounded-md overflow-hidden group"
     >
       {!guest && (

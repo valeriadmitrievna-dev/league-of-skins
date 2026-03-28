@@ -65,6 +65,10 @@ export const useInfiniteScroll = <TRequest extends Record<string, any>, TItem>({
       console.error(e);
     } finally {
       setIsLoading(false);
+
+      if (!isInitialLoadDone) {
+        setIsInitialLoadDone(true);
+      }
     }
   };
 
@@ -72,7 +76,7 @@ export const useInfiniteScroll = <TRequest extends Record<string, any>, TItem>({
     setItems([]);
     setPage(1);
     setHasMore(true);
-    setIsInitialLoadDone(false);
+    setIsInitialLoadDone(undefined);
     setTotalCount(undefined);
   };
 
@@ -80,11 +84,8 @@ export const useInfiniteScroll = <TRequest extends Record<string, any>, TItem>({
   useEffect(() => {
     if (intersection?.isIntersecting) {
       loadMore();
-      if (!isInitialLoadDone) {
-        setIsInitialLoadDone(true);
-      }
     }
-  }, [intersection?.isIntersecting]);
+  }, [intersection?.isIntersecting, skip]);
 
   // Reset when params change
   useEffect(() => {

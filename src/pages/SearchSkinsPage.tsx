@@ -52,7 +52,15 @@ const SearchSkinsPage: FC = () => {
   const chromaId = get("chromaId");
 
   const [searchInput, setSearchInput] = useState(search ?? "");
-  useDebounce(() => update("search", searchInput), 300, [searchInput]);
+  useDebounce(
+    () => {
+      if (searchInput !== (search ?? "")) {
+        update("search", searchInput);
+      }
+    },
+    300,
+    [searchInput, search],
+  );
 
   const { data: chromasData } = useGetChromasQuery({ lang: i18n.language });
   const { data: chromas } = getODataWithDefault(chromasData);
@@ -81,6 +89,7 @@ const SearchSkinsPage: FC = () => {
     }),
     [i18n.language, search, championId, skinlineId, rarity, legacy, owned, chroma?.name, chroma?.colors],
   );
+
   const [getSkins, { isFetching }] = useLazyGetSkinsQuery();
 
   const {
@@ -113,11 +122,10 @@ const SearchSkinsPage: FC = () => {
       </CustomHead>
 
       <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
-        <SearchSkinsBreadcrumb className="md:hidden mb-3" />
         <SearchFilters className="hidden md:block" />
 
         <div className="pb-10">
-          <SearchSkinsBreadcrumb className="hidden md:block" />
+          <SearchSkinsBreadcrumb />
 
           <div className="mt-3 mb-3 flex items-center gap-2">
             <Search value={searchInput} onSearch={setSearchInput} />
