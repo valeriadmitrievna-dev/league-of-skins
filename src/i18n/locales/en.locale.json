@@ -101,6 +101,7 @@
     "price_total": "Full Price",
     "price_owned": "Owned Value",
     "subscribe": "Subscribe",
+    "unsubscribe": "Unsubscribe",
     "private_true": "Private",
     "private_false": "Public"
   },
@@ -141,6 +142,7 @@
     "created": "Created",
     "elements": "Elements",
     "visits": "Visits",
+    "subscribers": "Subscribers",
     "visits_times_one": "time",
     "visits_times_few": "times",
     "visits_times_many": "times",

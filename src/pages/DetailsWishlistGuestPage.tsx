@@ -18,8 +18,6 @@ const DetailsWishlistGuestPage: FC<DetailsWishlistGuestPageProps> = ({ link }) =
   const { i18n } = useTranslation();
   const { data: wishlist, isLoading } = useGetGuestWishlistQuery({ link, lang: i18n.language });
 
-  console.log("[DEV]", wishlist);
-
   const [showOwned, setShowOwned] = useState(true);
 
   const toggleShowOwnedHandler = (checked: boolean) => {

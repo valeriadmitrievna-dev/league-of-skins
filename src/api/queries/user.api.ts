@@ -113,14 +113,14 @@ export const userApi = createApi({
       }),
       providesTags: ["Wishlists"],
     }),
-    wishlistSubscribe: build.mutation<void, string>({
+    subscribeWishlist: build.mutation<void, string>({
       query: (wishlistId) => ({
         url: "/wishlists/" + wishlistId + "/subscribe",
         method: "put",
       }),
       invalidatesTags: ["Wishlists", "User"],
     }),
-    wishlistUnsubscribe: build.mutation<void, string>({
+    unsubscribeWishlist: build.mutation<void, string>({
       query: (wishlistId) => ({
         url: "/wishlists/" + wishlistId + "/unsubscribe",
         method: "put",
@@ -160,7 +160,7 @@ export const {
   useGetGuestWishlistQuery,
   useLazySearchWishlistsQuery,
   useGetSubscribedWishlistsQuery,
-  useWishlistSubscribeMutation,
-  useWishlistUnsubscribeMutation,
+  useSubscribeWishlistMutation,
+  useUnsubscribeWishlistMutation,
   useUploadInventoryMutation,
 } = userApi;

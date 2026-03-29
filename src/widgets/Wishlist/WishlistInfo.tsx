@@ -13,7 +13,7 @@ import { useMemo, type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
-import { useGetUserQuery, useWishlistSubscribeMutation, useWishlistUnsubscribeMutation } from "@/api";
+import { useGetUserQuery, useUnsubscribeWishlistMutation, useSubscribeWishlistMutation } from "@/api";
 import { Typography } from "@/components/Typography";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -46,9 +46,9 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
 
   const isAuth = useSelector(appAuthSelector);
   const { data: user } = useGetUserQuery(undefined, { skip: !isAuth });
-  console.log({ user });
-  const [subscribeWishlist, { isLoading: isSubscribeLoading }] = useWishlistSubscribeMutation();
-  const [unsubscribeWishlist, { isLoading: isUnsubscribeLoading }] = useWishlistUnsubscribeMutation();
+
+  const [subscribeWishlist, { isLoading: isSubscribeLoading }] = useSubscribeWishlistMutation();
+  const [unsubscribeWishlist, { isLoading: isUnsubscribeLoading }] = useUnsubscribeWishlistMutation();
 
   const isSubscribed = user?.subscriptions?.some((s) => s === wishlist?._id);
 
@@ -137,7 +137,7 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
             <HeartIcon />
           </ItemMedia>
           <ItemContent className="gap-0.5">
-            <ItemDescription>Subscribers</ItemDescription>
+            <ItemDescription>{t("stats.subscribers")}</ItemDescription>
             <ItemTitle>{wishlist.subscribers}</ItemTitle>
           </ItemContent>
         </Item>
@@ -188,7 +188,7 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
               <Button disabled={isUnsubscribeLoading} onClick={unsubscribeHandler} variant="destructive">
                 <span className="relative">
                   {isUnsubscribeLoading && <Spinner className="absolute -start-6 -translate-y-1/2 top-[50%]" />}
-                  Unsubscribe
+                  {t("wishlist.unsubscribe")}
                 </span>
               </Button>
             ) : (
