@@ -18,13 +18,13 @@ export const router = createBrowserRouter([
     path: "/",
     element: <LayoutPage />,
     children: [
-      { path: "", element: <Navigate to="/search/skins" /> },
+      { path: "", element: <Navigate to="/search/skins" replace /> },
 
       // search
       {
         path: "/search",
         children: [
-          { index: true, element: <Navigate to="/search/skins" /> },
+          { index: true, element: <Navigate to="/search/skins" replace /> },
           { path: "skins", element: <SearchSkinsPage /> },
           { path: "chromas", element: "Search chromas (Coming soon)" },
           { path: "companions", element: "Search tft companions (Coming somewhen)" },

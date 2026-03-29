@@ -6,7 +6,7 @@ import CustomHead from "@/components/CustomMetaHead";
 import { Typography } from "@/components/Typography";
 import type { SkinDto } from "@/types/skin";
 import SkinCard from "@/widgets/SkinCard";
-import VirtualizedGrid from '@/widgets/VirtualizedGrid';
+import VirtualizedGrid from "@/widgets/VirtualizedGrid";
 import WishlistInfo from "@/widgets/Wishlist/WishlistInfo";
 import WishlistSkeleton from "@/widgets/Wishlist/WishlistSkeleton";
 
@@ -17,7 +17,6 @@ interface DetailsWishlistGuestPageProps {
 const DetailsWishlistGuestPage: FC<DetailsWishlistGuestPageProps> = ({ link }) => {
   const { i18n } = useTranslation();
   const { data: wishlist, isLoading } = useGetGuestWishlistQuery({ link, lang: i18n.language });
-  console.log("[DEV]", wishlist);
 
   const [showOwned, setShowOwned] = useState(true);
 

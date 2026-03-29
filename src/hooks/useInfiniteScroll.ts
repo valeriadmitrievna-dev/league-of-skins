@@ -93,6 +93,7 @@ export const useInfiniteScroll = <TRequest extends Record<string, any>, TItem>({
       setItems([]);
       setPage(1);
       setHasMore(true);
+
       loadMore(1);
     }
   }, [initialParams]);

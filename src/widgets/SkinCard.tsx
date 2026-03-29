@@ -21,7 +21,7 @@ import AddToWishlist from "./AddToWishlist";
 interface SkinCardProps {
   className?: string;
   data: SkinDto;
-  owned?: boolean | 'hidden';
+  owned?: boolean | "hidden";
   addToWishlistButton?: boolean;
   toggleOwnedButton?: boolean;
   wishlistId?: string;
@@ -73,7 +73,7 @@ const SkinCard: FC<SkinCardProps> = ({
       >
         {/* Badges */}
         <div className="absolute top-0 start-0 end-0 p-2 z-3 flex gap-1 flex-wrap">
-          {typeof owned === 'boolean' && owned && <Badge className="bg-success text-neutral-800">{t("skin.owned")}</Badge>}
+          {typeof owned === "boolean" && owned && <Badge className="bg-success text-neutral-800">{t("skin.owned")}</Badge>}
           {data.rarity !== "kNoRarity" && (
             <Badge className="border-b border-s text-neutral-800" style={{ background: RARITIES[data.rarity]?.color }}>
               {t(`rarity.${data.rarity}`)}
@@ -116,9 +116,11 @@ const SkinCard: FC<SkinCardProps> = ({
         </div>
 
         {/* Info and actions */}
-        <div className="absolute w-full h-36 bottom-0 left-0 right-0 z-2 p-4 bg-card flex flex-col gap-y-1 border-t">
-          <p className="text-xs text-muted-foreground uppercase tracking-widest font-bold">{data.championName}</p>
-          <p className="text-sm font-black text-foreground uppercase line-clamp-2 tracking-wide">{data.name}</p>
+        <div className="absolute w-full h-36 bottom-0 left-0 right-0 z-2 p-2 sm:p-4 bg-card flex flex-col gap-y-1 border-t">
+          <p className="text-[10px]/[12px] sm:text-xs text-muted-foreground uppercase tracking-widest font-bold">
+            {data.championName}
+          </p>
+          <p className="text-xs sm:text-sm font-black text-foreground uppercase line-clamp-2 tracking-wide">{data.name}</p>
 
           {/* Chromas */}
           {!!data.chromas?.length && (

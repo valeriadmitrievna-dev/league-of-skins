@@ -134,7 +134,7 @@ const DetailsSkinPage: FC = () => {
               )}
               {infoLine(
                 t("filters.champion"),
-                <NavLink to={"/search/skins?championId=" + skin!.championId}>
+                <NavLink to={"/search/skins?championId=" + skin.championId}>
                   <Badge variant="secondary" className="border-none gap-x-1.5">
                     {skin.championName}
                   </Badge>
@@ -142,7 +142,7 @@ const DetailsSkinPage: FC = () => {
               )}
               {infoLine(
                 t("filters.rarity"),
-                <NavLink to={"/search/skins?rarity=" + skin!.rarity}>
+                <NavLink to={"/search/skins?rarity=" + skin.rarity}>
                   <Badge variant="secondary" className="gap-x-1.5 border-none">
                     {RARITIES?.icon && <Image src={RARITIES[skin.rarity].icon} className="size-4" />}
                     {t(`rarity.${skin.rarity}`)}
