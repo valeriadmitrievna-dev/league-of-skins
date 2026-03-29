@@ -28,9 +28,9 @@ const WishlistsPage: FC = () => {
   const search = get("search") ?? "";
 
   const tabsTriggerCN = cn(
-    "p-3 rounded-none relative",
+    "p-2",
     "data-[state=active]:text-primary! data-[state=active]:bg-card!",
-    "border-b-2! data-[state=active]:border-b-primary!",
+    "data-[state=active]:border-primary/50!",
   );
 
   const skinsQueryParams = useMemo(
@@ -70,8 +70,8 @@ const WishlistsPage: FC = () => {
 
       <Tabs defaultValue="my_wishlists" className="gap-0">
         <TabsList
-          variant="line"
-          className="w-full rounded-t-md! border border-b-transparent p-0 bg-transparent overflow-hidden"
+          variant="default"
+          className="w-full"
         >
           {data.map(({ icon: Icon, ...item }) => (
             <TabsTrigger key={item.value} className={tabsTriggerCN} value={item.value}>
@@ -81,7 +81,7 @@ const WishlistsPage: FC = () => {
           ))}
         </TabsList>
         {data.map(({ content: Content, ...item }) => (
-          <TabsContent key={item.value} value={item.value} className="rounded-md rounded-t-none border p-6 bg-card">
+          <TabsContent key={item.value} value={item.value} className="pt-4">
             <Content />
           </TabsContent>
         ))}
