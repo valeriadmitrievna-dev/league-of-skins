@@ -3,6 +3,7 @@ import {
   CalendarIcon,
   CircleQuestionMarkIcon,
   EyeIcon,
+  HeartIcon,
   LayoutGridIcon,
   LockIcon,
   LockOpenIcon,
@@ -10,7 +11,9 @@ import {
 } from "lucide-react";
 import { useMemo, type FC } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
+import { useGetUserQuery, useWishlistSubscribeMutation, useWishlistUnsubscribeMutation } from "@/api";
 import { Typography } from "@/components/Typography";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,9 +22,11 @@ import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/ui/item";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
+import { Spinner } from "@/components/ui/spinner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
 import { formatNumber } from "@/shared/utils/formatNumber";
+import { appAuthSelector } from "@/store";
 import type { WishlistFullDto } from "@/types/wishlist";
 
 import WishlistDeleteModal from "./WishlistDeleteModal";
@@ -39,6 +44,14 @@ interface WishlistInfoProps {
 const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, onShare, onToogleShowOwned, guest }) => {
   const { t } = useTranslation();
 
+  const isAuth = useSelector(appAuthSelector);
+  const { data: user } = useGetUserQuery(undefined, { skip: !isAuth });
+  console.log({ user });
+  const [subscribeWishlist, { isLoading: isSubscribeLoading }] = useWishlistSubscribeMutation();
+  const [unsubscribeWishlist, { isLoading: isUnsubscribeLoading }] = useWishlistUnsubscribeMutation();
+
+  const isSubscribed = user?.subscriptions?.some((s) => s === wishlist?._id);
+
   const progress = useMemo(() => {
     if (!wishlist) return { total: 0, owned: 0, value: 0 };
 
@@ -52,6 +65,13 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
       value,
     };
   }, [wishlist]);
+
+  const subscribeHandler = () => {
+    subscribeWishlist(wishlist._id);
+  };
+  const unsubscribeHandler = () => {
+    unsubscribeWishlist(wishlist._id);
+  };
 
   return (
     <aside className="my-card flex flex-col gap-y-3 md:sticky top-4 pb-2 border-b">
@@ -111,6 +131,16 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
             <ItemTitle>{`${wishlist.views} ${t("stats.visits_times", { count: wishlist.views })}`}</ItemTitle>
           </ItemContent>
         </Item>
+
+        <Item size="xs">
+          <ItemMedia variant="icon">
+            <HeartIcon />
+          </ItemMedia>
+          <ItemContent className="gap-0.5">
+            <ItemDescription>Subscribers</ItemDescription>
+            <ItemTitle>{wishlist.subscribers}</ItemTitle>
+          </ItemContent>
+        </Item>
       </div>
 
       {!!wishlist.skins.filter((skin) => skin.owned).length && (
@@ -154,7 +184,21 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
 
         {guest && (
           <>
-            <Button disabled>{t("wishlist.subscribe")}</Button>
+            {isSubscribed ? (
+              <Button disabled={isUnsubscribeLoading} onClick={unsubscribeHandler} variant="destructive">
+                <span className="relative">
+                  {isUnsubscribeLoading && <Spinner className="absolute -start-6 -translate-y-1/2 top-[50%]" />}
+                  Unsubscribe
+                </span>
+              </Button>
+            ) : (
+              <Button disabled={isSubscribeLoading} onClick={subscribeHandler}>
+                <span className="relative">
+                  {isSubscribeLoading && <Spinner className="absolute -start-6 -translate-y-1/2 top-[50%]" />}
+                  {t("wishlist.subscribe")}
+                </span>
+              </Button>
+            )}
           </>
         )}
       </div>

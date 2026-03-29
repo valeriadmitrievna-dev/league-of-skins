@@ -7,6 +7,7 @@ export interface WishlistFullDto {
   price: number;
   link: string;
   views: number;
+  subscribers: number;
   private: boolean;
 
   userId: string;
@@ -21,6 +22,7 @@ export interface WishlistDto {
   skins: string[];
   link: string;
   views: number;
+  subscribers: number;
   private: boolean;
   preview?: (string | null)[];
 
