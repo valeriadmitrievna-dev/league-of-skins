@@ -12,26 +12,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { cn } from "@/shared/utils/cn";
-import MyWishlistsSection from "@/widgets/Wishlist/MyWishlistSection";
-import SubscribedWishlistsSection from "@/widgets/Wishlist/SubscribedWishlistsSection";
 import WishlistCard from "@/widgets/Wishlist/WishlistCard";
+import WishlistsSectionOwned from "@/widgets/Wishlist/WishlistsSectionOwned";
+import WishlistsSectionSubscribed from "@/widgets/Wishlist/WishlistsSectionSubscribed";
 
 const WishlistsPage: FC = () => {
   const [searchWishlists, { isFetching: isSearchFetching }] = useLazySearchWishlistsQuery();
 
   const data = [
-    { value: "my_wishlists", title: "Мои Вишлисты", content: MyWishlistsSection },
-    { value: "subscriptions", icon: HeartIcon, title: "Подписки", content: SubscribedWishlistsSection },
+    { value: "my_wishlists", title: "Мои Вишлисты", content: WishlistsSectionOwned },
+    { value: "subscriptions", icon: HeartIcon, title: "Подписки", content: WishlistsSectionSubscribed },
   ];
 
   const { get, update } = useQueryParams();
   const search = get("search") ?? "";
-
-  const tabsTriggerCN = cn(
-    "p-2",
-    "data-[state=active]:text-primary! data-[state=active]:bg-card!",
-    "data-[state=active]:border-primary/50!",
-  );
 
   const skinsQueryParams = useMemo(
     () => ({
@@ -69,12 +63,17 @@ const WishlistsPage: FC = () => {
       </CustomHead>
 
       <Tabs defaultValue="my_wishlists" className="gap-0">
-        <TabsList
-          variant="default"
-          className="w-full"
-        >
+        <TabsList variant="default" className="w-full">
           {data.map(({ icon: Icon, ...item }) => (
-            <TabsTrigger key={item.value} className={tabsTriggerCN} value={item.value}>
+            <TabsTrigger
+              key={item.value}
+              className={cn(
+                "p-2",
+                "data-[state=active]:text-primary! data-[state=active]:bg-card!",
+                "data-[state=active]:border-primary/50!",
+              )}
+              value={item.value}
+            >
               {Icon && <Icon />}
               {item.title}
             </TabsTrigger>

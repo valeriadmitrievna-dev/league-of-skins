@@ -41,14 +41,6 @@ const DetailsWishlistGuestPage: FC<DetailsWishlistGuestPageProps> = ({ link }) =
     return <WishlistSkeleton guest />;
   }
 
-  if (!wishlist) {
-    return (
-      <div className="text-center py-8">
-        <Typography.Large>Wishlist not found</Typography.Large>
-      </div>
-    );
-  }
-
   return (
     <>
       <CustomHead>
@@ -56,13 +48,19 @@ const DetailsWishlistGuestPage: FC<DetailsWishlistGuestPageProps> = ({ link }) =
         <meta name="description" content="Your wishlist" />
       </CustomHead>
 
-      <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-3">
-        <WishlistInfo wishlist={wishlist} showOwned={showOwned} onToogleShowOwned={toggleShowOwnedHandler} guest />
+      {wishlist ? (
+        <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-3">
+          <WishlistInfo wishlist={wishlist} showOwned={showOwned} onToogleShowOwned={toggleShowOwnedHandler} guest />
 
-        <div className="flex flex-col gap-y-3 w-full overflow-hidden">
-          <VirtualizedGrid items={skins} loading={isLoading} overscan={4} render={renderSkin} />
+          <div className="flex flex-col gap-y-3 w-full overflow-hidden">
+            <VirtualizedGrid items={skins} loading={isLoading} overscan={4} render={renderSkin} />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="text-center py-8">
+          <Typography.Large>Wishlist not found</Typography.Large>
+        </div>
+      )}
     </>
   );
 };
