@@ -10,7 +10,7 @@ export interface WishlistFullDto {
   subscribers: number;
   private: boolean;
 
-  userId: string;
+  user: { _id: string; name: string };
 
   createdAt: string;
   updatedAt: string;
@@ -26,7 +26,7 @@ export interface WishlistDto {
   private: boolean;
   preview?: (string | null)[];
 
-  userId: string | { _id: string; name: string };
+  user: { _id: string; name: string };
 
   createdAt: string;
   updatedAt: string;
