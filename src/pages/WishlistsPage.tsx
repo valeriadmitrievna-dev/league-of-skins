@@ -12,9 +12,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { cn } from "@/shared/utils/cn";
-import MyWishlistsSection from "@/widgets/Wishlist/MyWishlistSection";
-import SubscribedWishlistsSection from "@/widgets/Wishlist/SubscribedWishlistsSection";
 import WishlistCard from "@/widgets/Wishlist/WishlistCard";
+import MyWishlistsSection from "@/widgets/Wishlist/WishlistOwnedSection";
+import SubscribedWishlistsSection from "@/widgets/Wishlist/WishlistsSubscribedSection";
 
 const WishlistsPage: FC = () => {
   const [searchWishlists, { isFetching: isSearchFetching }] = useLazySearchWishlistsQuery();

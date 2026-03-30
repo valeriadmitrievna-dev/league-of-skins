@@ -28,8 +28,8 @@ import { formatNumber } from "@/shared/utils/formatNumber";
 import { appAuthSelector } from "@/store";
 import type { WishlistFullDto } from "@/types/wishlist";
 
-import WishlistDeleteModal from "../WishlistDeleteModal";
-import WishlistEditModal from "../WishlistEditModal";
+import WishlistDeleteModal from "./WishlistDeleteModal";
+import WishlistEditModal from "./WishlistEditModal";
 import WishlistInfoLine from "./WishlistInfoLine";
 
 interface WishlistInfoProps {
