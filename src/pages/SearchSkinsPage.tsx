@@ -21,26 +21,8 @@ import SearchFilters from "@/widgets/SearchFilters";
 import SkinCard from "@/widgets/SkinCard";
 import VirtualizedGrid from "@/widgets/VirtualizedGrid";
 
-interface IBreadcrumbProps {
-  className?: string;
-}
-
-const SearchSkinsBreadcrumb: FC<IBreadcrumbProps> = ({ className }) => {
-  const { t } = useTranslation();
-
-  return (
-    <Breadcrumb className={className}>
-      <BreadcrumbList>
-        <BreadcrumbItem>{t("shared.search")}</BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbPage>{t("header.skins")}</BreadcrumbPage>
-      </BreadcrumbList>
-    </Breadcrumb>
-  );
-};
-
 const SearchSkinsPage: FC = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const isAuth = useSelector(appAuthSelector);
   const { data: user } = useGetUserQuery(undefined, {
@@ -125,7 +107,13 @@ const SearchSkinsPage: FC = () => {
         <SearchFilters className="hidden md:block" />
 
         <div className="pb-10">
-          <SearchSkinsBreadcrumb />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>{t("shared.search")}</BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbPage>{t("header.skins")}</BreadcrumbPage>
+            </BreadcrumbList>
+          </Breadcrumb>
 
           <div className="mt-3 mb-3 flex items-center gap-2">
             <Search value={searchInput} onSearch={setSearchInput} />

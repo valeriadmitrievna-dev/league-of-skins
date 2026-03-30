@@ -27,12 +27,6 @@ const WishlistsPage: FC = () => {
   const { get, update } = useQueryParams();
   const search = get("search") ?? "";
 
-  const tabsTriggerCN = cn(
-    "p-2",
-    "data-[state=active]:text-primary! data-[state=active]:bg-card!",
-    "data-[state=active]:border-primary/50!",
-  );
-
   const skinsQueryParams = useMemo(
     () => ({
       search: search,
@@ -69,12 +63,17 @@ const WishlistsPage: FC = () => {
       </CustomHead>
 
       <Tabs defaultValue="my_wishlists" className="gap-0">
-        <TabsList
-          variant="default"
-          className="w-full"
-        >
+        <TabsList variant="default" className="w-full">
           {data.map(({ icon: Icon, ...item }) => (
-            <TabsTrigger key={item.value} className={tabsTriggerCN} value={item.value}>
+            <TabsTrigger
+              key={item.value}
+              className={cn(
+                "p-2",
+                "data-[state=active]:text-primary! data-[state=active]:bg-card!",
+                "data-[state=active]:border-primary/50!",
+              )}
+              value={item.value}
+            >
               {Icon && <Icon />}
               {item.title}
             </TabsTrigger>

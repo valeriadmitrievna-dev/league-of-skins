@@ -9,7 +9,7 @@ import {
   LockOpenIcon,
   WalletIcon,
 } from "lucide-react";
-import { useMemo, type FC } from "react";
+import { type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
@@ -19,7 +19,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
-import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/ui/item";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { Spinner } from "@/components/ui/spinner";
@@ -29,8 +28,9 @@ import { formatNumber } from "@/shared/utils/formatNumber";
 import { appAuthSelector } from "@/store";
 import type { WishlistFullDto } from "@/types/wishlist";
 
-import WishlistDeleteModal from "./WishlistDeleteModal";
-import WishlistEditModal from "./WishlistEditModal";
+import WishlistDeleteModal from "../WishlistDeleteModal";
+import WishlistEditModal from "../WishlistEditModal";
+import WishlistInfoLine from "./WishlistInfoLine";
 
 interface WishlistInfoProps {
   wishlist: WishlistFullDto;
@@ -52,19 +52,9 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
 
   const isSubscribed = user?.subscriptions?.some((s) => s === wishlist?._id);
 
-  const progress = useMemo(() => {
-    if (!wishlist) return { total: 0, owned: 0, value: 0 };
-
-    const total = wishlist.skins.length;
-    const owned = wishlist.skins.filter((skin) => skin.owned).length;
-    const value = total > 0 ? (100 * owned) / total : 0;
-
-    return {
-      total,
-      owned,
-      value,
-    };
-  }, [wishlist]);
+  const progressTotal = wishlist.skins.length || 0;
+  const progressOwned = wishlist.skins.filter((skin) => skin.owned).length || 0;
+  const progressValue = progressTotal > 0 ? (100 * progressOwned) / progressTotal : 0;
 
   const subscribeHandler = () => {
     subscribeWishlist(wishlist._id);
@@ -83,32 +73,22 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
       <Typography.Large>{wishlist.name}</Typography.Large>
 
       <div className="py-2 flex flex-col gap-y-3">
-        <Item size="xs">
-          <ItemMedia variant="icon">
-            <CalendarIcon />
-          </ItemMedia>
-          <ItemContent className="gap-0.5">
-            <ItemDescription>{t("stats.created")}</ItemDescription>
-            <ItemTitle>{format(new Date(wishlist.createdAt), "dd.MM.yyyy")}</ItemTitle>
-          </ItemContent>
-        </Item>
-        <Item size="xs">
-          <ItemMedia variant="icon">
-            <LayoutGridIcon />
-          </ItemMedia>
-          <ItemContent className="gap-0.5">
-            <ItemDescription>{t("stats.elements")}</ItemDescription>
-            <ItemTitle>{`${wishlist.skins.length} ${t("shared.skin", { count: wishlist.skins.length })}`}</ItemTitle>
-          </ItemContent>
-        </Item>
-        <Item size="xs">
-          <ItemMedia variant="icon">
-            <WalletIcon />
-          </ItemMedia>
-          <ItemContent className="gap-0.5">
-            <ItemDescription className="flex items-baseline gap-2">
+        <WishlistInfoLine
+          icon={<CalendarIcon />}
+          description={t("stats.created")}
+          title={format(new Date(wishlist.createdAt), "dd.MM.yyyy")}
+        />
+        <WishlistInfoLine
+          icon={<LayoutGridIcon />}
+          description={t("stats.elements")}
+          title={`${wishlist.skins.length} ${t("shared.skin", { count: wishlist.skins.length })}`}
+        />
+        <WishlistInfoLine
+          icon={<WalletIcon />}
+          description={
+            <>
               {t("wishlist.price_total")}{" "}
-              <span className="hidden md:block">
+              <span className="hidden md:inline-block">
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <CircleQuestionMarkIcon className="size-3.25 text-foreground/60 cursor-help transform translate-y-0.5" />
@@ -116,31 +96,20 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
                   <TooltipContent>{t("skin.priceHelper")}</TooltipContent>
                 </Tooltip>
               </span>
-            </ItemDescription>
-            <ItemTitle>
+            </>
+          }
+          title={
+            <>
               {formatNumber(wishlist.price)} <RPIcon />
-            </ItemTitle>
-          </ItemContent>
-        </Item>
-        <Item size="xs">
-          <ItemMedia variant="icon">
-            <EyeIcon />
-          </ItemMedia>
-          <ItemContent className="gap-0.5">
-            <ItemDescription>{t("stats.visits")}</ItemDescription>
-            <ItemTitle>{`${wishlist.views} ${t("stats.visits_times", { count: wishlist.views })}`}</ItemTitle>
-          </ItemContent>
-        </Item>
-
-        <Item size="xs">
-          <ItemMedia variant="icon">
-            <HeartIcon />
-          </ItemMedia>
-          <ItemContent className="gap-0.5">
-            <ItemDescription>{t("stats.subscribers")}</ItemDescription>
-            <ItemTitle>{wishlist.subscribers}</ItemTitle>
-          </ItemContent>
-        </Item>
+            </>
+          }
+        />
+        <WishlistInfoLine
+          icon={<EyeIcon />}
+          description={t("stats.visits")}
+          title={`${wishlist.views} ${t("stats.visits_times", { count: wishlist.views })}`}
+        />
+        <WishlistInfoLine icon={<HeartIcon />} description={t("stats.subscribers")} title={wishlist.subscribers} />
       </div>
 
       {!!wishlist.skins.filter((skin) => skin.owned).length && (
@@ -154,12 +123,12 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
         <FieldLabel htmlFor="progress" className="mb-2">
           <span>{t("stats.progress")}</span>
           <span className="ml-auto">
-            {progress.owned}/{progress.total}
+            {progressOwned}/{progressTotal}
           </span>
         </FieldLabel>
-        <Progress value={progress.value} id="progress" />
+        <Progress value={progressValue} id="progress" />
         <FieldDescription className="mt-1.5! text-center text-[12px]">
-          {Math.round(progress.value)}% {t("wishlist.complete")}
+          {Math.round(progressValue)}% {t("wishlist.complete")}
         </FieldDescription>
       </Field>
 

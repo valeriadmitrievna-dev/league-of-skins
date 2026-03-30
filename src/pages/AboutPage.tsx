@@ -17,12 +17,6 @@ const data = [
 ];
 
 const AboutPage: FC = () => {
-  const tabsTriggerCN = cn(
-    "p-3 rounded-none relative",
-    "data-[state=active]:text-primary! data-[state=active]:bg-card!",
-    "border-b-2! data-[state=active]:border-b-primary!",
-  );
-
   return (
     <>
       <CustomHead>
@@ -36,7 +30,15 @@ const AboutPage: FC = () => {
           className="w-full rounded-t-md! border border-b-transparent p-0 bg-transparent overflow-hidden"
         >
           {data.map(({ icon: Icon, ...item }) => (
-            <TabsTrigger key={item.value} className={tabsTriggerCN} value={item.value}>
+            <TabsTrigger
+              key={item.value}
+              className={cn(
+                "p-3 rounded-none relative",
+                "data-[state=active]:text-primary! data-[state=active]:bg-card!",
+                "border-b-2! data-[state=active]:border-b-primary!",
+              )}
+              value={item.value}
+            >
               <Icon className={cn({ "text-destructive": item.accent })} />
               {item.title}
             </TabsTrigger>

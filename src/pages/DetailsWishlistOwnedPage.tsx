@@ -6,7 +6,7 @@ import { useGetWishlistQuery } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
 import { Typography } from "@/components/Typography";
 import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import EmptyWishlistOwned from '@/emptystates/EmptyWishlistOwned';
+import EmptyWishlistOwned from "@/emptystates/EmptyWishlistOwned";
 import useShare from "@/hooks/useShare";
 import type { SkinDto } from "@/types/skin";
 import SkinCard from "@/widgets/SkinCard";
@@ -107,7 +107,9 @@ const DetailsWishlistOwnedPage: FC<DetailsWishlistOwnedPageProps> = () => {
             </BreadcrumbList>
           </Breadcrumb>
 
-          {!!skins.length && <VirtualizedGrid items={skins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />}
+          {!!skins.length && (
+            <VirtualizedGrid items={skins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />
+          )}
           {!skins.length && <EmptyWishlistOwned />}
         </div>
       </div>
