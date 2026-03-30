@@ -7,7 +7,7 @@ import EmptyWishlistsSubscribed from "@/emptystates/EmptyWishlistsSubscribed";
 
 import WishlistCard from "./WishlistCard";
 
-const SubscribedWishlistsSection: FC = () => {
+const WishlistsSectionSubscribed: FC = () => {
   const { data: subscribedWishlists = [], isLoading: isWishlistsLoading } = useGetSubscribedWishlistsQuery();
 
   return (
@@ -27,4 +27,4 @@ const SubscribedWishlistsSection: FC = () => {
   );
 };
 
-export default SubscribedWishlistsSection;
+export default WishlistsSectionSubscribed;

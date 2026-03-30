@@ -7,7 +7,7 @@ import EmptyWishlistsOwned from "@/emptystates/EmptyWishlistsOwned";
 import WishlistCard from "@/widgets/Wishlist/WishlistCard";
 import WishlistCreateModal from "@/widgets/Wishlist/WishlistCreateModal";
 
-const MyWishlistsSection: FC = () => {
+const WishlistsSectionOwned: FC = () => {
   const { data: ownedWishlists = [], isLoading: isOwnedWishlistsLoading } = useGetWishlistsQuery();
 
   return (
@@ -30,4 +30,4 @@ const MyWishlistsSection: FC = () => {
   );
 };
 
-export default MyWishlistsSection;
+export default WishlistsSectionOwned;
