@@ -100,6 +100,7 @@ export const userApi = createApi({
         url: "/wishlists/guest/" + link,
         headers: { "App-Language": getLanguageCode(lang) },
       }),
+      providesTags: ["Wishlists"],
     }),
     searchWishlists: build.query<ODataResponse<WishlistDto[]>, PaginatedRequest<{ search: string }>>({
       query: (params) => ({
