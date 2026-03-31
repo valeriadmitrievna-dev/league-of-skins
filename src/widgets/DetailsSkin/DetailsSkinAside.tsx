@@ -131,7 +131,7 @@ const DetailsSkinAside: FC<DetailsSkinAsideProps> = ({ className, skin }) => {
       )}
       <Button variant="outline" asChild>
         <NavLink
-          to={`https://www.youtube.com/results?search_query=${skin.name.toLowerCase().split(" ").join("+")}+spotlight`}
+          to={`https://www.youtube.com/results?search_query=${(skin.originName || skin.name).toLowerCase().split(" ").join("+")}+spotlight`}
           target="_blank"
         >
           <PlayIcon />
