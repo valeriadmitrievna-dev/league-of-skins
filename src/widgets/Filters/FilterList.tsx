@@ -51,7 +51,7 @@ const FilterList: FC<FilterListProps> = ({ items: options, value, onChange, isLo
     if (!containerRef.current || !items.length) return;
 
     const observer = new ResizeObserver(() => {
-      const container = containerRef.current!.querySelector('[role="row"]');
+      const container = containerRef.current?.querySelector('[role="row"]');
       setListHeight(Math.min(container?.clientHeight ?? 248, 248));
     });
 

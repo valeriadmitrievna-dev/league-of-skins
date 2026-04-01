@@ -32,7 +32,7 @@ const WishlistCreateModal: FC<WishlistCreateModalProps> = ({ buttonClassName, sk
     try {
       await createWishlist(wishlistName?.trim(), skinContentIds);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setModalOpen(false);
     }
