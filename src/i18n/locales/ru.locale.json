@@ -99,6 +99,7 @@
     "price_total": "Полная цена",
     "price_owned": "Потрачено",
     "subscribe": "Подписаться",
+    "unsubscribe": "Отписаться",
     "private_true": "Приватный",
     "private_false": "Публичный"
   },

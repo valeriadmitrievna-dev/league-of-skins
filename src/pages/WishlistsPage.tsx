@@ -13,15 +13,15 @@ import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { cn } from "@/shared/utils/cn";
 import WishlistCard from "@/widgets/Wishlist/WishlistCard";
-import MyWishlistsSection from "@/widgets/Wishlist/WishlistOwnedSection";
-import SubscribedWishlistsSection from "@/widgets/Wishlist/WishlistsSubscribedSection";
+import WishlistsSectionOwned from "@/widgets/Wishlist/WishlistsSectionOwned";
+import WishlistsSectionSubscribed from "@/widgets/Wishlist/WishlistsSectionSubscribed";
 
 const WishlistsPage: FC = () => {
   const [searchWishlists, { isFetching: isSearchFetching }] = useLazySearchWishlistsQuery();
 
   const data = [
-    { value: "my_wishlists", title: "Мои Вишлисты", content: MyWishlistsSection },
-    { value: "subscriptions", icon: HeartIcon, title: "Подписки", content: SubscribedWishlistsSection },
+    { value: "my_wishlists", title: "Мои Вишлисты", content: WishlistsSectionOwned },
+    { value: "subscriptions", icon: HeartIcon, title: "Подписки", content: WishlistsSectionSubscribed },
   ];
 
   const { get, update } = useQueryParams();

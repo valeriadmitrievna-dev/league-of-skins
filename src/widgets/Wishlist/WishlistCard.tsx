@@ -51,10 +51,10 @@ const WishlistCard: FC<WishlistCardProps> = ({ data, guest }) => {
         <Typography.Large className="line-clamp-3">{data.name}</Typography.Large>
 
         <div className="mt-2 w-full flex items-center gap-2">
-          {guest && typeof data.userId === "object" && (
+          {guest && (
             <Badge variant="secondary">
               <UserRoundIcon />
-              {data.userId.name}
+              {data.user.name}
             </Badge>
           )}
           {guest && (
