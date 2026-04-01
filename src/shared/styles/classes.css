@@ -41,7 +41,7 @@
   }
 
   .my-card {
-    @apply md:border border-foreground/15 md:shadow-xs md:py-3 md:px-3 md:rounded-md h-fit;
+    @apply md:bg-card md:border border-foreground/15 md:shadow-xs md:py-3 md:px-3 md:rounded-md h-fit;
   }
 
   .my-tag {

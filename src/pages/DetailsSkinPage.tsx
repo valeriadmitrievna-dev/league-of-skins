@@ -20,7 +20,7 @@ const DetailsSkinPage: FC = () => {
 
   if (isLoading && !skin)
     return (
-      <div className="grid grid-cols-[320px_1fr] gap-x-4">
+      <div className="grid md:grid-cols-[320px_1fr] gap-8">
         <div className="flex flex-col gap-y-3">
           <Skeleton className="h-40" />
           <Skeleton className="h-20" />
@@ -30,8 +30,8 @@ const DetailsSkinPage: FC = () => {
         </div>
         <div>
           <Skeleton className="h-auto aspect-video" />
-          <Skeleton className="mt-3 h-5 w-40" />
-          <Skeleton className="mt-1 h-9 w-120" />
+          <Skeleton className="mt-3 h-5 w-full max-w-40" />
+          <Skeleton className="mt-1 h-9 w-full max-w-120" />
           <Skeleton className="mt-2 h-30" />
         </div>
       </div>
@@ -48,7 +48,7 @@ const DetailsSkinPage: FC = () => {
         <meta name="description" content={skin.description ?? ""} />
       </CustomHead>
 
-      <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-8">
+      <div className="grid md:grid-cols-[320px_1fr] gap-8">
         <DetailsSkinAside skin={skin} />
 
         <div className="mt-8 order-first md:order-last md:mt-0">
@@ -59,14 +59,14 @@ const DetailsSkinPage: FC = () => {
             )}
           </div>
 
-          <div className="mt-3 flex wrap-normal gap-2">
+          <div className="mt-5 flex wrap-normal gap-2">
             {skin.skinlines.map((skinline) => (
               <NavLink to={"/search/skins?skinlineId=" + String(skinline.id)} key={skinline.id}>
                 <Badge variant="secondary">{skinline.name}</Badge>
               </NavLink>
             ))}
           </div>
-          <Typography.H2 className="mt-1">{skin.name}</Typography.H2>
+          <Typography.H2 className="mt-2">{skin.name}</Typography.H2>
           <Typography.P className="mt-2" dangerouslySetInnerHTML={{ __html: skin.description }} />
 
           {!!skin.chromas?.length && (

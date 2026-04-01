@@ -13,11 +13,10 @@ import MedalSecondIcon from "@/shared/assets/medal-second.svg?react";
 import MedalThirdIcon from "@/shared/assets/medal-third.svg?react";
 import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
 import { cn } from "@/shared/utils/cn";
-import { formatNumber } from '@/shared/utils/formatNumber';
+import { formatNumber } from "@/shared/utils/formatNumber";
 
 import FilterItem from "./Filters/FilterItem";
 import FilterList from "./Filters/FilterList";
-
 
 interface CollectionStatisticsProps {
   className?: string;
@@ -54,7 +53,7 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
       {/* Top champions by skins */}
       <div className="my-card flex flex-col gap-y-3 md:gap-y-4">
         {!!Object.keys(statistics?.top.champions ?? {}).length &&
-          Object.entries(statistics!.top.champions).map(([place, items]) => (
+          Object.entries(statistics?.top?.champions ?? {}).map(([place, items]) => (
             <div key={place} className="flex items-center gap-1">
               {Number(place) === 1 && <MedalFirstIcon className="size-7" />}
               {Number(place) === 2 && <MedalSecondIcon className="size-7" />}

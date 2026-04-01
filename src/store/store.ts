@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
-import { authApi, dataApi, userApi } from "@/api";
-import { errorMiddleware } from '@/middlewares/error.middleware';
+import { authApi, dataApi } from "@/api";
+import { baseApi } from "@/api/queries/base.api";
+import { errorMiddleware } from "@/middlewares/error.middleware";
 
 import appReducer from "./app/app.slice";
 
@@ -11,18 +12,13 @@ export const store = configureStore({
     app: appReducer,
     [authApi.reducerPath]: authApi.reducer,
     [dataApi.reducerPath]: dataApi.reducer,
-    [userApi.reducerPath]: userApi.reducer,
+    [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       immutableCheck: false,
       serializableCheck: false,
-    }).concat(
-      errorMiddleware,
-      authApi.middleware,
-      dataApi.middleware,
-      userApi.middleware,
-    ),
+    }).concat(errorMiddleware, authApi.middleware, dataApi.middleware, baseApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

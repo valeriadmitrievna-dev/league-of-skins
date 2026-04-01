@@ -61,7 +61,7 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
     if (!parentRef.current) return;
 
     const obs = new ResizeObserver(() => {
-      setContainerWidth(parentRef.current!.clientWidth);
+      setContainerWidth(parentRef.current?.clientWidth ?? 0);
     });
 
     obs.observe(parentRef.current);
@@ -90,10 +90,15 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
   }, [cardHeight]);
 
   return (
-    <div ref={parentRef} className={cn('', className)}>
+    <div ref={parentRef} className={cn("", className)}>
       {loading && (
         <div className={cn("grid gap-3", gridClassName)} style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
-          <Skeleton count={20} asChild className='h-auto' style={{ aspectRatio: `${itemAspectRatio[1]}/${itemAspectRatio[0]}`}} />
+          <Skeleton
+            count={20}
+            asChild
+            className="h-auto"
+            style={{ aspectRatio: `${itemAspectRatio[1]}/${itemAspectRatio[0]}` }}
+          />
         </div>
       )}
 

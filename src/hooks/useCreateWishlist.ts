@@ -13,7 +13,7 @@ export const useCreateWishlist = () => {
         await updateWishlist({ wishlistId: newWishlist?.data?._id ?? "", body: { addIds: skinContentIds } });
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

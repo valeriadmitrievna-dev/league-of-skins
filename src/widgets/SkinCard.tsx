@@ -61,7 +61,7 @@ const SkinCard: FC<SkinCardProps> = ({
         await updateWishlist({ wishlistId, body: { removeIds: [data.contentId] } });
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
