@@ -5,12 +5,10 @@ import { AppHeader } from "@/widgets/AppHeader";
 
 const LayoutPage: FC = () => {
   return (
-    <div className="min-h-screen grid grid-rows-[auto_1fr]">
+    <div className="h-screen grid grid-rows-[auto_1fr] overflow-hidden">
       <AppHeader />
-      <div className="h-full p-4 md:p-5 my-container">
-        <Outlet />
-        <ScrollRestoration />
-      </div>
+      <Outlet />
+      <ScrollRestoration />
     </div>
   );
 };

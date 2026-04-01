@@ -6,7 +6,7 @@ export const useQueryParams = <T extends string>(keys: T[] = []) => {
 
   const get = useCallback((key: T) => params.get(key), [params]);
 
-  const update = (key: T, value?: string) => {
+  const update = (key: T, value?: string | null) => {
     set((prev) => {
       const next = new URLSearchParams(prev);
 

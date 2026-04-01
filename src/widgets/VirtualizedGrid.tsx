@@ -28,10 +28,10 @@ interface VirtualizedGridProps {
 }
 
 const defaultBreakpoints = [
-  { minWidth: BREAKPOINTS["2xl"], columns: 5 },
-  { minWidth: BREAKPOINTS.xl, columns: 4 },
-  { minWidth: BREAKPOINTS.lg, columns: 3 },
-  { minWidth: BREAKPOINTS.md, columns: 2 },
+  { minWidth: BREAKPOINTS["2xl"], columns: 6 },
+  { minWidth: BREAKPOINTS.xl, columns: 5 },
+  { minWidth: BREAKPOINTS.lg, columns: 4 },
+  { minWidth: BREAKPOINTS.md, columns: 3 },
   { minWidth: 0, columns: 2 },
 ];
 
@@ -74,8 +74,7 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
     return bp?.columns ?? 4;
   }, [responsiveColumns, windowWidth]);
 
-  const cardHeight =
-    containerWidth > 0 ? (containerWidth / columns) * (itemAspectRatio[0] / itemAspectRatio[1]) : estimatedItemHeight;
+  const cardHeight = containerWidth > 0 ? (containerWidth / columns) * (itemAspectRatio[0] / itemAspectRatio[1]) : estimatedItemHeight;
 
   const rowCount = Math.ceil(items.length / columns);
 

@@ -103,10 +103,10 @@ const SearchSkinsPage: FC = () => {
         <meta name="description" content="Search for skins" />
       </CustomHead>
 
-      <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
+      <div className="w-full md:grid grid-cols-[320px_1fr] h-full overflow-hidden">
         <SearchFilters className="hidden md:block" />
 
-        <div className="pb-10">
+        <div className="pb-10 h-full overflow-y-auto scrollbar-full p-4">
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>{t("shared.search")}</BreadcrumbItem>
