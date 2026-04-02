@@ -117,13 +117,13 @@ const SkinCard: FC<SkinCardProps> = ({
 
         {/* Info and actions */}
         <div className="absolute w-full h-36 bottom-0 left-0 right-0 z-2 p-2 sm:p-4 bg-card flex flex-col gap-y-1 border-t">
-          <p className="text-[10px]/[12px] sm:text-xs text-muted-foreground uppercase tracking-widest font-bold">
+          {/* <p className="text-[10px]/[12px] sm:text-xs text-muted-foreground uppercase tracking-widest font-bold">
             {data.championName}
-          </p>
+          </p> */}
           <p className="text-xs sm:text-sm font-black text-foreground uppercase line-clamp-2 tracking-wide">{data.name}</p>
 
           {/* Chromas */}
-          {!!data.chromas?.length && (
+          {/* {!!data.chromas?.length && (
             <div className="flex items-center">
               {data.chromas.slice(0, 3).map((chroma) => (
                 <ChromaColor key={chroma.id} colors={chroma.colors} className="size-5 not-last:-mr-2 border-neutral-950" />
@@ -134,7 +134,7 @@ const SkinCard: FC<SkinCardProps> = ({
                 </div>
               )}
             </div>
-          )}
+          )} */}
 
           <div className="mt-auto w-full flex flex-col gap-y-2">
             {/* Actions */}

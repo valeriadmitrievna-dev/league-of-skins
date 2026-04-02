@@ -84,28 +84,35 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
             options={legacyOptions}
           />
         </div>
-        <Field className="px-3 py-3 border-b">
-          <Label>{t("filters.champion")}</Label>
-          <Combobox
-            items={orderBy(champions, "name")}
-            itemToStringLabel={(value) => champions.find((champion) => champion.id === value)?.name ?? ""}
-            value={get("championId")}
-            onValueChange={(value) => update("championId", value)}
-            disabled={isChampionsLoading}
-          >
-            <ComboboxInput placeholder={t("shared.search")} showClear disabled={isChampionsLoading} />
-            <ComboboxContent className="p-1 py-2">
-              <ComboboxEmpty>No items found.</ComboboxEmpty>
-              <ComboboxList className="scrollbar p-0 px-1">
-                {(item: ChampionDto) => (
-                  <ComboboxItem key={item.id} value={item.id}>
-                    {item.name}
-                  </ComboboxItem>
-                )}
-              </ComboboxList>
-            </ComboboxContent>
-          </Combobox>
-        </Field>
+        {!!champions.length && (
+          <Field className="px-3 py-3 border-b">
+            <Label>{t("filters.champion")}</Label>
+            <Combobox
+              items={orderBy(champions, "name")}
+              itemToStringLabel={(value) => value?.name}
+              value={champions.find((c) => get("championId") === c.id)}
+              virtualized
+              onValueChange={(value) => {
+                if (!value) return;
+                update("championId", value.id);
+              }}
+              disabled={isChampionsLoading}
+            >
+              <ComboboxInput placeholder={t("shared.search")} showClear disabled={isChampionsLoading} />
+              <ComboboxContent className="p-1 py-2">
+                <ComboboxEmpty>No items found.</ComboboxEmpty>
+                <ComboboxList className="scrollbar p-0 px-1">
+                  {(item: ChampionDto) => (
+                    <ComboboxItem key={item.id} value={item}>
+                      {item.name}
+                    </ComboboxItem>
+                  )}
+                </ComboboxList>
+              </ComboboxContent>
+            </Combobox>
+          </Field>
+        )}
+
         <Field className="px-3 py-3 border-b">
           <Label>{t("filters.rarity")}</Label>
           <Combobox
