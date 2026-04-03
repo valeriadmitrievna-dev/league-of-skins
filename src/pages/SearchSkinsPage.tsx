@@ -1,6 +1,6 @@
-import { useCallback, useMemo, useState, type FC } from "react";
+import { useCallback, useEffect, useMemo, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useDebounce } from "react-use";
 
 import { useGetChromasQuery, useGetUserQuery, useLazyGetSkinsQuery } from "@/api";
@@ -14,7 +14,7 @@ import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { getColorsString } from "@/shared/utils/getColorsString";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
-import { appAuthSelector } from "@/store";
+import { appAuthSelector, setSkinsFound } from "@/store";
 import type { SkinDto } from "@/types/skin";
 import FiltersDrawer from "@/widgets/Filters/FiltersDrawer";
 import SearchFilters from "@/widgets/SearchFilters";
@@ -22,6 +22,7 @@ import SkinCard from "@/widgets/SkinCard";
 import VirtualizedGrid from "@/widgets/VirtualizedGrid";
 
 const SearchSkinsPage: FC = () => {
+  const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
 
   const isAuth = useSelector(appAuthSelector);
@@ -80,6 +81,7 @@ const SearchSkinsPage: FC = () => {
     isInitialLoadDone,
     isLoading,
     hasMore,
+    totalCount,
   } = useInfiniteScroll({
     trigger: getSkins,
     initialParams: skinsQueryParams,
@@ -96,6 +98,10 @@ const SearchSkinsPage: FC = () => {
     [user, ownedSet],
   );
 
+  useEffect(() => {
+    dispatch(setSkinsFound(totalCount ?? 0));
+  }, [totalCount]);
+
   return (
     <>
       <CustomHead>
@@ -103,7 +109,7 @@ const SearchSkinsPage: FC = () => {
         <meta name="description" content="Search for skins" />
       </CustomHead>
 
-      <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
+      <div className="w-full md:grid grid-cols-[280px_1fr] gap-6">
         <SearchFilters className="hidden md:block" />
 
         <div className="pb-10">
@@ -115,7 +121,7 @@ const SearchSkinsPage: FC = () => {
             </BreadcrumbList>
           </Breadcrumb>
 
-          <div className="mt-3 mb-3 flex items-center gap-2">
+          <div className="mt-4 mb-4 flex items-center gap-2">
             <Search value={searchInput} onSearch={setSearchInput} />
             <FiltersDrawer className="md:hidden" />
           </div>
@@ -149,6 +155,8 @@ const SearchSkinsPage: FC = () => {
             fetching={isFetching}
             overscan={4}
             render={renderSkin}
+            columnGap={16}
+            rowGap={24}
           />
           {!!skins && isFetching && <Spinner className="mx-auto mt-4 size-8" />}
           {hasMore && <div ref={loaderRef} />}

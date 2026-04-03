@@ -63,12 +63,12 @@ const WishlistsPage: FC = () => {
       </CustomHead>
 
       <Tabs defaultValue="my_wishlists" className="gap-0">
-        <TabsList variant="default" className="w-full">
+        <TabsList variant="default" className="w-full md:w-fit">
           {data.map(({ icon: Icon, ...item }) => (
             <TabsTrigger
               key={item.value}
               className={cn(
-                "p-2",
+                "p-2 px-4",
                 "data-[state=active]:text-primary! data-[state=active]:bg-card!",
                 "data-[state=active]:border-primary/50!",
               )}

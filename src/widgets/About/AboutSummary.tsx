@@ -1,6 +1,7 @@
 import type { FC } from "react";
 
 import { Typography } from "@/components/Typography";
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import EmojiBarChartIcon from "@/shared/assets/emoji-barchart.svg?react";
 import EmojiGamepadIcon from "@/shared/assets/emoji-gamepad.svg?react";
 import EmojiHeartIcon from "@/shared/assets/emoji-heart.svg?react";
@@ -42,11 +43,13 @@ const AboutSummary: FC = () => {
 
       <div className="grid md:grid-cols-2 gap-5 auto-rows-fr">
         {data.map(({ icon: Icon, ...item }) => (
-          <div key={item.title} className="border-2 border-primary/20 rounded-md p-5 flex flex-col gap-2">
-            <Icon className="size-8" />
-            <Typography.Large className="text-primary">{item.title}</Typography.Large>
-            <Typography.P>{item.text}</Typography.P>
-          </div>
+          <Card key={item.title}>
+            <CardHeader>
+              <Icon className="size-6 mb-2" />
+              <CardTitle>{item.title}</CardTitle>
+              <CardDescription>{item.text}</CardDescription>
+            </CardHeader>
+          </Card>
         ))}
       </div>
     </div>

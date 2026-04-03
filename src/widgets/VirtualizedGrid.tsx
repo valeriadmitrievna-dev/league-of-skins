@@ -14,7 +14,6 @@ interface VirtualizedGridProps {
   emptyState?: ReactNode;
 
   overscan?: number;
-  itemAspectRatio?: [number, number];
   itemKey?: (item: unknown, index: number) => string | number;
   className?: string;
   gridClassName?: string;
@@ -25,6 +24,9 @@ interface VirtualizedGridProps {
     minWidth: number;
     columns: number;
   }>;
+
+  columnGap?: number;
+  rowGap?: number;
 }
 
 const defaultBreakpoints = [
@@ -43,17 +45,18 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
   emptyState,
 
   overscan = 1,
-  itemAspectRatio = [20, 11],
   itemKey,
   className,
   gridClassName,
   containerClassName,
   estimatedItemHeight = 400,
   responsiveColumns = defaultBreakpoints,
+
+  columnGap = 12,
+  rowGap = 12,
 }) => {
-  const itemAspectRatioCN = `aspect-[${itemAspectRatio[1]}/${itemAspectRatio[0]}]`;
   const parentRef = useRef<HTMLDivElement | null>(null);
-  const [containerWidth, setContainerWidth] = useState(0);
+  const [_, setContainerWidth] = useState(0);
 
   const { width: windowWidth } = useWindowSize();
 
@@ -74,26 +77,20 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
     return bp?.columns ?? 4;
   }, [responsiveColumns, windowWidth]);
 
-  const cardHeight =
-    containerWidth > 0 ? (containerWidth / columns) * (itemAspectRatio[0] / itemAspectRatio[1]) : estimatedItemHeight;
-
   const rowCount = Math.ceil(items.length / columns);
 
   const rowVirtualizer = useWindowVirtualizer({
     count: rowCount,
-    estimateSize: () => cardHeight,
+    estimateSize: () => estimatedItemHeight + rowGap,
     overscan,
+    measureElement: (el) => el.getBoundingClientRect().height + rowGap,
   });
 
-  useLayoutEffect(() => {
-    rowVirtualizer.measure();
-  }, [cardHeight]);
-
   return (
-    <div ref={parentRef} className={cn('', className)}>
+    <div ref={parentRef} className={cn("", className)}>
       {loading && (
-        <div className={cn("grid gap-3", gridClassName)} style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
-          <Skeleton count={20} asChild className='h-auto' style={{ aspectRatio: `${itemAspectRatio[1]}/${itemAspectRatio[0]}`}} />
+        <div className={cn("grid", gridClassName)} style={{ gridTemplateColumns: `repeat(${columns}, 1fr)`, rowGap, columnGap }}>
+          <Skeleton count={20} asChild className="h-92" />
         </div>
       )}
 
@@ -110,13 +107,16 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
           {rowVirtualizer.getVirtualItems().map((virtualRow) => (
             <div
               key={virtualRow.key}
-              className={cn("grid gap-3", gridClassName)}
+              data-index={virtualRow.index}
+              ref={rowVirtualizer.measureElement}
+              className={cn("grid", gridClassName)}
               style={{
                 position: "absolute",
                 top: virtualRow.start,
                 left: 0,
                 width: "100%",
                 gridTemplateColumns: `repeat(${columns}, 1fr)`,
+                columnGap,
               }}
             >
               {Array.from({ length: columns }).map((_, colIndex) => {
@@ -129,8 +129,7 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
                 return (
                   <div
                     key={key}
-                    className={cn(itemAspectRatioCN, { "pointer-events-none animate-pulse": fetching })}
-                    style={{ aspectRatio: `${itemAspectRatio[1]}/${itemAspectRatio[0]}` }}
+                    className={cn({ "pointer-events-none animate-pulse": fetching })}
                   >
                     {render(item, itemIndex)}
                   </div>

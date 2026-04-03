@@ -4,3 +4,4 @@ export const appThemeSelector = (state: RootState) => state.app.theme;
 export const appLanguageSelector = (state: RootState) => state.app.language;
 export const appAuthSelector = (state: RootState) => state.app.isAuth;
 export const appAddSkinsWaitingSelector = (state: RootState) => state.app.addSkinsWaiting;
+export const appSkinsFoundSelector = (state: RootState) => state.app.skinsFound;

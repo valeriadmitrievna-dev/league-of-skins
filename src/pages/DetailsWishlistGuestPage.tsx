@@ -53,7 +53,7 @@ const DetailsWishlistGuestPage: FC<DetailsWishlistGuestPageProps> = ({ link }) =
           <WishlistInfo wishlist={wishlist} showOwned={showOwned} onToogleShowOwned={toggleShowOwnedHandler} guest />
 
           <div className="flex flex-col gap-y-3 w-full overflow-hidden">
-            <VirtualizedGrid items={skins} loading={isLoading} overscan={4} render={renderSkin} />
+            <VirtualizedGrid items={skins} loading={isLoading} overscan={4} render={renderSkin} columnGap={16} rowGap={24} />
           </div>
         </div>
       ) : (

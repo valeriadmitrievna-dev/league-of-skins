@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useDebounce } from "react-use";
 
-import { useGetChromasQuery, useLazyGetOwnedSkinsQuery } from "@/api";
+import { useGetOwnedSkinsStatsQuery, useLazyGetOwnedSkinsQuery } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
 import NoResultsState from "@/components/NoResultsState";
 import ScrollTop from "@/components/ScrollTop";
@@ -13,7 +13,6 @@ import EmptyCollectionSkins from "@/emptystates/EmptyCollectionSkins";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { getColorsString } from "@/shared/utils/getColorsString";
-import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import type { SkinDto } from "@/types/skin";
 import CollectionSkinsStatistics from "@/widgets/CollectionSkinsStatistics";
 import SkinCard from "@/widgets/SkinCard";
@@ -30,12 +29,11 @@ const CollectionSkinsPage: FC = () => {
   const [searchInput, setSearchInput] = useState(search ?? "");
   useDebounce(() => update("search", searchInput), 300, [searchInput]);
 
-  const { data: chromasData } = useGetChromasQuery({ lang: i18n.language });
-  const { data: chromas } = getODataWithDefault(chromasData);
+  const { data: statistics } = useGetOwnedSkinsStatsQuery({ lang: i18n.language });
 
   const chroma = useMemo(() => {
-    return chromas.find((chroma) => chroma.id === chromaId);
-  }, [chromaId, chromas]);
+    return statistics?.distribution.byChroma.find((chroma) => chroma.id === chromaId);
+  }, [chromaId, statistics]);
 
   const championId = get("championId");
   const skinlineId = get("skinlineId");
@@ -110,6 +108,8 @@ const CollectionSkinsPage: FC = () => {
             fetching={isFetching}
             overscan={4}
             render={renderSkin}
+            columnGap={16}
+            rowGap={24}
           />
           {!!ownedSkins && isFetching && <Spinner className="mx-auto mt-4 size-8" />}
           {hasMore && <div ref={loaderRef} />}

@@ -1,7 +1,11 @@
 {
   "app": {
     "title": "League of Legends Вишлисты скинов",
-    "wishlists": "Вишлисты"
+    "wishlists": "Вишлисты",
+    "page-doesnt-exist": "Страница не существует.",
+    "go-home": "На главную",
+    "user-settings": "Настройки пользователя",
+    "go-back": "Назад"
   },
   "header": {
     "wishlists": "Вишлисты",
@@ -32,7 +36,8 @@
     "delete_text": "Это действие нельзя отменить.",
     "delete": "Удалить",
     "open": "Открыть",
-    "close": "Закрыть"
+    "close": "Закрыть",
+    "no-items-found": "Ничего не найдено."
   },
   "rarity": {
     "kNoRarity": "Без редкости",
@@ -63,7 +68,10 @@
     "searchBy_champion": "Поиск по чемпиону",
     "searchBy_skinline": "Поиск по линейке образов",
     "searchBy_chroma": "Поиск по цветовой схеме",
-    "found_count": "Найдено"
+    "found_count_one": "Найден",
+    "found_count_few": "Найдены",
+    "found_count_many": "Найдено",
+    "found_count_other": "Найдено"
   },
   "skin": {
     "add": "Добавить в вишлист",

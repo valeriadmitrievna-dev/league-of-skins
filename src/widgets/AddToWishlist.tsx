@@ -1,6 +1,6 @@
 import { isEqual } from "lodash";
 import { CircleMinusIcon, CirclePlusIcon, PlusIcon } from "lucide-react";
-import { useEffect, useState, type FC, type MouseEvent, type ReactNode } from "react";
+import { useEffect, useState, type FC, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router";
@@ -68,7 +68,7 @@ const AddToWishlistLine: FC<AddToWishlistLineProps> = ({ wishlist, skinContentId
 };
 
 interface AddToWishlistProps {
-  trigger: (options: { openState: boolean; onOpen: (event: MouseEvent<HTMLElement>) => void }) => ReactNode;
+  trigger: (options: { openState: boolean; onOpen: () => void }) => ReactNode;
   skinName?: string;
   skinContentIds: SkinDto["id"][];
   chromaName?: string;
@@ -91,10 +91,7 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
     skip: !isAuth,
   });
 
-  const openHandler = (event: MouseEvent<HTMLElement>) => {
-    event.stopPropagation();
-    event.preventDefault();
-
+  const openHandler = () => {
     if (!skinContentIds.length && !chromaId) return;
 
     if (isAuth) setOpen(true);
