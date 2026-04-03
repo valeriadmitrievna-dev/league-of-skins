@@ -92,7 +92,7 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
           ) : (
             <Combobox
               items={orderBy(champions, "name")}
-              defaultValue={get("championId")}
+              value={get("championId")}
               itemToStringLabel={(value: string) => champions.find((c) => c.id === value)?.name ?? value}
               onValueChange={(value) => update("championId", value)}
             >
@@ -101,7 +101,7 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
                 <ComboboxEmpty>{t("shared.no-items-found")}</ComboboxEmpty>
                 <ComboboxList className="scrollbar p-0 px-1">
                   {(item) => (
-                    <ComboboxItem key={item.id} value={item.id}>
+                    <ComboboxItem key={item.id} value={item.id.toString()}>
                       {item.name}
                     </ComboboxItem>
                   )}
@@ -117,7 +117,7 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
           ) : (
             <Combobox
               items={rarities}
-              defaultValue={get("rarity")}
+              value={get("rarity")}
               itemToStringLabel={(value: string) => t(`rarity.${rarities.find((c) => c === value)}`)}
               onValueChange={(value) => update("rarity", value)}
             >
@@ -143,7 +143,7 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
           ) : (
             <Combobox
               items={orderBy(skinlines, "name")}
-              defaultValue={get("skinlineId")}
+              value={get("skinlineId")}
               itemToStringLabel={(value: string) => skinlines.find((c) => c.id.toString() === value)?.name ?? value}
               onValueChange={(value) => update("skinlineId", value)}
             >
@@ -152,7 +152,7 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
                 <ComboboxEmpty>{t("shared.no-items-found")}</ComboboxEmpty>
                 <ComboboxList className="scrollbar p-0 px-1">
                   {(item) => (
-                    <ComboboxItem key={item.id} value={item.id}>
+                    <ComboboxItem key={item.id} value={item.id.toString()}>
                       {item.name}
                     </ComboboxItem>
                   )}
@@ -168,7 +168,7 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
           ) : (
             <Combobox
               items={orderBy(chromas, "name")}
-              defaultValue={get("chromaId")}
+              value={get("chromaId")}
               itemToStringLabel={(value: string) => chromas.find((c) => c.id.toString() === value)?.name ?? value}
               onValueChange={(value) => update("chromaId", value)}
             >
@@ -177,7 +177,7 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
                 <ComboboxEmpty>{t("shared.no-items-found")}</ComboboxEmpty>
                 <ComboboxList className="scrollbar p-0 px-1">
                   {(item) => (
-                    <ComboboxItem key={item.id} value={item.id}>
+                    <ComboboxItem key={item.id} value={item.id.toString()}>
                       <ChromaColor colors={item.colors} className="size-5 rounded-sm border-none" />
                       {item.name}
                     </ComboboxItem>
