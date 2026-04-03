@@ -3,6 +3,7 @@ import type { FC } from "react";
 
 import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/ui/item";
 import DonateBoostyIcon from "@/shared/assets/donate-boosty.svg?react";
 import DonateCryptoIcon from "@/shared/assets/donate-crypto.svg?react";
@@ -52,30 +53,37 @@ const AboutSupport: FC = () => {
 
       <div className="grid grid-cols-3 gap-3 auto-rows-fr">
         {donate.map(({ icon: Icon, ...item }) => (
-          <div key={item.title} className="border-2 border-primary/20 rounded-md p-5 flex flex-col">
-            <Icon className="size-8 mb-3" />
-            <Typography.Large className="font-medium text-primary mb-1">Way to Donate</Typography.Large>
-            <Typography.P className="mb-5">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</Typography.P>
-            <Button className="mt-auto">Donate</Button>
-          </div>
+          <Card>
+            <CardHeader>
+              <Icon className="size-8 mb-3" />
+              <CardTitle className="mb-2">{item.title}</CardTitle>
+              <CardDescription>{item.text}</CardDescription>
+            </CardHeader>
+            <CardFooter>
+              <Button className="w-full">Donate</Button>
+            </CardFooter>
+          </Card>
         ))}
       </div>
 
-      <div className="border-2 border-primary/20 rounded-md p-5 flex flex-col gap-4 bg-primary/10">
-        <Typography.Large className="mb-1">Другие способы помочь</Typography.Large>
-
-        {help.map(({ icon: Icon, ...item }) => (
-          <Item key={item.title} size="xs">
-            <ItemMedia variant="icon" className="border-none bg-primary/50">
-              <Icon />
-            </ItemMedia>
-            <ItemContent className="gap-y-0">
-              <ItemTitle className="text-primary">{item.title}</ItemTitle>
-              <ItemDescription>{item.text}</ItemDescription>
-            </ItemContent>
-          </Item>
-        ))}
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Другие способы помочь</CardTitle>
+          <CardDescription className='flex flex-col gap-y-1 mt-2'>
+            {help.map(({ icon: Icon, ...item }) => (
+              <Item key={item.title} size="xs">
+                <ItemMedia variant="icon" className="border-none bg-primary/50 text-foreground">
+                  <Icon />
+                </ItemMedia>
+                <ItemContent className="gap-y-0">
+                  <ItemTitle className="text-primary">{item.title}</ItemTitle>
+                  <ItemDescription>{item.text}</ItemDescription>
+                </ItemContent>
+              </Item>
+            ))}
+          </CardDescription>
+        </CardHeader>
+      </Card>
 
       <Typography.Small className="rounded-md p-5 bg-input/50 text-center">
         Спасибо за вашу поддержку! Каждый вклад помогает делать League of Skins лучше ❤️

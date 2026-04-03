@@ -72,7 +72,7 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
 
       <Typography.Large>{wishlist.name}</Typography.Large>
 
-      <div className="py-2 flex flex-col gap-y-3">
+      <div className="flex flex-col gap-y-3">
         <WishlistInfoLine
           icon={<CalendarIcon />}
           description={t("stats.created")}

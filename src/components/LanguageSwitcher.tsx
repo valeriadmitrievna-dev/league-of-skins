@@ -4,60 +4,56 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { LANGUAGES } from "@/shared/constants/languages";
 import { appLanguageSelector, setLanguage } from "@/store";
+
+import { Combobox, ComboboxContent, ComboboxItem, ComboboxList, ComboboxTrigger } from "./ui/combobox";
 
 const LanguageSwitcher: FC = () => {
   const { i18n } = useTranslation();
   const dispatch = useDispatch();
   const language = useSelector(appLanguageSelector);
 
-  const changeLanguageHandler = async (newLanguage: string) => {
-    await i18n.changeLanguage(newLanguage, () => {
-      dispatch(setLanguage(newLanguage));
-    });
+  const changeLanguageHandler = async (lang: string | null) => {
+    if (lang) {
+      await i18n.changeLanguage(lang, () => {
+        dispatch(setLanguage(lang));
+      });
+    }
   };
 
   useEffect(() => {
+    if (!language) {
+      i18n.changeLanguage("en", () => {
+        dispatch(setLanguage("en"));
+      });
+    }
+
     document.documentElement.setAttribute("lang", language);
   }, [language]);
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <GlobeIcon />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="overflow-hidden">
-        <div className="max-h-48 overflow-auto scrollbar pr-1">
-          <ToggleGroup
-            type="single"
-            orientation="vertical"
-            spacing={1}
-            className="flex-col items-start w-full"
-            value={language}
-            onValueChange={changeLanguageHandler}
-          >
-            {Object.entries(LANGUAGES).map(([locale, { name }]) => {
-              const formattedName = name[0].toUpperCase() + name.slice(1);
-              return (
-                <ToggleGroupItem
-                  key={locale}
-                  className="w-full flex-col items-start hover:text-foreground"
-                  value={locale}
-                  aria-label={formattedName}
-                >
-                  {formattedName}
-                </ToggleGroupItem>
-              );
-            })}
-          </ToggleGroup>
-        </div>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Combobox items={Object.entries(LANGUAGES)} value={language} onValueChange={changeLanguageHandler}>
+      <ComboboxTrigger
+        render={
+          <Button variant="outline" size="icon">
+            <GlobeIcon />
+          </Button>
+        }
+      />
+      <ComboboxContent className="min-w-40 p-1 py-2">
+        <ComboboxList className='scrollbar p-0 px-1'>
+          {([locale, { name }]) => {
+            const formattedName = name[0].toUpperCase() + name.slice(1);
+            return (
+              <ComboboxItem key={locale} value={locale}>
+                {formattedName}
+              </ComboboxItem>
+            );
+          }}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
   );
 };
 

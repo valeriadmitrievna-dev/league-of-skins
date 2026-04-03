@@ -13,13 +13,15 @@ const ChromaColor: FC<ChromaColorProps> = ({ colors, className, onClick }) => {
     <div
       onClick={onClick}
       className={cn(
-        "size-5 rotate-45 rounded-full overflow-hidden flex gap-px bg-background border shrink-0",
+        "size-5 rounded-full overflow-hidden relative border shrink-0 bg-background",
         { "cursor-pointer": !!onClick },
         className,
       )}
     >
-      <div className="size-full" style={{ background: colors[0] }} />
-      {colors.length > 1 && <div className="size-full" style={{ background: colors[1] }} />}
+      <div className='size-full rotate-45 flex gap-px absolute top-1/2 left-1/2 -translate-1/2 scale-[1.5]'>
+        <div className="size-full" style={{ background: colors[0] }} />
+        {colors.length > 1 && <div className="size-full" style={{ background: colors[1] }} />}
+      </div>
     </div>
   );
 };

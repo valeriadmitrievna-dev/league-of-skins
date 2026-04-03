@@ -108,7 +108,15 @@ const DetailsWishlistOwnedPage: FC<DetailsWishlistOwnedPageProps> = () => {
           </Breadcrumb>
 
           {!!skins.length && (
-            <VirtualizedGrid items={skins} loading={isLoading} fetching={isFetching} overscan={4} render={renderSkin} />
+            <VirtualizedGrid
+              items={skins}
+              loading={isLoading}
+              fetching={isFetching}
+              overscan={4}
+              render={renderSkin}
+              columnGap={16}
+              rowGap={24}
+            />
           )}
           {!skins.length && <EmptyWishlistOwned />}
         </div>

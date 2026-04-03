@@ -10,6 +10,7 @@ export interface AppState {
   isAuth: boolean;
   addSkinsWaiting: SkinDto["id"][];
   addWaitingFrom: string | null;
+  skinsFound: number;
 }
 
 const initialState: AppState = {
@@ -18,6 +19,7 @@ const initialState: AppState = {
   isAuth: !!localStorage.getItem("access-token"),
   addSkinsWaiting: [],
   addWaitingFrom: null,
+  skinsFound: 0,
 };
 
 export const appSlice = createSlice({
@@ -47,9 +49,12 @@ export const appSlice = createSlice({
     setAddSkinsWaiting: (state, { payload }: PayloadAction<AppState["addSkinsWaiting"]>) => {
       state.addSkinsWaiting = payload;
     },
+    setSkinsFound: (state, { payload }: PayloadAction<number>) => {
+      state.skinsFound = payload;
+    },
   },
 });
 
-export const { setLanguage, setTheme, toggleTheme, setAppAuth, setAddSkinsWaiting } = appSlice.actions;
+export const { setLanguage, setTheme, toggleTheme, setAppAuth, setAddSkinsWaiting, setSkinsFound } = appSlice.actions;
 
 export default appSlice.reducer;

@@ -47,26 +47,28 @@ const WishlistCard: FC<WishlistCardProps> = ({ data, guest }) => {
 
       <ImageStack images={(data.preview ?? []).map((i) => i ?? "")} className="bg-accent" />
 
-      <div className="px-4 py-3">
+      <div className="px-4 py-3 min-h-24 flex flex-col gap-y-2">
         <Typography.Large className="line-clamp-3">{data.name}</Typography.Large>
 
-        <div className="mt-2 w-full flex items-center gap-2">
-          {guest && (
-            <Badge variant="secondary">
-              <UserRoundIcon />
-              {data.user.name}
-            </Badge>
-          )}
-          {guest && (
-            <Badge variant="ghost" className="bg-foreground/20">
-              <EyeIcon />
-              {data.views > 999 ? "999+" : data.views}
-            </Badge>
-          )}
-          <Typography.Muted className="mr-auto">
-            {data.skins.length > 999 ? "999+" : data.skins.length}{" "}
-            {t("shared.skin", { count: data.skins.length > 999 ? 999 : data.skins.length })}
-          </Typography.Muted>
+        <div className="mt-auto w-full flex items-end gap-2">
+          <div className="flex items-center gap-2 mr-auto">
+            {guest && (
+              <Badge variant="secondary">
+                <UserRoundIcon />
+                {data.user.name}
+              </Badge>
+            )}
+            {!data.private && (
+              <Badge variant="ghost" className="bg-foreground/20">
+                <EyeIcon />
+                {data.views > 999 ? "999+" : data.views}
+              </Badge>
+            )}
+            <Typography.Muted>
+              {data.skins.length > 999 ? "999+" : data.skins.length}{" "}
+              {t("shared.skin", { count: data.skins.length > 999 ? 999 : data.skins.length })}
+            </Typography.Muted>
+          </div>
           {!data.private && !guest && (
             <Button size="icon" variant="outline" onClick={shareHandler}>
               <Share2Icon />

@@ -15,6 +15,7 @@ const FilterToggleGroup: FC<FilterToggleGroupProps> = ({ value, onChange, option
   return (
     <ToggleGroup
       variant="outline"
+      // spacing={2}
       type="single"
       value={value}
       onValueChange={onChange}

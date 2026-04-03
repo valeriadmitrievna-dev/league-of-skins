@@ -36,7 +36,8 @@
     "delete_text": "This action cannot be undone.",
     "delete": "Delete",
     "open": "Open",
-    "close": "Close"
+    "close": "Close",
+    "no-items-found": "No items found."
   },
   "rarity": {
     "kNoRarity": "No rarity",

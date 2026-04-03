@@ -7,6 +7,9 @@ import ChromaColor from "@/components/ChromaColor";
 import InfoLine from "@/components/InfoLine";
 import Skeleton from "@/components/Skeleton";
 import { Typography } from "@/components/Typography";
+import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from '@/components/ui/combobox';
+import { Field } from "@/components/ui/field";
+import { Label } from "@/components/ui/label";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import MedalFirstIcon from "@/shared/assets/medal-first.svg?react";
 import MedalSecondIcon from "@/shared/assets/medal-second.svg?react";
@@ -14,9 +17,6 @@ import MedalThirdIcon from "@/shared/assets/medal-third.svg?react";
 import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
 import { cn } from "@/shared/utils/cn";
 import { formatNumber } from "@/shared/utils/formatNumber";
-
-import FilterItem from "./Filters/FilterItem";
-import FilterList from "./Filters/FilterList";
 
 interface CollectionStatisticsProps {
   className?: string;
@@ -49,22 +49,22 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
   }
 
   return (
-    <div className={cn("flex flex-col gap-y-8 md:gap-y-3", className)}>
+    <div className={cn("flex flex-col gap-y-8 md:gap-y-5", className)}>
       {/* Top champions by skins */}
-      <div className="my-card flex flex-col gap-y-3 md:gap-y-4">
+      <div className="my-card flex flex-col gap-y-3 md:dark:bg-input/30">
         {!!Object.keys(statistics?.top.champions ?? {}).length &&
           Object.entries(statistics?.top?.champions ?? {}).map(([place, items]) => (
             <div key={place} className="flex items-center gap-1">
-              {Number(place) === 1 && <MedalFirstIcon className="size-7" />}
-              {Number(place) === 2 && <MedalSecondIcon className="size-7" />}
-              {Number(place) === 3 && <MedalThirdIcon className="size-7" />}
+              {Number(place) === 1 && <MedalFirstIcon className="size-6" />}
+              {Number(place) === 2 && <MedalSecondIcon className="size-6" />}
+              {Number(place) === 3 && <MedalThirdIcon className="size-6" />}
 
               <InfoLine
                 label={
                   <div className="flex items-center gap-1">
-                    <Typography.P className="my-tag ml-1">{items[0].name}</Typography.P>
+                    <Typography.Small className="my-tag ml-1 py-2!">{items[0].name}</Typography.Small>
                     {items.length > 1 && (
-                      <Typography.P className="my-tag text-muted-foreground px-2!">+{items.length - 1}</Typography.P>
+                      <Typography.Small className="my-tag text-muted-foreground px-2! py-2!">+{items.length - 1}</Typography.Small>
                     )}
                   </div>
                 }
@@ -76,7 +76,7 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
       </div>
 
       {/* Totals */}
-      <div className="my-card flex flex-col gap-y-3">
+      <div className="my-card flex flex-col gap-y-3 md:dark:bg-input/30">
         <InfoLine
           label={t("shared.skins")}
           value={`${statistics?.user.skins} / ${statistics?.totals.skins}`}
@@ -108,106 +108,108 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
       </div>
 
       {/* Price */}
-      <div className="my-card flex flex-col gap-y-2">
+      <div className="my-card flex flex-col gap-y-2 md:dark:bg-input/30">
         <InfoLine
-          label={<Typography.Small>{t("skin.wasted")}</Typography.Small>}
+          label={<Typography.Small className='font-medium'>{t("skin.wasted")}</Typography.Small>}
           value={
-            <div className="my-tag">
-              <Typography.P>{formatNumber(statistics?.user.value ?? 0)}</Typography.P>
-              <RPIcon className="size-4.5" />
+            <div className="flex items-center gap-2">
+              <Typography.Small>{formatNumber(statistics?.user.value ?? 0)}</Typography.Small>
+              <RPIcon className="size-4" />
             </div>
           }
-          className="bg-transparent!"
         />
 
         <Typography.Muted>{t("skin.priceHelperFull")}</Typography.Muted>
       </div>
 
       {/* Rarities */}
-      <div className="my-card flex flex-col gap-y-2">
+      <div className="my-card flex flex-col gap-y-2 md:dark:bg-input/30">
         {orderBy(statistics?.distribution.byRarity, "count", "desc").map((rarity) => (
           <InfoLine
             key={rarity.value}
             label={
-              <Typography.P
+              <Typography.Small
                 onClick={() =>
                   rarity.value === get("rarity") ? update("rarity", undefined) : update("rarity", rarity.value)
                 }
                 className={cn("my-tag cursor-pointer select-none", {
-                  "opacity-50 pointer-events-none": !rarity.count,
+                  "opacity-70 pointer-events-none": !rarity.count,
                   "bg-primary! text-primary-foreground!": rarity.value === get("rarity"),
                 })}
               >
                 {t(`rarity.${rarity.value}`)}
-              </Typography.P>
+              </Typography.Small>
             }
             value={String(rarity.count)}
-            valueClassName={cn("px-2!", { "opacity-50 pointer-events-none": !rarity.count })}
+            valueClassName={cn("text-sm! leading-4 px-2!", { "opacity-70 pointer-events-none": !rarity.count })}
           />
         ))}
       </div>
 
-      <div className="flex flex-col gap-y-1">
-        {/* Champions */}
-        <div className="my-card py-1!">
-          <FilterItem
-            title={t("filters.searchBy_champion")}
-            value={get("championId") ?? ""}
-            onClear={() => update("championId")}
-          >
-            <FilterList
-              items={
-                orderBy(statistics?.distribution.byChampion, "name").map((champion) => ({
-                  value: champion.id,
-                  label: champion.name,
-                })) ?? []
-              }
-              value={get("championId") ?? ""}
-              onChange={(value) => update("championId", value)}
-              withSearch
-            />
-          </FilterItem>
-        </div>
-
-        {/* Skinlines */}
-        <div className="my-card py-1!">
-          <FilterItem
-            title={t("filters.searchBy_skinline")}
-            value={get("skinlineId") ?? ""}
-            onClear={() => update("skinlineId")}
-          >
-            <FilterList
-              items={
-                orderBy(statistics?.distribution.bySkinline, "name").map((skinline) => ({
-                  value: skinline.id,
-                  label: skinline.name,
-                })) ?? []
-              }
-              value={get("skinlineId") ?? ""}
-              onChange={(value) => update("skinlineId", value)}
-              withSearch
-            />
-          </FilterItem>
-        </div>
-
-        {/* Chroma */}
-        <div className="my-card py-1!">
-          <FilterItem title={t("filters.searchBy_chroma")} value={get("chromaId") ?? ""} onClear={() => update("chromaId")}>
-            <FilterList
-              items={
-                orderBy(statistics?.distribution.byChroma, "name").map((chroma) => ({
-                  value: chroma.id,
-                  label: chroma.name,
-                  prefix: <ChromaColor colors={chroma.colors} />,
-                })) ?? []
-              }
-              value={get("chromaId") ?? ""}
-              onChange={(value) => update("chromaId", value)}
-              withSearch
-            />
-          </FilterItem>
-        </div>
-      </div>
+      <Field className="gap-2">
+        <Label>{t("filters.searchBy_champion")}</Label>
+        <Combobox
+          items={orderBy(statistics?.distribution.byChampion, "name")}
+          defaultValue={get("championId")}
+          itemToStringLabel={(value: string) => statistics?.distribution.byChampion.find((c) => c.id === value)?.name ?? value}
+          onValueChange={(value) => update("championId", value)}
+        >
+          <ComboboxInput placeholder={t("shared.search")} showClear />
+          <ComboboxContent className="p-1 py-2">
+            <ComboboxEmpty>{t("shared.no-items-found")}</ComboboxEmpty>
+            <ComboboxList className="scrollbar p-0 px-1">
+              {(item) => (
+                <ComboboxItem key={item.id} value={item.id}>
+                  {item.name}
+                </ComboboxItem>
+              )}
+            </ComboboxList>
+          </ComboboxContent>
+        </Combobox>
+      </Field>
+      <Field className="gap-2">
+        <Label>{t("filters.searchBy_skinline")}</Label>
+        <Combobox
+          items={orderBy(statistics?.distribution.bySkinline, "name")}
+          defaultValue={get("skinlineId")}
+          itemToStringLabel={(value: string) => statistics?.distribution.bySkinline.find((c) => c.id === value)?.name ?? value}
+          onValueChange={(value) => update("skinlineId", value)}
+        >
+          <ComboboxInput placeholder={t("shared.search")} showClear />
+          <ComboboxContent className="p-1 py-2">
+            <ComboboxEmpty>{t("shared.no-items-found")}</ComboboxEmpty>
+            <ComboboxList className="scrollbar p-0 px-1">
+              {(item) => (
+                <ComboboxItem key={item.id} value={item.id}>
+                  {item.name}
+                </ComboboxItem>
+              )}
+            </ComboboxList>
+          </ComboboxContent>
+        </Combobox>
+      </Field>
+      <Field className="gap-2">
+        <Label>{t("filters.searchBy_chroma")}</Label>
+        <Combobox
+          items={orderBy(statistics?.distribution.byChroma, "name")}
+          defaultValue={get("chromaId")}
+          itemToStringLabel={(value: string) => statistics?.distribution.byChroma.find((c) => c.id === value)?.name ?? value}
+          onValueChange={(value) => update("chromaId", value)}
+        >
+          <ComboboxInput placeholder={t("shared.search")} showClear />
+          <ComboboxContent className="p-1 py-2">
+            <ComboboxEmpty>{t("shared.no-items-found")}</ComboboxEmpty>
+            <ComboboxList className="scrollbar p-0 px-1">
+              {(item) => (
+                <ComboboxItem key={item.id} value={item.id}>
+                  <ChromaColor colors={item.colors} className="size-5 rounded-sm border-none" />
+                  {item.name}
+                </ComboboxItem>
+              )}
+            </ComboboxList>
+          </ComboboxContent>
+        </Combobox>
+      </Field>
     </div>
   );
 };

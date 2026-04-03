@@ -17,7 +17,7 @@ const AppHeaderLink: FC<AppHeaderLinkProps> = ({ className, to, text, disabled, 
       to={to}
       onClick={onClick}
       className={cn(
-        "group relative text-sm font-medium text-center text-muted-foreground aria-[current=page]:text-primary uppercase",
+        "group relative font-medium text-center text-muted-foreground aria-[current=page]:text-primary",
         disabled && "pointer-events-none opacity-50",
         className,
       )}
