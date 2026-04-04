@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useDebounce } from "react-use";
 
-import { useGetOwnedSkinsStatsQuery, useLazyGetOwnedSkinsQuery } from "@/api";
+import { useLazyGetOwnedSkinsQuery } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
 import NoResultsState from "@/components/NoResultsState";
 import ScrollTop from "@/components/ScrollTop";
@@ -12,7 +12,6 @@ import { Spinner } from "@/components/ui/spinner";
 import EmptyCollectionSkins from "@/emptystates/EmptyCollectionSkins";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useQueryParams } from "@/hooks/useQueryParams";
-import { getColorsString } from "@/shared/utils/getColorsString";
 import type { SkinDto } from "@/types/skin";
 import CollectionSkinsStatistics from "@/widgets/CollectionSkinsStatistics";
 import SkinCard from "@/widgets/SkinCard";
@@ -29,12 +28,6 @@ const CollectionSkinsPage: FC = () => {
   const [searchInput, setSearchInput] = useState(search ?? "");
   useDebounce(() => update("search", searchInput), 300, [searchInput]);
 
-  const { data: statistics } = useGetOwnedSkinsStatsQuery({ lang: i18n.language });
-
-  const chroma = useMemo(() => {
-    return statistics?.distribution.byChroma.find((chroma) => chroma.id === chromaId);
-  }, [chromaId, statistics]);
-
   const championId = get("championId");
   const skinlineId = get("skinlineId");
   const rarity = get("rarity");
@@ -47,11 +40,10 @@ const CollectionSkinsPage: FC = () => {
       championId: championId || undefined,
       skinlineId: skinlineId || undefined,
       rarity: rarity || undefined,
-      chromaName: chroma?.name,
-      chromaColors: getColorsString(chroma?.colors),
+      chromaId: chromaId || undefined,
       legacy: legacy || "all",
     }),
-    [i18n.language, search, chroma, championId, skinlineId, rarity, legacy],
+    [i18n.language, search, chromaId, championId, skinlineId, rarity, legacy],
   );
 
   const [getSkins, { isFetching }] = useLazyGetOwnedSkinsQuery();
