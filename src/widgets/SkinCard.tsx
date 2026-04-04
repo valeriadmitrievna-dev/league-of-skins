@@ -2,6 +2,7 @@ import { BookmarkIcon, HeartIcon } from "lucide-react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
+import { toast } from "sonner";
 
 import { useUpdateOwnedSkinsMutation, useUpdateWishlistMutation } from "@/api";
 import ChromaColor from "@/components/ChromaColor";
@@ -29,15 +30,20 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
   const [updateOwnedSkins, { isLoading: isOwningUpdating }] = useUpdateOwnedSkinsMutation();
   const [updateWishlist, { isLoading: isWishlistUpdating }] = useUpdateWishlistMutation();
 
-  const toggleOwnedHandler = () => {
-    if (owned) updateOwnedSkins({ removeIds: [data.contentId] });
-    else updateOwnedSkins({ addIds: [data.contentId] });
+  const toggleOwnedHandler = async () => {
+    if (owned) {
+      await updateOwnedSkins({ removeIds: [data.contentId] });
+      toast.success("Образ удален из купленных");
+    } else {
+      await updateOwnedSkins({ addIds: [data.contentId] });
+      toast.success("Образ отмечен как купленный");
+    }
   };
 
   const removeFromWishlistHandler = async () => {
     try {
       if (wishlistId) {
-        await updateWishlist({ wishlistId, body: { removeIds: [data.contentId] } });
+        await updateWishlist({ wishlistId, body: { removeSkinIds: [data.contentId] } });
       }
     } catch (error) {
       console.error(error);
@@ -45,15 +51,7 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
   };
 
   return (
-    <div
-      className={cn(
-        "h-full flex flex-col",
-        {
-          "pointer-events-none animate-pulse": isWishlistUpdating || isOwningUpdating,
-        },
-        className,
-      )}
-    >
+    <div className={cn("h-full flex flex-col", className)}>
       <NavLink to={`/skins/${data.contentId}`} className="block relative group aspect-[1/1.2] rounded-md overflow-hidden">
         <Image src={data.image.centered ?? ""} className="object-cover size-full transition-all group-hover:scale-[1.1]" />
 
@@ -108,12 +106,12 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
           <AddToWishlist
             skinName={data.name}
             skinContentIds={[data.contentId]}
-            trigger={({ onOpen, isInWishlist }) => (
+            trigger={({ onOpen, isSkinInWishlist }) => (
               <HeartIcon
                 onClick={onOpen}
                 className={cn("size-7 p-1 pr-0 text-destructive cursor-pointer shrink-0", {
-                  "fill-destructive": isInWishlist,
-                  "hover:fill-destructive/50": !isInWishlist,
+                  "fill-destructive": isSkinInWishlist,
+                  "hover:fill-destructive/50": !isSkinInWishlist,
                 })}
               />
             )}

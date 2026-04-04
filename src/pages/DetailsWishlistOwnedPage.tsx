@@ -1,14 +1,16 @@
 import { useCallback, useMemo, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 import { useGetUserQuery, useGetWishlistQuery } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
 import { Typography } from "@/components/Typography";
-import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EmptyWishlistOwned from "@/emptystates/EmptyWishlistOwned";
 import useShare from "@/hooks/useShare";
+import type { ChromaDto } from '@/types/chroma';
 import type { SkinDto } from "@/types/skin";
+import ChromaCard from '@/widgets/ChromaCard';
 import SkinCard from "@/widgets/SkinCard";
 import VirtualizedGrid from "@/widgets/VirtualizedGrid";
 import WishlistInfo from "@/widgets/Wishlist/WishlistInfo";
@@ -51,20 +53,36 @@ const DetailsWishlistOwnedPage: FC<DetailsWishlistOwnedPageProps> = ({ id: wishl
     navigate("/wishlists");
   };
 
-  const ownedSet = useMemo(() => new Set(user?.ownedSkins ?? []), [user?.ownedSkins]);
+  const ownedSkinsSet = useMemo(() => new Set(user?.ownedSkins ?? []), [user?.ownedSkins]);
+  const ownedChromasSet = useMemo(() => new Set(user?.ownedChromas ?? []), [user?.ownedChromas]);
 
   const renderSkin = useCallback(
     (item: unknown, _index: number) => {
       const skin = item as SkinDto;
-      const owned = ownedSet.has(skin.contentId);
+      const owned = ownedSkinsSet.has(skin.contentId);
 
       return <SkinCard key={skin.id} data={skin} owned={owned} toggleOwnedButton wishlistId={wishlist?._id} />;
     },
-    [wishlist?._id, showOwned, ownedSet],
+    [wishlist?._id, showOwned, ownedSkinsSet],
+  );
+
+   const renderChroma = useCallback(
+    (item: unknown, _index: number) => {
+      const chroma = item as ChromaDto;
+      const owned = ownedChromasSet.has(chroma.contentId);
+
+      return <ChromaCard key={chroma.id} data={chroma} owned={owned} toggleOwnedButton wishlistId={wishlist?._id} />;
+    },
+    [wishlist?._id, showOwned, ownedChromasSet],
   );
 
   const skins = useMemo(
     () => (wishlist?.skins ?? []).filter((skin) => (showOwned ? true : !skin.owned)),
+    [wishlist, showOwned],
+  );
+
+  const chromas = useMemo(
+    () => (wishlist?.chromas ?? []).filter((chroma) => (showOwned ? true : !chroma.owned)),
     [wishlist, showOwned],
   );
 
@@ -87,7 +105,7 @@ const DetailsWishlistOwnedPage: FC<DetailsWishlistOwnedPageProps> = ({ id: wishl
         <meta name="description" content="Your wishlist" />
       </CustomHead>
 
-      <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-3">
+      <div className="grid md:grid-cols-[280px_1fr] gap-x-4 gap-y-3">
         <WishlistInfo
           wishlist={wishlist}
           showOwned={showOwned}
@@ -97,20 +115,44 @@ const DetailsWishlistOwnedPage: FC<DetailsWishlistOwnedPageProps> = ({ id: wishl
         />
 
         <div className="flex flex-col gap-y-3 w-full overflow-hidden">
-          <Breadcrumb className="hidden md:flex">
-            <BreadcrumbList className="flex-nowrap overflow-hidden">
-              <BreadcrumbLink asChild>
-                <NavLink to="/wishlists">{t("header.wishlists")}</NavLink>
-              </BreadcrumbLink>
-              <BreadcrumbSeparator />
-              <BreadcrumbPage className="text-ellipsis whitespace-nowrap overflow-hidden">{wishlist.name}</BreadcrumbPage>
-            </BreadcrumbList>
-          </Breadcrumb>
+          <Tabs defaultValue="skins" className='gap-y-5'>
+            <TabsList variant="line" className='border-b w-full justify-start'>
+              <TabsTrigger className="px-6 after:bg-primary flex-0" value="skins">
+                {t("header.skins")}
+              </TabsTrigger>
+              <TabsTrigger className="px-6 after:bg-primary flex-0" value="chromas">
+                {t("header.chromas")}
+              </TabsTrigger>
+            </TabsList>
 
-          {!!skins.length && (
-            <VirtualizedGrid items={skins} loading={isLoading} overscan={4} render={renderSkin} columnGap={16} rowGap={24} />
-          )}
-          {!skins.length && <EmptyWishlistOwned />}
+            <TabsContent value="skins">
+              {!!skins.length && (
+                <VirtualizedGrid
+                  items={skins}
+                  loading={isLoading}
+                  overscan={4}
+                  render={renderSkin}
+                  columnGap={16}
+                  rowGap={24}
+                />
+              )}
+              {!skins.length && <EmptyWishlistOwned />}
+            </TabsContent>
+
+            <TabsContent value="chromas">
+              {!!chromas.length && (
+                <VirtualizedGrid
+                  items={chromas}
+                  loading={isLoading}
+                  overscan={4}
+                  render={renderChroma}
+                  columnGap={16}
+                  rowGap={24}
+                />
+              )}
+              {/* {!chromas.length && <EmptyWishlistOwned />} */}
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </>

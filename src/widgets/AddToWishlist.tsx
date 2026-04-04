@@ -4,39 +4,91 @@ import { useEffect, useState, type FC, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router";
+import { toast } from "sonner";
 
 import { useGetWishlistsQuery, useUpdateWishlistMutation } from "@/api";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
-import { appAddSkinsWaitingSelector, appAuthSelector } from "@/store/app/app.selectors";
-import { setAddSkinsWaiting } from "@/store/app/app.slice";
-import type { ChromaDto } from "@/types/chroma";
-import type { SkinDto } from "@/types/skin";
+import { appAddChromasWaitingSelector, appAddSkinsWaitingSelector, appAuthSelector } from "@/store/app/app.selectors";
+import { setAddChromasWaiting, setAddSkinsWaiting } from "@/store/app/app.slice";
 import type { WishlistDto } from "@/types/wishlist";
 
 import WishlistCreateModal from "./Wishlist/WishlistCreateModal";
 
 interface AddToWishlistLineProps {
   wishlist: WishlistDto;
-  skinContentIds: string[];
+  skinContentIds?: string[];
+  chromaContentIds?: string[];
 }
 
-const AddToWishlistLine: FC<AddToWishlistLineProps> = ({ wishlist, skinContentIds }) => {
+interface AddToWishlistProps {
+  trigger: (options: {
+    openState: boolean;
+    onOpen: () => void;
+    isSkinInWishlist: boolean;
+    isChromaInWishlist: boolean;
+  }) => ReactNode;
+
+  skinName?: string;
+  skinContentIds?: string[];
+
+  chromaName?: string;
+  chromaContentIds?: string[];
+}
+
+const AddToWishlistLine: FC<AddToWishlistLineProps> = ({ wishlist, skinContentIds = [], chromaContentIds = [] }) => {
   const { t } = useTranslation();
 
   const [updateWishlist, { isLoading: isWishlistUpdating }] = useUpdateWishlistMutation();
 
   const addToExistingWishlist = async () => {
-    await updateWishlist({ wishlistId: wishlist._id, body: { addIds: skinContentIds } });
+    await updateWishlist({ wishlistId: wishlist._id, body: { addSkinIds: skinContentIds, addChromaIds: chromaContentIds } });
+
+    if (skinContentIds.length) {
+      if (skinContentIds.length === 1) {
+        toast.success("Образ добавлен в вишлист");
+      } else if (skinContentIds.length > 1) {
+        toast.success("Образы добавлены в вишлист");
+      }
+    }
+
+    if (chromaContentIds.length) {
+      if (chromaContentIds.length === 1) {
+        toast.success("Цветовая схема добавлена в вишлист");
+      } else if (chromaContentIds.length > 1) {
+        toast.success("Цветовые схемы добавлены в вишлист");
+      }
+    }
   };
 
   const removeFromExistingWishlist = async () => {
-    await updateWishlist({ wishlistId: wishlist._id, body: { removeIds: skinContentIds } });
+    await updateWishlist({
+      wishlistId: wishlist._id,
+      body: { removeSkinIds: skinContentIds, removeChromaIds: chromaContentIds },
+    });
+
+    if (skinContentIds.length) {
+      if (skinContentIds.length === 1) {
+        toast.success("Образ удален из вишлиста");
+      } else {
+        toast.success("Образы удалены из вишлиста");
+      }
+    }
+
+    if (chromaContentIds.length) {
+      if (chromaContentIds.length === 1) {
+        toast.success("Цветовая схема удалена из вишлиста");
+      } else if (chromaContentIds.length > 1) {
+        toast.success("Цветовые схемы удалены из вишлиста");
+      }
+    }
   };
 
   const isSkinInWishlist = skinContentIds.every((skinContentId) => wishlist.skins.includes(skinContentId));
+  const isChromaInWishlist = chromaContentIds.every((chromaContentId) => wishlist.chromas.includes(chromaContentId));
+  const isInWishlist = isSkinInWishlist && isChromaInWishlist;
 
   return (
     <div
@@ -53,13 +105,13 @@ const AddToWishlistLine: FC<AddToWishlistLineProps> = ({ wishlist, skinContentId
         </div>
       )}
 
-      {!isWishlistUpdating && isSkinInWishlist && (
-        <Button size="icon-sm" variant="ghost" onClick={removeFromExistingWishlist}>
+      {!isWishlistUpdating && isInWishlist && (
+        <Button size="icon-sm" variant="ghost" onClick={removeFromExistingWishlist} className="text-destructive">
           <CircleMinusIcon />
         </Button>
       )}
 
-      {!isWishlistUpdating && !isSkinInWishlist && (
+      {!isWishlistUpdating && !isInWishlist && (
         <Button size="icon-sm" variant="ghost" onClick={addToExistingWishlist}>
           <CirclePlusIcon />
         </Button>
@@ -68,15 +120,13 @@ const AddToWishlistLine: FC<AddToWishlistLineProps> = ({ wishlist, skinContentId
   );
 };
 
-interface AddToWishlistProps {
-  trigger: (options: { openState: boolean; onOpen: () => void; isInWishlist: boolean }) => ReactNode;
-  skinName?: string;
-  skinContentIds: SkinDto["id"][];
-  chromaName?: string;
-  chromaId?: ChromaDto["id"];
-}
-
-const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentIds, chromaId }) => {
+const AddToWishlist: FC<AddToWishlistProps> = ({
+  trigger,
+  skinName,
+  skinContentIds = [],
+  chromaName,
+  chromaContentIds = [],
+}) => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
@@ -85,6 +135,7 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
 
   const isAuth = useSelector(appAuthSelector);
   const addSkinsWaiting = useSelector(appAddSkinsWaitingSelector);
+  const addChromasWaiting = useSelector(appAddChromasWaitingSelector);
 
   const [open, setOpen] = useState(false);
 
@@ -92,50 +143,74 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
     skip: !isAuth,
   });
 
-  const allSkins = wishlists.flatMap(w => w.skins);
-  const isInWishlist = skinContentIds.every(id => allSkins.includes(id));
+  const allSkins = wishlists.flatMap((w) => w.skins);
+  const allChromas = wishlists.flatMap((w) => w.chromas);
+  const isSkinInWishlist = skinContentIds.every((id) => allSkins.includes(id));
+  const isChromaInWishlist = chromaContentIds.every((id) => allChromas.includes(id));
 
   const openHandler = () => {
-    if (!skinContentIds.length && !chromaId) return;
+    if (!skinContentIds.length && !chromaContentIds.length) return;
 
     if (isAuth) setOpen(true);
     else {
       if (skinContentIds.length) dispatch(setAddSkinsWaiting(skinContentIds));
+      if (chromaContentIds.length) dispatch(setAddChromasWaiting(chromaContentIds));
 
       navigate("/auth/signin?redirect=" + pathname);
     }
   };
 
   useEffect(() => {
-    if (addSkinsWaiting.length && !open && isEqual(addSkinsWaiting, skinContentIds) && isAuth) {
-      dispatch(setAddSkinsWaiting([]));
+    const skinsMatch = addSkinsWaiting.length > 0 && isEqual(addSkinsWaiting, skinContentIds);
+    const chromasMatch = addChromasWaiting.length > 0 && isEqual(addChromasWaiting, chromaContentIds);
 
+    if ((skinsMatch || chromasMatch) && !open && isAuth) {
+      dispatch(setAddSkinsWaiting([]));
+      dispatch(setAddChromasWaiting([]));
       setOpen(true);
     }
-  }, [isAuth, addSkinsWaiting]);
+  }, [isAuth, addSkinsWaiting, addChromasWaiting]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{trigger({ openState: open, onOpen: openHandler, isInWishlist })}</DialogTrigger>
+      <DialogTrigger asChild>
+        {trigger({ openState: open, onOpen: openHandler, isSkinInWishlist, isChromaInWishlist })}
+      </DialogTrigger>
       <DialogContent preventDefault showCloseButton className="gap-y-2">
         <DialogHeader className="px-2.5 pt-2">
           <DialogTitle>{t("skin.add")}</DialogTitle>
           <DialogDescription>
-            {skinContentIds.length === 1 && skinName ? (
-              <>
-                {t("skin.addHelper")} {skinName}
-              </>
-            ) : (
-              <>
-                {t("skin.addHelperMany")} ({skinContentIds.length})
-              </>
-            )}
+            {!!skinContentIds.length &&
+              (skinContentIds.length === 1 && skinName ? (
+                <>
+                  {t("skin.addHelper")} <span className="font-medium">{skinName}</span>
+                </>
+              ) : (
+                <>
+                  {t("skin.addHelperMany")} ({skinContentIds.length})
+                </>
+              ))}
+            {!!chromaContentIds.length &&
+              (chromaContentIds.length === 1 && chromaName ? (
+                <>
+                  {t("chroma.addHelper")} <span className="font-medium">{chromaName}</span>
+                </>
+              ) : (
+                <>
+                  {t("chroma.addHelperMany")} ({chromaContentIds.length})
+                </>
+              ))}
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-y-2">
           <div role="list" className={cn({ "border-b": wishlists.length < 3 })}>
             {wishlists?.map((wishlist) => (
-              <AddToWishlistLine key={wishlist._id} wishlist={wishlist} skinContentIds={skinContentIds} />
+              <AddToWishlistLine
+                key={wishlist._id}
+                wishlist={wishlist}
+                skinContentIds={skinContentIds}
+                chromaContentIds={chromaContentIds}
+              />
             ))}
           </div>
 

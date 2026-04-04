@@ -8,4 +8,6 @@ export interface ChromaDto {
   skinName: string;
   path: string;
   fullName: string;
+
+  owned?: boolean;
 }

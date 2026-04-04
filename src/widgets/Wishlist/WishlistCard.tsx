@@ -1,4 +1,4 @@
-import { EyeIcon, LockIcon, LockOpenIcon, Share2Icon, TrashIcon, UserRoundIcon } from "lucide-react";
+import { LockIcon, LockOpenIcon, Share2Icon, TrashIcon, UserRoundIcon } from "lucide-react";
 import type { FC, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
@@ -7,6 +7,7 @@ import { ImageStack } from "@/components/ImageStack";
 import { Typography } from "@/components/Typography";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Separator } from '@/components/ui/separator';
 import useShare from "@/hooks/useShare";
 import type { WishlistDto } from "@/types/wishlist";
 
@@ -58,15 +59,20 @@ const WishlistCard: FC<WishlistCardProps> = ({ data, guest }) => {
                 {data.user.name}
               </Badge>
             )}
-            {!data.private && (
+            {/* {!data.private && (
               <Badge variant="ghost" className="bg-foreground/20">
                 <EyeIcon />
                 {data.views > 999 ? "999+" : data.views}
               </Badge>
-            )}
+            )} */}
             <Typography.Muted>
               {data.skins.length > 999 ? "999+" : data.skins.length}{" "}
               {t("shared.skin", { count: data.skins.length > 999 ? 999 : data.skins.length })}
+            </Typography.Muted>
+            <Separator orientation='vertical' className='h-3!' />
+            <Typography.Muted>
+              {data.chromas.length > 999 ? "999+" : data.chromas.length}{" "}
+              {t("shared.chroma", { count: data.chromas.length > 999 ? 999 : data.chromas.length })}
             </Typography.Muted>
           </div>
           {!data.private && !guest && (

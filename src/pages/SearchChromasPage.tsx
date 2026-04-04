@@ -75,7 +75,7 @@ const SearchChromasPage: FC = () => {
   });
   const ownedSet = useMemo(() => new Set(user?.ownedChromas ?? []), [user?.ownedChromas]);
 
-  const renderSkin = useCallback(
+  const renderChroma = useCallback(
     (item: unknown, _index: number) => {
       const chroma = item as ChromaDto;
       const owned = ownedSet.has(chroma.contentId);
@@ -145,7 +145,7 @@ const SearchChromasPage: FC = () => {
             loading={!chromas.length && isLoading}
             fetching={isFetching}
             overscan={4}
-            render={renderSkin}
+            render={renderChroma}
             columnGap={16}
             rowGap={24}
           />

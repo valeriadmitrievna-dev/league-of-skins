@@ -4,9 +4,10 @@ import {
   CircleQuestionMarkIcon,
   EyeIcon,
   HeartIcon,
-  LayoutGridIcon,
+  ImageIcon,
   LockIcon,
   LockOpenIcon,
+  PaletteIcon,
   WalletIcon,
 } from "lucide-react";
 import { type FC } from "react";
@@ -52,8 +53,8 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
 
   const isSubscribed = user?.subscriptions?.some((s) => s === wishlist?._id);
 
-  const progressTotal = wishlist.skins.length || 0;
-  const progressOwned = wishlist.skins.filter((skin) => skin.owned).length || 0;
+  const progressTotal = wishlist.skins.length + wishlist.chromas.length;
+  const progressOwned = wishlist.skins.filter((skin) => skin.owned).length + wishlist.chromas.filter((chroma) => chroma.owned).length;
   const progressValue = progressTotal > 0 ? (100 * progressOwned) / progressTotal : 0;
 
   const subscribeHandler = () => {
@@ -79,9 +80,14 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
           title={format(new Date(wishlist.createdAt), "dd.MM.yyyy")}
         />
         <WishlistInfoLine
-          icon={<LayoutGridIcon />}
-          description={t("stats.elements")}
+          icon={<ImageIcon />}
+          description={t("header.skins")}
           title={`${wishlist.skins.length} ${t("shared.skin", { count: wishlist.skins.length })}`}
+        />
+        <WishlistInfoLine
+          icon={<PaletteIcon />}
+          description={t("header.chromas")}
+          title={`${wishlist.chromas.length} ${t("shared.chroma", { count: wishlist.chromas.length })}`}
         />
         <WishlistInfoLine
           icon={<WalletIcon />}

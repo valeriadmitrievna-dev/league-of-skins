@@ -2,6 +2,7 @@ import { useEffect, useState, type FC, type PropsWithChildren } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
+import { toast } from 'sonner';
 
 import { useUpdateWishlistMutation } from "@/api";
 import { Button } from "@/components/ui/button";
@@ -59,6 +60,7 @@ const WishlistEditModal: FC<EditWishlistProps> = ({ wishlist, children }) => {
   const submitHandler: SubmitHandler<EditWishlistFormInput> = async (formData) => {
     try {
       await updateWishlist({ wishlistId: wishlistId ?? "", body: { name: formData.name, private: !isPublic } });
+      toast.success('Вишлист успешно изменен')
       setOpen(false);
     } catch (error) {
       console.error(error);
