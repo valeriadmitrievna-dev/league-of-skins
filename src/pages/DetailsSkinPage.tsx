@@ -51,11 +51,19 @@ const DetailsSkinPage: FC = () => {
       <div className="grid md:grid-cols-[320px_1fr] gap-8">
         <DetailsSkinAside skin={skin} />
 
-        <div className="mt-8 order-first md:order-last md:mt-0">
+        <div className="mt-4 order-first md:order-last md:mt-0">
           <div className="overflow-hidden rounded-md border border-foreground/15 bg-foreground/5 relative">
-            {!skin.video && <Image src={skin.image.uncentered!} className="object-cover aspect-405/239 w-full" />}
+            {!skin.video && (
+              <Image src={skin.image.uncentered!} className="object-cover aspect-405/239 w-full select-none" />
+            )}
             {skin.video && (
-              <Video src={skin.video.uncentered!} autoPlay muted loop className="object-cover aspect-405/239 w-full" />
+              <Video
+                src={skin.video.uncentered!}
+                autoPlay
+                muted
+                loop
+                className="object-cover aspect-405/239 w-full select-none"
+              />
             )}
           </div>
 

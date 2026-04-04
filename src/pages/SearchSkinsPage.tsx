@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useDebounce } from "react-use";
 
-import { useGetChromasQuery, useGetUserQuery, useLazyGetSkinsQuery } from "@/api";
+import { useGetUserQuery, useLazyGetSkinsQuery } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
 import NoResultsState from "@/components/NoResultsState";
 import ScrollTop from "@/components/ScrollTop";
@@ -12,8 +12,6 @@ import Search from "@/components/Search";
 import { Spinner } from "@/components/ui/spinner";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useQueryParams } from "@/hooks/useQueryParams";
-import { getColorsString } from "@/shared/utils/getColorsString";
-import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import { appAuthSelector } from "@/store/app/app.selectors";
 import { setSkinsFound, setSkinsLoading } from "@/store/app/app.slice";
 import type { SkinDto } from "@/types/skin";
@@ -46,13 +44,6 @@ const SearchSkinsPage: FC = () => {
     [searchInput, search],
   );
 
-  const { data: chromasData } = useGetChromasQuery({ lang: i18n.language });
-  const { data: chromas } = getODataWithDefault(chromasData);
-
-  const chroma = useMemo(() => {
-    return chromas.find((chroma) => chroma.id === chromaId);
-  }, [chromaId, chromas]);
-
   const championId = get("championId");
   const skinlineId = get("skinlineId");
   const rarity = get("rarity");
@@ -66,12 +57,11 @@ const SearchSkinsPage: FC = () => {
       championId: championId || undefined,
       skinlineId: skinlineId || undefined,
       rarity: rarity || undefined,
-      chromaName: chroma?.name,
-      chromaColors: getColorsString(chroma?.colors),
+      chromaId: chromaId || undefined,
       legacy: legacy || "all",
       owned: owned || "all",
     }),
-    [i18n.language, search, championId, skinlineId, rarity, legacy, owned, chroma?.name, chroma?.colors],
+    [i18n.language, search, championId, skinlineId, rarity, legacy, owned, chromaId],
   );
 
   const [getSkins, { isFetching }] = useLazyGetSkinsQuery();
