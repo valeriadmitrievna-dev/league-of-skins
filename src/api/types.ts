@@ -2,8 +2,7 @@ export interface SkinsRequest {
   search?: string;
   championId?: string;
   skinlineId?: string;
-  chromaName?: string;
-  chromaColors?: string;
+  chromaId?: string;
   rarity?: string;
   legacy: string;
   owned: string;

@@ -27,6 +27,7 @@ export default tseslint.config(
       "@typescript-eslint/explicit-function-return-type": "off",
 
       "react-hooks/exhaustive-deps": "off",
+      'no-empty': ['error', { allowEmptyCatch: true }],
 
       "import/order": [
         "error",

@@ -8,7 +8,6 @@ import CustomHead from "@/components/CustomMetaHead";
 import NoResultsState from "@/components/NoResultsState";
 import ScrollTop from "@/components/ScrollTop";
 import Search from "@/components/Search";
-// import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Spinner } from "@/components/ui/spinner";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useQueryParams } from "@/hooks/useQueryParams";
@@ -61,7 +60,7 @@ const SearchSkinsPage: FC = () => {
       legacy: legacy || "all",
       owned: owned || "all",
     }),
-    [i18n.language, search, championId, skinlineId, rarity, legacy, owned, chromaId],
+    [i18n.language, search, championId, skinlineId, chromaId, rarity, legacy, owned],
   );
 
   const [getSkins, { isFetching }] = useLazyGetSkinsQuery();

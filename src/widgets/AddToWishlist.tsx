@@ -135,7 +135,7 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
         <div className="flex flex-col gap-y-2">
           <div role="list" className={cn({ "border-b": wishlists.length < 3 })}>
             {wishlists?.map((wishlist) => (
-              <AddToWishlistLine wishlist={wishlist} skinContentIds={skinContentIds} />
+              <AddToWishlistLine key={wishlist._id} wishlist={wishlist} skinContentIds={skinContentIds} />
             ))}
           </div>
 

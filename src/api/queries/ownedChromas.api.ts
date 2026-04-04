@@ -5,6 +5,7 @@ import type { UserDto } from "@/types/user";
 
 import type { SkinsRequest, UpdateOwnedSkinsRequest } from "../types";
 import { baseApi } from "./base.api";
+import { userApi } from './user.api';
 
 export const ownedChromasApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -22,6 +23,24 @@ export const ownedChromasApi = baseApi.injectEndpoints({
         method: "put",
         body,
       }),
+      async onQueryStarted({ addIds = [], removeIds = [] }, { dispatch, queryFulfilled }) {
+        const patch = dispatch(
+          userApi.util.updateQueryData("getUser", undefined, (draft) => {
+            if (addIds.length) {
+              draft.ownedChromas = [...draft.ownedChromas, ...addIds];
+            }
+            if (removeIds.length) {
+              draft.ownedChromas = draft.ownedChromas.filter((id: string) => !removeIds.includes(id));
+            }
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patch.undo();
+        }
+      },
       invalidatesTags: ["User", "OwnedChromas", "Stats", "Wishlists"],
     }),
     // getOwnedSkinsStats: build.query<UserSkinsStatisticDto, WithLanguage>({
@@ -34,5 +53,4 @@ export const ownedChromasApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetOwnedChromasQuery, useLazyGetOwnedChromasQuery, useUpdateOwnedChromasMutation } =
-  ownedChromasApi;
+export const { useGetOwnedChromasQuery, useLazyGetOwnedChromasQuery, useUpdateOwnedChromasMutation } = ownedChromasApi;
