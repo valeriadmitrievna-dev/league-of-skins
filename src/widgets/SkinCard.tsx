@@ -67,6 +67,28 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
             className="absolute z-1 top-0 left-0 size-full object-cover transition-opacity opacity-0 group-hover:opacity-100 pointer-events-none"
           />
         )}
+
+        {data.rarity !== "kNoRarity" && (
+          <Badge
+            className="absolute z-2 top-1.5 left-1.5 border-b border-s text-neutral-800"
+            style={{ background: RARITIES[data.rarity]?.color }}
+          >
+            {t(`rarity.${data.rarity}`)}
+          </Badge>
+        )}
+
+        {!!data.chromas.length && (
+          <div className="flex items-center flex-wrap absolute left-1.5 bottom-1.5 z-2">
+            {data.chromas.slice(0, 3).map((chroma) => (
+              <ChromaColor key={chroma.id} colors={chroma.colors} className="size-5 rounded-sm not-last:-mr-2 border-none" />
+            ))}
+            {data.chromas.length > 3 && (
+              <div className="size-5 aspect-square shrink-0 text-[10px] z-5 rounded-sm text-neutral-50 bg-neutral-800 flex items-center justify-center">
+                +{data.chromas.length - 3}
+              </div>
+            )}
+          </div>
+        )}
       </NavLink>
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted-foreground font-medium mr-auto">{data.championName}</span>
@@ -74,10 +96,13 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
           (isOwningUpdating ? (
             <Spinner className="size-5 my-1 mr-0.5 text-primary shrink-0" />
           ) : (
-            <BookmarkIcon onClick={toggleOwnedHandler} className={cn("size-7 p-1 pr-0 cursor-pointer text-primary shrink-0", {
-              "hover:fill-primary/50": !owned,
-              "fill-primary": owned,
-            })} />
+            <BookmarkIcon
+              onClick={toggleOwnedHandler}
+              className={cn("size-7 p-1 pr-0 cursor-pointer text-primary shrink-0", {
+                "hover:fill-primary/50": !owned,
+                "fill-primary": owned,
+              })}
+            />
           ))}
         {addToWishlistButton && (
           <AddToWishlist
@@ -108,25 +133,6 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
       <NavLink to={`/skins/${data.contentId}`} className="mb-2 font-medium line-clamp-2 hover:underline w-fit">
         {data.name}
       </NavLink>
-      <div className="mt-auto flex items-stretch gap-1">
-        {data.rarity !== "kNoRarity" && (
-          <Badge className="border-b border-s text-neutral-800" style={{ background: RARITIES[data.rarity]?.color }}>
-            {t(`rarity.${data.rarity}`)}
-          </Badge>
-        )}
-        {!!data.chromas?.length && (
-          <div className="flex items-center flex-wrap">
-            {data.chromas.slice(0, 3).map((chroma) => (
-              <ChromaColor key={chroma.id} colors={chroma.colors} className="size-5 rounded-sm not-last:-mr-2 border-none" />
-            ))}
-            {data.chromas.length > 3 && (
-              <div className="size-5 aspect-square shrink-0 text-[10px] z-5 rounded-sm text-neutral-50 bg-neutral-800 flex items-center justify-center">
-                +{data.chromas.length - 3}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
     </div>
   );
 };
