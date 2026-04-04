@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate } from "react-router";
 
-import { useGetWishlistQuery } from "@/api";
+import { useGetUserQuery, useGetWishlistQuery } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
 import { Typography } from "@/components/Typography";
 import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
@@ -30,11 +30,8 @@ const DetailsWishlistOwnedPage: FC<DetailsWishlistOwnedPageProps> = ({ id: wishl
     setShowOwned(checked);
   };
 
-  const {
-    data: wishlist,
-    isLoading,
-    isFetching,
-  } = useGetWishlistQuery(
+  const { data: user } = useGetUserQuery();
+  const { data: wishlist, isLoading } = useGetWishlistQuery(
     { wishlistId: wishlistId || "", lang: i18n.language },
     {
       skip: !wishlistId,
@@ -54,12 +51,16 @@ const DetailsWishlistOwnedPage: FC<DetailsWishlistOwnedPageProps> = ({ id: wishl
     navigate("/wishlists");
   };
 
+  const ownedSet = useMemo(() => new Set(user?.ownedSkins ?? []), [user?.ownedSkins]);
+
   const renderSkin = useCallback(
     (item: unknown, _index: number) => {
       const skin = item as SkinDto;
-      return <SkinCard key={skin.id} data={skin} owned={skin.owned} toggleOwnedButton wishlistId={wishlist?._id} />;
+      const owned = ownedSet.has(skin.contentId);
+
+      return <SkinCard key={skin.id} data={skin} owned={owned} toggleOwnedButton wishlistId={wishlist?._id} />;
     },
-    [wishlist?._id, showOwned],
+    [wishlist?._id, showOwned, ownedSet],
   );
 
   const skins = useMemo(
@@ -107,15 +108,7 @@ const DetailsWishlistOwnedPage: FC<DetailsWishlistOwnedPageProps> = ({ id: wishl
           </Breadcrumb>
 
           {!!skins.length && (
-            <VirtualizedGrid
-              items={skins}
-              loading={isLoading}
-              fetching={isFetching}
-              overscan={4}
-              render={renderSkin}
-              columnGap={16}
-              rowGap={24}
-            />
+            <VirtualizedGrid items={skins} loading={isLoading} overscan={4} render={renderSkin} columnGap={16} rowGap={24} />
           )}
           {!skins.length && <EmptyWishlistOwned />}
         </div>

@@ -5,6 +5,7 @@ import type { UserDto, UserSkinsStatisticDto } from "@/types/user";
 
 import type { SkinsRequest, UpdateOwnedSkinsRequest } from "../types";
 import { baseApi } from "./base.api";
+import { userApi } from "./user.api";
 
 export const ownedSkinsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -22,6 +23,24 @@ export const ownedSkinsApi = baseApi.injectEndpoints({
         method: "put",
         body,
       }),
+      async onQueryStarted({ addIds = [], removeIds = [] }, { dispatch, queryFulfilled }) {
+        const patch = dispatch(
+          userApi.util.updateQueryData("getUser", undefined, (draft) => {
+            if (addIds.length) {
+              draft.ownedSkins = [...draft.ownedSkins, ...addIds];
+            }
+            if (removeIds.length) {
+              draft.ownedSkins = draft.ownedSkins.filter((id: string) => !removeIds.includes(id));
+            }
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patch.undo();
+        }
+      },
       invalidatesTags: ["User", "OwnedSkins", "Stats", "Wishlists"],
     }),
     getOwnedSkinsStats: build.query<UserSkinsStatisticDto, WithLanguage>({

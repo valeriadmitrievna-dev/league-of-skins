@@ -25,7 +25,18 @@ export const wishlistApi = baseApi.injectEndpoints({
         method: "post",
         body,
       }),
-      invalidatesTags: ["User", "Wishlists"],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data: newWishlist } = await queryFulfilled;
+
+          dispatch(
+            wishlistApi.util.updateQueryData("getWishlists", undefined, (draft) => {
+              draft.push(newWishlist);
+            }),
+          );
+        } catch {}
+      },
+      invalidatesTags: ["User"],
     }),
 
     updateWishlist: build.mutation<WishlistFullDto, { wishlistId: string; body: UpdateWishlistBody }>({
@@ -34,6 +45,39 @@ export const wishlistApi = baseApi.injectEndpoints({
         method: "put",
         body,
       }),
+      async onQueryStarted({ wishlistId, body }, { dispatch, queryFulfilled }) {
+        const { addIds, removeIds } = body;
+        if (!addIds?.length && !removeIds?.length) return;
+
+        const patch = dispatch(
+          wishlistApi.util.updateQueryData("getWishlists", undefined, (draft) => {
+            const wishlist = draft.find((w) => w._id === wishlistId);
+            if (!wishlist) return;
+
+            if (addIds?.length) {
+              wishlist.skins = [...wishlist.skins, ...addIds];
+            }
+            if (removeIds?.length) {
+              wishlist.skins = wishlist.skins.filter((id) => !removeIds.includes(id));
+            }
+          }),
+        );
+
+        const removeFromWishlistPagePatch = dispatch(
+          wishlistApi.util.updateQueryData("getWishlist", { wishlistId, lang: 'ru' }, (draft) => {
+            if (!removeIds?.length) return;
+
+            draft.skins = draft.skins.filter(skin => !removeIds.includes(skin.contentId))
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patch.undo();
+          removeFromWishlistPagePatch.undo();
+        }
+      },
       invalidatesTags: ["Wishlists"],
     }),
 
@@ -42,7 +86,20 @@ export const wishlistApi = baseApi.injectEndpoints({
         url: `/users/wishlists/${wishlistId}`,
         method: "delete",
       }),
-      invalidatesTags: ["User", "Wishlists"],
+      async onQueryStarted(wishlistId, { dispatch, queryFulfilled }) {
+        const patch = dispatch(
+          wishlistApi.util.updateQueryData("getWishlists", undefined, (draft) => {
+            return draft.filter((w) => w._id !== wishlistId);
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patch.undo();
+        }
+      },
+      invalidatesTags: ["User"],
     }),
 
     getGuestWishlist: build.query<WishlistFullDto, WithLanguage<{ link: string }>>({
