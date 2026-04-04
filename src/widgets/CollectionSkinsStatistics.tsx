@@ -7,9 +7,17 @@ import ChromaColor from "@/components/ChromaColor";
 import InfoLine from "@/components/InfoLine";
 import Skeleton from "@/components/Skeleton";
 import { Typography } from "@/components/Typography";
-import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from '@/components/ui/combobox';
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox";
 import { Field } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import MedalFirstIcon from "@/shared/assets/medal-first.svg?react";
 import MedalSecondIcon from "@/shared/assets/medal-second.svg?react";
@@ -24,11 +32,11 @@ interface CollectionStatisticsProps {
 
 const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className }) => {
   const { t, i18n } = useTranslation();
-  const { data: statistics, isLoading } = useGetOwnedSkinsStatsQuery({ lang: i18n.language });
+  const { data: statistics, isLoading, isFetching } = useGetOwnedSkinsStatsQuery({ lang: i18n.language });
 
   const { get, update } = useQueryParams(["legacy", "championId", "rarity", "skinlineId", "chromaId"]);
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <div className="flex flex-col gap-y-3">
         <div className="my-card flex flex-col gap-y-4">
@@ -61,10 +69,23 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
 
               <InfoLine
                 label={
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1 relative">
                     <Typography.Small className="my-tag ml-1 py-2!">{items[0].name}</Typography.Small>
                     {items.length > 1 && (
-                      <Typography.Small className="my-tag text-muted-foreground px-2! py-2!">+{items.length - 1}</Typography.Small>
+                      <div className="absolute -end-4 -top-2 bg-accent rounded-full size-6 flex items-center justify-center">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Typography.Small className="text-xs text-white cursor-pointer">
+                              +{items.length - 1}
+                            </Typography.Small>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            {items.map((i) => (
+                              <p key={i.id}>{i.name}</p>
+                            ))}
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
                     )}
                   </div>
                 }
@@ -74,7 +95,6 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
             </div>
           ))}
       </div>
-
       {/* Totals */}
       <div className="my-card flex flex-col gap-y-3 md:dark:bg-input/30">
         <InfoLine
@@ -106,11 +126,10 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
           valueClassName="text-sm! leading-4 px-2!"
         />
       </div>
-
       {/* Price */}
       <div className="my-card flex flex-col gap-y-2 md:dark:bg-input/30">
         <InfoLine
-          label={<Typography.Small className='font-medium'>{t("skin.wasted")}</Typography.Small>}
+          label={<Typography.Small className="font-medium">{t("skin.wasted")}</Typography.Small>}
           value={
             <div className="flex items-center gap-2">
               <Typography.Small>{formatNumber(statistics?.user.value ?? 0)}</Typography.Small>
@@ -121,7 +140,6 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
 
         <Typography.Muted>{t("skin.priceHelperFull")}</Typography.Muted>
       </div>
-
       {/* Rarities */}
       <div className="my-card flex flex-col gap-y-2 md:dark:bg-input/30">
         {orderBy(statistics?.distribution.byRarity, "count", "desc").map((rarity) => (
@@ -145,13 +163,14 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
           />
         ))}
       </div>
-
       <Field className="gap-2">
         <Label>{t("filters.searchBy_champion")}</Label>
         <Combobox
           items={orderBy(statistics?.distribution.byChampion, "name")}
           defaultValue={get("championId")}
-          itemToStringLabel={(value: string) => statistics?.distribution.byChampion.find((c) => c.id === value)?.name ?? value}
+          itemToStringLabel={(value: string) =>
+            statistics?.distribution.byChampion.find((c) => c.id === value)?.name ?? value
+          }
           onValueChange={(value) => update("championId", value)}
         >
           <ComboboxInput placeholder={t("shared.search")} showClear />
@@ -172,7 +191,9 @@ const CollectionSkinsStatistics: FC<CollectionStatisticsProps> = ({ className })
         <Combobox
           items={orderBy(statistics?.distribution.bySkinline, "name")}
           defaultValue={get("skinlineId")}
-          itemToStringLabel={(value: string) => statistics?.distribution.bySkinline.find((c) => c.id === value)?.name ?? value}
+          itemToStringLabel={(value: string) =>
+            statistics?.distribution.bySkinline.find((c) => c.id === value)?.name ?? value
+          }
           onValueChange={(value) => update("skinlineId", value)}
         >
           <ComboboxInput placeholder={t("shared.search")} showClear />

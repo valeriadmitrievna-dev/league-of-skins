@@ -16,7 +16,7 @@ const Image: FC<ImageProps> = ({ src, className, style, pulseLoading = true, ...
     <>
       <img
         src={src}
-        className={className}
+        className={cn("select-none pointer-events-none", className)}
         onLoadStart={() => setState("loading")}
         onLoad={() => setState("loaded")}
         onError={() => setState("error")}
