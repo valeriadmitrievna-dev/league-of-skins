@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/button";
 import { LANGUAGES } from "@/shared/constants/languages";
-import { appLanguageSelector, setLanguage } from "@/store";
+import { appLanguageSelector } from "@/store/app/app.selectors";
+import { setLanguage } from "@/store/app/app.slice";
 
 import { Combobox, ComboboxContent, ComboboxItem, ComboboxList, ComboboxTrigger } from "./ui/combobox";
 

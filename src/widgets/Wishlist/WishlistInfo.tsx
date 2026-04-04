@@ -25,7 +25,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
 import { formatNumber } from "@/shared/utils/formatNumber";
-import { appAuthSelector } from "@/store";
+import { appAuthSelector } from '@/store/app/app.selectors';
 import type { WishlistFullDto } from "@/types/wishlist";
 
 import WishlistDeleteModal from "./WishlistDeleteModal";

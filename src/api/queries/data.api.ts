@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 
 import { getLanguageCode } from "@/shared/utils/getLanguageCode";
 import type { ChampionDto } from "@/types/champion";
@@ -7,18 +7,12 @@ import type { ODataResponse, PaginatedRequest, WithLanguage } from "@/types/shar
 import type { SkinDto } from "@/types/skin";
 import type { SkinlineDto } from "@/types/skinline";
 
-import type { SkinsRequest } from "../types";
+import { makeBaseQueryWithReauth } from '../queries';
+import type { ChromasRequest, SkinsRequest } from "../types";
 
 export const dataApi = createApi({
   reducerPath: "dataApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_API_URL}/api`,
-    prepareHeaders(headers) {
-      const token = localStorage.getItem("access-token");
-      if (token) headers.set("authorization", `Bearer ${token}`);
-      return headers;
-    },
-  }),
+  baseQuery: makeBaseQueryWithReauth(`${import.meta.env.VITE_API_URL}/api`),
   endpoints: (build) => ({
     // shared
     getVersions: build.query<string[], void>({
@@ -75,6 +69,15 @@ export const dataApi = createApi({
         headers: { "App-Language": getLanguageCode(lang) },
       }),
     }),
+
+    // chromas
+    getAllChromas: build.query<ODataResponse<ChromaDto[]>, PaginatedRequest<WithLanguage<ChromasRequest>>>({
+      query: ({ lang, ...params }) => ({
+        url: "/chromas",
+        headers: { "App-Language": getLanguageCode(lang) },
+        params,
+      }),
+    }),
   }),
 });
 
@@ -94,4 +97,6 @@ export const {
   useLazyGetSkinsQuery,
   useGetSkinQuery,
   useLazyGetSkinQuery,
+
+  useLazyGetAllChromasQuery,
 } = dataApi;

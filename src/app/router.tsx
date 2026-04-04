@@ -6,6 +6,7 @@ import DetailsSkinPage from "@/pages/DetailsSkinPage";
 import DetailsWishlistPage from "@/pages/DetailsWishlistPage";
 import LayoutPage from "@/pages/LayoutPage";
 import NotFoundPage from "@/pages/NotFoundPage";
+import SearchChromasPage from '@/pages/SearchChromasPage';
 import SearchSkinsPage from "@/pages/SearchSkinsPage";
 import SignInPage from "@/pages/SignInPage";
 import SignUpPage from "@/pages/SignUpPage";
@@ -26,7 +27,7 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <Navigate to="/search/skins" replace /> },
           { path: "skins", element: <SearchSkinsPage /> },
-          { path: "chromas", element: "Search chromas (Coming soon)" },
+          { path: "chromas", element: <SearchChromasPage /> },
           { path: "companions", element: "Search tft companions (Coming somewhen)" },
         ],
       },

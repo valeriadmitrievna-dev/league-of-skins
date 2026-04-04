@@ -21,7 +21,4 @@ export const store = configureStore({
     }).concat(errorMiddleware, authApi.middleware, dataApi.middleware, baseApi.middleware),
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
-
 setupListeners(store.dispatch);

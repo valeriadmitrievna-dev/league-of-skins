@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { RouterProvider } from "react-router";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { ThemeProvider, ToastsProvider } from "@/shared/providers";
+import { AppProvider, ThemeProvider, ToastsProvider } from "@/shared/providers";
 import { store } from "@/store";
 
 import { router } from "./router";
@@ -16,7 +16,9 @@ const App: FC = () => {
         <ToastsProvider />
         <TooltipProvider>
           <HelmetProvider>
-            <RouterProvider router={router} />
+            <AppProvider>
+              <RouterProvider router={router} />
+            </AppProvider>
           </HelmetProvider>
         </TooltipProvider>
       </ThemeProvider>

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useDebounce } from "react-use";
 
-import { useGetChromasQuery, useGetUserQuery, useLazyGetSkinsQuery } from "@/api";
+import { useGetUserQuery, useLazyGetAllChromasQuery } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
 import NoResultsState from "@/components/NoResultsState";
 import ScrollTop from "@/components/ScrollTop";
@@ -12,17 +12,15 @@ import Search from "@/components/Search";
 import { Spinner } from "@/components/ui/spinner";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useQueryParams } from "@/hooks/useQueryParams";
-import { getColorsString } from "@/shared/utils/getColorsString";
-import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import { appAuthSelector } from "@/store/app/app.selectors";
-import { setSkinsFound, setSkinsLoading } from "@/store/app/app.slice";
-import type { SkinDto } from "@/types/skin";
+import { setChromasFound, setChromasLoading } from "@/store/app/app.slice";
+import type { ChromaDto } from '@/types/chroma';
+import ChromaCard from '@/widgets/ChromaCard';
 import FiltersDrawer from "@/widgets/Filters/FiltersDrawer";
-import SearchSkinsFilters from "@/widgets/SearchSkinsFilters";
-import SkinCard from "@/widgets/SkinCard";
+import SearchChromasFilters from "@/widgets/SearchChromasFilters";
 import VirtualizedGrid from "@/widgets/VirtualizedGrid";
 
-const SearchSkinsPage: FC = () => {
+const SearchChromasPage: FC = () => {
   const dispatch = useDispatch();
   const { i18n } = useTranslation();
 
@@ -33,7 +31,6 @@ const SearchSkinsPage: FC = () => {
 
   const { get, update } = useQueryParams();
   const search = get("search");
-  const chromaId = get("chromaId");
 
   const [searchInput, setSearchInput] = useState(search ?? "");
   useDebounce(
@@ -46,65 +43,54 @@ const SearchSkinsPage: FC = () => {
     [searchInput, search],
   );
 
-  const { data: chromasData } = useGetChromasQuery({ lang: i18n.language });
-  const { data: chromas } = getODataWithDefault(chromasData);
-
-  const chroma = useMemo(() => {
-    return chromas.find((chroma) => chroma.id === chromaId);
-  }, [chromaId, chromas]);
-
+  const skinContentId = get("skinContentId");
   const championId = get("championId");
-  const skinlineId = get("skinlineId");
-  const rarity = get("rarity");
-  const legacy = get("legacy");
   const owned = get("owned");
+  const skin = get("skin");
 
-  const skinsQueryParams = useMemo(
+  const params = useMemo(
     () => ({
       lang: i18n.language,
       search: search || undefined,
       championId: championId || undefined,
-      skinlineId: skinlineId || undefined,
-      rarity: rarity || undefined,
-      chromaName: chroma?.name,
-      chromaColors: getColorsString(chroma?.colors),
-      legacy: legacy || "all",
+      skinContentId: skinContentId || undefined,
       owned: owned || "all",
+      skin: skin || "all",
     }),
-    [i18n.language, search, championId, skinlineId, rarity, legacy, owned, chroma?.name, chroma?.colors],
+    [i18n.language, search, championId, skinContentId, owned, skin],
   );
 
-  const [getSkins, { isFetching }] = useLazyGetSkinsQuery();
+  const [getChromas, { isFetching }] = useLazyGetAllChromasQuery();
 
   const {
-    items: skins,
+    items: chromas,
     loaderRef,
     isInitialLoadDone,
     isLoading,
     hasMore,
     totalCount,
   } = useInfiniteScroll({
-    trigger: getSkins,
-    initialParams: skinsQueryParams,
+    trigger: getChromas,
+    initialParams: params,
   });
-  const ownedSet = useMemo(() => new Set(user?.ownedSkins ?? []), [user?.ownedSkins]);
+  const ownedSet = useMemo(() => new Set(user?.ownedChromas ?? []), [user?.ownedChromas]);
 
   const renderSkin = useCallback(
     (item: unknown, _index: number) => {
-      const skin = item as SkinDto;
-      const owned = ownedSet.has(skin.contentId);
+      const chroma = item as ChromaDto;
+      const owned = ownedSet.has(chroma.contentId);
 
-      return <SkinCard data={skin} owned={owned} addToWishlistButton toggleOwnedButton={Boolean(user)} />;
+      return <ChromaCard data={chroma} owned={owned} addToWishlistButton toggleOwnedButton={Boolean(user)} />;
     },
     [user, ownedSet],
   );
 
   useEffect(() => {
-    dispatch(setSkinsFound(totalCount ?? 0));
+    dispatch(setChromasFound(totalCount ?? 0));
   }, [totalCount]);
 
   useEffect(() => {
-    dispatch(setSkinsLoading(isLoading));
+    dispatch(setChromasLoading(isLoading));
   }, [isLoading]);
 
   return (
@@ -115,14 +101,14 @@ const SearchSkinsPage: FC = () => {
       </CustomHead>
 
       <div className="w-full md:grid grid-cols-[280px_1fr] gap-6">
-        <SearchSkinsFilters className="hidden md:block" />
+        <SearchChromasFilters className="hidden md:block" />
 
         <div className="pb-10">
           {/* <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>{t("shared.search")}</BreadcrumbItem>
               <BreadcrumbSeparator />
-              <BreadcrumbPage>{t("header.skins")}</BreadcrumbPage>
+              <BreadcrumbPage>{t("header.chromas")}</BreadcrumbPage>
             </BreadcrumbList>
           </Breadcrumb> */}
 
@@ -152,18 +138,18 @@ const SearchSkinsPage: FC = () => {
             </div>
           )} */}
 
-          {!isLoading && !isFetching && skins?.length === 0 && isInitialLoadDone && <NoResultsState className="my-30" />}
+          {!isLoading && !isFetching && chromas?.length === 0 && isInitialLoadDone && <NoResultsState className="my-30" />}
 
           <VirtualizedGrid
-            items={skins}
-            loading={!skins.length && isLoading}
+            items={chromas}
+            loading={!chromas.length && isLoading}
             fetching={isFetching}
             overscan={4}
             render={renderSkin}
             columnGap={16}
             rowGap={24}
           />
-          {!!skins && isFetching && <Spinner className="mx-auto mt-4 size-8" />}
+          {!!chromas && isFetching && <Spinner className="mx-auto mt-4 size-8" />}
           {hasMore && <div ref={loaderRef} />}
 
           <ScrollTop />
@@ -173,4 +159,4 @@ const SearchSkinsPage: FC = () => {
   );
 };
 
-export default SearchSkinsPage;
+export default SearchChromasPage;

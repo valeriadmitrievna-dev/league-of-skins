@@ -1,7 +1,8 @@
 import { useEffect, type FC, type PropsWithChildren } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { setTheme, appThemeSelector } from "@/store";
+import { appThemeSelector } from "@/store/app/app.selectors";
+import { setTheme } from "@/store/app/app.slice";
 import type { Theme } from '@/types/shared';
 
 interface ThemeProviderProps extends PropsWithChildren {

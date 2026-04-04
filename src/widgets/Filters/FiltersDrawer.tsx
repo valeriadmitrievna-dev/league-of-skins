@@ -11,7 +11,7 @@ import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { cn } from '@/shared/utils/cn';
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
-import { appAuthSelector } from "@/store";
+import { appAuthSelector } from "@/store/app/app.selectors";
 
 import FilterItem from "./FilterItem";
 import FilterList from "./FilterList";

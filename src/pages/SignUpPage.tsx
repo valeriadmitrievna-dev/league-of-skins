@@ -8,7 +8,7 @@ import { NavLink, useLocation } from "react-router";
 import { useRegistrationMutation } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
 import { Button } from "@/components/ui/button";
-import { setAppAuth } from "@/store";
+import { setAppMemoryToken } from "@/store/app/app.slice";
 import { AuthForm } from "@/widgets/AuthForm";
 
 interface SignUpFormInput {
@@ -35,8 +35,7 @@ const SignUpPage: FC = () => {
     const { data, error } = await registrationMutation(formData);
 
     if (data && !error) {
-      localStorage.setItem("access-token", data.access);
-      dispatch(setAppAuth(true));
+      dispatch(setAppMemoryToken(data.access));
     }
   };
 

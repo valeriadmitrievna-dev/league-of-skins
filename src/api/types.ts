@@ -7,6 +7,14 @@ export interface SkinsRequest {
   rarity?: string;
   legacy: string;
   owned: string;
+  hasChroma?: "true" | "false";
+}
+
+export interface ChromasRequest {
+  search?: string;
+  championId?: string;
+  owned: string;
+  skin: string;
 }
 
 export interface RegistrationRequest {

@@ -9,9 +9,10 @@ interface FilterToggleGroupProps {
   onChange: (value?: string) => void;
   options: OptionItem[];
   className?: string;
+  disabled?: boolean;
 }
 
-const FilterToggleGroup: FC<FilterToggleGroupProps> = ({ value, onChange, options, className }) => {
+const FilterToggleGroup: FC<FilterToggleGroupProps> = ({ value, onChange, options, className, disabled }) => {
   return (
     <ToggleGroup
       variant="outline"
@@ -20,6 +21,7 @@ const FilterToggleGroup: FC<FilterToggleGroupProps> = ({ value, onChange, option
       value={value}
       onValueChange={onChange}
       className={cn("w-full", className)}
+      disabled={disabled}
     >
       {options.map((option) => (
         <ToggleGroupItem key={option.value} className={cn("grow text-[14px]! font-normal", option.className)} value={option.value}>

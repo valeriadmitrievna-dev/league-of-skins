@@ -20,7 +20,7 @@ import { useQueryParams } from "@/hooks/useQueryParams";
 import { RARITIES } from "@/shared/constants/rarities";
 import { cn } from "@/shared/utils/cn";
 import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
-import { appAuthSelector, appSkinsFoundSelector } from "@/store";
+import { appAuthSelector, appSkinsFoundSelector, appSkinsLoadingSelector } from "@/store/app/app.selectors";
 
 import FilterPanelTitle from "./Filters/FilterPanelTitle";
 import FilterToggleGroup from "./Filters/FilterToggleGroup";
@@ -29,7 +29,7 @@ interface SearchFiltersProps {
   className?: string;
 }
 
-const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
+const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
   const { t, i18n } = useTranslation();
 
   const { get, update, reset, hasActive } = useQueryParams([
@@ -42,6 +42,7 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
   ]);
 
   const isAuth = useSelector(appAuthSelector);
+  const isSkinsLoading = useSelector(appSkinsLoadingSelector);
   const skinsFound = useSelector(appSkinsFoundSelector);
 
   const { data: rarities = [], isLoading: isRaritiesLoading } = useGetRaritiesQuery();
@@ -76,6 +77,7 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
               onChange={(value) => update("owned", value)}
               options={ownedOptions}
               className="grid grid-cols-[20%_1fr_1fr]"
+              disabled={isSkinsLoading}
             />
           )}
           <FilterToggleGroup
@@ -83,6 +85,7 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
             onChange={(value) => update("legacy", value)}
             options={legacyOptions}
             className="grid grid-cols-[20%_1fr_1fr]"
+            disabled={isSkinsLoading}
           />
         </div>
         <Field className="gap-2">
@@ -95,8 +98,9 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
               value={get("championId")}
               itemToStringLabel={(value: string) => champions.find((c) => c.id === value)?.name ?? value}
               onValueChange={(value) => update("championId", value)}
+              disabled={isSkinsLoading}
             >
-              <ComboboxInput placeholder={t("shared.search")} showClear />
+              <ComboboxInput placeholder={t("shared.search")} disabled={isSkinsLoading} showClear />
               <ComboboxContent className="p-1 py-2">
                 <ComboboxEmpty>{t("shared.no-items-found")}</ComboboxEmpty>
                 <ComboboxList className="scrollbar p-0 px-1">
@@ -120,8 +124,9 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
               value={get("rarity")}
               itemToStringLabel={(value: string) => t(`rarity.${rarities.find((c) => c === value)}`)}
               onValueChange={(value) => update("rarity", value)}
+              disabled={isSkinsLoading}
             >
-              <ComboboxInput placeholder={t("shared.search")} showClear />
+              <ComboboxInput placeholder={t("shared.search")} disabled={isSkinsLoading} showClear />
               <ComboboxContent className="p-1 py-2 w-(--radix-popover-trigger-width)">
                 <ComboboxEmpty>{t("shared.no-items-found")}</ComboboxEmpty>
                 <ComboboxList className="scrollbar p-0 px-1">
@@ -146,8 +151,9 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
               value={get("skinlineId")}
               itemToStringLabel={(value: string) => skinlines.find((c) => c.id.toString() === value)?.name ?? value}
               onValueChange={(value) => update("skinlineId", value)}
+              disabled={isSkinsLoading}
             >
-              <ComboboxInput placeholder={t("shared.search")} showClear />
+              <ComboboxInput placeholder={t("shared.search")} disabled={isSkinsLoading} showClear />
               <ComboboxContent className="p-1 py-2">
                 <ComboboxEmpty>{t("shared.no-items-found")}</ComboboxEmpty>
                 <ComboboxList className="scrollbar p-0 px-1">
@@ -171,8 +177,9 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
               value={get("chromaId")}
               itemToStringLabel={(value: string) => chromas.find((c) => c.id.toString() === value)?.name ?? value}
               onValueChange={(value) => update("chromaId", value)}
+              disabled={isSkinsLoading}
             >
-              <ComboboxInput placeholder={t("shared.search")} showClear />
+              <ComboboxInput placeholder={t("shared.search")} disabled={isSkinsLoading} showClear />
               <ComboboxContent className="p-1 py-2">
                 <ComboboxEmpty>{t("shared.no-items-found")}</ComboboxEmpty>
                 <ComboboxList className="scrollbar p-0 px-1">
@@ -195,4 +202,4 @@ const SearchFilters: FC<SearchFiltersProps> = ({ className }) => {
   );
 };
 
-export default SearchFilters;
+export default SearchSkinsFilters;

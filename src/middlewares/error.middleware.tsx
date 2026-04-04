@@ -3,7 +3,7 @@ import type { Middleware, MiddlewareAPI } from "@reduxjs/toolkit";
 import { toast } from "sonner";
 
 import i18n from "@/i18n/i18n";
-import { setAppAuth } from "@/store";
+import { setAppMemoryToken } from "@/store/app/app.slice";
 import type { ApiErrorPayload } from "@/types/shared";
 
 function isApiErrorPayload(payload: unknown): payload is ApiErrorPayload {
@@ -19,12 +19,12 @@ export const errorMiddleware: Middleware =
 
       if (isApiErrorPayload(payload)) {
         if (payload.status === 401) {
-          localStorage.removeItem("access-token");
-          dispatch(setAppAuth(false));
+          dispatch(setAppMemoryToken(null));
+
+          if ((action.meta?.arg as { endpointName: string })?.endpointName === "refresh") return next(action);
         }
 
         const error = payload.data;
-
         toast.error(i18n.t(`code.${error.code}`));
       }
     }

@@ -3,11 +3,11 @@ import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 
-import { userApi } from "@/api";
+import { useLogoutMutation, userApi } from "@/api";
 import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { setAppAuth } from "@/store";
+import { setAppMemoryToken } from "@/store/app/app.slice";
 import type { UserDto } from "@/types/user";
 
 interface UserSettingsCommonProps {
@@ -18,12 +18,12 @@ const UserSettingsCommon: FC<UserSettingsCommonProps> = ({ user }) => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
+  const [logoutMutation] = useLogoutMutation();
 
-  const logoutHandler = () => {
-    localStorage.removeItem("access-token");
-
+  const logoutHandler = async () => {
+    await logoutMutation();
     dispatch(userApi.util.resetApiState());
-    dispatch(setAppAuth(false));
+    dispatch(setAppMemoryToken(null));
   };
 
   return (

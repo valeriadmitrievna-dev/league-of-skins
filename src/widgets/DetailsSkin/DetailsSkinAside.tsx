@@ -14,7 +14,7 @@ import MEIcon from "@/shared/assets/mythic-essence-icon.svg?react";
 import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
 import { RARITIES } from "@/shared/constants/rarities";
 import { cn } from "@/shared/utils/cn";
-import { appAuthSelector } from "@/store";
+import { appAuthSelector } from "@/store/app/app.selectors";
 import type { SkinDto } from "@/types/skin";
 import AddToWishlist from "@/widgets/AddToWishlist";
 import DetailsSkinInfoLine from "@/widgets/DetailsSkin/DetailsSkinInfoLine";

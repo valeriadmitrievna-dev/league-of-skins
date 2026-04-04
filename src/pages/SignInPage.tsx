@@ -8,7 +8,7 @@ import { NavLink, useLocation } from "react-router";
 import { useLoginMutation } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
 import { Button } from "@/components/ui/button";
-import { setAppAuth } from "@/store";
+import { setAppMemoryToken } from "@/store/app/app.slice";
 import { AuthForm } from "@/widgets/AuthForm";
 
 interface SignInFormInput {
@@ -34,8 +34,7 @@ const SignInPage: FC = () => {
     const { data, error } = await loginMutation(formData);
 
     if (data && !error) {
-      localStorage.setItem("access-token", data.access);
-      dispatch(setAppAuth(true));
+      dispatch(setAppMemoryToken(data.access));
     }
   };
 

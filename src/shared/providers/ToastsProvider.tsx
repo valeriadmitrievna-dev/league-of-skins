@@ -2,7 +2,7 @@ import { CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon
 import { useSelector } from "react-redux";
 import { Toaster as Sonner, type ToasterProps } from "sonner";
 
-import { appThemeSelector } from "@/store";
+import { appThemeSelector } from "@/store/app/app.selectors";
 
 const ToastsProvider = ({ ...props }: ToasterProps) => {
   const theme = useSelector(appThemeSelector);

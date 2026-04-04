@@ -5,6 +5,7 @@ export interface UserDto {
   name: string;
   email: string;
   ownedSkins: string[];
+  ownedChromas: string[];
   subscriptions: string[];
   wishlists: WishlistDto["_id"][];
 

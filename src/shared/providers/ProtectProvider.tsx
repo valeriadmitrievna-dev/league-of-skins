@@ -2,7 +2,7 @@ import { useEffect, type FC } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router";
 
-import { appAuthSelector } from "@/store";
+import { appAuthSelector } from "@/store/app/app.selectors";
 
 const ProtectProvider: FC = () => {
   const navigate = useNavigate();

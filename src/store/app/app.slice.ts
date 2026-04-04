@@ -7,19 +7,27 @@ import type { SkinDto } from "@/types/skin";
 export interface AppState {
   language: string;
   theme: Theme;
-  isAuth: boolean;
+  inMemoryToken: string | null;
   addSkinsWaiting: SkinDto["id"][];
   addWaitingFrom: string | null;
+
   skinsFound: number;
+  chromasFound: number;
+
+  isSkinsLoading: boolean;
+  isChromasLoading: boolean;
 }
 
 const initialState: AppState = {
   language: localStorage.getItem("language") || navigator.language.replace("-", "_") || "en",
   theme: (localStorage.getItem("theme") as Theme) || "system",
-  isAuth: !!localStorage.getItem("access-token"),
+  inMemoryToken: null,
   addSkinsWaiting: [],
   addWaitingFrom: null,
   skinsFound: 0,
+  chromasFound: 0,
+  isSkinsLoading: true,
+  isChromasLoading: true,
 };
 
 export const appSlice = createSlice({
@@ -43,8 +51,8 @@ export const appSlice = createSlice({
         localStorage.setItem("theme", "dark");
       }
     },
-    setAppAuth: (state, { payload }: PayloadAction<boolean>) => {
-      state.isAuth = payload;
+    setAppMemoryToken: (state, { payload }: PayloadAction<string | null>) => {
+      state.inMemoryToken = payload;
     },
     setAddSkinsWaiting: (state, { payload }: PayloadAction<AppState["addSkinsWaiting"]>) => {
       state.addSkinsWaiting = payload;
@@ -52,9 +60,28 @@ export const appSlice = createSlice({
     setSkinsFound: (state, { payload }: PayloadAction<number>) => {
       state.skinsFound = payload;
     },
+    setChromasFound: (state, { payload }: PayloadAction<number>) => {
+      state.chromasFound = payload;
+    },
+    setSkinsLoading: (state, { payload }: PayloadAction<boolean>) => {
+      state.isSkinsLoading = payload;
+    },
+    setChromasLoading: (state, { payload }: PayloadAction<boolean>) => {
+      state.isChromasLoading = payload;
+    },
   },
 });
 
-export const { setLanguage, setTheme, toggleTheme, setAppAuth, setAddSkinsWaiting, setSkinsFound } = appSlice.actions;
+export const {
+  setLanguage,
+  setTheme,
+  toggleTheme,
+  setAppMemoryToken,
+  setAddSkinsWaiting,
+  setSkinsFound,
+  setChromasFound,
+  setSkinsLoading,
+  setChromasLoading,
+} = appSlice.actions;
 
 export default appSlice.reducer;

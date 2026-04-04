@@ -2,9 +2,9 @@ import { useEffect, type FC } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate, useSearchParams } from "react-router";
 
-import { appAuthSelector } from "@/store";
+import { appAuthSelector } from "@/store/app/app.selectors";
 
-const AuthSignProvider: FC = () => {
+const AuthProvider: FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -20,4 +20,4 @@ const AuthSignProvider: FC = () => {
   return <Outlet />;
 };
 
-export default AuthSignProvider;
+export default AuthProvider;
