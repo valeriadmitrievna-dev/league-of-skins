@@ -215,7 +215,7 @@ const AddToWishlist: FC<AddToWishlistProps> = ({
           </div>
 
           {wishlists.length < 3 && (
-            <WishlistCreateModal skinContentIds={skinContentIds}>
+            <WishlistCreateModal skinContentIds={skinContentIds} chromaContentIds={chromaContentIds}>
               <Button variant="ghost" size="sm" className="justify-start">
                 <PlusIcon />
                 {t("wishlist.createAndAdd")}
