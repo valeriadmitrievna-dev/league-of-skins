@@ -1,17 +1,15 @@
 import { BookmarkIcon, HeartIcon } from "lucide-react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import { NavLink } from "react-router";
 
-import { useGetWishlistsQuery, useUpdateOwnedSkinsMutation, useUpdateWishlistMutation } from "@/api";
+import { useUpdateOwnedSkinsMutation, useUpdateWishlistMutation } from "@/api";
 import ChromaColor from "@/components/ChromaColor";
 import Image from "@/components/Image";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
 import { RARITIES } from "@/shared/constants/rarities";
 import { cn } from "@/shared/utils/cn";
-import { appAuthSelector } from "@/store/app/app.selectors";
 import type { SkinDto } from "@/types/skin";
 
 import AddToWishlist from "./AddToWishlist";
@@ -27,19 +25,9 @@ interface SkinCardProps {
 
 const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButton, toggleOwnedButton, wishlistId }) => {
   const { t } = useTranslation();
-  const isAuth = useSelector(appAuthSelector);
 
   const [updateOwnedSkins, { isLoading: isOwningUpdating }] = useUpdateOwnedSkinsMutation();
   const [updateWishlist, { isLoading: isWishlistUpdating }] = useUpdateWishlistMutation();
-
-  const { data: wishlists = [] } = useGetWishlistsQuery(undefined, {
-    skip: !isAuth,
-  });
-
-  const isInWishlists = (skinContentId: string) => {
-    const skins = wishlists.map((w) => w.skins).flat();
-    return skins.includes(skinContentId);
-  };
 
   const toggleOwnedHandler = () => {
     if (owned) updateOwnedSkins({ removeIds: [data.contentId] });
@@ -95,12 +83,12 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
           <AddToWishlist
             skinName={data.name}
             skinContentIds={[data.contentId]}
-            trigger={({ onOpen }) => (
+            trigger={({ onOpen, isInWishlist }) => (
               <HeartIcon
                 onClick={onOpen}
                 className={cn("size-7 p-1 pr-0 text-destructive cursor-pointer shrink-0", {
-                  "fill-destructive": isInWishlists(data.contentId),
-                  "hover:fill-destructive/50": !isInWishlists(data.contentId),
+                  "fill-destructive": isInWishlist,
+                  "hover:fill-destructive/50": !isInWishlist,
                 })}
               />
             )}

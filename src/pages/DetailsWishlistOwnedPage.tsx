@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink, useNavigate, useParams } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 
 import { useGetWishlistQuery } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
@@ -18,10 +18,9 @@ interface DetailsWishlistOwnedPageProps {
   id: string;
 }
 
-const DetailsWishlistOwnedPage: FC<DetailsWishlistOwnedPageProps> = () => {
+const DetailsWishlistOwnedPage: FC<DetailsWishlistOwnedPageProps> = ({ id: wishlistId }) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const { wishlistId } = useParams<{ wishlistId: string }>();
 
   const { share } = useShare();
 

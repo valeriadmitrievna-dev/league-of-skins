@@ -9,9 +9,9 @@ import { useGetWishlistsQuery, useUpdateWishlistMutation } from "@/api";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/spinner";
-import { cn } from '@/shared/utils/cn';
+import { cn } from "@/shared/utils/cn";
 import { appAddSkinsWaitingSelector, appAuthSelector } from "@/store/app/app.selectors";
-import { setAddSkinsWaiting } from '@/store/app/app.slice';
+import { setAddSkinsWaiting } from "@/store/app/app.slice";
 import type { ChromaDto } from "@/types/chroma";
 import type { SkinDto } from "@/types/skin";
 import type { WishlistDto } from "@/types/wishlist";
@@ -69,7 +69,7 @@ const AddToWishlistLine: FC<AddToWishlistLineProps> = ({ wishlist, skinContentId
 };
 
 interface AddToWishlistProps {
-  trigger: (options: { openState: boolean; onOpen: () => void }) => ReactNode;
+  trigger: (options: { openState: boolean; onOpen: () => void; isInWishlist: boolean }) => ReactNode;
   skinName?: string;
   skinContentIds: SkinDto["id"][];
   chromaName?: string;
@@ -92,6 +92,9 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
     skip: !isAuth,
   });
 
+  const allSkins = wishlists.flatMap(w => w.skins);
+  const isInWishlist = skinContentIds.every(id => allSkins.includes(id));
+
   const openHandler = () => {
     if (!skinContentIds.length && !chromaId) return;
 
@@ -113,7 +116,7 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{trigger({ openState: open, onOpen: openHandler })}</DialogTrigger>
+      <DialogTrigger asChild>{trigger({ openState: open, onOpen: openHandler, isInWishlist })}</DialogTrigger>
       <DialogContent preventDefault showCloseButton className="gap-y-2">
         <DialogHeader className="px-2.5 pt-2">
           <DialogTitle>{t("skin.add")}</DialogTitle>
@@ -130,7 +133,7 @@ const AddToWishlist: FC<AddToWishlistProps> = ({ trigger, skinName, skinContentI
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-y-2">
-          <div role="list" className={cn({ 'border-b': wishlists.length < 3 })}>
+          <div role="list" className={cn({ "border-b": wishlists.length < 3 })}>
             {wishlists?.map((wishlist) => (
               <AddToWishlistLine wishlist={wishlist} skinContentIds={skinContentIds} />
             ))}

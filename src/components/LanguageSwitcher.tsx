@@ -25,16 +25,19 @@ const LanguageSwitcher: FC = () => {
 
   useEffect(() => {
     if (!language) {
-      i18n.changeLanguage("en", () => {
-        dispatch(setLanguage("en"));
-      });
+      i18n.changeLanguage("en", () => dispatch(setLanguage("en")));
     }
-
     document.documentElement.setAttribute("lang", language);
   }, [language]);
 
   return (
-    <Combobox items={Object.entries(LANGUAGES)} value={language} onValueChange={changeLanguageHandler}>
+    <Combobox
+      items={Object.entries(LANGUAGES)}
+      value={language}
+      onValueChange={changeLanguageHandler}
+      inputValue=""
+      onInputValueChange={() => {}}
+    >
       <ComboboxTrigger
         render={
           <Button variant="outline" size="icon">
@@ -43,7 +46,7 @@ const LanguageSwitcher: FC = () => {
         }
       />
       <ComboboxContent className="min-w-40 p-1 py-2">
-        <ComboboxList className='scrollbar p-0 px-1'>
+        <ComboboxList className="scrollbar p-0 px-1">
           {([locale, { name }]) => {
             const formattedName = name[0].toUpperCase() + name.slice(1);
             return (

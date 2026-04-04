@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
+import i18n from '@/i18n/i18n';
 import type { Theme } from "@/types/shared";
 import type { SkinDto } from "@/types/skin";
 
@@ -9,7 +10,6 @@ export interface AppState {
   theme: Theme;
   inMemoryToken: string | null;
   addSkinsWaiting: SkinDto["id"][];
-  addWaitingFrom: string | null;
 
   skinsFound: number;
   chromasFound: number;
@@ -18,12 +18,16 @@ export interface AppState {
   isChromasLoading: boolean;
 }
 
+const getInitialLanguage = () => {
+  const lang = i18n.language || 'en';
+  return lang.split(/[-_]/)[0];
+};
+
 const initialState: AppState = {
-  language: localStorage.getItem("language") || navigator.language.replace("-", "_") || "en",
+  language: getInitialLanguage(),
   theme: (localStorage.getItem("theme") as Theme) || "system",
   inMemoryToken: null,
   addSkinsWaiting: [],
-  addWaitingFrom: null,
   skinsFound: 0,
   chromasFound: 0,
   isSkinsLoading: true,
