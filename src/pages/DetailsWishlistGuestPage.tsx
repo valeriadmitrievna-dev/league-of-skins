@@ -80,18 +80,36 @@ const DetailsWishlistGuestPage: FC<DetailsWishlistGuestPageProps> = ({ link }) =
 
       {wishlist ? (
         <div className="grid md:grid-cols-[280px_1fr] gap-x-4 gap-y-3">
-          <WishlistInfo wishlist={wishlist} showOwned={showOwned} onToogleShowOwned={toggleShowOwnedHandler} guest />
+          <WishlistInfo
+            wishlist={wishlist}
+            showOwned={showOwned}
+            onToogleShowOwned={toggleShowOwnedHandler}
+            guest
+            className="hidden md:flex!"
+          />
 
           <div className="flex flex-col gap-y-3 w-full overflow-hidden">
             <Tabs defaultValue="skins" className="gap-y-5">
-              <TabsList variant="line" className="border-b w-full justify-start">
-                <TabsTrigger className="px-6 after:bg-primary flex-0" value="skins">
+              <TabsList variant="line" className="border-b w-full md:justify-start">
+                <TabsTrigger className="md:hidden md:px-6 after:bg-primary md:flex-0" value="info">
+                  {t("shared.info")}
+                </TabsTrigger>
+                <TabsTrigger className="md:px-6 after:bg-primary md:flex-0" value="skins">
                   {t("header.skins")}
                 </TabsTrigger>
-                <TabsTrigger className="px-6 after:bg-primary flex-0" value="chromas">
+                <TabsTrigger className="md:px-6 after:bg-primary md:flex-0" value="chromas">
                   {t("header.chromas")}
                 </TabsTrigger>
               </TabsList>
+
+              <TabsContent value="info">
+                <WishlistInfo
+                  wishlist={wishlist}
+                  showOwned={showOwned}
+                  onToogleShowOwned={toggleShowOwnedHandler}
+                  guest
+                />
+              </TabsContent>
 
               <TabsContent value="skins">
                 {!!skins.length && (

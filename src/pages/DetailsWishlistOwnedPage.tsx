@@ -8,9 +8,9 @@ import { Typography } from "@/components/Typography";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EmptyWishlistOwned from "@/emptystates/EmptyWishlistOwned";
 import useShare from "@/hooks/useShare";
-import type { ChromaDto } from '@/types/chroma';
+import type { ChromaDto } from "@/types/chroma";
 import type { SkinDto } from "@/types/skin";
-import ChromaCard from '@/widgets/ChromaCard';
+import ChromaCard from "@/widgets/ChromaCard";
 import SkinCard from "@/widgets/SkinCard";
 import VirtualizedGrid from "@/widgets/VirtualizedGrid";
 import WishlistInfo from "@/widgets/Wishlist/WishlistInfo";
@@ -66,7 +66,7 @@ const DetailsWishlistOwnedPage: FC<DetailsWishlistOwnedPageProps> = ({ id: wishl
     [wishlist?._id, showOwned, ownedSkinsSet],
   );
 
-   const renderChroma = useCallback(
+  const renderChroma = useCallback(
     (item: unknown, _index: number) => {
       const chroma = item as ChromaDto;
       const owned = ownedChromasSet.has(chroma.contentId);
@@ -112,18 +112,32 @@ const DetailsWishlistOwnedPage: FC<DetailsWishlistOwnedPageProps> = ({ id: wishl
           onToogleShowOwned={toggleShowOwnedHandler}
           onShare={shareHandler}
           onDelete={deleteHandler}
+          className="hidden md:flex!"
         />
 
         <div className="flex flex-col gap-y-3 w-full overflow-hidden">
-          <Tabs defaultValue="skins" className='gap-y-5'>
-            <TabsList variant="line" className='border-b w-full justify-start'>
-              <TabsTrigger className="px-6 after:bg-primary flex-0" value="skins">
+          <Tabs defaultValue="skins" className="gap-y-5">
+            <TabsList variant="line" className="border-b w-full md:justify-start">
+              <TabsTrigger className="md:hidden md:px-6 after:bg-primary flex-0" value="info">
+                {t('shared.info')}
+              </TabsTrigger>
+              <TabsTrigger className="md:px-6 after:bg-primary flex-0" value="skins">
                 {t("header.skins")}
               </TabsTrigger>
-              <TabsTrigger className="px-6 after:bg-primary flex-0" value="chromas">
+              <TabsTrigger className="md:px-6 after:bg-primary flex-0" value="chromas">
                 {t("header.chromas")}
               </TabsTrigger>
             </TabsList>
+
+            <TabsContent value="info">
+              <WishlistInfo
+                wishlist={wishlist}
+                showOwned={showOwned}
+                onToogleShowOwned={toggleShowOwnedHandler}
+                onShare={shareHandler}
+                onDelete={deleteHandler}
+              />
+            </TabsContent>
 
             <TabsContent value="skins">
               {!!skins.length && (

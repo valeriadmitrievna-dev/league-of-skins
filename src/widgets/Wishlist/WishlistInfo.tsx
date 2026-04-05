@@ -25,8 +25,9 @@ import { Progress } from "@/components/ui/progress";
 import { Spinner } from "@/components/ui/spinner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
+import { cn } from "@/shared/utils/cn";
 import { formatNumber } from "@/shared/utils/formatNumber";
-import { appAuthSelector } from '@/store/app/app.selectors';
+import { appAuthSelector } from "@/store/app/app.selectors";
 import type { WishlistFullDto } from "@/types/wishlist";
 
 import WishlistDeleteModal from "./WishlistDeleteModal";
@@ -40,9 +41,18 @@ interface WishlistInfoProps {
   onShare?: () => void;
   onDelete?: () => void;
   guest?: boolean;
+  className?: string;
 }
 
-const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, onShare, onToogleShowOwned, guest }) => {
+const WishlistInfo: FC<WishlistInfoProps> = ({
+  wishlist,
+  showOwned,
+  onDelete,
+  onShare,
+  onToogleShowOwned,
+  guest,
+  className,
+}) => {
   const { t } = useTranslation();
 
   const isAuth = useSelector(appAuthSelector);
@@ -54,7 +64,8 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
   const isSubscribed = user?.subscriptions?.some((s) => s === wishlist?._id);
 
   const progressTotal = wishlist.skins.length + wishlist.chromas.length;
-  const progressOwned = wishlist.skins.filter((skin) => skin.owned).length + wishlist.chromas.filter((chroma) => chroma.owned).length;
+  const progressOwned =
+    wishlist.skins.filter((skin) => skin.owned).length + wishlist.chromas.filter((chroma) => chroma.owned).length;
   const progressValue = progressTotal > 0 ? (100 * progressOwned) / progressTotal : 0;
 
   const subscribeHandler = () => {
@@ -65,7 +76,7 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
   };
 
   return (
-    <aside className="my-card flex flex-col gap-y-3 md:sticky top-4 pb-2 border-b">
+    <aside className={cn("my-card flex flex-col gap-y-3 md:sticky top-4 md:pb-2 md:border-b", className)}>
       <Badge variant={wishlist.private ? "destructive" : "default"}>
         {wishlist.private ? <LockIcon /> : <LockOpenIcon />}
         {t(`wishlist.private_${wishlist.private}`)}
@@ -149,7 +160,11 @@ const WishlistInfo: FC<WishlistInfoProps> = ({ wishlist, showOwned, onDelete, on
               wishlistId={wishlist._id}
               onSubmit={onDelete}
               trigger={({ onOpen }) => (
-                <Button variant="ghost" onClick={onOpen} className="hover:bg-destructive!">
+                <Button
+                  variant="ghost"
+                  onClick={onOpen}
+                  className="bg-destructive text-background md:text-foreground md:bg-transparent hover:bg-destructive! hover:text-background"
+                >
                   {t("wishlist.delete")}
                 </Button>
               )}

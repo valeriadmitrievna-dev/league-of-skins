@@ -42,7 +42,8 @@
     "delete": "Delete",
     "open": "Open",
     "close": "Close",
-    "no-items-found": "No items found."
+    "no-items-found": "No items found.",
+    "info": "Info"
   },
   "rarity": {
     "kNoRarity": "No rarity",
