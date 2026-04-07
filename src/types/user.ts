@@ -24,7 +24,7 @@ export interface UserSkinsStatisticDto {
     champions: number;
     skinlines: number;
     legacy: number;
-    value: number;
+    value: { skins: number; chromas: number; };
   };
   distribution: {
     byChampion: { id: string; key: string; name: string; count: number }[];

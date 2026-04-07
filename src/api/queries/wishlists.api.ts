@@ -1,4 +1,5 @@
 import { getLanguageCode } from "@/shared/utils/getLanguageCode";
+import type { RootState } from "@/store/types";
 import type { ODataResponse, PaginatedRequest, WithLanguage } from "@/types/shared";
 import type { WishlistDto, WishlistFullDto, UpdateWishlistBody } from "@/types/wishlist";
 
@@ -45,29 +46,29 @@ export const wishlistApi = baseApi.injectEndpoints({
         method: "put",
         body,
       }),
-      async onQueryStarted({ wishlistId, body }, { dispatch, queryFulfilled }) {
-        const { addIds, removeIds } = body;
-        if (!addIds?.length && !removeIds?.length) return;
+      async onQueryStarted({ wishlistId, body }, { dispatch, queryFulfilled, getState }) {
+        const state = getState() as RootState;
+        const lang = state.app.language;
+
+        const { addSkinIds = [], removeSkinIds = [], addChromaIds = [], removeChromaIds = [] } = body;
+        if (!addSkinIds.length && !removeSkinIds.length && !addChromaIds.length && !removeChromaIds.length) return;
 
         const patch = dispatch(
           wishlistApi.util.updateQueryData("getWishlists", undefined, (draft) => {
             const wishlist = draft.find((w) => w._id === wishlistId);
             if (!wishlist) return;
 
-            if (addIds?.length) {
-              wishlist.skins = [...wishlist.skins, ...addIds];
-            }
-            if (removeIds?.length) {
-              wishlist.skins = wishlist.skins.filter((id) => !removeIds.includes(id));
-            }
+            wishlist.skins = [...wishlist.skins, ...addSkinIds].filter((id) => !removeSkinIds.includes(id));
+            wishlist.chromas = [...wishlist.chromas, ...addChromaIds].filter((id) => !removeChromaIds.includes(id));
           }),
         );
 
         const removeFromWishlistPagePatch = dispatch(
-          wishlistApi.util.updateQueryData("getWishlist", { wishlistId, lang: 'ru' }, (draft) => {
-            if (!removeIds?.length) return;
+          wishlistApi.util.updateQueryData("getWishlist", { wishlistId, lang }, (draft) => {
+            if (!removeSkinIds.length && !removeChromaIds.length) return;
 
-            draft.skins = draft.skins.filter(skin => !removeIds.includes(skin.contentId))
+            draft.skins = draft.skins.filter((skin) => !removeSkinIds.includes(skin.contentId));
+            draft.chromas = draft.chromas.filter((chroma) => !removeChromaIds.includes(chroma.contentId));
           }),
         );
 
@@ -78,7 +79,7 @@ export const wishlistApi = baseApi.injectEndpoints({
           removeFromWishlistPagePatch.undo();
         }
       },
-      invalidatesTags: ["Wishlists"],
+      invalidatesTags: (_, __, { body }) => (body.name !== undefined || body.private !== undefined ? ["Wishlists"] : []),
     }),
 
     deleteWishlist: build.mutation<true, string>({

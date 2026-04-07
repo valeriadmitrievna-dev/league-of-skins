@@ -54,7 +54,7 @@ const AppHeaderNav: FC<AppHeaderNavProps> = ({ className, onCloseSidebar }) => {
               className="w-full md:w-fit"
             />
             <AppHeaderLink
-              to="/collection/skins"
+              to="/collection"
               text={t("header.collection")}
               onClick={onCloseSidebar}
               className="w-full md:w-fit"

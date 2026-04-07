@@ -1,9 +1,11 @@
+import type { ChromaDto } from './chroma';
 import type { SkinDto } from "./skin";
 
 export interface WishlistFullDto {
   _id: string;
   name: string;
   skins: SkinDto[];
+  chromas: ChromaDto[];
   price: number;
   link: string;
   views: number;
@@ -20,6 +22,7 @@ export interface WishlistDto {
   _id: string;
   name: string;
   skins: string[];
+  chromas: string[];
   link: string;
   views: number;
   subscribers: number;
@@ -34,7 +37,9 @@ export interface WishlistDto {
 
 export interface UpdateWishlistBody {
   name?: string;
-  addIds?: string[];
-  removeIds?: string[];
+  addSkinIds?: string[];
+  removeSkinIds?: string[];
+  addChromaIds?: string[];
+  removeChromaIds?: string[];
   private?: boolean;
 }

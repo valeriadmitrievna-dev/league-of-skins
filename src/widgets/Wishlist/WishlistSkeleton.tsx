@@ -11,7 +11,7 @@ interface WishlistSkeletonProps {
 }
 
 const WishlistSkeleton: FC<WishlistSkeletonProps> = ({ guest }) => (
-  <div className="grid md:grid-cols-[320px_1fr] gap-x-4 gap-y-8">
+  <div className="grid md:grid-cols-[280px_1fr] gap-x-4 gap-y-8">
     <div className="my-card flex flex-col gap-y-3">
       {!guest && <Skeleton className='h-5 w-20' />}
       <Skeleton className="h-7" />

@@ -3,13 +3,13 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 import i18n from '@/i18n/i18n';
 import type { Theme } from "@/types/shared";
-import type { SkinDto } from "@/types/skin";
 
 export interface AppState {
   language: string;
   theme: Theme;
   inMemoryToken: string | null;
-  addSkinsWaiting: SkinDto["id"][];
+  addSkinsWaiting: string[];
+  addChromasWaiting: string[];
 
   skinsFound: number;
   chromasFound: number;
@@ -28,6 +28,7 @@ const initialState: AppState = {
   theme: (localStorage.getItem("theme") as Theme) || "system",
   inMemoryToken: null,
   addSkinsWaiting: [],
+  addChromasWaiting: [],
   skinsFound: 0,
   chromasFound: 0,
   isSkinsLoading: true,
@@ -61,6 +62,9 @@ export const appSlice = createSlice({
     setAddSkinsWaiting: (state, { payload }: PayloadAction<AppState["addSkinsWaiting"]>) => {
       state.addSkinsWaiting = payload;
     },
+    setAddChromasWaiting: (state, { payload }: PayloadAction<AppState["addChromasWaiting"]>) => {
+      state.addChromasWaiting = payload;
+    },
     setSkinsFound: (state, { payload }: PayloadAction<number>) => {
       state.skinsFound = payload;
     },
@@ -81,6 +85,7 @@ export const {
   setTheme,
   toggleTheme,
   setAppMemoryToken,
+  setAddChromasWaiting,
   setAddSkinsWaiting,
   setSkinsFound,
   setChromasFound,

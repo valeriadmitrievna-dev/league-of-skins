@@ -13,10 +13,16 @@ import { cn } from "@/shared/utils/cn";
 interface WishlistCreateModalProps {
   buttonClassName?: string;
   skinContentIds?: string[];
+  chromaContentIds?: string[];
   children?: ReactNode;
 }
 
-const WishlistCreateModal: FC<WishlistCreateModalProps> = ({ buttonClassName, skinContentIds, children }) => {
+const WishlistCreateModal: FC<WishlistCreateModalProps> = ({
+  buttonClassName,
+  skinContentIds = [],
+  chromaContentIds = [],
+  children,
+}) => {
   const { t } = useTranslation();
 
   const [wishlistName, setWishlistName] = useState("");
@@ -30,7 +36,7 @@ const WishlistCreateModal: FC<WishlistCreateModalProps> = ({ buttonClassName, sk
 
   const createWishlistHandler = async () => {
     try {
-      await createWishlist(wishlistName?.trim(), skinContentIds);
+      await createWishlist(wishlistName?.trim(), skinContentIds, chromaContentIds);
     } catch (error) {
       console.error(error);
     } finally {

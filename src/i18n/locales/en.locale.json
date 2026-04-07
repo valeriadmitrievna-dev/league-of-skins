@@ -42,7 +42,8 @@
     "delete": "Delete",
     "open": "Open",
     "close": "Close",
-    "no-items-found": "No items found."
+    "no-items-found": "No items found.",
+    "info": "Info"
   },
   "rarity": {
     "kNoRarity": "No rarity",
@@ -74,6 +75,7 @@
     "legacy-off": "Not legacy",
     "empty-options": "Options not found",
     "searchBy_champion": "Search by champion",
+    "searchBy_rarity": "Search by rarity",
     "searchBy_skinline": "Search by skinline",
     "searchBy_chroma": "Search by chroma",
     "found_count": "Found"
@@ -92,7 +94,11 @@
     "price": "Price",
     "wasted": "RP Spent",
     "priceHelper": "Approximate price excluding discounts",
-    "priceHelperFull": "Approximate price excluding discounts. Gifted skins are considered purchased, and Exalted skins are considered acquired within the maximum number of attempts (80). Mythic skins and skins with special prices (e.g., Transcendent skins) are not included in the price."
+    "priceHelperFull": "Approximate price excluding discounts. Gifted skins and chromas are considered purchased, and Exalted skins are considered acquired within the maximum number of attempts (80). Mythic skins and skins with special prices (e.g., Transcendent skins) are not included in the price."
+  },
+  "chroma": {
+    "addHelper": "Choose wishlist(-s) for",
+    "addHelperMany": "Choose wishlist(-s) for chromas"
   },
   "wishlist": {
     "create": "Create wishlist",

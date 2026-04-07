@@ -43,9 +43,9 @@ export const ownedSkinsApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["User", "OwnedSkins", "Stats", "Wishlists"],
     }),
-    getOwnedSkinsStats: build.query<UserSkinsStatisticDto, WithLanguage>({
+    getCollectionStats: build.query<UserSkinsStatisticDto, WithLanguage>({
       query: ({ lang }) => ({
-        url: "/users/owned/skins/stats",
+        url: "/users/collection/statistic",
         headers: { "App-Language": getLanguageCode(lang) },
       }),
       providesTags: ["Stats"],
@@ -53,5 +53,5 @@ export const ownedSkinsApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetOwnedSkinsQuery, useLazyGetOwnedSkinsQuery, useUpdateOwnedSkinsMutation, useGetOwnedSkinsStatsQuery } =
+export const { useGetOwnedSkinsQuery, useLazyGetOwnedSkinsQuery, useUpdateOwnedSkinsMutation, useGetCollectionStatsQuery } =
   ownedSkinsApi;

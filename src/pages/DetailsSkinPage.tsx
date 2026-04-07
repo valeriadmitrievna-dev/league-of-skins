@@ -1,8 +1,9 @@
-import type { FC } from "react";
+import { useCallback, useMemo, type FC } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router";
 
-import { useGetSkinQuery } from "@/api";
+import { useGetSkinQuery, useGetUserQuery } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
 import Image from "@/components/Image";
 import Skeleton from "@/components/Skeleton";
@@ -10,17 +11,36 @@ import { Typography } from "@/components/Typography";
 import { Badge } from "@/components/ui/badge";
 import Video from "@/components/Video";
 import EmptyDetailsSkin from "@/emptystates/EmptyDetailsSkin";
+import { appAuthSelector } from "@/store/app/app.selectors";
+import type { ChromaDto } from "@/types/chroma";
+import ChromaCard from "@/widgets/ChromaCard";
 import DetailsSkinAside from "@/widgets/DetailsSkin/DetailsSkinAside";
+import VirtualizedGrid from "@/widgets/VirtualizedGrid";
 
 const DetailsSkinPage: FC = () => {
   const { skinContentId } = useParams();
   const { t, i18n } = useTranslation();
 
+  const isAuth = useSelector(appAuthSelector);
+  const { data: user } = useGetUserQuery(undefined, { skip: !isAuth });
+
   const { data: skin, isLoading } = useGetSkinQuery({ contentId: skinContentId!, lang: i18n.language });
+
+  const ownedSet = useMemo(() => new Set(user?.ownedChromas ?? []), [user?.ownedChromas]);
+
+  const renderChroma = useCallback(
+    (item: unknown, _index: number) => {
+      const chroma = item as ChromaDto;
+      const owned = ownedSet.has(chroma.contentId);
+
+      return <ChromaCard data={chroma} owned={owned} addToWishlistButton toggleOwnedButton={Boolean(user)} />;
+    },
+    [user, ownedSet],
+  );
 
   if (isLoading && !skin)
     return (
-      <div className="grid md:grid-cols-[320px_1fr] gap-8">
+      <div className="grid md:grid-cols-[280px_1fr] gap-8">
         <div className="flex flex-col gap-y-3">
           <Skeleton className="h-40" />
           <Skeleton className="h-20" />
@@ -48,22 +68,14 @@ const DetailsSkinPage: FC = () => {
         <meta name="description" content={skin.description ?? ""} />
       </CustomHead>
 
-      <div className="grid md:grid-cols-[320px_1fr] gap-8">
+      <div className="grid md:grid-cols-[280px_1fr] gap-8">
         <DetailsSkinAside skin={skin} />
 
         <div className="mt-4 order-first md:order-last md:mt-0">
           <div className="overflow-hidden rounded-md border border-foreground/15 bg-foreground/5 relative">
-            {!skin.video && (
-              <Image src={skin.image.uncentered!} className="object-cover aspect-405/239 w-full select-none" />
-            )}
+            {!skin.video && <Image src={skin.image.uncentered!} className="object-cover aspect-405/239 w-full" />}
             {skin.video && (
-              <Video
-                src={skin.video.uncentered!}
-                autoPlay
-                muted
-                loop
-                className="object-cover aspect-405/239 w-full select-none"
-              />
+              <Video src={skin.video.uncentered!} autoPlay muted loop className="object-cover aspect-405/239 w-full" />
             )}
           </div>
 
@@ -79,25 +91,14 @@ const DetailsSkinPage: FC = () => {
 
           {!!skin.chromas?.length && (
             <div className="mt-6">
-              <Typography.H4 className="mb-2">{t("skin.chromas")}</Typography.H4>
-              <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 md:bg-muted md:py-5 md:px-5 rounded-md cursor-pointer">
-                {skin.chromas.map((chroma) => (
-                  <div
-                    key={chroma.contentId}
-                    id={`chromaView-${chroma.id}`}
-                    className="relative rounded-md border not-hover:border-transparent hover:bg-foreground/5 transition w-full aspect-90/101 mx-auto"
-                  >
-                    <Image src={chroma.path} className="aspect-90/101" />
-                    <Badge className="absolute bottom-2 left-1/2 transform -translate-x-1/2">{chroma.name}</Badge>
-                  </div>
-                ))}
-              </div>
+              <Typography.H4 className="mb-4">{t("skin.chromas")}</Typography.H4>
+              <VirtualizedGrid items={skin.chromas} overscan={4} render={renderChroma} columnGap={16} rowGap={24} />
             </div>
           )}
 
           {!!skin.features?.length && (
             <div className="mt-6">
-              <Typography.H4 className="mb-2">{t("skin.features")}</Typography.H4>
+              <Typography.H4 className="mb-4">{t("skin.features")}</Typography.H4>
               <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
                 {skin.features.map((feature) => (
                   <div key={feature.description} className="relative overflow-hidden rounded-md aspect-1056/720">

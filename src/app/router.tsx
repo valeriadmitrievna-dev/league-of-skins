@@ -1,13 +1,13 @@
 import { createBrowserRouter, Navigate } from "react-router";
 
 import AboutPage from "@/pages/AboutPage";
-import CollectionSkinsPage from "@/pages/CollectionSkinsPage";
+import CollectionPage from "@/pages/CollectionPage";
 import DetailsSkinPage from "@/pages/DetailsSkinPage";
 import DetailsWishlistPage from "@/pages/DetailsWishlistPage";
 import HomePage from "@/pages/HomePage";
 import LayoutPage from "@/pages/LayoutPage";
 import NotFoundPage from "@/pages/NotFoundPage";
-import SearchChromasPage from '@/pages/SearchChromasPage';
+import SearchChromasPage from "@/pages/SearchChromasPage";
 import SearchSkinsPage from "@/pages/SearchSkinsPage";
 import SignInPage from "@/pages/SignInPage";
 import SignUpPage from "@/pages/SignUpPage";
@@ -33,9 +33,7 @@ export const router = createBrowserRouter([
         ],
       },
 
-      // details
       { path: "/skins/:skinContentId", element: <DetailsSkinPage /> },
-      { path: "/wishlists/:wishlistId", element: <DetailsWishlistPage /> },
 
       // user pages
       {
@@ -43,11 +41,8 @@ export const router = createBrowserRouter([
         element: <ProtectProvider />,
         children: [
           { path: "/wishlists", element: <WishlistsPage /> },
-          {
-            path: "/collection",
-            // element: <Navigate to="/collection/skins" />,
-            children: [{ path: "skins", element: <CollectionSkinsPage /> }],
-          },
+          { path: "/wishlists/:wishlistId", element: <DetailsWishlistPage /> },
+          { path: "/collection", element: <CollectionPage />},
         ],
       },
 
