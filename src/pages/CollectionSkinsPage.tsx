@@ -8,6 +8,7 @@ import NoResultsState from "@/components/NoResultsState";
 import ScrollTop from "@/components/ScrollTop";
 import Search from "@/components/Search";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { ButtonGroup } from "@/components/ui/button-group";
 import { Spinner } from "@/components/ui/spinner";
 import EmptyCollectionSkins from "@/emptystates/EmptyCollectionSkins";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
@@ -86,11 +87,12 @@ const CollectionSkinsPage: FC = () => {
                 <BreadcrumbPage>{t("header.skins")}</BreadcrumbPage>
               </BreadcrumbList>
             </Breadcrumb>
-
-            <UploadInventory triggerClassName="hidden md:flex" />
           </div>
 
-          <Search className="mb-4 mt-3 md:mt-2" value={searchInput} onSearch={setSearchInput} />
+          <ButtonGroup className="w-full mb-4 mt-3 md:mt-2">
+            <ButtonGroup className='flex-1'><Search value={searchInput} onSearch={setSearchInput} /></ButtonGroup>
+            <ButtonGroup><UploadInventory className="h-auto px-5! hidden md:flex" /></ButtonGroup>
+          </ButtonGroup>
 
           {!isLoading && !isFetching && ownedSkins.length === 0 && isInitialLoadDone && <NoResultsState className="my-30" />}
 

@@ -38,13 +38,12 @@ const UploadInventoryInputFile: FC<UploadInventoryInputFileProps> = ({ file, onC
       <Button
         asChild
         variant="secondary"
-        size="sm"
         className="cursor-pointer grow justify-start pl-3! pr-0! overflow-hidden shrink"
       >
         <Label htmlFor="inventory">
           {file ? (
             <>
-              <FileBracesIcon className="size-5" />
+              <FileBracesIcon className="size-4" />
               <span className="truncate">{file.name}</span>
               <Button size="icon-sm" variant="secondary" className="ml-auto" onClick={clearHandler}>
                 <XIcon />
@@ -52,7 +51,7 @@ const UploadInventoryInputFile: FC<UploadInventoryInputFileProps> = ({ file, onC
             </>
           ) : (
             <>
-              <HardDriveUploadIcon className="size-5" />
+              <HardDriveUploadIcon className="size-4" />
               {t("uploadInventory.button_upload_file")}
             </>
           )}

@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router";
 
 import AboutPage from "@/pages/AboutPage";
-import CollectionSkinsPage from "@/pages/CollectionSkinsPage";
+import CollectionPage from "@/pages/CollectionPage";
 import DetailsSkinPage from "@/pages/DetailsSkinPage";
 import DetailsWishlistPage from "@/pages/DetailsWishlistPage";
 import LayoutPage from "@/pages/LayoutPage";
@@ -41,11 +41,7 @@ export const router = createBrowserRouter([
         children: [
           { path: "/wishlists", element: <WishlistsPage /> },
           { path: "/wishlists/:wishlistId", element: <DetailsWishlistPage /> },
-          {
-            path: "/collection",
-            // element: <Navigate to="/collection/skins" />,
-            children: [{ path: "skins", element: <CollectionSkinsPage /> }],
-          },
+          { path: "/collection", element: <CollectionPage />},
         ],
       },
 

@@ -7,14 +7,6 @@ export const RARITIES = {
     },
     color: '#0cbdcb',
   },
-  kMythic: {
-    icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/rarity-gem-icons/mythic.png",
-    price: {
-      type: 'ME',
-      value: '125-150'
-    },
-    color: '#b412b2',
-  },
   kLegendary: {
     icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/rarity-gem-icons/legendary.png",
     price: {
@@ -23,9 +15,13 @@ export const RARITIES = {
     },
     color: '#d31a26',
   },
-  kTranscendent: {
-    icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/rarity-gem-icons/transcendent.png",
-    color: '#ded6e7'
+  kMythic: {
+    icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/rarity-gem-icons/mythic.png",
+    price: {
+      type: 'ME',
+      value: '125-150'
+    },
+    color: '#b412b2',
   },
   kUltimate: {
     icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/rarity-gem-icons/ultimate.png",
@@ -34,6 +30,10 @@ export const RARITIES = {
       value: '3250'
     },
     color: '#df7f17',
+  },
+  kTranscendent: {
+    icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/rarity-gem-icons/transcendent.png",
+    color: '#ded6e7'
   },
   kExalted: {
     icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/rarity-gem-icons/exalted.png",
