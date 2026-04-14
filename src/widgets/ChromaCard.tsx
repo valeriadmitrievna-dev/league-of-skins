@@ -1,5 +1,5 @@
 import { BookmarkIcon, HeartIcon } from "lucide-react";
-import type { FC } from "react";
+import type { ComponentProps, FC } from "react";
 import { NavLink } from "react-router";
 
 import { useUpdateWishlistMutation } from "@/api";
@@ -12,16 +12,26 @@ import type { ChromaDto } from "@/types/chroma";
 
 import AddToWishlist from "./AddToWishlist";
 
-interface ChromaCardProps {
+interface ChromaCardProps extends ComponentProps<"div"> {
   className?: string;
   data: ChromaDto;
   owned?: boolean | "hidden";
   addToWishlistButton?: boolean;
   toggleOwnedButton?: boolean;
   wishlistId?: string;
+  plain?: boolean;
 }
 
-const ChromaCard: FC<ChromaCardProps> = ({ className, data, owned, addToWishlistButton, toggleOwnedButton, wishlistId }) => {
+const ChromaCard: FC<ChromaCardProps> = ({
+  className,
+  data,
+  owned,
+  addToWishlistButton,
+  toggleOwnedButton,
+  wishlistId,
+  plain,
+  ...props
+}) => {
   const [updateOwnedChromas, { isLoading: isOwningUpdating }] = useUpdateOwnedChromasMutation();
   const [updateWishlist, { isLoading: isWishlistUpdating }] = useUpdateWishlistMutation();
 
@@ -40,12 +50,25 @@ const ChromaCard: FC<ChromaCardProps> = ({ className, data, owned, addToWishlist
     }
   };
 
+  const ImageWrapperComponent = plain ? "div" : NavLink;
+  const NameWrapperComponent = plain ? "p" : NavLink;
+
   return (
-    <div className={cn("h-full flex flex-col", className)}>
-      <Card className="block relative group aspect-90/101 rounded-md overflow-hidden p-0">
-        <NavLink to={`/skins/${data.skinContentId}`}>
-          <Image src={data.path ?? ""} className="object-cover size-full transition-all group-hover:scale-[1.1]" />
-        </NavLink>
+    <div className={cn("h-full flex flex-col group rounded-md", className)} {...props}>
+      <Card
+        className={cn(
+          "block relative group aspect-90/101 rounded-md overflow-hidden p-0",
+          "transition-colors duration-700 group-data-state-on:bg-primary/10",
+        )}
+      >
+        <ImageWrapperComponent to={`/skins/${data.skinContentId}`}>
+          <Image
+            src={data.path ?? ""}
+            className={cn("object-cover size-full", {
+              "transition-all group-hover:scale-[1.1]": !plain,
+            })}
+          />
+        </ImageWrapperComponent>
       </Card>
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted-foreground font-medium line-clamp-1 mr-auto">{data.skinName}</span>
@@ -86,7 +109,12 @@ const ChromaCard: FC<ChromaCardProps> = ({ className, data, owned, addToWishlist
             />
           ))}
       </div>
-      <p className="mb-2 font-medium line-clamp-2 hover:underline w-fit">{data.name}</p>
+      <NameWrapperComponent
+        to={`/skins/${data.skinContentId}`}
+        className="mb-2 font-medium line-clamp-2 hover:underline w-fit"
+      >
+        {data.name}
+      </NameWrapperComponent>
     </div>
   );
 };

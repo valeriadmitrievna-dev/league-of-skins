@@ -43,6 +43,12 @@ const DetailsSkinAside: FC<DetailsSkinAsideProps> = ({ className, skin }) => {
         block: "center",
         behavior: "smooth",
       });
+
+      chromaView.setAttribute("data-state", "on");
+
+      setTimeout(() => {
+        chromaView.removeAttribute("data-state");
+      }, 1000);
     }
   };
 

@@ -33,7 +33,16 @@ const DetailsSkinPage: FC = () => {
       const chroma = item as ChromaDto;
       const owned = ownedSet.has(chroma.contentId);
 
-      return <ChromaCard data={chroma} owned={owned} addToWishlistButton toggleOwnedButton={Boolean(user)} />;
+      return (
+        <ChromaCard
+          id={`chromaView-${chroma.id}`}
+          data={chroma}
+          owned={owned}
+          addToWishlistButton
+          toggleOwnedButton={Boolean(user)}
+          plain
+        />
+      );
     },
     [user, ownedSet],
   );

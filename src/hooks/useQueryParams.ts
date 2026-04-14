@@ -9,6 +9,9 @@ export const useQueryParams = <T extends string>(keys: T[] = []) => {
   const update = (key: T, value?: string | null) => {
     set((prev) => {
       const next = new URLSearchParams(prev);
+      const curr = prev.get(key);
+
+      if (curr === value) return prev;
 
       if (!value || value === "all") next.delete(key);
       else next.set(key, value);

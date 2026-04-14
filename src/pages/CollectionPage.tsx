@@ -70,14 +70,14 @@ const CollectionPage: FC = () => {
 
       <div className="w-full grid grid-cols-[280px_1fr] gap-x-5 gap-y-4">
         <div className="flex flex-col gap-y-4">
-          <CollectionTop data={statistic?.top.champions} get={get} update={update} loading={isStatisticLoading} />
+          <CollectionTop data={statistic?.top.champions} update={update} loading={isStatisticLoading} />
           <CollectionCounts data={statistic?.user} totals={statistic?.totals} loading={isStatisticLoading} />
           <CollectionWasted
             skinsPrice={statistic?.user.value.skins ?? 0}
             chromasPrice={statistic?.user.value.chromas ?? 0}
             withHint
           />
-          <CollectionRarities data={statistic?.distribution.byRarity} />
+          <CollectionRarities data={statistic?.distribution.byRarity} update={update} />
           <Typography.Muted>* {t("skin.priceHelperFull")}</Typography.Muted>
         </div>
         <div>
@@ -105,47 +105,6 @@ const CollectionPage: FC = () => {
           />
         </div>
       </div>
-
-      {/* <div className="w-full md:grid grid-cols-[320px_1fr] gap-5">
-        <CollectionSkinsStatistics />
-
-        <div className="mt-8 md:mt-0">
-          <div className="flex items-center justify-between">
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>{t("header.collection")}</BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbPage>{t("header.skins")}</BreadcrumbPage>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-
-          <ButtonGroup className="w-full mb-4 mt-3 md:mt-2">
-            <ButtonGroup className="flex-1">
-              <Search value={searchInput} onSearch={setSearchInput} />
-            </ButtonGroup>
-            <ButtonGroup>
-              <UploadInventory className="h-auto px-5! hidden md:flex" />
-            </ButtonGroup>
-          </ButtonGroup>
-
-          {!isLoading && !isFetching && ownedSkins.length === 0 && isInitialLoadDone && <NoResultsState className="my-30" />}
-
-          <VirtualizedGrid
-            items={ownedSkins}
-            loading={!ownedSkins.length && isLoading}
-            fetching={isFetching}
-            overscan={4}
-            render={renderSkin}
-            columnGap={16}
-            rowGap={24}
-          />
-          {!!ownedSkins && isFetching && <Spinner className="mx-auto mt-4 size-8" />}
-          {hasMore && <div ref={loaderRef} />}
-
-          <ScrollTop />
-        </div>
-      </div> */}
     </>
   );
 };

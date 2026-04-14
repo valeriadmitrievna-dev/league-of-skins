@@ -13,21 +13,16 @@ import CollectionMedal from "./CollectionMedal";
 
 interface CollectionTopProps {
   data?: UserSkinsStatisticDto["top"]["champions"];
-  get?: (key: string) => string | null;
   update?: (key: string, value?: string | null) => void;
   loading?: boolean;
   className?: string;
 }
 
-const CollectionTop: FC<CollectionTopProps> = ({ data, get, update, loading, className }) => {
+const CollectionTop: FC<CollectionTopProps> = ({ data, update, loading, className }) => {
   const { t } = useTranslation();
 
   const championClickHandler = (championId: string) => {
-    const currentChampionId = get?.("championId");
-
-    if (championId !== currentChampionId) {
-      update?.("championId", championId);
-    }
+    update?.("championId", championId);
   };
 
   return (
