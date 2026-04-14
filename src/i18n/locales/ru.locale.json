@@ -81,7 +81,10 @@
     "found_count_one": "Найден",
     "found_count_few": "Найдены",
     "found_count_many": "Найдено",
-    "found_count_other": "Найдено"
+    "found_count_other": "Найдено",
+    "server-label": "Игровой сервер",
+    "server-latest": "Основной",
+    "server-pbe": "PBE"
   },
   "skin": {
     "add": "Добавить в вишлист",

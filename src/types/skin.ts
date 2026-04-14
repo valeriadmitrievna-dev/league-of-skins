@@ -8,6 +8,7 @@ export interface SkinDto {
   contentId: string;
   name: string;
   originName?: string;
+  pbe: boolean;
   owned?: boolean;
   image: {
     centered: string | null;

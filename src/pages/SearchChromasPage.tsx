@@ -14,8 +14,8 @@ import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { appAuthSelector } from "@/store/app/app.selectors";
 import { setChromasFound, setChromasLoading } from "@/store/app/app.slice";
-import type { ChromaDto } from '@/types/chroma';
-import ChromaCard from '@/widgets/ChromaCard';
+import type { ChromaDto } from "@/types/chroma";
+import ChromaCard from "@/widgets/ChromaCard";
 import FiltersDrawer from "@/widgets/Filters/FiltersDrawer";
 import SearchChromasFilters from "@/widgets/SearchChromasFilters";
 import VirtualizedGrid from "@/widgets/VirtualizedGrid";
@@ -47,6 +47,7 @@ const SearchChromasPage: FC = () => {
   const championId = get("championId");
   const owned = get("owned");
   const skin = get("skin");
+  const server = get("server");
 
   const params = useMemo(
     () => ({
@@ -56,8 +57,9 @@ const SearchChromasPage: FC = () => {
       skinContentId: skinContentId || undefined,
       owned: owned || "all",
       skin: skin || "all",
+      server: server || "all",
     }),
-    [i18n.language, search, championId, skinContentId, owned, skin],
+    [i18n.language, search, championId, skinContentId, owned, skin, server],
   );
 
   const [getChromas, { isFetching }] = useLazyGetAllChromasQuery();

@@ -6,6 +6,7 @@ export interface SkinsRequest {
   rarity?: string;
   legacy: string;
   owned: string;
+  server: string;
   hasChroma?: "true" | "false";
 }
 

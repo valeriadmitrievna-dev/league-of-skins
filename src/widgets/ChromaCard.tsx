@@ -5,6 +5,7 @@ import { NavLink } from "react-router";
 import { useUpdateWishlistMutation } from "@/api";
 import { useUpdateOwnedChromasMutation } from "@/api/queries/ownedChromas.api";
 import Image from "@/components/Image";
+import { Badge } from '@/components/ui/badge';
 import { Card } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
@@ -78,6 +79,8 @@ const ChromaCard: FC<ChromaCardProps> = ({
             })}
           />
         </ImageWrapperComponent>
+
+        {data.pbe && <Badge className="absolute z-2 top-1.5 right-1.5">PBE</Badge>}
       </Card>
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted-foreground font-medium line-clamp-1 mr-auto">{data.skinName}</span>

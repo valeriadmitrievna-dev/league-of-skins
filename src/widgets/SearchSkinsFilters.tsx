@@ -39,6 +39,7 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
     "rarity",
     "skinlineId",
     "chromaId",
+    "server"
   ]);
 
   const isAuth = useSelector(appAuthSelector);
@@ -66,6 +67,12 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
     { value: "off", label: t("filters.owned-off") },
   ];
 
+  const serverOptions = [
+    { value: "all", label: t("filters.all") },
+    { value: "latest", label: t("filters.server-latest") },
+    { value: "pbe", label: t("filters.server-pbe") },
+  ];
+
   return (
     <div className={cn("h-fit sticky top-4", className)}>
       <FilterPanelTitle onReset={hasActive && reset} className="mb-4" />
@@ -88,6 +95,14 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
             disabled={isSkinsLoading}
           />
         </div>
+        <FilterToggleGroup
+          value={get("server") ?? "all"}
+          onChange={(value) => update("server", value)}
+          options={serverOptions}
+          className="grid grid-cols-[20%_1fr_1fr]"
+          disabled={isSkinsLoading}
+          label={t('filters.server-label')}
+        />
         <Field className="gap-2">
           <Label>{t("filters.champion")}</Label>
           {isChampionsLoading ? (

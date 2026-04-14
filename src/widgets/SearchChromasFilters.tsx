@@ -30,7 +30,7 @@ interface SearchFiltersProps {
 const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
   const { t, i18n } = useTranslation();
 
-  const { get, update, reset, hasActive } = useQueryParams(["owned", "skin", "championId", "skinContentId"]);
+  const { get, update, reset, hasActive } = useQueryParams(["owned", "skin", "championId", "skinContentId", "server"]);
 
   const isAuth = useSelector(appAuthSelector);
   const isChromasLoading = useSelector(appChromasLoadingSelector);
@@ -39,7 +39,14 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
   const { data: championsData, isLoading: isChampionsLoading } = useGetChampionsQuery({ lang: i18n.language });
 
   const { data: skinsData, isFetching: isSkinsLoading } = useGetSkinsQuery(
-    { lang: i18n.language, legacy: "all", owned: "all", championId: get("championId")!, hasChroma: "true" },
+    {
+      lang: i18n.language,
+      legacy: "all",
+      owned: "all",
+      championId: get("championId")!,
+      hasChroma: "true",
+      server: get("server") ?? "all",
+    },
     { skip: !get("championId") },
   );
 
@@ -58,6 +65,12 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
     { value: "off", label: t("filters.skin-off") },
   ];
 
+  const serverOptions = [
+    { value: "all", label: t("filters.all") },
+    { value: "latest", label: t("filters.server-latest") },
+    { value: "pbe", label: t("filters.server-pbe") },
+  ];
+
   const changeChampionIdHandler = (value: string | null) => {
     update("skinContentId");
     return update("championId", value);
@@ -68,7 +81,7 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
       <FilterPanelTitle onReset={hasActive && reset} className="mb-4" />
       <div className="flex flex-col gap-4">
         {isAuth && (
-          <>
+          <div className="flex flex-col gap-2">
             <FilterToggleGroup
               value={get("owned") ?? "all"}
               onChange={(value) => update("owned", value)}
@@ -83,8 +96,16 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
               className="grid grid-cols-[20%_1fr_1fr]"
               disabled={isChromasLoading}
             />
-          </>
+          </div>
         )}
+        <FilterToggleGroup
+          value={get("server") ?? "all"}
+          onChange={(value) => update("server", value)}
+          options={serverOptions}
+          className="grid grid-cols-[20%_1fr_1fr]"
+          disabled={isSkinsLoading}
+          label={t("filters.server-label")}
+        />
         <Field className="gap-2">
           <Label>{t("filters.champion")}</Label>
           {isChampionsLoading ? (

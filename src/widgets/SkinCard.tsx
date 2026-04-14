@@ -76,11 +76,15 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
 
         {data.rarity !== "kNoRarity" && (
           <Badge
-            className="absolute z-2 top-1.5 left-1.5 border-b border-s text-neutral-800"
+            className="absolute z-2 top-1.5 left-1.5 text-neutral-800"
             style={{ background: RARITIES[data.rarity]?.color }}
           >
             {t(`rarity.${data.rarity}`)}
           </Badge>
+        )}
+
+        {data.pbe && (
+          <Badge className="absolute z-2 top-1.5 right-1.5">PBE</Badge>
         )}
 
         {!!data.chromas.length && (

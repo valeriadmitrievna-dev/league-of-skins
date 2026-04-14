@@ -48,6 +48,7 @@ const SearchSkinsPage: FC = () => {
   const rarity = get("rarity");
   const legacy = get("legacy");
   const owned = get("owned");
+  const server = get("server");
 
   const skinsQueryParams = useMemo(
     () => ({
@@ -59,8 +60,9 @@ const SearchSkinsPage: FC = () => {
       chromaId: chromaId || undefined,
       legacy: legacy || "all",
       owned: owned || "all",
+      server: server || "all",
     }),
-    [i18n.language, search, championId, skinlineId, chromaId, rarity, legacy, owned],
+    [i18n.language, search, championId, skinlineId, chromaId, rarity, legacy, owned, server],
   );
 
   const [getSkins, { isFetching }] = useLazyGetSkinsQuery();

@@ -1,5 +1,7 @@
-import type { FC } from "react";
+import { Fragment, type FC } from "react";
 
+import { Field } from "@/components/ui/field";
+import { Label } from '@/components/ui/label';
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/shared/utils/cn";
 import type { OptionItem } from "@/types/shared";
@@ -10,25 +12,35 @@ interface FilterToggleGroupProps {
   options: OptionItem[];
   className?: string;
   disabled?: boolean;
+  label?: string;
 }
 
-const FilterToggleGroup: FC<FilterToggleGroupProps> = ({ value, onChange, options, className, disabled }) => {
+const FilterToggleGroup: FC<FilterToggleGroupProps> = ({ value, onChange, options, className, disabled, label }) => {
+  const WrapperComponent = label ? Field : Fragment;
+
   return (
-    <ToggleGroup
-      variant="outline"
-      // spacing={2}
-      type="single"
-      value={value}
-      onValueChange={onChange}
-      className={cn("w-full", className)}
-      disabled={disabled}
-    >
-      {options.map((option) => (
-        <ToggleGroupItem key={option.value} className={cn("grow text-[14px]! font-normal", option.className)} value={option.value}>
-          {option.label}
-        </ToggleGroupItem>
-      ))}
-    </ToggleGroup>
+    <WrapperComponent>
+      {label && <Label>{label}</Label>}
+      <ToggleGroup
+        variant="outline"
+        // spacing={2}
+        type="single"
+        value={value}
+        onValueChange={onChange}
+        className={cn("w-full", className)}
+        disabled={disabled}
+      >
+        {options.map((option) => (
+          <ToggleGroupItem
+            key={option.value}
+            className={cn("grow text-[14px]! font-normal", option.className)}
+            value={option.value}
+          >
+            {option.label}
+          </ToggleGroupItem>
+        ))}
+      </ToggleGroup>
+    </WrapperComponent>
   );
 };
 
