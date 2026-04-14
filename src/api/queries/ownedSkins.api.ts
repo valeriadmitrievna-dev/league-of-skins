@@ -41,7 +41,7 @@ export const ownedSkinsApi = baseApi.injectEndpoints({
           patch.undo();
         }
       },
-      invalidatesTags: ["User", "OwnedSkins", "Stats", "Wishlists"],
+      invalidatesTags: ["OwnedSkins", "Stats", "Wishlists"],
     }),
     getCollectionStats: build.query<UserSkinsStatisticDto, WithLanguage>({
       query: ({ lang }) => ({

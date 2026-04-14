@@ -54,7 +54,16 @@ const ChromaCard: FC<ChromaCardProps> = ({
   const NameWrapperComponent = plain ? "p" : NavLink;
 
   return (
-    <div className={cn("h-full flex flex-col group rounded-md", className)} {...props}>
+    <div
+      className={cn(
+        "h-full flex flex-col group rounded-md",
+        {
+          "pointer-events-none": isOwningUpdating || isWishlistUpdating,
+        },
+        className,
+      )}
+      {...props}
+    >
       <Card
         className={cn(
           "block relative group aspect-90/101 rounded-md overflow-hidden p-0",

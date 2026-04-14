@@ -2,12 +2,12 @@ import { useMemo, useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useDebounce } from "react-use";
 
-import { useGetCollectionStatsQuery, useLazyGetOwnedSkinsQuery } from "@/api";
+import { useGetCollectionStatsQuery, useGetOwnedSkinsQuery } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
 import { Typography } from "@/components/Typography";
 import EmptyCollectionSkins from "@/emptystates/EmptyCollectionSkins";
-import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useQueryParams } from "@/hooks/useQueryParams";
+import { getODataWithDefault } from '@/shared/utils/getODataWithDefault';
 import CollectionCounts from "@/widgets/Collection/CollectionCounts";
 import CollectionFilters from "@/widgets/Collection/CollectionFilters";
 import CollectionRarities from "@/widgets/Collection/CollectionRarities";
@@ -31,7 +31,6 @@ const CollectionPage: FC = () => {
   const rarity = get("rarity");
 
   const { data: statistic, isLoading: isStatisticLoading } = useGetCollectionStatsQuery({ lang: i18n.language });
-  const [getSkins, { isFetching }] = useLazyGetOwnedSkinsQuery();
 
   const params = useMemo(
     () => ({
@@ -46,18 +45,21 @@ const CollectionPage: FC = () => {
     [i18n.language, search, championId, skinlineId, rarity, chromaId],
   );
 
-  const {
-    items: ownedSkins,
-    loaderRef,
-    isInitialLoadDone,
-    isLoading,
-    hasMore,
-  } = useInfiniteScroll({
-    trigger: getSkins,
-    initialParams: params,
-  });
+  const { data, isLoading, isFetching } = useGetOwnedSkinsQuery(params);
+  const { data: skins, count } = getODataWithDefault(data);
 
-  if (!isLoading && !ownedSkins.length && !search && isInitialLoadDone) {
+  // const {
+  //   items: ownedSkins,
+  //   loaderRef,
+  //   isInitialLoadDone,
+  //   isLoading,
+  //   hasMore,
+  // } = useInfiniteScroll({
+  //   trigger: getSkins,
+  //   initialParams: params,
+  // });
+
+  if (!isLoading && !count && !search) {
     return <EmptyCollectionSkins />;
   }
 
@@ -96,12 +98,12 @@ const CollectionPage: FC = () => {
             className="mb-4"
           />
           <CollectionSkins
-            data={ownedSkins}
+            data={skins}
             loading={isLoading}
             fetching={isFetching}
-            initialLoadDone={isInitialLoadDone}
-            loaderRef={loaderRef}
-            hasMore={hasMore}
+            // initialLoadDone={isInitialLoadDone}
+            // loaderRef={loaderRef}
+            // hasMore={hasMore}
           />
         </div>
       </div>

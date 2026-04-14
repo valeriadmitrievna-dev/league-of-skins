@@ -36,7 +36,7 @@ const ToastsProvider = ({ ...props }: ToasterProps) => {
           description: 'text-[12px]/[14px]! mt-1! pb-1',
         },
       }}
-      position="top-right"
+      position="bottom-left"
       {...props}
     />
   );

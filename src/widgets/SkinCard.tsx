@@ -51,7 +51,15 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
   };
 
   return (
-    <div className={cn("h-full flex flex-col", className)}>
+    <div
+      className={cn(
+        "h-full flex flex-col",
+        {
+          "pointer-events-none": isOwningUpdating || isWishlistUpdating,
+        },
+        className,
+      )}
+    >
       <NavLink to={`/skins/${data.contentId}`} className="block relative group aspect-[1/1.2] rounded-md overflow-hidden">
         <Image src={data.image.centered ?? ""} className="object-cover size-full transition-all group-hover:scale-[1.1]" />
 
