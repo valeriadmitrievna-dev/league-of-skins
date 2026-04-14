@@ -19,7 +19,7 @@ export const router = createBrowserRouter([
     path: "/",
     element: <LayoutPage />,
     children: [
-      { path: "", element: <Navigate to="/search/skins" replace /> },
+      { path: "", element: <Navigate to="/search/skins" /> },
 
       // search
       {
@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
           { index: true, element: <Navigate to="/search/skins" replace /> },
           { path: "skins", element: <SearchSkinsPage /> },
           { path: "chromas", element: <SearchChromasPage /> },
-          { path: "companions", element: "Search tft companions (Coming somewhen)" },
+          { path: "companions", element: "Search tft companions (Coming somewhen, maybe)" },
         ],
       },
 

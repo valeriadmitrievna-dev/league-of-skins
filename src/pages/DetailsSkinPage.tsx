@@ -15,7 +15,7 @@ import { appAuthSelector } from "@/store/app/app.selectors";
 import type { ChromaDto } from "@/types/chroma";
 import ChromaCard from "@/widgets/ChromaCard";
 import DetailsSkinAside from "@/widgets/DetailsSkin/DetailsSkinAside";
-import VirtualizedGrid from '@/widgets/VirtualizedGrid';
+import VirtualizedGrid from "@/widgets/VirtualizedGrid";
 
 const DetailsSkinPage: FC = () => {
   const { skinContentId } = useParams();
@@ -71,7 +71,7 @@ const DetailsSkinPage: FC = () => {
       <div className="grid md:grid-cols-[280px_1fr] gap-8">
         <DetailsSkinAside skin={skin} />
 
-        <div className="mt-8 order-first md:order-last md:mt-0">
+        <div className="mt-4 order-first md:order-last md:mt-0">
           <div className="overflow-hidden rounded-md border border-foreground/15 bg-foreground/5 relative">
             {!skin.video && <Image src={skin.image.uncentered!} className="object-cover aspect-405/239 w-full" />}
             {skin.video && (
@@ -92,13 +92,7 @@ const DetailsSkinPage: FC = () => {
           {!!skin.chromas?.length && (
             <div className="mt-6">
               <Typography.H4 className="mb-4">{t("skin.chromas")}</Typography.H4>
-              <VirtualizedGrid
-                items={skin.chromas}
-                overscan={4}
-                render={renderChroma}
-                columnGap={16}
-                rowGap={24}
-              />
+              <VirtualizedGrid items={skin.chromas} overscan={4} render={renderChroma} columnGap={16} rowGap={24} />
             </div>
           )}
 

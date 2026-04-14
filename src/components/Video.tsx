@@ -41,7 +41,7 @@ const Video: FC<VideoProps> = ({ src, className, ...props }) => {
     );
   }
 
-  return <video src={src} className={className} {...props} />;
+  return <video src={src} className={cn("select-none", className)} {...props} />;
 };
 
 export default Video;

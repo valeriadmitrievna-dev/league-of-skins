@@ -4,7 +4,7 @@ import { useDebounce } from "react-use";
 
 import { useGetCollectionStatsQuery, useLazyGetOwnedSkinsQuery } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
-import { Typography } from '@/components/Typography';
+import { Typography } from "@/components/Typography";
 import EmptyCollectionSkins from "@/emptystates/EmptyCollectionSkins";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useQueryParams } from "@/hooks/useQueryParams";
@@ -70,7 +70,7 @@ const CollectionPage: FC = () => {
 
       <div className="w-full grid grid-cols-[280px_1fr] gap-x-5 gap-y-4">
         <div className="flex flex-col gap-y-4">
-          <CollectionTop data={statistic?.top.champions} loading={isStatisticLoading} />
+          <CollectionTop data={statistic?.top.champions} get={get} update={update} loading={isStatisticLoading} />
           <CollectionCounts data={statistic?.user} totals={statistic?.totals} loading={isStatisticLoading} />
           <CollectionWasted
             skinsPrice={statistic?.user.value.skins ?? 0}
@@ -80,23 +80,20 @@ const CollectionPage: FC = () => {
           <CollectionRarities data={statistic?.distribution.byRarity} />
           <Typography.Muted>* {t("skin.priceHelperFull")}</Typography.Muted>
         </div>
-        {/* <CollectionFilters
-          get={get}
-          update={update}
-          data={statistic?.distribution}
-          loading={isStatisticLoading}
-          fetching={isLoading}
-          className="col-1"
-        /> */}
         <div>
-          <CollectionSearch value={searchInput} onSearch={setSearchInput} disabled={isLoading || isFetching} className="mb-2" />
+          <CollectionSearch
+            value={searchInput}
+            onSearch={setSearchInput}
+            disabled={isLoading || isFetching}
+            className="mb-2"
+          />
           <CollectionFilters
             get={get}
             update={update}
             data={statistic?.distribution}
             loading={isStatisticLoading}
             fetching={isLoading}
-            className='mb-4'
+            className="mb-4"
           />
           <CollectionSkins
             data={ownedSkins}

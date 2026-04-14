@@ -7,7 +7,7 @@ import { ImageStack } from "@/components/ImageStack";
 import { Typography } from "@/components/Typography";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Separator } from '@/components/ui/separator';
+import { Separator } from "@/components/ui/separator";
 import useShare from "@/hooks/useShare";
 import type { WishlistDto } from "@/types/wishlist";
 
@@ -66,13 +66,13 @@ const WishlistCard: FC<WishlistCardProps> = ({ data, guest }) => {
               </Badge>
             )} */}
             <Typography.Muted>
-              {data.skins.length > 999 ? "999+" : data.skins.length}{" "}
-              {t("shared.skin", { count: data.skins.length > 999 ? 999 : data.skins.length })}
+              {data?.skins?.length > 999 ? "999+" : data?.skins?.length}{" "}
+              {t("shared.skin", { count: data?.skins?.length > 999 ? 999 : data?.skins?.length })}
             </Typography.Muted>
-            <Separator orientation='vertical' className='h-3!' />
+            <Separator orientation="vertical" className="h-3!" />
             <Typography.Muted>
-              {data.chromas.length > 999 ? "999+" : data.chromas.length}{" "}
-              {t("shared.chroma", { count: data.chromas.length > 999 ? 999 : data.chromas.length })}
+              {data?.chromas?.length > 999 ? "999+" : data?.chromas?.length}{" "}
+              {t("shared.chroma", { count: data?.chromas?.length > 999 ? 999 : data?.chromas?.length })}
             </Typography.Muted>
           </div>
           {!data.private && !guest && (
