@@ -88,7 +88,7 @@ const WishlistCard: FC<WishlistCardProps> = ({ data, guest }) => {
                   size="icon"
                   variant="outline"
                   onClick={onOpen}
-                  className="hover:bg-destructive hover:border-destructive dark:hover:border-destructive dark:hover:text-destructive"
+                  className="not-dark:hover:text-background hover:bg-destructive hover:border-destructive dark:hover:border-destructive dark:hover:text-destructive"
                 >
                   <TrashIcon />
                 </Button>
