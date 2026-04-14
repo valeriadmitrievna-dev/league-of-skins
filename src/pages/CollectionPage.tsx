@@ -7,7 +7,7 @@ import CustomHead from "@/components/CustomMetaHead";
 import { Typography } from "@/components/Typography";
 import EmptyCollectionSkins from "@/emptystates/EmptyCollectionSkins";
 import { useQueryParams } from "@/hooks/useQueryParams";
-import { getODataWithDefault } from '@/shared/utils/getODataWithDefault';
+import { getODataWithDefault } from "@/shared/utils/getODataWithDefault";
 import CollectionCounts from "@/widgets/Collection/CollectionCounts";
 import CollectionFilters from "@/widgets/Collection/CollectionFilters";
 import CollectionRarities from "@/widgets/Collection/CollectionRarities";
@@ -41,6 +41,7 @@ const CollectionPage: FC = () => {
       rarity: rarity || undefined,
       chromaId: chromaId || undefined,
       legacy: "all",
+      server: "all",
     }),
     [i18n.language, search, championId, skinlineId, rarity, chromaId],
   );
