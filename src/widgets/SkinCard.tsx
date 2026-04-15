@@ -102,7 +102,7 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
       </NavLink>
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted-foreground font-medium mr-auto">{data.championName}</span>
-        {toggleOwnedButton &&
+        {toggleOwnedButton && !data.pbe &&
           (isOwningUpdating ? (
             <Spinner className="size-5 my-1 mr-0.5 text-primary shrink-0" />
           ) : (
