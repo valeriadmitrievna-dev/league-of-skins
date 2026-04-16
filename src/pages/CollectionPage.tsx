@@ -4,6 +4,7 @@ import { useDebounce } from "react-use";
 
 import { useGetCollectionStatsQuery, useGetOwnedSkinsQuery } from "@/api";
 import CustomHead from "@/components/CustomMetaHead";
+import NoResultsState from "@/components/NoResultsState";
 import { Typography } from "@/components/Typography";
 import EmptyCollectionSkins from "@/emptystates/EmptyCollectionSkins";
 import { useQueryParams } from "@/hooks/useQueryParams";
@@ -106,6 +107,8 @@ const CollectionPage: FC = () => {
             // loaderRef={loaderRef}
             // hasMore={hasMore}
           />
+
+          {!(isLoading || isFetching) && !count && <NoResultsState className="my-30" />}
         </div>
       </div>
     </>

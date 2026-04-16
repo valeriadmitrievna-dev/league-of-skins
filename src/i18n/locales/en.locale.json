@@ -151,7 +151,8 @@
     "goto__reset-filters": "Reset filters",
     "collection-skins__title": "No Owned Skins",
     "collection-skins__desc": "You haven't mark any skin as owned.",
-    "no-skins_search": "No skins with this name"
+    "no-skins_search": "No skins with this name or filters found",
+    "hmm": "Hmmmmm"
   },
   "stats": {
     "total_champions": "Champions with skins",
