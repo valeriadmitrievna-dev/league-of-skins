@@ -155,7 +155,9 @@
     "goto__search-skins": "Перейти к поиску скинов",
     "goto__reset-filters": "Очистить фильтры",
     "collection-skins__title": "Нет купленных",
-    "collection-skins__desc": "Ни один скин не отмечен как купленный."
+    "collection-skins__desc": "Ни один скин не отмечен как купленный.",
+    "no-skins_search": "Не найдено скинов по такому имени или фильтрам",
+    "hmm": "Хммммм"
   },
   "stats": {
     "total_champions": "Чемпионы с образами",

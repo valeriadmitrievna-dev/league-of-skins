@@ -9,6 +9,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: "Rubik";
+  src:
+    local("Rubik"),
+    url("./fonts/Rubik-VariableFont_wght.ttf") format("truetype");
+}
+
 :root {
   font-family: "Rubik", system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-optical-sizing: auto;
