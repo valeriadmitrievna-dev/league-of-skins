@@ -199,6 +199,7 @@
   "userSettings": {
     "tab-common": "Common",
     "tab-security": "Security",
+    "tab-administration": "Administration",
     "logout": "Log out"
   },
   "changePassword": {

@@ -1,4 +1,4 @@
-import { SettingsIcon, SlidersHorizontalIcon, UserRoundKeyIcon } from "lucide-react";
+import { BrickWallShieldIcon, SettingsIcon, SlidersHorizontalIcon, UserRoundKeyIcon } from "lucide-react";
 import { useState, type FC } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -7,6 +7,7 @@ import Skeleton from "@/components/Skeleton";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
+import UserSettingsAdministration from "./UserSettingsAdministration";
 import UserSettingsCommon from "./UserSettingsCommon";
 import UserSettingsSecurity from "./UserSettingsSecurity";
 import UserSettingsTab from "./UserSettingsTab";
@@ -14,7 +15,7 @@ import UserSettingsTab from "./UserSettingsTab";
 const UserSettings: FC = () => {
   const { t } = useTranslation();
 
-  const [tab, setTab] = useState("common");
+  const [tab, setTab] = useState("administration");
 
   const { data: user, isLoading: isUserLoading } = useGetUserQuery();
 
@@ -51,6 +52,16 @@ const UserSettings: FC = () => {
               onClick={changeTabHandler}
               className="grow"
             />
+            {user?.role === "admin" && (
+              <UserSettingsTab
+                id="administration"
+                title={t("userSettings.tab-administration")}
+                icon={BrickWallShieldIcon}
+                active={tab === "administration"}
+                onClick={changeTabHandler}
+                className="grow"
+              />
+            )}
           </div>
         </div>
         <div className="h-full overflow-hidden p-4">
@@ -66,6 +77,7 @@ const UserSettings: FC = () => {
             <div className="h-full overflow-auto scrollbar">
               {tab === "common" && <UserSettingsCommon user={user} />}
               {tab === "security" && <UserSettingsSecurity />}
+              {tab === "administration" && <UserSettingsAdministration />}
             </div>
           )}
         </div>

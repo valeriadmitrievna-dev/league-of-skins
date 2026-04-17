@@ -10,7 +10,6 @@ import Image from "@/components/Image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import MEIcon from "@/shared/assets/mythic-essence-icon.svg?react";
 import RPIcon from "@/shared/assets/riot-points-icon.svg?react";
 import { RARITIES } from "@/shared/constants/rarities";
 import { cn } from "@/shared/utils/cn";
@@ -88,17 +87,15 @@ const DetailsSkinAside: FC<DetailsSkinAsideProps> = ({ className, skin }) => {
           }
         />
 
-        {!!rarityData?.price && (
+        {!!skin?.price && (
           <DetailsSkinInfoLine
             title={t("skin.price")}
             info={
               <div className="font-medium flex items-center gap-1">
-                <span className="leading-none">{rarityData.price?.value}</span>
-                {rarityData.price?.type === "RP" && <RPIcon className="size-3.5" />}
-                {rarityData.price?.type === "ME" && <MEIcon className="size-3.5" />}
+                <span className="leading-none">{skin.price}</span>
+                <RPIcon className="size-3.5" />
               </div>
             }
-            helpText={t("skin.priceHelper")}
           />
         )}
         <DetailsSkinInfoLine

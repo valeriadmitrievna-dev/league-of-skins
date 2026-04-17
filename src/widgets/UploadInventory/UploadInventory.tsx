@@ -1,8 +1,9 @@
-import { CloudAlertIcon, CloudCheckIcon, CloudUploadIcon } from "lucide-react";
+import { CloudAlertIcon, CloudCheckIcon, CloudUploadIcon, FileBracesIcon } from "lucide-react";
 import { useMemo, useState, type FC } from "react";
 import { Trans, useTranslation } from "react-i18next";
 
 import { useUploadInventoryMutation } from "@/api";
+import InputFile from '@/components/InputFile';
 import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
@@ -12,7 +13,6 @@ import { cn } from "@/shared/utils/cn";
 
 import UploadInventoryDescription from "./UploadInventoryDescription";
 import UploadInventoryHelp from "./UploadInventoryHelp";
-import UploadInventoryInputFile from "./UploadInventoryInputFile";
 import UploadInventoryInstruction from "./UploadInventoryInstruction";
 import UploadInventoryNotes from "./UploadInventoryNotes";
 
@@ -98,10 +98,12 @@ const UploadInventory: FC<UploadInventoryProps> = ({ className }) => {
             </Typography.P>
           </UploadInventoryInstruction>
           <div className="flex items-center gap-x-1 mt-2 mb-2 w-full">
-            <UploadInventoryInputFile
+            <InputFile
               file={file}
               onChange={changeInventoryFileHandler}
               onClear={clearInventoryFileHandler}
+              accept=".json, application/json"
+              fileIcon={FileBracesIcon}
             />
             {!!file && (
               <>

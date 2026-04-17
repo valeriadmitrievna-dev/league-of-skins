@@ -1,5 +1,5 @@
 import { BookmarkIcon, HeartIcon } from "lucide-react";
-import type { FC } from "react";
+import { type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
 import { toast } from "sonner";
@@ -83,8 +83,12 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
           </Badge>
         )}
 
-        {data.pbe && (
-          <Badge className="absolute z-2 top-1.5 right-1.5">PBE</Badge>
+        {data.pbe && <Badge className="absolute z-2 top-1.5 right-1.5">PBE</Badge>}
+
+        {data.sale && !data.pbe && (
+          <Badge variant="destructive" className="absolute z-2 top-1.5 right-1.5">
+            -{Math.round(data.sale.discount * 100)}%
+          </Badge>
         )}
 
         {!!data.chromas.length && (
@@ -102,7 +106,8 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
       </NavLink>
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted-foreground font-medium mr-auto">{data.championName}</span>
-        {toggleOwnedButton && !data.pbe &&
+        {toggleOwnedButton &&
+          !data.pbe &&
           (isOwningUpdating ? (
             <Spinner className="size-5 my-1 mr-0.5 text-primary shrink-0" />
           ) : (
@@ -140,7 +145,7 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
             />
           ))}
       </div>
-      <NavLink to={`/skins/${data.contentId}`} className="mb-2 font-medium line-clamp-2 hover:underline w-fit">
+      <NavLink to={`/skins/${data.contentId}`} className="font-medium line-clamp-2 hover:underline w-fit">
         {data.name}
       </NavLink>
     </div>

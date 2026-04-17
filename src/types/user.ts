@@ -8,6 +8,7 @@ export interface UserDto {
   ownedChromas: string[];
   subscriptions: string[];
   wishlists: WishlistDto["_id"][];
+  role: "admin" | "user";
 
   createdAt: string;
   updatedAt: string;
@@ -24,7 +25,7 @@ export interface UserSkinsStatisticDto {
     champions: number;
     skinlines: number;
     legacy: number;
-    value: { skins: number; chromas: number; };
+    value: { skins: number; chromas: number };
   };
   distribution: {
     byChampion: { id: string; key: string; name: string; count: number }[];

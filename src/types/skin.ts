@@ -10,6 +10,14 @@ export interface SkinDto {
   originName?: string;
   pbe: boolean;
   owned?: boolean;
+  release?: number;
+  price?: number;
+  sale?: {
+    price: number;
+    discount: number;
+    startDate: string;
+    endDate: string;
+  };
   image: {
     centered: string | null;
     uncentered: string | null;
