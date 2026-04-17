@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { BadgeCheckIcon, PlayIcon } from "lucide-react";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
@@ -86,7 +87,9 @@ const DetailsSkinAside: FC<DetailsSkinAsideProps> = ({ className, skin }) => {
             </NavLink>
           }
         />
-
+        {!!skin?.release && (
+          <DetailsSkinInfoLine title={t("skin.release")} info={format(new Date(skin.release * 1000), "dd.MM.yyyy")} />
+        )}
         {!!skin?.price && (
           <DetailsSkinInfoLine
             title={t("skin.price")}

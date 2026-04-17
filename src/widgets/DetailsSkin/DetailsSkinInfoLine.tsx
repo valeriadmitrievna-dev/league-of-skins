@@ -13,7 +13,7 @@ interface DetailsSkinInfoLineProps {
 const DetailsSkinInfoLine: FC<DetailsSkinInfoLineProps> = ({ title, info, helpText }) => {
   return (
     <div className="not-last:mb-3">
-      <div className="flex gap-x-2 justify-between min-h-5">
+      <div className="flex gap-x-2 justify-between items-center min-h-5">
         <span className="inline-flex gap-1">
           {title}
           {!!helpText && (
@@ -27,7 +27,7 @@ const DetailsSkinInfoLine: FC<DetailsSkinInfoLineProps> = ({ title, info, helpTe
             </div>
           )}
         </span>
-        <div className="grow border-b border-dashed h-3" />
+        <div className="grow border-b border-dashed h-2.5" />
         {info}
       </div>
 
