@@ -37,3 +37,5 @@ export interface OptionItem {
   prefix?: ReactNode;
   suffix?: ReactNode;
 }
+
+export type CDragonAsset = string | null | undefined;

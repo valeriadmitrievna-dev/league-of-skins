@@ -1,5 +1,6 @@
 import { FileBracesIcon } from "lucide-react";
 import { useState, type FC } from "react";
+import { toast } from "sonner";
 
 import { useUpdateAppDataMutation, useUploadPricesMutation } from "@/api/queries/base.api";
 import InputFile from "@/components/InputFile";
@@ -27,7 +28,10 @@ const UserSettingsAdministration: FC = () => {
   };
 
   const updateAppDataHandler = async () => {
-    await updateAppData({ adminKey });
+    const { data } = await updateAppData({ adminKey });
+    if (data) {
+      toast.success("Обновление данных началось...");
+    }
   };
 
   const uploadPricesHandler = async () => {
@@ -45,6 +49,10 @@ const UserSettingsAdministration: FC = () => {
             onChange={(e) => setAdminKey(e.target.value)}
             placeholder="Введите ключ"
             className="plain-input"
+            type="password"
+            id="adminKey"
+            autoComplete="off"
+            autoSave="off"
           />
           <Button disabled={isAppDataUpdating || !adminKey.trim().length} onClick={updateAppDataHandler}>
             Обновить

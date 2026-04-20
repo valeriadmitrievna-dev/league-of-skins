@@ -6,10 +6,10 @@ import { cn } from "@/shared/utils/cn";
 import Skeleton from "./Skeleton";
 
 interface VideoProps extends ComponentProps<"video"> {
-  //
+  showError?: boolean;
 }
 
-const Video: FC<VideoProps> = ({ src, className, ...props }) => {
+const Video: FC<VideoProps> = ({ src, className, showError = true, ...props }) => {
   const [state, setState] = useState<"loading" | "loaded" | "error">("loading");
 
   const loadVideo = async () => {
@@ -33,7 +33,7 @@ const Video: FC<VideoProps> = ({ src, className, ...props }) => {
     return <Skeleton className={cn("h-auto", className)} />;
   }
 
-  if (state === "error") {
+  if (state === "error" && showError) {
     return (
       <div className={cn("bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center", className)}>
         <VideoOffIcon className="text-neutral-400 dark:text-neutral-600" />

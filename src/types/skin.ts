@@ -1,3 +1,4 @@
+import type { CDragonAsset } from './shared';
 import type { SkinlineDto } from './skinline';
 
 export interface SkinDto {
@@ -19,18 +20,18 @@ export interface SkinDto {
     endDate: string;
   };
   image: {
-    centered: string | null;
-    uncentered: string | null;
-    loading: string | null;
+    centered: CDragonAsset;
+    uncentered: CDragonAsset;
+    loading: CDragonAsset;
   };
   video?: {
-    centered: string | null;
-    uncentered: string | null;
-    card: string | null;
+    centered: CDragonAsset;
+    uncentered: CDragonAsset;
+    card: CDragonAsset;
   };
   rarity: string;
   isLegacy: boolean;
-  chromaPath: string | null;
+  chromaPath: CDragonAsset;
   skinlines: SkinlineDto[];
   chromas: {
     id: string;
@@ -44,4 +45,21 @@ export interface SkinDto {
     iconPath: string;
     videoPath: string;
   }[];
+  questSkinInfo?: {
+    name: string;
+    splashPath: CDragonAsset;
+    uncenteredSplashPath: CDragonAsset;
+    collectionCardPath: CDragonAsset;
+    tiers: {
+      name: string;
+      stage: number;
+      splashPath: CDragonAsset;
+      uncenteredSplashPath: CDragonAsset;
+      loadScreenPath: CDragonAsset;
+      splashVideoPath: CDragonAsset;
+      previewVideoUrl: CDragonAsset;
+      collectionSplashVideoPath: CDragonAsset;
+      collectionCardHoverVideoPath: CDragonAsset;
+    }[];
+  };
 }

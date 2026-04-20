@@ -7,7 +7,7 @@ export const baseApi = createApi({
   baseQuery: makeBaseQueryWithReauth(`${import.meta.env.VITE_API_URL}/api`),
   tagTypes: ["User", "OwnedSkins", "OwnedChromas", "Stats", "Wishlists"],
   endpoints: (build) => ({
-    updateAppData: build.mutation<string, { adminKey: string }>({
+    updateAppData: build.mutation<boolean, { adminKey: string }>({
       query: ({ adminKey }) => ({
         url: "/update-app-data",
         method: "get",

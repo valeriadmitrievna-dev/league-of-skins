@@ -82,9 +82,14 @@ const DetailsSkinPage: FC = () => {
 
         <div className="mt-4 order-first md:order-last md:mt-0">
           <div className="overflow-hidden rounded-md border border-foreground/15 bg-foreground/5 relative">
-            {!skin.video && <Image src={skin.image.uncentered!} className="object-cover aspect-405/239 w-full" />}
-            {skin.video && (
+            {!skin.video && !skin.questSkinInfo && (
+              <Image src={skin.image.uncentered!} className="object-cover aspect-405/239 w-full" />
+            )}
+            {skin.video && !skin.questSkinInfo && (
               <Video src={skin.video.uncentered!} autoPlay muted loop className="object-cover aspect-405/239 w-full" />
+            )}
+            {skin.questSkinInfo && (
+              <Image src={skin.questSkinInfo.uncenteredSplashPath ?? ""} className="object-cover aspect-405/239 w-full" />
             )}
           </div>
 
@@ -102,6 +107,33 @@ const DetailsSkinPage: FC = () => {
             <div className="mt-6">
               <Typography.H4 className="mb-4">{t("skin.chromas")}</Typography.H4>
               <VirtualizedGrid items={skin.chromas} overscan={4} render={renderChroma} columnGap={16} rowGap={24} />
+            </div>
+          )}
+
+          {!!skin.questSkinInfo && (
+            <div className="mt-6">
+              <Typography.H4 className="mb-4">{t("skin.quest")}</Typography.H4>
+              <div className="grid gap-5 grid-cols-1 md:grid-cols-2">
+                {skin.questSkinInfo.tiers.map((tier) => (
+                  <div key={tier.name} className="group relative">
+                    <span className="absolute top-2 left-2 size-8 flex items-center justify-center bg-neutral-900 text-neutral-100 rounded-md z-10">
+                      {tier.stage}
+                    </span>
+                    <div className="group relative rounded-md overflow-hidden aspect-405/239 border border-foreground/15 bg-foreground/5">
+                      <Image src={tier.uncenteredSplashPath ?? ""} className="size-full object-cover" />
+                      <Video
+                        src={tier.collectionSplashVideoPath ?? tier.splashVideoPath ?? ""}
+                        showError={false}
+                        autoPlay
+                        muted
+                        loop
+                        className={"absolute h-full w-full object-cover left-0 top-0 z-5"}
+                      />
+                    </div>
+                    <Typography.Large className="mt-2">{tier.name}</Typography.Large>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 

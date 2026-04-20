@@ -35,6 +35,7 @@ export const ImageStack: FC<ImageStackProps> = ({ images, className }) => {
             key={url}
             src={url ?? ""}
             pulseLoading={false}
+            showError={false}
             className={cn("h-full object-cover absolute origin-top transition-transform", {
               "scale-140 -translate-x-[50%]": count > 1,
               "w-full": count === 1,

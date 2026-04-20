@@ -61,7 +61,7 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
       )}
     >
       <NavLink to={`/skins/${data.contentId}`} className="block relative group aspect-[1/1.2] rounded-md overflow-hidden">
-        <Image src={data.image.centered ?? ""} className="object-cover size-full transition-all group-hover:scale-[1.1]" />
+        <Image src={data.questSkinInfo?.splashPath ?? data.image.centered ?? ""} className="object-cover size-full transition-all group-hover:scale-[1.1]" />
 
         {/* Video preview */}
         {data.video && data.video.centered && (

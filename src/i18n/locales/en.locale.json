@@ -89,6 +89,7 @@
     "chromas": "Chromas",
     "baseChroma": "In game",
     "features": "Features",
+    "quest": "Quest",
     "owned": "Owned",
     "markOwnedTooltip": "Mark as owned skins",
     "unmarkOwnedTooltip": "Remove owned skin mark",
