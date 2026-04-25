@@ -39,7 +39,7 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
     "rarity",
     "skinlineId",
     "chromaId",
-    "server"
+    "server",
   ]);
 
   const isAuth = useSelector(appAuthSelector);
@@ -76,7 +76,7 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
   return (
     <div className={cn("h-fit sticky top-4", className)}>
       <FilterPanelTitle onReset={hasActive && reset} className="mb-4" />
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-2">
           {isAuth && (
             <FilterToggleGroup
@@ -101,10 +101,10 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
           options={serverOptions}
           className="grid grid-cols-[20%_1fr_1fr]"
           disabled={isSkinsLoading}
-          label={t('filters.server-label')}
+          label={t("filters.server-label")}
         />
         <Field className="gap-2">
-          <Label>{t("filters.champion")}</Label>
+          <Label className="text-primary/80">{t("filters.champion")}</Label>
           {isChampionsLoading ? (
             <Skeleton className="h-9" />
           ) : (
@@ -130,7 +130,7 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
           )}
         </Field>
         <Field className="gap-2">
-          <Label>{t("filters.rarity")}</Label>
+          <Label className="text-primary/80">{t("filters.rarity")}</Label>
           {isRaritiesLoading ? (
             <Skeleton className="h-9" />
           ) : (
@@ -157,7 +157,7 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
           )}
         </Field>
         <Field className="gap-2">
-          <Label>{t("filters.skinline")}</Label>
+          <Label className="text-primary/80">{t("filters.skinline")}</Label>
           {isSkinlinesLoading ? (
             <Skeleton className="h-9" />
           ) : (
@@ -183,7 +183,7 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
           )}
         </Field>
         <Field className="gap-2">
-          <Label>{t("filters.chroma")}</Label>
+          <Label className="text-primary/80">{t("filters.chroma")}</Label>
           {isChromasLoading ? (
             <Skeleton className="h-9" />
           ) : (
@@ -210,7 +210,8 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
           )}
         </Field>
         <p className="block text-sm text-muted-foreground">
-          {t("filters.found_count", { count: skinsFound })} {skinsFound} {t("shared.skin", { count: skinsFound })}
+          {t("filters.found_count", { count: skinsFound })} <span className="font-medium">{skinsFound}</span>{" "}
+          {t("shared.skin", { count: skinsFound })}
         </p>
       </div>
     </div>

@@ -26,8 +26,8 @@ const Image: FC<ImageProps> = ({ src, className, style, pulseLoading = true, sho
       />
 
       {state === "error" && showError && (
-        <div className={cn("bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center", className)}>
-          <ImageOffIcon className="text-neutral-400 dark:text-neutral-600" />
+        <div className={cn("bg-card flex items-center justify-center", className)}>
+          <ImageOffIcon className="text-card-foreground" />
         </div>
       )}
 

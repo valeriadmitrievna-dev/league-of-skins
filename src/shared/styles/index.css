@@ -63,3 +63,17 @@ input::placeholder {
 #detach-button-host {
   display: none !important;
 }
+
+html {
+  &::-webkit-scrollbar {
+    @apply size-2.5;
+  }
+
+  &::-webkit-scrollbar-track {
+    @apply border-l border-r border-border/80 bg-card;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply bg-border cursor-pointer;
+  }
+}

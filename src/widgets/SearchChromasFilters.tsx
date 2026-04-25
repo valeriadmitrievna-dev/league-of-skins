@@ -79,7 +79,7 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
   return (
     <div className={cn("h-fit sticky top-4", className)}>
       <FilterPanelTitle onReset={hasActive && reset} className="mb-4" />
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-5">
         {isAuth && (
           <div className="flex flex-col gap-2">
             <FilterToggleGroup
@@ -103,11 +103,11 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
           onChange={(value) => update("server", value)}
           options={serverOptions}
           className="grid grid-cols-[20%_1fr_1fr]"
-          disabled={isSkinsLoading}
+          disabled={isChromasLoading || isSkinsLoading}
           label={t("filters.server-label")}
         />
         <Field className="gap-2">
-          <Label>{t("filters.champion")}</Label>
+          <Label className="text-primary/80">{t("filters.champion")}</Label>
           {isChampionsLoading ? (
             <Skeleton className="h-9" />
           ) : (
@@ -134,7 +134,7 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
         </Field>
         {!!get("championId") && (
           <Field className="gap-2">
-            <Label>{t("filters.skin")}</Label>
+            <Label className="text-primary/80">{t("filters.skin")}</Label>
             {isSkinsLoading ? (
               <Skeleton className="h-9" />
             ) : (
@@ -160,7 +160,8 @@ const SearchSkinsFilters: FC<SearchFiltersProps> = ({ className }) => {
           </Field>
         )}
         <p className="block text-sm text-muted-foreground">
-          {t("filters.found_count", { count: chromasFound })} {chromasFound} {t("shared.chroma", { count: chromasFound })}
+          {t("filters.found_count", { count: chromasFound })} <span className="font-medium">{chromasFound}</span>{" "}
+          {t("shared.chroma", { count: chromasFound })}
         </p>
       </div>
     </div>

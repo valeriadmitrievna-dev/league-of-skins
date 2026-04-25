@@ -90,7 +90,7 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
     <div ref={parentRef} className={cn("", className)}>
       {loading && (
         <div className={cn("grid", gridClassName)} style={{ gridTemplateColumns: `repeat(${columns}, 1fr)`, rowGap, columnGap }}>
-          <Skeleton count={20} asChild className="h-92" />
+          <Skeleton count={20} asChild className="h-auto aspect-[1/1.2]" />
         </div>
       )}
 

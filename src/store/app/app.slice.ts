@@ -2,11 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 import i18n from '@/i18n/i18n';
-import type { Theme } from "@/types/shared";
 
 export interface AppState {
   language: string;
-  theme: Theme;
   inMemoryToken: string | null;
   addSkinsWaiting: string[];
   addChromasWaiting: string[];
@@ -25,7 +23,6 @@ const getInitialLanguage = () => {
 
 const initialState: AppState = {
   language: getInitialLanguage(),
-  theme: (localStorage.getItem("theme") as Theme) || "system",
   inMemoryToken: null,
   addSkinsWaiting: [],
   addChromasWaiting: [],
@@ -42,19 +39,6 @@ export const appSlice = createSlice({
     setLanguage: (state, { payload }: PayloadAction<string>) => {
       state.language = payload;
       localStorage.setItem("language", payload);
-    },
-    setTheme: (state, { payload }: PayloadAction<Theme>) => {
-      state.theme = payload;
-      localStorage.setItem("theme", payload);
-    },
-    toggleTheme: (state) => {
-      if (state.theme === "dark") {
-        state.theme = "light";
-        localStorage.setItem("theme", "light");
-      } else if (state.theme === "light") {
-        state.theme = "dark";
-        localStorage.setItem("theme", "dark");
-      }
     },
     setAppMemoryToken: (state, { payload }: PayloadAction<string | null>) => {
       state.inMemoryToken = payload;
@@ -82,8 +66,6 @@ export const appSlice = createSlice({
 
 export const {
   setLanguage,
-  setTheme,
-  toggleTheme,
   setAppMemoryToken,
   setAddChromasWaiting,
   setAddSkinsWaiting,

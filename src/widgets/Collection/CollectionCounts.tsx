@@ -17,7 +17,7 @@ const CollectionCounts: FC<CollectionCountsProps> = ({ data, totals, loading, cl
   const { t } = useTranslation();
 
   return (
-    <div className={cn("my-card flex flex-col justify-center gap-y-2 md:dark:bg-input/30", className)}>
+    <div className={cn("my-card flex flex-col justify-center gap-y-2 md:bg-input/30", className)}>
       <InfoLine
         label={t("shared.skins")}
         value={loading ? <Skeleton className="h-6 w-21" /> : `${data?.skins} / ${totals?.skins}`}

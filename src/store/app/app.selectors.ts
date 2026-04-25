@@ -1,6 +1,5 @@
 import type { RootState } from '../types';
 
-export const appThemeSelector = (state: RootState) => state.app.theme;
 export const appLanguageSelector = (state: RootState) => state.app.language;
 export const appAuthSelector = (state: RootState) => !!state.app.inMemoryToken;
 export const appMemoryTokenSelector = (state: RootState) => state.app.inMemoryToken;

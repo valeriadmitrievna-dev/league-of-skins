@@ -15,13 +15,8 @@ const FilterPanelTitle: FC<FilterPanelTitleProps> = ({ title, onReset, className
   const { t } = useTranslation();
 
   return (
-    <div
-      className={cn(
-        "flex justify-between items-center",
-        className,
-      )}
-    >
-      <p className="flex items-center gap-2">
+    <div className={cn("flex justify-between items-center", className)}>
+      <p className="flex items-center gap-2 text-primary">
         {/* <SlidersHorizontalIcon className='size-6' /> */}
         <span className="text-base font-black uppercase tracking-wider">{title ?? t("filters.title")}</span>
       </p>

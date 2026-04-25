@@ -1,7 +1,7 @@
 import { Fragment, type FC } from "react";
 
 import { Field } from "@/components/ui/field";
-import { Label } from '@/components/ui/label';
+import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/shared/utils/cn";
 import type { OptionItem } from "@/types/shared";
@@ -19,8 +19,8 @@ const FilterToggleGroup: FC<FilterToggleGroupProps> = ({ value, onChange, option
   const WrapperComponent = label ? Field : Fragment;
 
   return (
-    <WrapperComponent>
-      {label && <Label>{label}</Label>}
+    <WrapperComponent className="gap-y-2">
+      {label && <Label className="text-primary/80">{label}</Label>}
       <ToggleGroup
         variant="outline"
         // spacing={2}

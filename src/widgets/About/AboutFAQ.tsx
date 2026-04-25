@@ -10,7 +10,7 @@ const AboutFAQ: FC = () => {
       {Array.from({ length: 6 }, (_, i) => (
         <Card key={i}>
           <CardHeader>
-            <CardTitle className='not-dark:text-primary'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, nam!</CardTitle>
+            <CardTitle className='text-primary'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, nam!</CardTitle>
             <CardDescription>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum, sequi, cupiditate dignissimos maxime est
               similique consequuntur quae minima itaque amet perferendis repudiandae vitae deleniti atque ea quasi impedit

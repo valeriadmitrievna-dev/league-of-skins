@@ -92,9 +92,9 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
         )}
 
         {!!data.chromas.length && (
-          <div className="flex items-center flex-wrap absolute left-1.5 bottom-1.5 z-2">
+          <div className="flex items-center flex-wrap absolute left-1.5 bottom-1.5 z-2 gap-x-1">
             {data.chromas.slice(0, 3).map((chroma) => (
-              <ChromaColor key={chroma.id} colors={chroma.colors} className="size-5 rounded-sm not-last:-mr-2 border-none" />
+              <ChromaColor key={chroma.id} colors={chroma.colors} className="size-5 rounded-sm border-none" />
             ))}
             {data.chromas.length > 3 && (
               <div className="size-5 aspect-square shrink-0 text-[10px] z-5 rounded-sm text-neutral-50 bg-neutral-800 flex items-center justify-center">

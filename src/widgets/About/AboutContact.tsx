@@ -36,7 +36,7 @@ const AboutContact: FC = () => {
       </div>
       <Card className="bg-primary/10 border-primary/20">
         <CardHeader>
-          <CardTitle className="mb-1 not-dark:text-primary">Предложения и отзывы</CardTitle>
+          <CardTitle className="mb-1 text-primary">Предложения и отзывы</CardTitle>
           <CardDescription>
             Мы всегда рады услышать ваше мнение! Если у вас есть идеи по улучшению проекта или вы хотите сообщить об ошибке,
             пожалуйста, свяжитесь с нами по любому из указанных каналов связи.

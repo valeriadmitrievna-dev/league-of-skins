@@ -1,7 +1,6 @@
 import type { ComponentProps, FC, PropsWithChildren, ReactNode } from "react";
 
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Field, FieldContent, FieldDescription, FieldLabel } from "@/components/ui/field";
@@ -46,7 +45,6 @@ const AuthFormContainer: FC<AuthFormContainerProps> = ({ title, children, submit
       <div className="flex items-center justify-end gap-2">
         {!!title && <AuthFormTitle className="mr-auto">{title}</AuthFormTitle>}
         <LanguageSwitcher />
-        <ThemeSwitcher />
       </div>
       <div className="flex flex-col gap-y-4">{children}</div>
       <div className="p-0 flex items-center gap-3">

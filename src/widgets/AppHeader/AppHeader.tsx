@@ -9,7 +9,7 @@ import AppSidebar from "./AppSidebar";
 const AppHeader: FC = () => {
   return (
     <header className="relative border-b bg-card">
-      <div className="h-16 md:h-20 flex items-center justify-between my-container">
+      <div className="h-16 md:h-16 flex items-center justify-between my-container">
         <NavLink to="/">
           <AppLogo />
         </NavLink>

@@ -35,8 +35,8 @@ const Video: FC<VideoProps> = ({ src, className, showError = true, ...props }) =
 
   if (state === "error" && showError) {
     return (
-      <div className={cn("bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center", className)}>
-        <VideoOffIcon className="text-neutral-400 dark:text-neutral-600" />
+      <div className={cn("bg-card flex items-center justify-center", className)}>
+        <VideoOffIcon className="text-card-foreground" />
       </div>
     );
   }
