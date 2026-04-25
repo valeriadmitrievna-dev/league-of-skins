@@ -80,6 +80,19 @@
     caret-color: rgb(75 85 99 / var(--foreground));
   }
 
+  .slider-track {
+    animation: scroll 60s linear infinite;
+  }
+
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
   @keyframes float {
     0%,
     100% {

@@ -89,7 +89,10 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
   return (
     <div ref={parentRef} className={cn("", className)}>
       {loading && (
-        <div className={cn("grid", gridClassName)} style={{ gridTemplateColumns: `repeat(${columns}, 1fr)`, rowGap, columnGap }}>
+        <div
+          className={cn("grid", gridClassName)}
+          style={{ gridTemplateColumns: `repeat(${columns}, 1fr)`, rowGap, columnGap }}
+        >
           <Skeleton count={20} asChild className="h-auto aspect-[1/1.2]" />
         </div>
       )}
@@ -127,10 +130,7 @@ const VirtualizedGrid: FC<VirtualizedGridProps> = ({
                 const key = itemKey ? itemKey(item, itemIndex) : itemIndex;
 
                 return (
-                  <div
-                    key={key}
-                    className={cn({ "pointer-events-none animate-pulse": fetching })}
-                  >
+                  <div key={key} className={cn({ "pointer-events-none animate-pulse": fetching })}>
                     {render(item, itemIndex)}
                   </div>
                 );

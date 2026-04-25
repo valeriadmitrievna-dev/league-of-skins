@@ -1,5 +1,5 @@
 import { BookmarkIcon, HeartIcon } from "lucide-react";
-import { type FC } from "react";
+import { memo, type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
 import { toast } from "sonner";
@@ -61,7 +61,10 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
       )}
     >
       <NavLink to={`/skins/${data.contentId}`} className="block relative group aspect-[1/1.2] rounded-md overflow-hidden">
-        <Image src={data.questSkinInfo?.splashPath ?? data.image.centered ?? ""} className="object-cover size-full transition-all group-hover:scale-[1.1]" />
+        <Image
+          src={data.questSkinInfo?.splashPath ?? data.image.centered ?? ""}
+          className="object-cover size-full transition-all group-hover:scale-[1.1]"
+        />
 
         {/* Video preview */}
         {data.video && data.video.centered && (
@@ -152,4 +155,4 @@ const SkinCard: FC<SkinCardProps> = ({ className, data, owned, addToWishlistButt
   );
 };
 
-export default SkinCard;
+export default memo(SkinCard);

@@ -1,11 +1,11 @@
 import { BookmarkIcon, HeartIcon } from "lucide-react";
-import type { ComponentProps, FC } from "react";
+import { memo, type ComponentProps, type FC } from "react";
 import { NavLink } from "react-router";
 
 import { useUpdateWishlistMutation } from "@/api";
 import { useUpdateOwnedChromasMutation } from "@/api/queries/ownedChromas.api";
 import Image from "@/components/Image";
-import { Badge } from '@/components/ui/badge';
+import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
@@ -131,4 +131,4 @@ const ChromaCard: FC<ChromaCardProps> = ({
   );
 };
 
-export default ChromaCard;
+export default memo(ChromaCard);

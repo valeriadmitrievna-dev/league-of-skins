@@ -4,6 +4,7 @@ import AboutPage from "@/pages/AboutPage";
 import CollectionPage from "@/pages/CollectionPage";
 import DetailsSkinPage from "@/pages/DetailsSkinPage";
 import DetailsWishlistPage from "@/pages/DetailsWishlistPage";
+import HomePage from "@/pages/HomePage";
 import LayoutPage from "@/pages/LayoutPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 import SearchChromasPage from "@/pages/SearchChromasPage";
@@ -19,7 +20,7 @@ export const router = createBrowserRouter([
     path: "/",
     element: <LayoutPage />,
     children: [
-      { path: "", element: <Navigate to="/search/skins" /> },
+      { path: "", element: <HomePage /> },
 
       // search
       {
@@ -41,7 +42,7 @@ export const router = createBrowserRouter([
         children: [
           { path: "/wishlists", element: <WishlistsPage /> },
           { path: "/wishlists/:wishlistId", element: <DetailsWishlistPage /> },
-          { path: "/collection", element: <CollectionPage />},
+          { path: "/collection", element: <CollectionPage /> },
         ],
       },
 
