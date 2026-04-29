@@ -22,6 +22,7 @@ const Image: FC<ImageProps> = ({ src, className, style, pulseLoading = true, sho
         onLoad={() => setState("loaded")}
         onError={() => setState("error")}
         style={{ display: state === "loading" || state === "error" ? "none" : "block", ...style }}
+        crossOrigin="anonymous"
         {...props}
       />
 
